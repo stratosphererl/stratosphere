@@ -11,5 +11,5 @@ Why are you working on this item?
 # Timebox
 What is the cutoff point?
 
-# Todos
+# Tasks
 [ ] What are the things you need to do to figure this out?

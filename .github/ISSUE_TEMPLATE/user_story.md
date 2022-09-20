@@ -16,5 +16,8 @@ As a ..., I want to ..., so I can ...
 # Estimation of Work
 - TBA
 
+# Tasks
+- [ ] What needs to get done?
+
 # Notes
 What is needed when working on this card? Do we have everything clarified?
