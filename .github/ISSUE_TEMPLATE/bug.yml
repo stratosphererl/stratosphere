@@ -4,7 +4,7 @@ title: "[BUG] - <title>"
 labels: ["bug"]
 body:
 - type: markdown
-    attributes:
+  attributes:
       value: |
         Before opening a bug report, please search for the behaviour in the existing issues. 
 - type: textarea
@@ -33,13 +33,13 @@ body:
   validations:
     required: true
 - type: input
-    id: os
-    attributes:
-      label: OS/Environment
-      description: "Which operating system or environments are you using? Please provide versions as well."
-      placeholder: "OS: macOS Big Sur 11.5.2"
-    validations:
-      required: false
+  id: env
+  attributes:
+    label: "OS/Environment"
+    description: "Which operating system or environments are you using? Please provide versions as well."
+    placeholder: "OS: macOS Big Sur 11.5.2"
+  validations:
+    required: false
 - type: textarea
   id: logs
   attributes:
