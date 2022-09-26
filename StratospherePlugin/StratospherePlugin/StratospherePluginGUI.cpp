@@ -1,22 +1,23 @@
 #include "pch.h"
 #include "StratospherePlugin.h"
 
-/* Plugin Settings Window code here
+// Plugin Settings Window code here
 std::string StratospherePlugin::GetPluginName() {
 	return "StratospherePlugin";
-}
-
-void StratospherePlugin::SetImGuiContext(uintptr_t ctx) {
-	ImGui::SetCurrentContext(reinterpret_cast<ImGuiContext*>(ctx));
 }
 
 // Render the plugin settings here
 // This will show up in bakkesmod when the plugin is loaded at
 //  f2 -> plugins -> StratospherePlugin
 void StratospherePlugin::RenderSettings() {
-	ImGui::TextUnformatted("StratospherePlugin plugin settings");
+	ImGui::TextUnformatted("Stratosphere plugin settings");
+
+	bool isEnabled = isWindowOpen_;
+	if (ImGui::Checkbox("Enable/disabe overlay", &isEnabled))
+		gameWrapper->Execute([this](GameWrapper* gw) {
+			cvarManager->executeCommand("togglemenu " + GetMenuName());
+		});
 }
-*/
 
 // Do ImGui rendering here
 void StratospherePlugin::Render()
