@@ -8,7 +8,7 @@
 constexpr auto plugin_version = stringify(VERSION_MAJOR) "." stringify(VERSION_MINOR) "." stringify(VERSION_PATCH) "." stringify(VERSION_BUILD);
 
 
-class StratospherePlugin: public BakkesMod::Plugin::BakkesModPlugin/*, public BakkesMod::Plugin::PluginSettingsWindow*//*, public BakkesMod::Plugin::PluginWindow*/
+class StratospherePlugin: public BakkesMod::Plugin::BakkesModPlugin/*, public BakkesMod::Plugin::PluginSettingsWindow*/, public BakkesMod::Plugin::PluginWindow
 {
 
 	//std::shared_ptr<bool> enabled;
@@ -25,8 +25,6 @@ class StratospherePlugin: public BakkesMod::Plugin::BakkesModPlugin/*, public Ba
 	*/
 
 	// Inherited via PluginWindow
-	/*
-
 	bool isWindowOpen_ = false;
 	bool isMinimized_ = false;
 	std::string menuTitle_ = "StratospherePlugin";
@@ -39,7 +37,5 @@ class StratospherePlugin: public BakkesMod::Plugin::BakkesModPlugin/*, public Ba
 	virtual bool IsActiveOverlay() override;
 	virtual void OnOpen() override;
 	virtual void OnClose() override;
-	
-	*/
 };
 

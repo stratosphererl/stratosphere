@@ -18,16 +18,24 @@ void StratospherePlugin::RenderSettings() {
 }
 */
 
-/*
 // Do ImGui rendering here
 void StratospherePlugin::Render()
 {
-	if (!ImGui::Begin(menuTitle_.c_str(), &isWindowOpen_, ImGuiWindowFlags_None))
+	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration;
+
+	if (!ImGui::Begin(menuTitle_.c_str(), &isWindowOpen_, windowFlags))
 	{
 		// Early out if the window is collapsed, as an optimization.
 		ImGui::End();
 		return;
 	}
+
+	if (ImGui::Button("Upload Replay"))
+		gameWrapper->Execute([this](GameWrapper* gw) {
+			cvarManager->executeCommand("upload_latest_replay");
+		});
+	if (ImGui::IsItemHovered())
+		ImGui::SetTooltip("Uploads latest replay file!");
 
 	ImGui::End();
 
@@ -78,4 +86,3 @@ void StratospherePlugin::OnClose()
 {
 	isWindowOpen_ = false;
 }
-*/
