@@ -1,5 +1,5 @@
 ---
-name: 🔬 Create a Spike
+name: 🔬 Create Spike
 about: Create a new ticket for a spike.
 title: "[SPIKE] - "
 labels: ["spike"]
@@ -12,4 +12,4 @@ Why are you working on this item?
 What is the cutoff point?
 
 # Tasks
-[ ] What are the things you need to do to figure this out?
+- [ ] What are the things you need to do to figure this out?
