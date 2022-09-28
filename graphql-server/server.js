@@ -1,4 +1,6 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer } = require('apollo-server');
+const typeDefs = require('./schema');
+const resolvers = require('./resolvers');
 
 const replays = [
     {
@@ -10,27 +12,6 @@ const replays = [
         "url": "https://img.buzzfeed.com/buzzfeed-static/static/2021-01/20/23/asset/9e2b6c32d7df/anigif_sub-buzz-20009-1611185881-21.gif"
     },
 ]
-
-const typeDefs = gql`
-    type Query {
-        replays: [Replay!]!
-    }
-
-    type Replay {
-        id: ID!
-        url: String!
-    }
-
-    type Mutation {
-        newReplay(id: ID!, url: String!):Replay
-    }
-`;
-
-const resolvers = {
-    Query: {
-        replays: () => replays
-    }
-}
 
 const server = new ApolloServer({
     typeDefs,
