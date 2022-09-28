@@ -23,7 +23,7 @@ const replays = [
 
 const resolvers = {
     Query: {
-        replays: async () => await replays.map(async (replay) => {
+        replays: () => replays.map(async (replay) => {
             const rando = await getRandomPlayer();
             return {...replay, player: rando};
         }),
