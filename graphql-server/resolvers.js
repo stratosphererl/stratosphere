@@ -21,7 +21,6 @@ const replays = [
     },
 ]
 
-getRandomPlayer();
 const resolvers = {
     Query: {
         replays: async () => await replays.map(async (replay) => {
