@@ -12,6 +12,7 @@ std::string StratospherePlugin::GetPluginName() {
 void StratospherePlugin::RenderSettings() {
 	ImGui::TextUnformatted("Stratosphere plugin settings");
 
+	// Checkbox to enable/disable overlay
 	bool isEnabled = isWindowOpen_;
 	if (ImGui::Checkbox("Enable/disabe overlay", &isEnabled))
 		gameWrapper->Execute([this](GameWrapper* gw) {
@@ -22,8 +23,8 @@ void StratospherePlugin::RenderSettings() {
 // Do ImGui rendering here
 void StratospherePlugin::Render()
 {
+	// Open new menu with these flags
 	ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDecoration;
-
 	if (!ImGui::Begin(menuTitle_.c_str(), &isWindowOpen_, windowFlags))
 	{
 		// Early out if the window is collapsed, as an optimization.
@@ -31,16 +32,18 @@ void StratospherePlugin::Render()
 		return;
 	}
 
+	// Button
 	if (ImGui::Button("Upload Replay"))
-		gameWrapper->Execute([this](GameWrapper* gw) {
+		// Note: You must wrap certain actions in the gameWrapper->Execute() method otherwise it may crash
+		gameWrapper->Execute([this](GameWrapper* gw) { 
 			cvarManager->executeCommand("upload_latest_replay");
 		});
-	if (ImGui::IsItemHovered())
+	if (ImGui::IsItemHovered()) // Displays tooltip
 		ImGui::SetTooltip("Uploads latest replay file!");
 
 	ImGui::End();
 
-	if (!isWindowOpen_)
+	if (!isWindowOpen_) // This was just here, it doesn't seem to do anything
 	{
 		cvarManager->executeCommand("togglemenu " + GetMenuName());
 	}

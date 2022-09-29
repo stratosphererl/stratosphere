@@ -11,14 +11,18 @@ void StratospherePlugin::onLoad()
 {
 	_globalCvarManager = cvarManager;
 	
+	// Defines executable command upload_latest_replay
 	cvarManager->registerNotifier("upload_latest_replay", [this](std::vector<std::string> params) {
+		// Make sure to get path to user (aka %userprofile%\)
 		char* userpath = getenv("USERPROFILE");
 		if (userpath == NULL)
 			return;
 		std::string userPathString = std::string(userpath);
 
+		// Default path
 		path ReplaysDirectoryPath = path(userPathString + "\\Documents\\My\ Games\\Rocket\ League\\TAGame\\Demos");
 		if (!is_directory(ReplaysDirectoryPath)) {
+			// My games dumb and uses this path
 			ReplaysDirectoryPath = path(userPathString + "\\OneDrive\\Documents\\My\ Games\\Rocket\ League\\TAGame\\Demos");
 			if (is_directory(ReplaysDirectoryPath))
 				LOG("Directory Found!");
@@ -30,11 +34,12 @@ void StratospherePlugin::onLoad()
 		else
 			LOG("Directory found!");
 
+		// Use an iterator to access everything in the directory
 		directory_iterator ReplaysDirectoryIterator(ReplaysDirectoryPath);
 		if (!ReplaysDirectoryIterator->exists())
 			return;
 		const directory_entry* replayEntry = ReplaysDirectoryIterator.operator->();
-		path replayFilePath = replayEntry->path();
+		path replayFilePath = replayEntry->path(); // Get just the first one
 
 		LOG(replayFilePath.c_str());
 
