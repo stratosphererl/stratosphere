@@ -2,7 +2,7 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
     type Query {
-        replays: [Replay!]!
+        getReplays: [Replay!]!
         getRandomPlayer: Player!
         getPlayers: [Player!]!
         getPlayer(username: String): Player
@@ -20,6 +20,10 @@ const typeDefs = gql`
 
     type Mutation {
         addPlayer(username: String): Boolean
+    }
+
+    type Subscription {
+        newPlayer: Player!
     }
 `;
 
