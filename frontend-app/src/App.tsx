@@ -1,5 +1,5 @@
 import './index.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export default function App() {
   return (
@@ -9,16 +9,16 @@ export default function App() {
 
 // Functional component encompassing uploading process
 function FileInput() {
-  const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
 
   // Called when a new file is selected
-  const changeHandler = (event) => {
-    setSelectedFile(event.target.files[0]);
+  const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFile(event.target.files?.[0]);
   }
 
   // Called when UPLOAD REPLAY button is hit
   const clickHandler = () => {
-    console.log(selectedFile.name)
+    console.log(selectedFile?.name);
     console.log('Replay uploaded!');
   }
 
