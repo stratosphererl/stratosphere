@@ -16,6 +16,7 @@
     "ws": "^8.9.0"
   },
   "scripts": {
-    "start": "nodemon -L ./server.js"
-  }
+    "start": "nodemon ./src/server.js"
+  },
+  "devDependencies": {}
 }
