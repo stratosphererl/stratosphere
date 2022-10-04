@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import React from 'react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders Select Replay File Text', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).not.toBeInTheDocument();
+  const linkElement = screen.getByText(/Select Replay File/i);
+  expect(linkElement).toBeDefined();
 });
