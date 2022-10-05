@@ -37,7 +37,7 @@ const getPlayer = async (username) => {
 
 const resolvers = {
     Query: {
-        replays: () => replays.map(async (replay) => {
+        getReplays: () => replays.map(async (replay) => {
             const rando = await getRandomPlayer();
             return {...replay, player: rando};
         }),

@@ -21,10 +21,6 @@ const typeDefs = gql`
     type Mutation {
         addPlayer(username: String): Boolean
     }
-
-    type Subscription {
-        newPlayer: Player!
-    }
 `;
 
 module.exports = typeDefs;
