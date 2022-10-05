@@ -15,7 +15,7 @@ labels: ["user story"]
 - [ ] What needs to get done?
 
 # Risks
-What is not known? Potential road blocks?
+What is not known? Potential roadblocks?
 
 # Notes
 What is needed when working on this card? Do we have everything clarified?
