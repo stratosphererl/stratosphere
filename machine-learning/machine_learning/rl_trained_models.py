@@ -1,3 +1,4 @@
+from email.policy import default
 from random import random, seed
 
 
@@ -14,7 +15,7 @@ def key_moments_model(someinput):
 
 
 # Play styles of individual players
-def play_style_model(someinput):
+def playstyle_model(someinput):
     seed(someinput)
     return {"Player 1": random()}
 
@@ -23,3 +24,6 @@ def play_style_model(someinput):
 def player_formation_model(someinput):
     seed(someinput)
     return {"Team 1": random()}
+
+
+ml_model = {'win_loss': win_loss_model, 'key_moments': key_moments_model, 'playstyle': playstyle_model, 'formation': player_formation_model}
