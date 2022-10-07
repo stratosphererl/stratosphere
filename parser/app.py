@@ -21,7 +21,7 @@ def allowed_file(filename):
 ## A method that will call rattletrap.exe executable with the input file
 ## and return the output as a JSON object
 def rattletrap(input):
-    output = subprocess.run(['rattletrap.exe', "-i", input], stdout=subprocess.PIPE)
+    output = subprocess.run(['./rattletrap.12-ubuntu', "-i", input], stdout=subprocess.PIPE)
     return json.loads(output.stdout)
 
 @app.route("/")
