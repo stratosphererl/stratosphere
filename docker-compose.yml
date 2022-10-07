@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 services:
   webapp:
     build: webapp:latest
@@ -12,6 +12,8 @@ services:
     image: parser:latest
     ports: 
       - '5001:5001'
+    tmpfs:
+      - /tmp:exec,mode=777
   ml:
     image: ml:latest
     ports:
