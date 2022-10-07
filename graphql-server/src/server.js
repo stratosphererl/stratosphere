@@ -2,6 +2,8 @@ const { ApolloServer } = require('apollo-server');
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
 
+const PORT = 4000
+
 const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -9,6 +11,6 @@ const server = new ApolloServer({
     cache: 'bounded'
 })
 
-server.listen().then(({ url }) => {
+server.listen(PORT).then(({ url }) => {
     console.log(`🚀  Server ready at ${url}`);
 });
