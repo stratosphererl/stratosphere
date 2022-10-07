@@ -45,7 +45,7 @@ function UserNameComponent({setButtonDisabled, setErrorShown}) {
     return console.log("Error!")
   }
 
-  return data.getPlayers.map((player: any) => <p>{player.username}</p>)
+  return data?.getPlayers?.map((player: any) => <p>{player.username}</p>)
 }
 
 function App() {
