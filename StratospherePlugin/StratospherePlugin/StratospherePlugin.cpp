@@ -23,7 +23,7 @@ void StratospherePlugin::onLoad()
 		path ReplaysDirectoryPath = path(userPathString + "\\Documents\\My\ Games\\Rocket\ League\\TAGame\\Demos");
 		if (!is_directory(ReplaysDirectoryPath)) {
 			// My games dumb and uses this path
-			ReplaysDirectoryPath = path(userPathString + "\\OneDrive\\Documents\\My\ Games\\Rocket\ League\\TAGame\\Demos");
+			ReplaysDirectoryPath = path(userPathString + "/OneDrive/Documents/My Games/Rocket League/TAGame/Demos");
 			if (is_directory(ReplaysDirectoryPath))
 				LOG("Directory Found!");
 			else {
@@ -41,6 +41,7 @@ void StratospherePlugin::onLoad()
 		const directory_entry* replayEntry = ReplaysDirectoryIterator.operator->();
 		path replayFilePath = replayEntry->path(); // Get just the first one
 
+		LOG(ReplaysDirectoryPath.c_str());
 		LOG(replayFilePath.c_str());
 
 		LOG("Upload replay file here!");
