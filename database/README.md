@@ -10,23 +10,23 @@
     - Click "Finish" (I did not install Stack Builder, nor did the video I follow; unsure if it is needed)
 
 2. Create Stratosphere Database
-    a. Run SQL Shell (psql)
-    b. Press "Enter" four times
+    - Run SQL Shell (psql)
+    - Press "Enter" four times
         i. NOTE: I am not sure how to create different usernames for each of us; that might be preferable
-    c. Enter password created earlier
+    - Enter password created earlier
         i. NOTE: Nor am I sure how to create different passwords for each of us; again, preferable
-    d. Copy code from 0_CreateDatabase.sql into psql command line
-    e. Exit form psql
+    - Copy code from 0_CreateDatabase.sql into psql command line
+    - Exit form psql
 
 3. Populate Stratosphere Database
-    a. Run SQL Shell (psql)
-    b. Press "Enter" once
-    c. Input "stratosphere" for database
-    d. Press "Enter" twice
-    e. Enter password created earlier
-    f. Type "\i <filepath of 2_ActualCreateTable.sql (make sure filepath uses / instead of \)>" and press "Enter"
-    g. Type "\i <filepath of 3_ActualInsertMock.sql>" and press "Enter"
+    - Run SQL Shell (psql)
+    - Press "Enter" once
+    - Input "stratosphere" for database
+    - Press "Enter" twice
+    - Enter password created earlier
+    - Type "\i <filepath of 2_ActualCreateTable.sql (make sure filepath uses / instead of \)>" and press "Enter"
+    - Type "\i <filepath of 3_ActualInsertMock.sql>" and press "Enter"
 
 4. Seeing Your Work
-    a. Type "\d" and press "Enter" --> you will see a table named "replay" has been added
-    b. Type "\i <filepath of 4_ActualSelectAll.sql>" and press "Enter" --> you will see three rows of data have been added to "replay"
+    - Type "\d" and press "Enter" --> you will see a table named "replay" has been added
+    - Type "\i <filepath of 4_ActualSelectAll.sql>" and press "Enter" --> you will see three rows of data have been added to "replay"
