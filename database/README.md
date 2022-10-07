@@ -1,13 +1,13 @@
 1. Install PostgreSQL
-    a. Download installer here: https://www.postgresql.org/download/
-    b. Run installer (postgresql-14.5-1-windows-x64.exe)
-    c. Select installation directory, click "Next"
-    d. Have all components selected, click "Next"
-    e. Input a password (ex. "stratosphereHollandaise"), click "Next"
-    f. Keep port as 5432, click "Next"
-    g. Keep default locale or set to US English, click "Next"
-    h. Click "Next" twice
-    i. Click "Finish" (I did not install Stack Builder, nor did the video I follow; unsure if it is needed)
+    - Download installer here: https://www.postgresql.org/download/
+    - Run installer (postgresql-14.5-1-windows-x64.exe)
+    - Select installation directory, click "Next"
+    - Have all components selected, click "Next"
+    - Input a password (ex. "stratosphereHollandaise"), click "Next"
+    - Keep port as 5432, click "Next"
+    - Keep default locale or set to US English, click "Next"
+    - Click "Next" twice
+    - Click "Finish" (I did not install Stack Builder, nor did the video I follow; unsure if it is needed)
 
 2. Create Stratosphere Database
     a. Run SQL Shell (psql)
