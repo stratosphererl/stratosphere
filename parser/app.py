@@ -3,6 +3,7 @@ from werkzeug.utils import secure_filename
 import subprocess
 import json
 import os
+from sys import platform
 
 UPLOAD_FOLDER = 'uploads'
 if not os.path.isdir(UPLOAD_FOLDER):
@@ -21,7 +22,15 @@ def allowed_file(filename):
 ## A method that will call rattletrap.exe executable with the input file
 ## and return the output as a JSON object
 def rattletrap(input):
-    output = subprocess.run(['./rattletrap.12-ubuntu', "-i", input], stdout=subprocess.PIPE)
+    EXC_PATH = ""
+    if platform == "linux" or platform == "linux2":
+        EXC_PATH = "./rattletrap-linux.12-ubuntu"
+    elif platform == "darwin":
+        EXC_PATH = "./rattletrap-darwin.12-macos"
+    elif platform == "win32":
+        EXC_PATH = "./rattletrap-linux.12-ubuntu"
+
+    output = subprocess.run([EXC_PATH, "--c", "-i", input], stdout=subprocess.PIPE)
     return json.loads(output.stdout)
 
 @app.route("/")
