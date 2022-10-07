@@ -1,0 +1,10 @@
+version: '3'
+services:
+  webapp:
+    build: ./client
+    ports:
+      - '3000:3000'
+  gql:
+    build: ./graphql-server
+    ports:
+      - '4000:4000'
