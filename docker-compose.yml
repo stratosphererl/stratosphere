@@ -1,10 +1,31 @@
 version: '3'
 services:
   webapp:
-    build: ./client
+    build: webapp:latest
     ports:
       - '3000:3000'
   gql:
-    build: ./graphql-server
+    build: graphql:latest
     ports:
       - '4000:4000'
+  parser:
+    image: parser:latest
+    ports: 
+      - '5001:5001'
+  ml:
+    image: ml:latest
+    ports:
+      - '5000:5000'
+  db:
+    image: postgresdb:latest
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgres/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSGRES_PASSWORD=postgres
+      - POSTGRES_DB=prisma
+volumes:
+  db:
+    driver: local
