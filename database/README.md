@@ -15,12 +15,8 @@
         i. NOTE: I am not sure how to create different usernames for each of us; that might be preferable
     - Enter password created earlier
         i. NOTE: Nor am I sure how to create different passwords for each of us; again, preferable
-    - Run the code block below this list in the psql command line
+    - Run code block #1 in the psql command line
     - Exit from psql
-
-```sql
-CREATE DATABASE stratosphere;
-```
 
 3. Populate Stratosphere Database
     - Run SQL Shell (psql)
@@ -28,17 +24,33 @@ CREATE DATABASE stratosphere;
     - Input "stratosphere" for database
     - Press "Enter" twice
     - Enter password created earlier
-    - Run the first code block below this list in psql command line:
-    - Run the second code block below this list in psql command line:
+    - Run code block #3 in psql command line:
+    - Run code block #4 in psql command line:
+
+4. Seeing Your Work
+    - Type "\d" and press "Enter" --> you will see a table named "replay" has been added
+    - Run code block #5 in psql comamnd line --> you will see three rows of data have been added to "replay"
 
 ```sql
-CREATE TABLE replay (
-	id			bigserial		not null	primary key,
-	filename		varchar(120)	not null,
-	dataValue		int				not null);
+-- Code Block #1
+CREATE DATABASE stratosphere;
 ```
 
 ```sql
+-- Code Block #2
+DROP DATABASE "stratosphere";
+```
+
+```sql
+-- Code Block #3
+CREATE TABLE replay (
+	id		bigserial		not null	primary key,
+	filename		varchar(120)	not null,
+	dataValue		int		not null);
+```
+
+```sql
+-- Code Block #4
 INSERT INTO replay (filename, datavalue)
 VALUES ('\Novarchite_20220927215828.replay', 12);
 
@@ -49,9 +61,27 @@ INSERT INTO replay (filename, datavalue)
 VALUES ('\Chicken0935_20220928014509.replay', 11);
 ```
 
-4. Seeing Your Work
-    - Type "\d" and press "Enter" --> you will see a table named "replay" has been added
-    - Run the code block below this list in psql comamnd line --> you will see three rows of data have been added to "replay"
 ```sql
+-- Code Block #5
 SELECT * FROM replay;
+```
+
+```sql
+-- Code Block #6
+SELECT datavalue
+FROM replay
+WHERE id = <id>;
+```
+
+```sql
+-- Code Block #7
+SELECT filename
+FROM replay
+WHERE id = <id>;
+```
+
+```sql
+-- Code Block #8
+INSERT INTO replay (filename, datavalue)
+VALUES (<filename>, <num>);
 ```
