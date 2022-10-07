@@ -1,11 +1,11 @@
 version: '3'
 services:
   webapp:
-    build: webapp:latest
+    image: webapp:latest
     ports:
       - '3000:3000'
   gql:
-    build: graphql:latest
+    image: gql:latest
     ports:
       - '4000:4000'
   parser:
@@ -15,9 +15,9 @@ services:
   ml:
     image: ml:latest
     ports:
-      - '5000:5000'
+      - '5002:5002'
   db:
-    image: postgresdb:latest
+    image: db:latest
     ports:
       - 5432:5432
     volumes:
