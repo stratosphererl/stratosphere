@@ -3,7 +3,6 @@ from werkzeug.utils import secure_filename
 import subprocess
 import json
 import os
-from sys import platform
 
 UPLOAD_FOLDER = 'uploads'
 if not os.path.isdir(UPLOAD_FOLDER):
@@ -19,19 +18,10 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-## A method that will call rattletrap.exe executable with the input file
-## and return the output as a JSON object
-def rattletrap(input):
-    EXC_PATH = ""
-    if platform == "linux" or platform == "linux2":
-        EXC_PATH = "./rattletrap-linux.12-ubuntu"
-    elif platform == "darwin":
-        EXC_PATH = "./rattletrap-darwin.12-macos"
-    elif platform == "win32":
-        EXC_PATH = "./rattletrap-linux.12-ubuntu"
-
-    output = subprocess.run([EXC_PATH, "--c", "-i", input], stdout=subprocess.PIPE)
-    return json.loads(output.stdout)
+## make a method called parser Read json file from uploads and return a json object
+def parser(filename):
+    with open(os.path.join("uploads", "replay.json")) as f:
+        return json.load(f)
 
 @app.route("/")
 def home():
@@ -50,7 +40,7 @@ def parse():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return rattletrap(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return parser(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return '''
     <!doctype html>
     <title>Upload new File</title>
