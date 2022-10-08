@@ -13,16 +13,49 @@ query Replays {
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
   const [getReplayBool, setGetReplayBool] = useState(false);
+  const [isJSONFile, setIsJSONFile] = useState(false);
             
   return (
     <div>
-      <div style={{visibility: getReplayBool ? 'hidden' : 'visible'}}>
-        <FileInput selectedFile={selectedFile} setSelectedFile={setSelectedFile} setGetReplayBool={setGetReplayBool} />
-      </div>
-      <div>
+      <div className="pt-12">
         {
-          getReplayBool ? <UserNameComponent /> : ""
+          getReplayBool ? "" : <FileInput selectedFile={selectedFile} setSelectedFile={setSelectedFile} setGetReplayBool={setGetReplayBool} setIsJSONFile={setIsJSONFile} />
         }
+      </div>
+      <div className="flex justify-center">
+        {getReplayBool ? <UserNameComponent /> : ""}
+        {isJSONFile ? <ReplayComponent file={selectedFile} /> : ""}
+      </div>
+    </div>
+  );
+}
+
+interface ReplayComponentProps {file: File | undefined}
+function ReplayComponent(props: ReplayComponentProps) {
+  const [replayJSON, setreplayJSON] = useState<any>({});
+
+  if (props.file == null) {
+    console.log("File is null");
+    return <div />;
+  }
+  if (!/(\.json)$/i.exec(props.file.name)) {
+    console.log("Not a JSON");
+    return <div />;
+  }
+
+  const fr = new FileReader();
+  fr.onload = () => {
+    const rJSON = JSON.parse(fr.result as string);
+    setreplayJSON(rJSON);
+  }
+  fr.readAsText(props.file);
+
+  return (
+    <div className="px-10 text-center">
+      <h1 className="text-5xl font-bold text-purple-600 mb-6">Replay:</h1>
+      <div className="text-gray-700 font-semibold">
+        <p>Replay name: {replayJSON?.['properties']?.['ReplayName']}</p>
+        <p>Uploaded by: {replayJSON?.['properties']?.['PlayerName']}</p>
       </div>
     </div>
   );
@@ -48,7 +81,7 @@ function UserNameComponent() {
 
   let id = 0;
   return (
-    <div className="flex justify-center">
+    <div>
       <div className="text-center">
       <h1 className="text-5xl text-blue-600 font-bold mt-0 mb-6">Player Names</h1>
         {
@@ -76,7 +109,8 @@ function Loading() {
 interface FileInputProps {
   readonly selectedFile: File | undefined;
   setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>; 
-  setGetReplayBool: React.Dispatch<React.SetStateAction<boolean>>
+  setGetReplayBool: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsJSONFile: React.Dispatch<React.SetStateAction<boolean>>;
 }
 // Functional component encompassing uploading process
 function FileInput(props: FileInputProps) {
@@ -89,8 +123,9 @@ function FileInput(props: FileInputProps) {
   // Called when UPLOAD REPLAY button is hit
   const clickHandler = () => {
     if (props.selectedFile == null) return;
-    var allowedExtensions = /(\.replay)$/i;
+    var allowedExtensions = /(\.replay|\.json)$/i;
     if (!allowedExtensions.exec(props.selectedFile.name)) return;
+    if (/(\.json)$/i.exec(props.selectedFile.name)) props.setIsJSONFile(true);
     console.log(props.selectedFile.name);
     props.setGetReplayBool(true);
   }
