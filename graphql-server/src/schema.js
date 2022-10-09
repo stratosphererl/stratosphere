@@ -11,7 +11,7 @@ const typeDefs = gql`
     type Mutation {
         addPlayer(username: String): Boolean
         makePrediction(model: String): Prediction
-        setReplay(replay: String): Boolean
+        setReplay(replay: String): Replay
     }
 
     type Replay {

@@ -63,21 +63,10 @@ const resolvers = {
             return {guess: parseFloat(data)};
         },
         setReplay: async (_, {replay_file}, {knex}) => {
-            // const response = await fetch('http://localhost:5001/parse/', {
-            //     method: 'POST',
-            //     redirect : 'follow',
-            //     body: replay_file,
-            //     headers: {'Content-Type': 'application/octet-stream'}
-            // });
-            // const data = await response.json();
-            
-            /*
-            INSERT INTO replay (filename, datavalue)
-            VALUES ('\Novarchite_20220927215828.replay', 12);
-            */
-            // translate sql insert to knex syntax
-            const data = await knex('replay').insert({filename: "turd", datavalue: 12});
-            return {file: data};
+            const response = await fetch('http://localhost:5001/parse/', {method: 'GET',redirect : 'follow',});
+            const data = await response.json();
+            await knex('replay').insert({filename: "dummy", datavalue: 69133769});
+            return {file: JSON.stringify(data)}
         }
     }
 };
