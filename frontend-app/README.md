@@ -22,3 +22,13 @@ To run the server locally, enter this command:
 pnpm start
 ```
 Using npm works fine as well.
+
+## Docker
+Build the image
+```
+docker build -t stratosphere-client .
+```
+Run the container
+```
+docker run -it -p 3000:3000 stratosphere-client
+```
