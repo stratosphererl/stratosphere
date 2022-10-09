@@ -2,24 +2,32 @@ const { gql } = require('apollo-server');
 
 const typeDefs = gql`
     type Query {
-        getReplays: [Replay!]!
         getRandomPlayer: Player!
         getPlayers: [Player!]!
         getPlayer(username: String): Player
+        getModels: [Model!]!
+    }
+
+    type Mutation {
+        addPlayer(username: String): Boolean
+        makePrediction(model: String): Prediction
+        setReplay(replay: String): Boolean
     }
 
     type Replay {
-        id: ID!
-        url: String!
-        player: Player!
+        file: String!
+    }
+
+    type Prediction {
+        guess: Float!
     }
 
     type Player {
         username: String!
     }
 
-    type Mutation {
-        addPlayer(username: String): Boolean
+    type Model {
+        name: String!
     }
 `;
 

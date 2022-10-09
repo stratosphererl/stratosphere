@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const path = require('node:path');
 const replays = require('../data/replays')
+const fetch = require('node-fetch');
 
 /*
     Get all players from data/users.txt
@@ -37,13 +38,14 @@ const getPlayer = async (username) => {
 
 const resolvers = {
     Query: {
-        getReplays: () => replays.map(async (replay) => {
-            const rando = await getRandomPlayer();
-            return {...replay, player: rando};
-        }),
         getRandomPlayer: async () => await getRandomPlayer(),
         getPlayers: async () => await getPlayers(),
-        getPlayer: async (_, {username}) => await getPlayer(username)
+        getPlayer: async (_, {username}) => await getPlayer(username),
+        getModels: async () => {
+            const response = await fetch('http://localhost:5002/ml_models', {method: 'GET', redirect : 'follow'});
+            const data = await response.json();
+            return data.map((model) => {return {name: model}})
+        },
     },
 
     Mutation: {
@@ -53,6 +55,29 @@ const resolvers = {
             } catch(error){
                 throw error;
             }
+        },
+        makePrediction: async (_, {model}) => {
+            const input = Math.round(Math.random()*1000);
+            const response = await fetch(`http://localhost:5002/ml_models/${model}/${input}`, {method: 'GET', redirect : 'follow'});
+            const data = await response.json();
+            return {guess: parseFloat(data)};
+        },
+        setReplay: async (_, {replay_file}, {knex}) => {
+            // const response = await fetch('http://localhost:5001/parse/', {
+            //     method: 'POST',
+            //     redirect : 'follow',
+            //     body: replay_file,
+            //     headers: {'Content-Type': 'application/octet-stream'}
+            // });
+            // const data = await response.json();
+            
+            /*
+            INSERT INTO replay (filename, datavalue)
+            VALUES ('\Novarchite_20220927215828.replay', 12);
+            */
+            // translate sql insert to knex syntax
+            const data = await knex('replay').insert({filename: "turd", datavalue: 12});
+            return {file: data};
         }
     }
 };

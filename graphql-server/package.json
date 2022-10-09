@@ -7,7 +7,10 @@
     "@graphql-tools/schema": "^9.0.4",
     "apollo-server": "^3.10.2",
     "graphql": "^16.6.0",
-    "nodemon": "^2.0.20"
+    "knex": "^2.3.0",
+    "node-fetch": "2",
+    "nodemon": "^2.0.20",
+    "pg": "^8.8.0"
   },
   "scripts": {
     "start": "nodemon ./src/server.js"
