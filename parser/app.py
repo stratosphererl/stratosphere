@@ -40,12 +40,5 @@ def parse():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return parser(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    return '''
-    <!doctype html>
-    <title>Upload new File</title>
-    <h1>Upload new File</h1>
-    <form method=post enctype=multipart/form-data>
-        <input type=file name=file>
-        <input type=submit value=Upload>
-    </form>
-    '''
+    
+    return parser(os.path.join(app.config['UPLOAD_FOLDER'], "replay.json"))
