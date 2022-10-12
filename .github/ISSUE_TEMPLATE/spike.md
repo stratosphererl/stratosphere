@@ -1,5 +1,5 @@
 ---
-name: 🔬 Create a Spike
+name: 🔬 Create Spike
 about: Create a new ticket for a spike.
 title: "[SPIKE] - "
 labels: ["spike"]

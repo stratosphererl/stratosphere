@@ -12,6 +12,7 @@ labels: ["user story"]
 - TBA
 
 # Tasks
+*Ideally, you would want to convert theses todos to be converted into their own issues*
 - [ ] What needs to get done?
 
 # Risks

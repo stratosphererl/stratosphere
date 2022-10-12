@@ -1,0 +1,55 @@
+version: '3.6'
+services:
+  webapp:
+    image: webapp:latest
+    ports:
+      - '3000:3000'
+    networks:
+      appnet:
+        ipv4_address: "172.24.2.1"
+  gql:
+    image: gql:latest
+    ports:
+      - '4000:4000'
+    networks:
+      appnet:
+        ipv4_address: "172.24.2.2"
+  parser:
+    image: parser:latest
+    ports: 
+      - '5001:5001'
+    networks:
+      appnet:
+        ipv4_address: "172.24.2.3"
+    tmpfs:
+      - /tmp:exec,mode=777
+  ml:
+    image: ml:latest
+    networks:
+      appnet:
+        ipv4_address: "172.24.2.4"
+    ports:
+      - '5002:5002'
+  db:
+    image: db:latest
+    networks:
+      appnet:
+        ipv4_address: "172.24.2.5"
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgres/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSGRES_PASSWORD=postgres
+      - POSTGRES_DB=prisma
+volumes:
+  db:
+    driver: local
+networks:
+  appnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+          - subnet: "172.24.2.0/16"
