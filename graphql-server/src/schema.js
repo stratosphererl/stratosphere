@@ -6,11 +6,11 @@ const typeDefs = gql`
         getPlayers: [Player!]!
         getPlayer(username: String): Player
         getModels: [Model!]!
+        makePrediction(model: String): Prediction
     }
 
     type Mutation {
         addPlayer(username: String): Boolean
-        makePrediction(model: String): Prediction
         setReplay(replay: String): Replay
     }
 

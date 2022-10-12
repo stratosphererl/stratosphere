@@ -46,6 +46,12 @@ const resolvers = {
             const data = await response.json();
             return data.map((model) => {return {name: model}})
         },
+        makePrediction: async (_, {model}) => {
+            const input = Math.round(Math.random()*1000);
+            const response = await fetch(`http://localhost:5002/ml_models/${model}/${input}`, {method: 'GET', redirect : 'follow'});
+            const data = await response.json();
+            return {guess: parseFloat(data)};
+        }
     },
 
     Mutation: {
@@ -55,12 +61,6 @@ const resolvers = {
             } catch(error){
                 throw error;
             }
-        },
-        makePrediction: async (_, {model}) => {
-            const input = Math.round(Math.random()*1000);
-            const response = await fetch(`http://localhost:5002/ml_models/${model}/${input}`, {method: 'GET', redirect : 'follow'});
-            const data = await response.json();
-            return {guess: parseFloat(data)};
         },
         setReplay: async (_, {replay_file}, {knex}) => {
             const response = await fetch('http://localhost:5001/parse/', {method: 'GET',redirect : 'follow',});
