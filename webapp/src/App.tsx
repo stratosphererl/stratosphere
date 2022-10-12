@@ -1,11 +1,19 @@
 import './index.css';
 import React, { useState, useEffect } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, useMutation } from '@apollo/client';
 
 const GET_ALL_PLAYERS = gql`
 query Replays {
   getPlayers {
     username
+  }
+}
+`
+
+const SET_REPLAY = gql`
+mutation Mutation($replay: String) {
+  setReplay(replay: $replay) {
+    file
   }
 }
 `
@@ -18,14 +26,34 @@ export default function App() {
   return (
     <div>
       <div className="pt-12">
-        {
-          getReplayBool ? "" : <FileInput selectedFile={selectedFile} setSelectedFile={setSelectedFile} setGetReplayBool={setGetReplayBool} setIsJSONFile={setIsJSONFile} />
-        }
+        <ParseReplay />
       </div>
-      <div className="flex justify-center">
-        {getReplayBool ? <UserNameComponent /> : ""}
-        {isJSONFile ? <ReplayComponent file={selectedFile} /> : ""}
-      </div>
+    </div>
+  );
+}
+
+function ParseReplay() {
+  const [replayUploaded, setReplayUploaded] = useState(false);
+  const [setReplay, {data, loading, error}] = useMutation(SET_REPLAY);
+
+  const onUpload = (file: File) => {
+    setReplay({variables: {replay: file.name}});
+    setReplayUploaded(true);
+  }
+
+  if (loading)
+    return <Loading />;
+
+  if (error)
+    return <h1 className="text-red-500 text-3xl">Error</h1>
+
+  return (
+    <div>
+      {
+      replayUploaded ? 
+      data : 
+      <FileInput onButtonClick={onUpload} allowedExtensions={/(\.replay)$/i} />
+      }
     </div>
   );
 }
@@ -107,27 +135,24 @@ function Loading() {
 }
 
 interface FileInputProps {
-  readonly selectedFile: File | undefined;
-  setSelectedFile: React.Dispatch<React.SetStateAction<File | undefined>>; 
-  setGetReplayBool: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsJSONFile: React.Dispatch<React.SetStateAction<boolean>>;
+  onButtonClick: (file: File) => void;
+  allowedExtensions: RegExp;
 }
 // Functional component encompassing uploading process
 function FileInput(props: FileInputProps) {
+  const [file, setFile] = useState<File | undefined>(undefined);
   // Called when a new file is selected
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files == null) return;
-    props.setSelectedFile(event.target.files[0]);
+    setFile(event.target.files[0]);
   }
 
   // Called when UPLOAD REPLAY button is hit
   const clickHandler = () => {
-    if (props.selectedFile == null) return;
-    var allowedExtensions = /(\.replay|\.json)$/i;
-    if (!allowedExtensions.exec(props.selectedFile.name)) return;
-    if (/(\.json)$/i.exec(props.selectedFile.name)) props.setIsJSONFile(true);
-    console.log(props.selectedFile.name);
-    props.setGetReplayBool(true);
+    if (file == null) return;
+    if (!props.allowedExtensions.exec(file.name)) return;
+    console.log(file.name);
+    props.onButtonClick(file);
   }
 
   return (
