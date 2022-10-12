@@ -42,7 +42,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSGRES_PASSWORD=postgres
-      - POSTGRES_DB=prisma
+      - POSTGRES_DB=stratosphere
 volumes:
   db:
     driver: local
