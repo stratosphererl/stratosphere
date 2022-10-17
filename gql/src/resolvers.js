@@ -62,10 +62,11 @@ const resolvers = {
                 throw error;
             }
         },
-        setReplay: async (_, {replay_file}, {knex}) => {
+        setReplay: async (_, {replay_file}) => {
             const response = await fetch('http://localhost:5001/parse/', {method: 'GET',redirect : 'follow',});
+            console.log(response);
             const data = await response.json();
-            await knex('replay').insert({filename: "dummy", datavalue: 69133769});
+            // await knex('replay').insert({filename: "dummy", datavalue: 69133769});
             return {file: JSON.stringify(data)}
         }
     }
