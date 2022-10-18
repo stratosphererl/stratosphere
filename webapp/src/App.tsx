@@ -47,12 +47,24 @@ function ParseReplay() {
   if (error)
     return <h1 className="text-red-500 text-3xl">Error</h1>
 
+  const replayData = JSON.parse?.(data.setReplay.file)
+  const properties = replayData?.properties;
+  const blueScore = properties?.Team0Score;
+  const orangeScore = properties?.Team1Score;
+
   return (
-    <div>
+    <div className="flex justify-center">
       {
       replayUploaded ? 
-      data : 
-      <FileInput onButtonClick={onUpload} allowedExtensions={/(\.replay)$/i} />
+      <div>
+        <h1 className="text-center text-5xl text-gray-700 font-bold mb-3">Replay Data:</h1>
+        <div className="font-semibold text-lg">
+          <p>Name: "{properties.ReplayName}"</p>
+          <p className="text-blue-700">Blue Team Goals: {blueScore ? blueScore : 0}</p>
+          <p className="text-orange-700">Orange Team Goals: {orangeScore ? orangeScore : 0}</p>
+        </div>
+      </div>
+      : <FileInput onButtonClick={onUpload} allowedExtensions={/(\.replay)$/i} />
       }
     </div>
   );
@@ -156,11 +168,9 @@ function FileInput(props: FileInputProps) {
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="border border-gray-700 rounded mt-3 mb-3 w-96 ">
-        <FileSelect changeHandler={changeHandler} />
-        <Button text="Upload Replay" clickHandler={clickHandler} />
-      </div>
+    <div className="border border-gray-700 rounded mt-3 mb-3 w-96 ">
+      <FileSelect changeHandler={changeHandler} />
+      <Button text="Upload Replay" clickHandler={clickHandler} />
     </div>
   );
 }
