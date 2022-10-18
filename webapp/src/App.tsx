@@ -47,7 +47,7 @@ function ParseReplay() {
   if (error)
     return <h1 className="text-red-500 text-3xl">Error</h1>
 
-  const replayData = JSON.parse?.(data.setReplay.file)
+  const replayData = data ? JSON.parse(data.setReplay.file) : undefined
   const properties = replayData?.properties;
   const blueScore = properties?.Team0Score;
   const orangeScore = properties?.Team1Score;
