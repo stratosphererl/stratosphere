@@ -31,7 +31,7 @@ INSERT INTO ranking (num, name) VALUES
 	(23,'Prospect1'),(24,'Prospect2'),(25,'Prospect3'),(26,'ProspectElite'),
 	(27,'Challenger1'),(28,'Challenger2'),(29,'Challenger3'),(30,'ChallengerElite'),
 	(31,'RisingStar'),(32,'AllStar'),(33,'SuperStar'),
-	(34,'Champion'),(35,'GrandChampion'),(36,'Prospect');
+	(34,'Champion'),(35,'GrandChampion'),(36,'Platinum');
 	
 -- PLATFORMS
 	
@@ -111,7 +111,7 @@ CREATE TABLE player (
 CREATE TABLE team (
 	id					serial		not null,
 	clubName			text,
-	score				smallint	not null, -- This could be null?
+	score				smallint	not null,
 	PRIMARY KEY (id));
 	
 -- Example team data inserts
@@ -124,7 +124,7 @@ CREATE TABLE team (
 
 -- Replay relation
 CREATE TABLE replay (
-	id					serial		not null,
+	id					text		not null,
 	name				text		not null,
 	uploader			int			not null,
 	uploadDate			bigint		not null		CHECK (uploadDate >= 0 AND uploadDate <= 2147483647),
@@ -136,7 +136,7 @@ CREATE TABLE replay (
 	orangeTeam			int			not null,
 	season				int			not null,
 	ranked				bool		not null,
---	ranking				int,
+	avgRank				int,
 	gamemode			int			not null,
 	gametype			int			not null,
 	PRIMARY KEY (id),
@@ -144,6 +144,7 @@ CREATE TABLE replay (
 	FOREIGN KEY (blueTeam) REFERENCES team(id),
 	FOREIGN KEY (orangeTeam) REFERENCES team(id),
 	FOREIGN KEY (season) REFERENCES season(num),
+	FOREIGN KEY (avgRank) REFERENCES ranking(num),
 	FOREIGN KEY (gamemode) REFERENCES gamemode(num),
 	FOREIGN KEY (gametype) REFERENCES gametype(num));
 
