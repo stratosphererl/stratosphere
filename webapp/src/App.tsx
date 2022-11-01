@@ -1,6 +1,8 @@
 import './index.css';
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
+import GoalHeatMap from './heatmaps_components/goal_heatmap';
+import d3, { csvParse } from 'd3';
 
 const GET_ALL_PLAYERS = gql`
 query Replays {
@@ -18,15 +20,127 @@ mutation Mutation($replay: String) {
 }
 `
 
+const data = [
+  {
+    x: 0,
+    y: 0,
+  },
+  {
+    x: 1,
+    y: 1,
+  },
+  {
+    x: 2,
+    y: 2,
+  },
+  {
+    x: 3,
+    y: 3,
+  },
+  {
+    x: 4,
+    y: 4,
+  },
+  {
+    x: 5,
+    y: 5,
+  },
+  {
+    x: 6,
+    y: 6,
+  },
+  {
+    x: 7,
+    y: 7,
+  },
+  {
+    x: 8,
+    y: 8,
+  },
+  {
+    x: 9,
+    y: 9,
+  },
+  {
+    x: 0,
+    y: 10,
+  },
+  {
+    x: 6,
+    y: 5,
+  },
+  {
+    x: 4,
+    y: 5,
+  },
+  {
+    x: 5,
+    y: 4,
+  },
+  {
+    x: 5,
+    y: 6,
+  },
+  {
+    x: 6,
+    y: 4,
+  },
+  {
+    x: 4,
+    y: 6,
+  },
+  {
+    x: 5,
+    y: 3,
+  },
+  {
+    x: 5,
+    y: 7,
+  },
+  {
+    x: 4,
+    y: 2.5,
+  },
+  {
+    x: 6,
+    y: 7.5,
+  },
+  {
+    x: .5,
+    y: 10,
+  },
+  {
+    x: .3,
+    y: 9.5,
+  },
+  {
+    x: 0,
+    y: 10,
+  },
+  {
+    x: .3,
+    y: 9.5,
+  },
+  {
+    x: .3,
+    y: 9.5,
+  },
+  {
+    x: .3,
+    y: 9.5,
+  },
+]
+
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
   const [getReplayBool, setGetReplayBool] = useState(false);
   const [isJSONFile, setIsJSONFile] = useState(false);
-            
+
   return (
     <div>
       <div className="pt-12">
-        <ParseReplay />
+        <GoalHeatMap data={data} />
+        {/*<ParseReplay />*/}
       </div>
     </div>
   );
