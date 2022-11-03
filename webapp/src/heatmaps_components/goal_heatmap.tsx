@@ -1,57 +1,69 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import { Hexbin, hexbin } from "d3-hexbin";
 
-const MARGIN = {top: 20, right: 30, bottom: 30, left: 30};
-
-interface dataType {
-    x: number,
-    y: number,
-}
 interface GoalProps {
-    data?: dataType[];
+    data: {x: number, y: number}[];
     width?: number;
     height?: number;
+    margin?: {top: number, right: number, bottom: number, left: number};
+    image?: string;
+    bandwidth?: number;
+    binColor?: number;
+    xDomain?: [number, number];
+    yDomain?: [number, number];
 }
-const GoalHeatMap = (props: GoalProps) => {
+const GoalHeatMap = ({
+    data,
+    width = 100,
+    height = 100,
+    margin = {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+    },
+    image,
+    bandwidth = 3,
+    binColor = .01,
+    xDomain = [0, 10],
+    yDomain = [0, 10],
+}: GoalProps) => {
     const ref = useRef(null);
 
-    const fullWidth = props.width ? props.width : 500;
-    const fullHeight = props.height ? props.height : 500;
-    
     useEffect(() => {
-        if (props.data && ref.current) {
-            const width = fullWidth - MARGIN.left - MARGIN.right;
-            const height = fullHeight - MARGIN.top - MARGIN.bottom;
-            // set the dimensions and margins of the graph
-            // append the svg object to the body of the page
-            var svg = d3.select(ref.current)
-                .append("svg")
-                    .attr("width", fullWidth)
-                    .attr("height", fullHeight)
-                .append("g")
-                    .attr("transform", "translate(" + MARGIN.left + "," + MARGIN.top + ")");
-                    
-            svg.append("image")
-                    .attr("href", "https://cdn.suwalls.com/wallpapers/games/goal-in-the-utopia-coliseum-rocket-league-50374-2560x1600.jpg")
-                    .attr("width", fullWidth)
-                    .attr("height", fullHeight)
-                    .attr("transform", "translate(" + (-MARGIN.left) + "," + (-MARGIN.top) + ")");
+        if (data && ref.current) {
+            const refSelection = d3.select(ref.current);
 
+            if (image)
+                refSelection.append("image")
+                    .attr("href", image)
+                    .attr("width", width)
+                    .attr("height", height);
+            
+            const gWidth = width - margin.left - margin.right;
+            const gHeight = height - margin.top - margin.bottom;
+
+            const svg = refSelection
+                .append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                  
             // Build X scales and axis:
             var x = d3.scaleLinear()
                 .nice()
-                .domain([0,10])
-                .range([ MARGIN.left, width - MARGIN.right ]);
+                .domain(xDomain)
+                .range([ 0, gWidth ]);
             svg.append("g")
-                .attr("transform", "translate(0," + height + ")")
+                .attr("transform", "translate(0," + gHeight + ")")
                 .call(d3.axisBottom(x));
                     
             // Build X scales and axis:
             var y = d3.scaleLinear()
                 .nice()
-                .domain([0,10])
-                .range([ height - MARGIN.bottom, MARGIN.top ])
+                .domain(yDomain)
+                .range([ gHeight, 0 ])
             svg.append("g")
                 .call(d3.axisLeft(y));
 
@@ -59,13 +71,13 @@ const GoalHeatMap = (props: GoalProps) => {
             var densityData = d3.contourDensity<{x: number, y: number}>()
                 .x(function(d) { return x(d.x); })
                 .y(function(d) { return y(d.y); })
-                .size([width, height])
-                .bandwidth(20)
-                (props.data);
+                .size([gWidth, gHeight])
+                .bandwidth(bandwidth)
+                (data);
 
             // Prepare a color palette
             const color = d3.scaleLinear<string>()
-                .domain([0, .0005]) // Number of points in the bin?
+                .domain([0, binColor]) // Number of points in the bin?
                 .range(["orange", "green"]);
                     
             // show the shape!
@@ -76,16 +88,16 @@ const GoalHeatMap = (props: GoalProps) => {
                   .attr("d", d3.geoPath())
                   .attr("fill", function(d) { return color(d.value); });
         }
-    }, [props.data, ref.current]);
+    }, [data, ref.current]);
           
     return (
         <svg 
             className="d3-component"
-            width={fullWidth}
-            height={fullHeight}
+            width={width}
+            height={height}
             ref={ref}
-        />
-    );
+        />  
+    );  
     
 }
 export default GoalHeatMap;

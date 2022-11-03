@@ -2,7 +2,10 @@ import './index.css';
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
 import GoalHeatMap from './heatmaps_components/goal_heatmap';
-import d3, { csvParse } from 'd3';
+import img from "./field_images/TestGoalImage.jpg";
+import replay from "./replay.json";
+import ts from 'typescript';
+import { randomBates } from 'd3';
 
 const GET_ALL_PLAYERS = gql`
 query Replays {
@@ -20,116 +23,19 @@ mutation Mutation($replay: String) {
 }
 `
 
-const data = [
-  {
-    x: 0,
-    y: 0,
-  },
-  {
-    x: 1,
-    y: 1,
-  },
-  {
-    x: 2,
-    y: 2,
-  },
-  {
-    x: 3,
-    y: 3,
-  },
-  {
-    x: 4,
-    y: 4,
-  },
-  {
-    x: 5,
-    y: 5,
-  },
-  {
-    x: 6,
-    y: 6,
-  },
-  {
-    x: 7,
-    y: 7,
-  },
-  {
-    x: 8,
-    y: 8,
-  },
-  {
-    x: 9,
-    y: 9,
-  },
-  {
-    x: 0,
-    y: 10,
-  },
-  {
-    x: 6,
-    y: 5,
-  },
-  {
-    x: 4,
-    y: 5,
-  },
-  {
-    x: 5,
-    y: 4,
-  },
-  {
-    x: 5,
-    y: 6,
-  },
-  {
-    x: 6,
-    y: 4,
-  },
-  {
-    x: 4,
-    y: 6,
-  },
-  {
-    x: 5,
-    y: 3,
-  },
-  {
-    x: 5,
-    y: 7,
-  },
-  {
-    x: 4,
-    y: 2.5,
-  },
-  {
-    x: 6,
-    y: 7.5,
-  },
-  {
-    x: .5,
-    y: 10,
-  },
-  {
-    x: .3,
-    y: 9.5,
-  },
-  {
-    x: 0,
-    y: 10,
-  },
-  {
-    x: .3,
-    y: 9.5,
-  },
-  {
-    x: .3,
-    y: 9.5,
-  },
-  {
-    x: .3,
-    y: 9.5,
-  },
-]
+const data: {x: number, y: number}[] = [];
+replay.properties.Goals.forEach((goal: any) => {
+  var goalData: {x: number, y: number} = {x: 0, y: 0};
+  replay.network_frames.frames[goal.frame].updated_actors.forEach( (actor: any) => {
+    if (actor?.attribute?.RigidBody?.linear_velocity == null) {
+      const position = actor?.attribute?.RigidBody?.location ? actor.attribute.RigidBody.location : undefined;
+      if (position)
+        goalData = {x: position.x, y: position.z};
+    }
+  });
+  console.log(goalData.x + " " + goalData.y);
+  data.push(goalData);
+});
 
 export default function App() {
   const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
@@ -138,8 +44,10 @@ export default function App() {
 
   return (
     <div>
-      <div className="pt-12">
-        <GoalHeatMap data={data} />
+      <div className="">
+        <GoalHeatMap data={data} width={500} height={500} 
+        margin={{top: 240, left: 173, right: 188, bottom: 215} /*{top: 30, left: 30, right: 30, bottom: 30}*/} 
+        bandwidth={1} binColor={.01} image={img} xDomain={[-750, 750]} yDomain={[0, 550]} />
         {/*<ParseReplay />*/}
       </div>
     </div>
