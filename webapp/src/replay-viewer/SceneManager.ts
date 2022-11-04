@@ -26,8 +26,10 @@ export default class SceneManager {
             antialias: true,
         });
 
-        const width = window.innerWidth;
-        const height = window.innerHeight;
+        // const width = window.innerWidth;
+        // const height = window.innerHeight;
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
         
         this.camera = new THREE.PerspectiveCamera(
             this.fov = 45,

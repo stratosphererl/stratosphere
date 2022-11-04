@@ -40,7 +40,7 @@ export default function App() {
     <div>
       <div className="pt-12">
         <ParseReplay />
-        <canvas id="replay-viewer" />
+        <canvas id="replay-viewer" width={800} height={500} />
       </div>
     </div>
   );
