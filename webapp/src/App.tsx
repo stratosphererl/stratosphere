@@ -1,6 +1,8 @@
 import './index.css';
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql, useMutation } from '@apollo/client';
+import SceneManager from './replay-viewer/SceneManager';
+import * as THREE from 'three';
 
 const GET_ALL_PLAYERS = gql`
 query Replays {
@@ -23,10 +25,22 @@ export default function App() {
   const [getReplayBool, setGetReplayBool] = useState(false);
   const [isJSONFile, setIsJSONFile] = useState(false);
             
+  useEffect(() => {
+    const sm = new SceneManager('replay-viewer');
+    sm.animate();
+
+    const boxGeometry = new THREE.BoxGeometry(16, 16, 16);
+    const boxMaterial = new THREE.MeshNormalMaterial();
+    const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+    sm.scene.add(boxMesh);
+    
+  });
+
   return (
     <div>
       <div className="pt-12">
         <ParseReplay />
+        <canvas id="replay-viewer" />
       </div>
     </div>
   );
