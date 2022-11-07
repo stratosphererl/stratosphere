@@ -47,7 +47,7 @@ export default function App() {
       <div className="">
         <GoalHeatMap data={data} width={500} height={500} 
         margin={{top: 240, left: 173, right: 188, bottom: 215} /*{top: 30, left: 30, right: 30, bottom: 30}*/} 
-        bandwidth={1} binColor={.01} image={img} xDomain={[-750, 750]} yDomain={[0, 550]} />
+        bandwidth={1} binColor={.02} image={img} xDomain={[-750, 750]} yDomain={[0, 550]} />
         {/*<ParseReplay />*/}
       </div>
     </div>

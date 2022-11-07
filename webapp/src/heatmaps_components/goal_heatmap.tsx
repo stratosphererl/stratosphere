@@ -55,17 +55,17 @@ const GoalHeatMap = ({
                 .nice()
                 .domain(xDomain)
                 .range([ 0, gWidth ]);
-            svg.append("g")
-                .attr("transform", "translate(0," + gHeight + ")")
-                .call(d3.axisBottom(x));
+            //svg.append("g")
+            //    .attr("transform", "translate(0," + gHeight + ")")
+            //    .call(d3.axisBottom(x));
                     
             // Build X scales and axis:
             var y = d3.scaleLinear()
                 .nice()
                 .domain(yDomain)
                 .range([ gHeight, 0 ])
-            svg.append("g")
-                .call(d3.axisLeft(y));
+            //svg.append("g")
+            //    .call(d3.axisLeft(y));
 
             // compute the density data
             var densityData = d3.contourDensity<{x: number, y: number}>()
@@ -78,7 +78,7 @@ const GoalHeatMap = ({
             // Prepare a color palette
             const color = d3.scaleLinear<string>()
                 .domain([0, binColor]) // Number of points in the bin?
-                .range(["orange", "green"]);
+                .range(["blue", "red"]);
                     
             // show the shape!
             svg.insert("g", "g")
