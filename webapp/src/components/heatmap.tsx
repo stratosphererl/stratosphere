@@ -67,7 +67,7 @@ export default function Heatmap({
             // Prepare a color palette
             const color = d3.scaleLinear<string>()
                 .domain([0, binColor]) // Number of points in the bin?
-                .range(["blue", "red"]);
+                .range(["darkgreen", "red"]);
 
             // show the shape!
             svg.insert("g", "g")
