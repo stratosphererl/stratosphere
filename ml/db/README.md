@@ -1,6 +1,61 @@
-# Inserts
+# INSERTS
 
-## Team relation
+## RANKING RELATION
+
+### Insert new ranking into ranking relation
+```sql
+-- Template
+INSERT INTO ranking (name) VALUES ('<newRankName');
+
+-- Example
+INSERT INTO ranking (name) VALUES ('Hydrogen');
+```
+
+## PLATFORM RELATION
+
+### Insert new platform into platform relation
+```sql
+-- Template
+INSERT INTO platform (name) VALUES ('<platformNameUppercase>');
+
+-- Example
+INSERT INTO platform (name) VALUES ('FRIDGE');
+```
+
+## SEASON RELATION
+
+### Insert new season into season relation
+```sql
+-- Template
+INSERT INTO season (name) VALUES ('<seasonNameShorthand>');
+
+-- Example
+INSERT INTO season (name) VALUES ('FS21');
+```
+
+## GAMEMODE RELATION
+
+### Insert new gamemode into gamemode relation
+```sql
+-- Template
+INSERT INTO gamemode (name) VALUES ('<gamemodeName>');
+
+-- Example
+INSERT INTO gamemode (name) VALUES ('HideAndSeek');
+```
+
+## GAMETYPE RELATION
+
+### Insert new gametype into game gametype relation
+```sql
+-- Template
+INSERT INTO gametype (name) VALUES ('<gametypeName>');
+
+-- Example
+INSERT INTO gametype (name) VALUES ('Elevens');
+```
+
+## TEAM RELATION
 
 ### Insert team data into team relation
 
@@ -14,7 +69,7 @@ INSERT INTO team (clubname, score) VALUES ('Federal Aerial Administration', 7);
 INSERT INTO team (clubname, score) VALUES (null, 6);
 ```
 
-## Player relation
+## PLAYER RELATION
 
 ### Insert player data into player relation
 
@@ -28,7 +83,7 @@ INSERT INTO player VALUES ('21928347342', 'Novarchite', 1, 0, 16, true, false);
 INSERT INTO player VALUES ('82348098233', 'Chicken', 2, 1, 16, false, false);
 ```
 
-## Replay relation
+## REPLAY RELATION
 
 ### Insert replay data into replay relation
 
@@ -57,9 +112,9 @@ VALUES ('89831272', -- ballchasingReplayID
         2); -- gametypeID
 ```
 
-# Queries
+# QUERIES
 
-## Ranking relation
+## RANKING RELATION
 
 ### Get ranking num given ranking name
 ```sql
@@ -79,7 +134,7 @@ SELECT name FROM ranking WHERE num = <rankNum>
 SELECT name FROM ranking WHERE num = 6;
 ```
 
-## Platform relation
+## PLATFORM RELATION
 
 ### Get platform num given platform name
 ```sql
@@ -99,7 +154,7 @@ SELECT name FROM platform WHERE num = <platformNum>
 SELECT name FROM platform WHERE num = 3;
 ```
 
-## Season relation
+## SEASON RELATION
 
 ### Get season num given season name
 ```sql
@@ -119,7 +174,7 @@ SELECT name FROM season WHERE num = <seasonNum>;
 SELECT name FROM season WHERE num = 21;
 ```
 
-## Gamemode relation
+## GAMEMODE RELATION
 
 ### Get gamemode num given gamemode name
 ```sql
@@ -139,7 +194,7 @@ SELECT name FROM gamemode WHERE num = <gamemodeNum>;
 SELECT name FROM gamemode WHERE num = 4;
 ```
 
-## Gametype relation
+## GAMETYPE RELATION
 
 ### Get gametype num given gametype name
 ```sql
@@ -159,7 +214,7 @@ SELECT name FROM gametype WHERE num = <gametypeNum>;
 SELECT name FROM gametype WHERE num = 2;
 ```
 
-## Player relation
+## PLAYER RELATION
 
 ### Get player data given their player ID
 ```sql
@@ -170,7 +225,7 @@ SELECT * FROM player WHERE id = '<playerID>';
 SELECT * FROM player WHERE id = '21928347342';
 ```
 
-## Team relation
+## TEAM RELATION
 
 ### Get team data given the team ID
 ```sql
@@ -181,7 +236,7 @@ SELECT * FROM team WHERE id = <teamID>;
 SELECT * FROM team WHERE id = 1;
 ```
 
-## Replay relation
+## REPLAY RELATION
 
 ### Get replay data given the replay ID
 ```sql
@@ -355,54 +410,13 @@ SELECT id FROM replay WHERE season = 20 AND ranked = True AND gamemode = 0 AND g
 SELECT count(id) FROM replay;
 ```
 
-## Updates
+# UPDATES
 
-### Insert new ranking into ranking relation
-```sql
--- Template
-INSERT INTO ranking (name) VALUES ('<newRankName');
+NONE
 
--- Example
-INSERT INTO ranking (name) VALUES ('Hydrogen');
-```
+# DELETES
 
-### Insert new platform into platform relation
-```sql
--- Template
-INSERT INTO platform (name) VALUES ('<platformNameUppercase>');
-
--- Example
-INSERT INTO platform (name) VALUES ('FRIDGE');
-```
-
-### Insert new season into season relation
-```sql
--- Template
-INSERT INTO season (name) VALUES ('<seasonNameShorthand>');
-
--- Example
-INSERT INTO season (name) VALUES ('FS21');
-```
-
-### Insert new gamemode into gamemode relation
-```sql
--- Template
-INSERT INTO gamemode (name) VALUES ('<gamemodeName>');
-
--- Example
-INSERT INTO gamemode (name) VALUES ('HideAndSeek');
-```
-
-### Insert new gametype into game gametype relation
-```sql
--- Template
-INSERT INTO gametype (name) VALUES ('<gametypeName>');
-
--- Example
-INSERT INTO gametype (name) VALUES ('Elevens');
-```
-
-## Deletes
+## REPLAY RELATION
 
 ### Delete replay using replay ID
 
@@ -413,6 +427,8 @@ DELETE FROM replay WHERE id = '<replayID>';
 -- Example
 DELETE FROM replay WHERE id = '89831272';
 ```
+
+## TEAM RELATION & PLAYER RELATION
 
 ### Delete all team and player data that were related to the deleted replay referenced via above code
 

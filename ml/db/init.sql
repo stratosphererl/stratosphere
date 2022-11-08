@@ -148,13 +148,4 @@ CREATE TABLE replay (
 	FOREIGN KEY (gamemode) REFERENCES gamemode(num),
 	FOREIGN KEY (gametype) REFERENCES gametype(num));
 
--- TEAMS HAVE PLAYERS
--- hasPlayers relation
-CREATE TABLE hasPlayers (
-	teamID				int			not null,
-	playerID			text		not null,
-	PRIMARY KEY (teamID, playerID),
-	FOREIGN KEY (teamID) REFERENCES team(id),
-	FOREIGN KEY (playerID) REFERENCES player(id));
-
 -- '2021-12-12 02:21:27'
