@@ -1,7 +1,5 @@
 # Inserts
 
-## Player relation
-
 ## Team relation
 
 ### Insert team data into team relation
@@ -11,10 +9,12 @@
 INSERT INTO team (clubname, score) VALUES ('<clubname>', <score>);
 
 -- Example
-INSERT INTO team (replayid, clubname, score) VALUES ('89831272', 'Federal Aerial Administration', 7);
+INSERT INTO team (clubname, score) VALUES ('Federal Aerial Administration', 7);
 
-INSERT INTO team (replayid, clubname, score) VALUES ('89831272', null, 6);
+INSERT INTO team (clubname, score) VALUES (null, 6);
 ```
+
+## Player relation
 
 ### Insert player data into player relation
 
@@ -26,21 +26,6 @@ INSERT INTO player VALUES ('<uniqueID>', '<playerUsername>', <teamNum>, <platfor
 INSERT INTO player VALUES ('21928347342', 'Novarchite', 1, 0, 16, true, false);
 
 INSERT INTO player VALUES ('82348098233', 'Chicken', 2, 1, 16, false, false);
-```
-
-## HasPlayers relation
-
-### Insert hasPlayers data into hasPlayers relation
-
-```sql
--- Template
-INSERT INTO hasplayers VALUES (<teamID>, <playerID>)
-
--- Example
-INSERT INTO hasplayers VALUES (1, '21928347342');
--- Adding connection between team with ID 1 ("Federal Aerial Administration") and player with following ID ("Novarchite")
-
-INSERT INTO hasplayers VALUES (2, '82348098233');
 ```
 
 ## Replay relation
@@ -72,7 +57,7 @@ VALUES ('89831272', -- ballchasingReplayID
         2); -- gametypeID
 ```
 
-## Queries
+# Queries
 
 ## Ranking relation
 
@@ -274,33 +259,49 @@ SELECT id FROM replay WHERE arena = 'Mannfield';
 SELECT id FROM replay WHERE arena = 'Deadeye Canyon';
 ```
 
-### Get all replay IDs where x number of goals were scored, given operator
+### Get all replay IDs where x number of goals were scored, given operator (<, <=, =, >=, >)
 ```sql
+-- Create a for loop which iterates through all unique replay ID values in the replay relation, the code below obtains all unique IDs
+SELECT id FROM replay;
+
+-- Then insert each replay ID in for <replayID> and store the replay ID of all queries which return a column of len 1, otherwise do not store that replay ID
+
 -- Template
+SELECT DISTINCT replay.id
+FROM replay, team
+WHERE (SELECT sum(score) FROM team WHERE team.id IN (
+        (SELECT blueteam FROM replay WHERE id = '<replayID>'),
+        (SELECT orangeteam FROM replay WHERE id = '<replayID>'))) <operator> <x>;
+
 -- Example
+SELECT DISTINCT replay.id
+FROM replay, team
+WHERE (SELECT sum(score) FROM team WHERE team.id IN (
+        (SELECT blueteam FROM replay WHERE id = '89831272'),
+        (SELECT orangeteam FROM replay WHERE id = '89831272'))) > 4;
 ```
 
-### Get all replay IDs where x number of goals were scored on average, given operator
+### Get all replay IDs where one team scored x number of goals, given operator (<, <=, =, >=, >)
 ```sql
--- Template
--- Example
-```
+-- Create a for loop which iterates through all unique replay ID values in the replay relation, the code below obtains all unique IDs
+SELECT id FROM replay;
 
-### Get all replay IDs where one team scored x number of goals, given operator
-```sql
--- Template
--- Example
-```
+-- Then insert each replay ID in for <replayID> and store the replay ID of all queries which return a column of len 1, otherwise do not store that replay ID
 
-## HasPlayers relation
-
-### Get the players which are on a particular team (by team ID)
-```sql
 -- Template
-SELECT playerID FROM hasplayers WHERE teamID = <teamID>;
+SELECT DISTINCT replay.id
+FROM replay, team
+WHERE (SELECT score FROM team WHERE team.id IN (SELECT blueteam FROM replay WHERE id = '<replayID>')) <operator> <x>
+        OR
+      (SELECT score FROM team WHERE team.id IN (SELECT orangeteam FROM replay WHERE id = '<replayID>')) <operator> <x>;
 
 -- Example
-SELECT playerID FROM hasplayers WHERE teamID = 1;
+SELECT DISTINCT replay.id
+FROM replay, team
+WHERE (SELECT score FROM team WHERE team.id IN (SELECT blueteam FROM replay WHERE id = '89831272')) >= 7
+        OR
+      (SELECT score FROM team WHERE team.id IN (SELECT orangeteam FROM replay WHERE id = '89831272')) >= 7;
+
 ```
 
 ### Get all replay IDs from a particular season
@@ -411,4 +412,18 @@ DELETE FROM replay WHERE id = '<replayID>';
 
 -- Example
 DELETE FROM replay WHERE id = '89831272';
+```
+
+### Delete all team and player data that were related to the deleted replay referenced via above code
+
+```sql
+-- Use the following to delete all team and player data related to replay deleted above
+
+-- Use the following two statements and save their outputs as int variables BEFORE running the replay delete code
+SELECT blueteam FROM replay WHERE '<replayID>'; -- Ex. var name blueteamint
+SELECT orangeteam FROM replay WHERE '<replayID>'; -- Ex. var name orangeteamint
+
+-- After calling the replay delete code, use the following to delete the replay's teams (players will be deleted via cascade)
+DELETE FROM team WHERE id = <blueteamint>;
+DELETE FROM team WHERE id = <orangeteamint>;
 ```
