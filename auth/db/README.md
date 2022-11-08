@@ -1,4 +1,4 @@
-## Inserts
+# INSERTS
 
 ### Insert new platform to platform relation
 ```sql
@@ -31,7 +31,7 @@ INSERT INTO users (id, platform, username, preflang)
 VALUES ('novarchite', 1, 'Novarchite', 'en-US');
 ```
 
-## Queries
+# QUERIES
 
 ### Query for information related to Steam user
 ```sql
@@ -59,7 +59,7 @@ FROM users
 WHERE id = 'novarchite' AND platform = 1;
 ```
 
-## Updates
+# UPDATES
 
 ### Update username of user
 ```sql
@@ -106,7 +106,7 @@ UPDATE users SET preflang = '<newLang>' WHERE id = '<id>' AND platform = 1;
 UPDATE users SET preflang = 'fr' WHERE id = 'novarchite' AND platform = 1;
 ```
 
-## Deletes
+# DELETES
 
 ### Delete all information for Steam user
 ```sql
