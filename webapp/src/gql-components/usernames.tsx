@@ -1,7 +1,16 @@
+import { gql, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { LoadingAnimation } from "../components/loading";
 
-function UserNameComponent() {
+const GET_ALL_PLAYERS = gql`
+query Replays {
+  getPlayers {
+    username
+  }
+}
+`
+
+export function UserNameComponent() {
     const [delay, setDelay] = useState(true);
     const {error, data, loading} = useQuery(GET_ALL_PLAYERS);
   

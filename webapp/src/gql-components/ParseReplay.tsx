@@ -1,3 +1,4 @@
+import { gql, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { LoadingAnimation } from "../components/loading";
 import { FileInput } from "../components/userInput";
