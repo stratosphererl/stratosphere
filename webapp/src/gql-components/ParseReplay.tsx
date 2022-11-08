@@ -36,7 +36,7 @@ export default function ParseReplay() {
         {
         replayUploaded ? 
         <div>
-          <h1 className="text-center text-5xl text-gray-700 font-bold mb-3">Replay Data:</h1>
+          <h1 className="text-center text-5xl font-bold mb-3">Replay Data:</h1>
           <div className="font-semibold text-lg">
             <p>Name: "{properties.ReplayName}"</p>
             <p className="text-blue-700">Blue Team Goals: {blueScore ? blueScore : 0}</p>
