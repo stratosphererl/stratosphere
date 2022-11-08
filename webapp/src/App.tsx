@@ -1,4 +1,3 @@
-import { render } from 'react-dom'
 import './App.css'
 import ParseReplay from './gql-components/ParseReplay'
 import { UserNameComponent } from './gql-components/usernames'
