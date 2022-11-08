@@ -10,12 +10,15 @@ ALTER DATABASE authDB OWNER TO postgres;
 -- PLATFORMS
 -- Platform relation
 CREATE TABLE platform (
-	num					smallint		CHECK (num >= 0 AND num <= 1),
+	num					smallserial,
 	name				text,
 	PRIMARY KEY (num));
 
 -- Required platform data
 INSERT INTO platform (num, name) VALUES (0, 'STEAM'), (1, 'EPIC');
+
+-- Make it so num smallserial starts at 2, the next highest num value possible
+ALTER SEQUENCE platform_num_seq RESTART WITH 2;
 
 -- USERS
 -- Users relation

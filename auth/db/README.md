@@ -1,5 +1,14 @@
 ## Inserts
 
+### Insert new platform to platform relation
+```sql
+-- Template
+INSERT INTO platform (name) VALUES ('<platformNameUppercase>');
+
+-- Example
+INSERT INTO platform (name) VALUES ('FRIDGE');
+```
+
 ### Insert Steam user into users relation
 ```sql
 -- Template
