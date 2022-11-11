@@ -20,32 +20,54 @@ export function addComponent(
     return id;
 }
 
-function createComponent(
-    componentID: number,
-) {
-    const id = getFreeComponentID();
-    const componentInfo = components.get(componentID);
-    if (!componentInfo)
-        throw Error("No such component Exists");
-    componentData.set(id, {...componentInfo.defaultState});
-    return id;
-}
-
 /**
  * Creates a new entity with attached components
  * @param attachedComponents List of components linked to entity
  * @returns Entitie's ID
  */
-export function createEntity(
-    attachedComponents: number[] = [],
+ export function createEntity(
+    attachedComponents: (number | string)[] = [],
 ) {
     const id = getFreeEntityID();
-    const componentsInfo: entityComponentInfo[] = [];
+    const componentsInfo: entityComponentInfo = new Map();
     attachedComponents.forEach((componentID) => {
-        const componentDataID = createComponent(componentID);
-        componentsInfo.push({componentID, componentDataID})
+        const numberID = Number(componentID);
+        const componentDataID = createComponent(numberID);
+        componentsInfo.set(numberID, componentDataID)
     });
     entities.set(id, componentsInfo);
+    return id;
+}
+
+/**
+ * Gets the data from a component with that entity label
+ * @param componentID Component type to retrieve
+ * @param entityID Entitie's unique id
+ * @returns Component data
+ */
+export function getComponentData(componentID: string | number, entityID: number) {
+    const entity = entities.get(entityID);
+    if (entity == undefined)
+        throw Error("No entity found with that id");
+    const componentDataID = entity.get(Number(componentID));
+    if (componentDataID == undefined)
+        throw Error("Entity does not have a component with that id");
+    return componentData.get(componentDataID);
+}
+
+/**
+ * Creates a new component of specified type
+ * @param componentID Identifier for component type
+ * @returns id of generated component
+ */
+function createComponent(
+    componentID: number,
+) {
+    const id = getFreeComponentID();
+    const componentInfo = components.get(componentID);
+    if (componentInfo == undefined)
+        throw Error("No such component Exists");
+    componentData.set(id, {...componentInfo.defaultState});
     return id;
 }
 
@@ -68,14 +90,14 @@ let freeComponentID = 0;
  */
 function getFreeEntityID() {
     while (entities.has(freeEntityID))
-    freeEntityID++;
+        freeEntityID++;
     return freeEntityID;
 }
 let freeEntityID = 0;
 
 const components = new Map<number, componentKeyType>();
 const componentData = new Map<number, any>();
-const entities = new Map<number, entityComponentInfo[]>();
+const entities = new Map<number, entityComponentInfo>();
 
 /* ----- From this point on I define some useful types ----- */
 
@@ -95,7 +117,4 @@ interface componentInfo {
 }
 
 // Entities key type
-interface entityComponentInfo {
-    componentID: number,
-    componentDataID: number,
-}
+type entityComponentInfo = Map<number, number>;
