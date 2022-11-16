@@ -15,6 +15,6 @@ export default function ReplayCanvas() {
     })
 
     return (
-        <canvas id="replay-canvas" width={1280} height={720} />
+        <canvas id="replay-canvas" width={1280} height={720} className="m-auto" />
     )
 }
