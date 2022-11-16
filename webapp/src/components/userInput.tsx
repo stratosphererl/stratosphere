@@ -14,8 +14,14 @@ export function FileInput(props: {
 
     // Called when UPLOAD REPLAY button is hit
     const clickHandler = () => {
-      if (file == null) return;
-      if (!props.allowedExtensions.exec(file.name)) return;
+      if (file == null) {
+        alert('Silly. Input something next time.')
+        return
+      };
+      if (!props.allowedExtensions.exec(file.name)) {
+        alert(`Unsupported file extension. We only supported .replays!`)
+        return
+      };
       console.log(file.name);
       props.onButtonClick(file);
     }
