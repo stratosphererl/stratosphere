@@ -1,4 +1,3 @@
-import { expect, test } from '@jest/globals';
 import { addComponent, createEntity, getComponentData } from './ECS';
 
 test('Test String Identifier', () => {
