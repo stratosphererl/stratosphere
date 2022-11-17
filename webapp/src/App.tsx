@@ -2,14 +2,18 @@ import './App.css'
 import Header from './components/Header'
 import Main from './components/Main'
 import Footer from './components/Footer'
+import { ThemeProvider } from './context/ThemeContext'
+import ThemeSwitch from './components/ThemeSwitch'
 
 function App() {
   return (
-    <div className="App">
-        <Header />
-        <Main />
-      
-    </div>
+    <ThemeProvider>
+      <div className="App">
+          <ThemeSwitch  />
+          <Header />
+          <Main />
+      </div>
+    </ThemeProvider>
   )
 }
 

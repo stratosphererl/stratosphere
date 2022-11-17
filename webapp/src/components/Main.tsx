@@ -3,15 +3,29 @@ import { Fragment } from 'react'
 import HeatmapFromGQL from '../gql-components/HeatmapFromGQL'
 import { UserNameComponent } from '../gql-components/usernames'
 import ReplayCanvas from '../replayViewer/ReplayCanvas'
+import { ThemeContext } from '../context/ThemeContext'
+import { useContext } from 'react'
 
 export default function Main() {
+    const {theme} = useContext(ThemeContext)
+
+    const determineTabClass = (selected : boolean) => {
+        let className = ""
+
+        className += selected ? 'font-bold' : 'font-normal'
+        console.log(theme)
+        className += ` ${theme === 'dark' ? 'text-white' : 'text-black'}`
+
+        return className
+    }
+
     return (
         <div className="main">
         <Tab.Group>
           <div className='m-auto flex justify-center justify-evenly mb-8'>
-            <Tab as={Fragment}>{({ selected }) => (<button className={`${ selected ? 'font-bold' : 'font-normal'}`}>Upload Replay</button>)}</Tab>
-            <Tab as={Fragment}>{({ selected }) => (<button className={`${ selected ? 'font-bold' : 'font-normal'}`}>Fetch Players</button>)}</Tab>
-            <Tab as={Fragment}>{({ selected }) => (<button className={`${ selected ? 'font-bold' : 'font-normal'}`}>View Replay</button>)}</Tab>
+            <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Upload Replay</button>)}</Tab>
+            <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Fetch Players</button>)}</Tab>
+            <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>View Replay</button>)}</Tab>
           </div>
           <Tab.Panels>
           <Tab.Panel>
