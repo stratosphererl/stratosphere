@@ -45,6 +45,7 @@ export default class SceneManager {
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
         this.stats = Stats();
+        this.stats.dom.style.display = "None"
         document.body.appendChild(this.stats.dom);
 
         // Likely to be moved later so we can better control over lighting
