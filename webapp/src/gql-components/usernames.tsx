@@ -32,9 +32,9 @@ export function UserNameComponent() {
     return (
       <div>
         <div className="text-center">
-        <h1 className="text-5xl text-blue-400 font-bold mt-0 mb-6">Player Names</h1>
+        <h1 className="text-5xl text-yellow-400 font-bold mt-0 mb-6">Player Names</h1>
           {
-            data?.getPlayers?.map((player: any) => <p className="text-lime-300 font-semibold" key={++id}>{player.username}</p>)
+            data?.getPlayers?.map((player: any) => <p className="text-white font-semibold" key={++id}>{player.username}</p>)
           }
         </div>
       </div>
