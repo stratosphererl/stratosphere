@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { ThemeContext } from '../context/ThemeContext'
+import { useContext } from 'react'
 
 // Functional component encompassing uploading process
 export function FileInput(props: {
@@ -14,8 +16,14 @@ export function FileInput(props: {
 
     // Called when UPLOAD REPLAY button is hit
     const clickHandler = () => {
-      if (file == null) return;
-      if (!props.allowedExtensions.exec(file.name)) return;
+      if (file == null) {
+        alert('Silly. Input something next time.')
+        return
+      };
+      if (!props.allowedExtensions.exec(file.name)) {
+        alert(`Unsupported file extension. We only supported .replays!`)
+        return
+      };
       console.log(file.name);
       props.onButtonClick(file);
     }
@@ -29,9 +37,11 @@ export function FileInput(props: {
 
 // Gets a file as input
 export function FileSelect(props: {changeHandler: (React.ChangeEventHandler<HTMLInputElement>);}) {
+  const {theme} = useContext(ThemeContext)
+  
   return (
     <div>
-      <label htmlFor="formFile" className="form-label inline-block mx-2 mb-0 text-gray-300">Select Replay File</label>
+      <label htmlFor="formFile" className={`form-label inline-block mx-2 mb-0 ${theme === 'dark' ? 'text-gray-300' : ' text-black'}`}>Select Replay File</label>
       <input className="block w-full rounded-sm text-base font-normal text-gray-700 bg-white 
         first-line:bg-clip-padding border border-solid border-gray-300 transition ease-in-out m-0 focus:text-gray-700 
       focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile" 

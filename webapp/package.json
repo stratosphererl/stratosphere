@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.1",
+    "@headlessui/react": "^1.7.4",
     "@types/d3": "^7.4.0",
     "@types/three": "^0.146.0",
     "d3": "^7.6.1",
