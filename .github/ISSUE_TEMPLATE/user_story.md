@@ -6,13 +6,12 @@ labels: ["user story"]
 ---
 
 # Acceptance Criteria
-- [ ] This is something that can be verified to show that this user story is satisfied.
+- [ ] Given... When... Then...
 
 # Estimation of Work
 - TBA
 
 # Tasks
-*Ideally, you would want to convert theses todos to be converted into their own issues*
 - [ ] What needs to get done?
 
 # Risks
