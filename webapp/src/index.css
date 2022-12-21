@@ -18,3 +18,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+.montserrat {
+  font-family: Montserrat;
+}
+
+.blue-stroke-2 {
+  text-shadow: rgb(24, 160, 251) 2px 0px 0px, rgb(24, 160, 251) 1.75517px 0.958851px 0px, rgb(24, 160, 251) 1.0806px 1.68294px 0px, rgb(24, 160, 251) 0.141474px 1.99499px 0px, rgb(24, 160, 251) -0.832294px 1.81859px 0px, rgb(24, 160, 251) -1.60229px 1.19694px 0px, rgb(24, 160, 251) -1.97998px 0.28224px 0px, rgb(24, 160, 251) -1.87291px -0.701566px 0px, rgb(24, 160, 251) -1.30729px -1.5136px 0px, rgb(24, 160, 251) -0.421592px -1.95506px 0px, rgb(24, 160, 251) 0.567324px -1.91785px 0px, rgb(24, 160, 251) 1.41734px -1.41108px 0px, rgb(24, 160, 251) 1.92034px -0.558831px 0px;  
+}
+
+.blue-stroke {
+  text-shadow: rgb(24, 160, 251) 1px 0px 0px, rgb(24, 160, 251) 0.540302px 0.841471px 0px, rgb(24, 160, 251) -0.416147px 0.909297px 0px, rgb(24, 160, 251) -0.989992px 0.14112px 0px, rgb(24, 160, 251) -0.653644px -0.756802px 0px, rgb(24, 160, 251) 0.283662px -0.958924px 0px, rgb(24, 160, 251) 0.96017px -0.279415px 0px;
+}
+
+.orange-stroke-2 {
+  text-shadow: rgb(255, 106, 0) 2px 0px 0px, rgb(255, 106, 0) 1.75517px 0.958851px 0px, rgb(255, 106, 0) 1.0806px 1.68294px 0px, rgb(255, 106, 0) 0.141474px 1.99499px 0px, rgb(255, 106, 0) -0.832294px 1.81859px 0px, rgb(255, 106, 0) -1.60229px 1.19694px 0px, rgb(255, 106, 0) -1.97998px 0.28224px 0px, rgb(255, 106, 0) -1.87291px -0.701566px 0px, rgb(255, 106, 0) -1.30729px -1.5136px 0px, rgb(255, 106, 0) -0.421592px -1.95506px 0px, rgb(255, 106, 0) 0.567324px -1.91785px 0px, rgb(255, 106, 0) 1.41734px -1.41108px 0px, rgb(255, 106, 0) 1.92034px -0.558831px 0px;
+}
+
+.orange-stroke {
+  text-shadow: rgb(255, 106, 0) 1px 0px 0px, rgb(255, 106, 0) 0.540302px 0.841471px 0px, rgb(255, 106, 0) -0.416147px 0.909297px 0px, rgb(255, 106, 0) -0.989992px 0.14112px 0px, rgb(255, 106, 0) -0.653644px -0.756802px 0px, rgb(255, 106, 0) 0.283662px -0.958924px 0px, rgb(255, 106, 0) 0.96017px -0.279415px 0px;  
+}

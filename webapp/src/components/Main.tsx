@@ -5,6 +5,7 @@ import { UserNameComponent } from '../gql-components/usernames'
 import ReplayCanvas from '../replayViewer/ReplayCanvas'
 import { ThemeContext } from '../context/ThemeContext'
 import { useContext } from 'react'
+import SearchReplays from '../filtering/filtering'
 
 export default function Main() {
     const {theme} = useContext(ThemeContext)
@@ -26,9 +27,10 @@ export default function Main() {
             <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Upload Replay</button>)}</Tab>
             <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Fetch Players</button>)}</Tab>
             <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>View Replay</button>)}</Tab>
+            <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Search Replays</button>)}</Tab>
           </div>
           <Tab.Panels>
-          <Tab.Panel>
+            <Tab.Panel>
               <HeatmapFromGQL />
             </Tab.Panel>
             <Tab.Panel>
@@ -36,7 +38,10 @@ export default function Main() {
             </Tab.Panel>
             <Tab.Panel>
               <ReplayCanvas/>
-              </Tab.Panel>
+            </Tab.Panel>
+            <Tab.Panel>
+              <SearchReplays />
+            </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
         </div>
