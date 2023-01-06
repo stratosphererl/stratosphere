@@ -22,7 +22,7 @@ export default function ReplayCanvas({width = 1280, height = 720}: {width?: numb
 
     return (
         <div>
-            <ReplayScrubber endTime={40} events={[{eventType: 1, time: 10}, {eventType: 1, time: 20}, {eventType: 1, time: 40}]} />
+            <ReplayScrubber endTime={1000} events={[{eventType: 1, time: 35}, {eventType: 1, time: 240}, {eventType: 1, time: 600}, {eventType: 1, time: 890}]} />
             <div ref={ref} />
         </div>
     )
