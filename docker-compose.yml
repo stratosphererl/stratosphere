@@ -1,11 +1,11 @@
 version: '3.6'
 services:
-  webapp:
-    image: webapp:latest
-    ports:
-      - '3000:3000'
+  # webapp:
+  #   build: ./webapp
+  #   ports:
+  #     - '3000:3000'
   gql:
-    image: gql:latest
+    build: ./gql
     ports:
       - '4000:4000'
       - '9229:9229'
@@ -15,17 +15,17 @@ services:
     environment:
       - NODE_ENV=development
   parser:
-    image: parser:latest
+    build: ./parser
     ports: 
       - '5001:5001'
     tmpfs:
       - /tmp:exec,mode=777
   ml:
-    image: ml:latest
+    build: ./ml
     ports:
       - '5002:5002'
   db:
-    image: db:latest
+    build: ./db
     ports:
       - 5432:5432
     volumes:
