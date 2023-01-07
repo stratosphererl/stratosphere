@@ -19,8 +19,6 @@ app.secret_key = os.urandom(24)
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-           
-
 
 ## make a method called parser Read json file from uploads and return a json object
 def parser_analyse(path):
@@ -62,7 +60,7 @@ def parse():
     
     return parser(os.path.join(app.config['UPLOAD_FOLDER'], "replay.json"))
 
-@app.route('/parse/analysis', methods=['POST'])
+@app.route('/parse/analysis', methods=['POST', 'GET'])
 def parse_analysis():
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -79,4 +77,4 @@ def parse_analysis():
             file.save(path)
             return parser_analyse(path)
     
-    return parser(os.path.join(app.config['UPLOAD_FOLDER'], "replay.json"))
+    return parser_analyse(os.path.join(app.config['UPLOAD_FOLDER'], "replay_test.replay"))
