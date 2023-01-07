@@ -5,6 +5,7 @@ import { UserNameComponent } from '../gql-components/usernames'
 import ReplayCanvas from '../replayViewer/ReplayCanvas'
 import { ThemeContext } from '../context/ThemeContext'
 import { useContext } from 'react'
+import StatisticalData from '../components/StatisticalData'
 
 export default function Main() {
     const {theme} = useContext(ThemeContext)
@@ -26,6 +27,7 @@ export default function Main() {
             <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Upload Replay</button>)}</Tab>
             <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Fetch Players</button>)}</Tab>
             <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>View Replay</button>)}</Tab>
+            <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Replay Data</button>)}</Tab>
           </div>
           <Tab.Panels>
           <Tab.Panel>
@@ -37,6 +39,9 @@ export default function Main() {
             <Tab.Panel>
               <ReplayCanvas/>
               </Tab.Panel>
+            <Tab.Panel>
+              <StatisticalData/>
+            </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
         </div>
