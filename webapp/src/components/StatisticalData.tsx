@@ -138,9 +138,9 @@ export default function StatisticalData({width = 1280, height = 720}: {width?: n
                     <div className="h-8 bg-[#333333] flex items-center justify-center border-l-2 border-[#222222]"><strong>Assists</strong></div>
                     <div className="h-8 bg-[#444444] flex items-center justify-center border-l-2 border-[#222222]"><strong>Saves</strong></div>
                     <div className="h-8 bg-[#333333] flex items-center justify-center border-l-2 border-[#222222]"><strong>Shots</strong></div>
-                    <div className="h-8 bg-[#444444] flex items-center justify-center border-l-2 border-[#222222]"><strong>PoM</strong></div>
-                    <div className="h-40 bg-[#333333] flex flex-wrap items-center justify-center border-l-2 border-b-2 border-[#222222]">
-                        <div>
+                    <div className="h-8 bg-[#444444] flex items-center justify-center border-l-2 border-[#222222]"><strong>Player of Match</strong></div>
+                    <div className="h-48 bg-[#333333] flex flex-wrap items-center justify-center border-l-2 border-b-2 border-[#222222]">
+                        <div className="flex justify-center text-center">
                             <strong>Vertical Positioning</strong>
                         </div>
                     </div>
@@ -192,12 +192,13 @@ export default function StatisticalData({width = 1280, height = 720}: {width?: n
                                             </div>
                                             :
                                             <div className="flex justify-center h-8">
-                                                <div className="flex items-center h-8 bg-[#444444] w-full justify-center">NO</div>
+                                                <div className="flex items-center h-8 bg-[#444444] w-full justify-center">-</div>
                                             </div>
                                         }
-                                        <div className="flex w-full justify-center h-40 bg-[#333333] border-b-2 border-[#222222]">
+                                        <div className="flex w-full justify-center h-48 bg-[#333333] border-b-2 border-[#222222]">
                                             <div className="flex flex-wrap w-full items-center justify-center">
-                                                <div className="h-8 w-11/12 mt-1 bg-[#444444] border-2 border-[#ffffff] flex justify-center items-center">
+                                                <div className="text-xs h-6 w-10/12 mt-1 bg-[#444444] border-2 flex justify-center items-center">Offense</div>
+                                                <div className="h-8 w-11/12 bg-[#444444] border-2 border-[#ffffff] flex justify-center items-center">
                                                     {Math.round(currAttTime / currTotalTime * 10000) / 100 + "%"}
                                                 </div>
                                                 <div className="h-8 w-11/12 bg-[#444444] border-2 border-[#ffffff] flex justify-center items-center">
@@ -206,7 +207,7 @@ export default function StatisticalData({width = 1280, height = 720}: {width?: n
                                                 <div className="h-8 w-11/12 bg-[#444444] border-2 border-[#ffffff] flex justify-center items-center">
                                                     {Math.round(currDefTime / currTotalTime * 10000) / 100 + "%"}
                                                 </div>
-                                                <div className="text-xs h-6 w-10/12 mb-0.5 bg-[#444444] border-2 flex justify-center items-center">Own Goal</div>
+                                                <div className="text-xs h-6 w-10/12 mb-1 bg-[#444444] border-2 flex justify-center items-center">Defense</div>
                                             </div>
                                         </div>
                                     </div>
