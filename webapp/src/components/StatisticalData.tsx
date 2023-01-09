@@ -157,7 +157,7 @@ export default function StatisticalData({width = 1280, height = 720}: {width?: n
                                     <div>
                                         {getVerticalData(player)}
                                         <div className="justify-center border-t-2 border-[#222222]">
-                                            <div className="flex items-center justify-center h-8 flex-wrap"><strong>{player.name}</strong>
+                                            <div className="flex items-center justify-center h-8 flex-wrap truncate text-center"><strong>{player.name}</strong>
                                             {
                                                 player.isOrange === 1 ?
                                                 <div className="w-full flex justify-center">
