@@ -148,9 +148,9 @@ export default function StatisticalData({width = 1280, height = 720}: {width?: n
                 <div className="mr-3 h-64 w-5/6 bg-[#333333]">
                     {/* For each player, have w-1/2 column, or create grid with num cols equal to num players, one row */}
 
-                    { // If replay had two players
-                        // playerList.length === 2 ?
-                        // <div className="grid grid-cols-2 border-r-2 border-[#222222]">
+                    { 
+                        // playerList.length === 8 ?
+                        // <div className="grid grid-cols-8 border-r-2 border-[#222222]">
                         <div className={`grid grid-cols-${playerList.length} border-r-2 border-[#222222]`}>
                             {
                                 playerList.map((player: any) =>
@@ -212,7 +212,7 @@ export default function StatisticalData({width = 1280, height = 720}: {width?: n
                                     </div>
                                 )
                             }
-                        </div>
+                        </div>//:<div></div>
                     }
                 </div>
             </div>
