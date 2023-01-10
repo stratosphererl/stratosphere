@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react"
 import * as THREE from "three";
+import ReplayScrubber from "../components/ReplayScrubber";
 import SceneManager from "./SceneManager";
 
 export default function ReplayCanvas({width = 1280, height = 720}: {width?: number, height?: number}) {
@@ -20,6 +21,9 @@ export default function ReplayCanvas({width = 1280, height = 720}: {width?: numb
     }, [])
 
     return (
-        <div ref={ref} />
+        <div>
+            <ReplayScrubber endTime={1000} events={[{eventType: 1, time: 35}, {eventType: 1, time: 240}, {eventType: 1, time: 600}, {eventType: 1, time: 890}]} />
+            <div ref={ref} />
+        </div>
     )
 }
