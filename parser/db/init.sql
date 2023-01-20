@@ -1,10 +1,3 @@
--- INITALIZATION
-
-DROP DATABASE parserdb; -- Remove this, have second .sql file
-
-CREATE DATABASE parserdb;
-ALTER DATABASE parserdb OWNER TO postgres;
-
 \connect parserdb
 
 -- ALTER USER postgres PASSWORD 'test1'; -- variable name or value
