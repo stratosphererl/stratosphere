@@ -1,5 +1,12 @@
+import { responsePathAsArray } from "graphql";
 import { useEffect, useRef, useState } from "react"
-import replayArray from "./replays"
+
+// fetch('http://example.com/movies.json')
+//   .then((response) => response.json())
+//   .then((data) => console.log(data));
+
+// import replayArray from "./replays"
+const replayArray = await fetch("localhost:5001/parse/replayList").then((response) => response.json())
 
 export default function SearchReplays({width = 1280, height = 720}: {width?: number, height?: number}) {
     const ref = useRef<HTMLDivElement>(null);
@@ -23,10 +30,31 @@ export default function SearchReplays({width = 1280, height = 720}: {width?: num
             <div className="flex flex-nowrap mb-2">
                 <div className="h-10 w-full rounded-full bg-[#333333]">
                     <div className="ml-4 mr-4">
-                        <input onChange={onChange} type="search" className="focus:outline-none h-10 w-full bg-transparent text-[#ffffff] text-left text-sm flex items-center" placeholder="SEARCH..." />
+                        <input onChange={onChange} type="search" className="focus:outline-none h-10 w-full bg-transparent text-[#ffffff] text-left text-sm flex items-center bg-[#333333]" placeholder="SEARCH..." />
                     </div>
                 </div>
                 {/* <button type="button" className="w-2/12 bg-[#333333] flex-wrap text-sm ml-3 mr-3 border-2 align-middle border-[#ffffff] bg-[#18A0FB]">SEARCH</button> */}
+            </div>
+
+            <div className="flex flex-nowrap mb-2 justify-center items-center">
+                <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex justify-center items-center">
+                    ARENA
+                </div>
+                <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex justify-center items-center">
+                    RANK
+                </div>
+                <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex justify-center items-center">
+                    DURATION
+                </div>
+                <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex justify-center items-center">
+                    SEASON
+                </div>
+                <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex justify-center items-center">
+                    GAMEMODE
+                </div>
+                <div className="h-10 w-1/6 rounded-full bg-[#333333] flex justify-center items-center">
+                    GAMETYPE
+                </div>
             </div>
 
             <div className="text-xl mb-2">
@@ -150,7 +178,9 @@ export function Replay(props: {data: ReplayData}) {
                 </div>
             </div>
 
-            {props.data.last === true ? <PageButtons /> : <HorizontalSeparatorBar />}
+            {props.data.last === true ? <div></div> : <HorizontalSeparatorBar />}
+
+            {/* <PageButtons /> */}
 
         </div>
     )

@@ -1,6 +1,6 @@
 -- INITALIZATION
 
-DROP DATABASE parserdb;
+DROP DATABASE parserdb; -- Remove this, have second .sql file
 
 CREATE DATABASE parserdb;
 ALTER DATABASE parserdb OWNER TO postgres;
@@ -19,18 +19,18 @@ CREATE TABLE ranking (
 -- Required ranking data
 INSERT INTO ranking (num, name) VALUES
 	(0,'Unranked'),
-	(1,'Bronze1'),(2,'Bronze2'),(3,'Bronze3'),
-	(4,'Silver1'),(5,'Silver2'),(6,'Silver3'),
-	(7,'Gold1'),(8,'Gold2'),(9,'Gold3'),
-	(10,'Platinum1'),(11,'Platinum2'),(12,'Platinum3'),
-	(13,'Diamond1'),(14,'Diamond2'),(15,'Diamond3'),
-	(16,'Champion1'),(17,'Champion2'),(18,'Champion3'),
-	(19,'GrandChamp1'),(20,'GrandChamp2'),(21,'GrandChamp3'),
-	(22,'SupersonicLegend'),
-	(23,'Prospect1'),(24,'Prospect2'),(25,'Prospect3'),(26,'ProspectElite'),
-	(27,'Challenger1'),(28,'Challenger2'),(29,'Challenger3'),(30,'ChallengerElite'),
-	(31,'RisingStar'),(32,'AllStar'),(33,'SuperStar'),
-	(34,'Champion'),(35,'GrandChampion'),(36,'Platinum');
+	(1,'Bronze I'),(2,'Bronze II'),(3,'Bronze III'),
+	(4,'Silver I'),(5,'Silver II'),(6,'Silver III'),
+	(7,'Gold I'),(8,'Gold II'),(9,'Gold III'),
+	(10,'Platinum I'),(11,'Platinum II'),(12,'Platinum III'),
+	(13,'Diamond I'),(14,'Diamond II'),(15,'Diamond III'),
+	(16,'Champion I'),(17,'Champion II'),(18,'Champion III'),
+	(19,'Grand Champion I'),(20,'Grand Champion II'),(21,'Grand Champion III'),
+	(22,'Supersonic Legend'),
+	(23,'Prospect I'),(24,'Prospect II'),(25,'Prospect III'),(26,'Prospect Elite'),
+	(27,'Challenger I'),(28,'Challenger II'),(29,'Challenger III'),(30,'Challenger Elite'),
+	(31,'Rising-Star'),(32,'All-Star'),(33,'Super-Star'),
+	(34,'Champion'),(35,'Grand Champion'),(36,'Platinum');
 
 -- Make it so num smallserial starts at 37, the next highest num value possible
 ALTER SEQUENCE ranking_num_seq RESTART WITH 37;
@@ -57,12 +57,12 @@ CREATE TABLE season (
 	
 -- Required season data
 INSERT INTO season (num, name) VALUES
-	(0,'LS1'),(1,'LS2'),(2,'LS3'),(3,'LS4'),
-	(4,'LS5'),(5,'LS6'),(6,'LS7'),(7,'LS8'),
-	(8,'LS9'),(9,'LS10'),(10,'LS11'),(11,'LS12'),
-	(12,'LS13'),(13,'LS14'),(14,'FS1'),(15,'FS2'),
-	(16,'FS3'),(17,'FS4'),(18,'FS5'),(19,'FS6'),
-	(20,'FS7'),(21,'FS8'),(22,'FS9');
+	(0,'Legacy 1'),(1,'Legacy 2'),(2,'Legacy 3'),(3,'Legacy 4'),
+	(4,'Legacy 5'),(5,'Legacy 6'),(6,'Legacy 7'),(7,'Legacy 8'),
+	(8,'Legacy 9'),(9,'Legacy 10'),(10,'Legacy 11'),(11,'Legacy 12'),
+	(12,'Legacy 13'),(13,'Legacy 14'),(14,'Free-to-Play 1'),(15,'Free-to-Play 2'),
+	(16,'Free-to-Play 3'),(17,'Free-to-Play 4'),(18,'Free-to-Play 5'),(19,'Free-to-Play 6'),
+	(20,'Free-to-Play 7'),(21,'Free-to-Play 8'),(22,'Free-to-Play 9');
 
 -- Make it so num smallserial starts at 22, the next highest num value possible
 ALTER SEQUENCE season_num_seq RESTART WITH 22;
@@ -76,9 +76,9 @@ CREATE TABLE gamemode (
 -- Required gamemode data
 INSERT INTO gamemode (num, name) VALUES
 	(0,'Soccar'),(1,'Hoops'),(2,'Rumble'),(3,'Dropshot'),
-	(4,'Snowday'),(5,'RocketLabs'),(6,'Tournament'),(7,'DropshotRumble'),
+	(4,'Snowday'),(5,'Rocket Labs'),(6,'Tournament'),(7,'Dropshot Rumble'),
 	(8,'Heatseeker'),(9,'Gridiron'),(10,'Private'),(11,'Season'),
-	(12,'Offline'),(13,'LocalLobby');
+	(12,'Offline'),(13,'Local Lobby');
 
 -- Make it so num smallserial starts at 14, the next highest num value possible
 ALTER SEQUENCE gamemode_num_seq RESTART WITH 14;
@@ -92,7 +92,7 @@ CREATE TABLE gametype (
 	
 -- Required gametype data
 INSERT INTO gametype (num, name) VALUES
-	(0,'Duels'),(1,'Doubles'),(2,'Standard'),(3,'SoloStandard'),(4,'Chaos');
+	(0,'Duels (1v1)'),(1,'Doubles (2v2)'),(2,'Standard (3v3)'),(3,'Solo Standard (3v3)'),(4,'Chaos (4v4)');
 
 -- Make it so num smallserial starts at 5, the next highest num value possible
 ALTER SEQUENCE gametype_num_seq RESTART WITH 5;
