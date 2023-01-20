@@ -16,11 +16,12 @@ services:
       - NODE_ENV=development
   parser:
     build: ./parser
-    volumes: ['./parser:/parser']
     ports: 
       - '5001:5001'
     tmpfs:
       - /tmp:exec,mode=777
+    depends_on:
+      - parserdb
   ml:
     build: ./ml
     ports:
@@ -33,8 +34,22 @@ services:
       - db:/var/lib/postgres/data
     environment:
       - POSTGRES_USER=postgres
-      - POSGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=stratosphere
+  parserdb:
+    image: postgres:14.0
+    restart: always
+    ports:
+      - 6699:6699
+    volumes:
+      - db:/var/lib/postgres/data
+      - ./parser/db:/docker-entrypoint-initdb.d/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=test1
+      - POSTGRES_DB=parserdb
 volumes:
   db:
+    driver: local
+  parserdb:
     driver: local
