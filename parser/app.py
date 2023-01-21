@@ -6,6 +6,7 @@ import carball
 from carball.json_parser.game import Game
 from carball.analysis.analysis_manager import AnalysisManager
 import psycopg
+from util import getTeamInfo, convertToDict, convertToMinSec
 
 UPLOAD_FOLDER = 'uploads'
 if not os.path.isdir(UPLOAD_FOLDER):
@@ -80,47 +81,6 @@ def parse_analysis():
     
     return parser_analyse(os.path.join(app.config['UPLOAD_FOLDER'], "replay_test.replay"))
 
-def getTeamInfo(returnData, num):
-    namesList = []
-    
-    cur.execute("SELECT clubname FROM team WHERE id = %(int)s;", {'int': returnData[-1][num]}) ## Getting clubname
-    clubname = cur.fetchone()[0]
-    namesList.append(clubname)
-    
-    cur.execute("SELECT name FROM player WHERE team = %(int)s;", {'int': returnData[-1][num]}) ## Getting player usernames
-    usernames = cur.fetchall()
-    for username in usernames:
-        namesList.append(username[0])
-    
-    return namesList
-
-def convertToDict(replayData):
-    newData = {}
-    
-    newData["name"] = replayData[1] # replay name
-    newData["uploader"] = replayData[2] # user who uploaded replay
-    newData["recorder"] = replayData[3] # user who recorded (saved) replay
-    newData["uploaded"] = replayData[4] # datetime when replay was uploaded
-    newData["played"] = replayData[5] # datetime when replay was played / recorded
-    newData["duration"] = replayData[6] # duration of replay in mm:ss
-    newData["overtime"] = replayData[7] # boolean of whether replay has overtime
-    newData["field"] = replayData[8] # field/arena of the replay
-    newData["blueteam"] = replayData[9] # clubname and players for "blue" team
-    newData["orangeteam"] = replayData[10] # clubname and players for "orange" team
-    newData["season"] = replayData[11] # current season when replay was recorded
-    newData["ranked"] = replayData[12] # boolean of whether the replay is a ranked match
-    newData["avgrank"] = replayData[13] # avg rank of the replay, "Unranked" if casual
-    newData["gamemode"] = replayData[14] # gamemode of the replay (ex. "Soccar")
-    newData["gametype"] = replayData[15] # gametype of the replay (ex. "Doubles")
-    
-    return newData
-
-def convertToMinSec(duration):
-    if duration % 60 > 10: # If seconds value > 10
-        return str(int(duration / 60)) + ":" + str(duration % 60)
-    else: # If seconds value < 10 (ex. 9, we want mm:09, not mm:9)
-        return str(int(duration / 60)) + ":0" + str(duration % 60)
-
 @app.route('/parse/replayList', methods=['GET'])
 def parse_replayList():
     conn = psycopg.connect(dbname="parserdb", user="postgres", password="test1", host="parserdb", port=5432) # the password part is INSECURE?
@@ -148,10 +108,10 @@ def parse_replayList():
         returnData[-1][8] = arena[0]
 
         # Converting BLUE team id number into a list which includes clubname and player usernames
-        returnData[-1][9] = getTeamInfo(returnData, 9)
+        returnData[-1][9] = getTeamInfo(returnData, 9, cur)
 
         # Converting ORANGE team id number into a list which includes clubname and player usernames
-        returnData[-1][10] = getTeamInfo(returnData, 10)
+        returnData[-1][10] = getTeamInfo(returnData, 10, cur)
 
         # Converting season num into name
         cur.execute("SELECT name FROM season WHERE num = %(int)s;", {'int': returnData[-1][11]})
