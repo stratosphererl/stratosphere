@@ -99,12 +99,19 @@ export function PageButtons() {
 
 type ReplayData = {
     title: string;
-    uploaded: string;
-    played: string;
+    uploaded: {
+        date: string,
+        time: string,
+    }
+    played: {
+        date: string,
+        time: string,
+    }
     uploader: string;
     arena: string;
     rank: string;
     duration: string;
+    overtime: string,
     season: string;
     gamemode: string;
     gametype: string;
@@ -141,8 +148,8 @@ export function Replay(props: {data: ReplayData}) {
                     <div className="h-6 w-full text-xl flex flex-wrap justify-center">
                         <strong>{props.data.title.length > 26 ? <div>{props.data.title.substring(0,23) + "..."}</div> : <div>{props.data.title}</div>}</strong>
                     </div>
-                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Uploaded</u></strong>: {props.data.uploaded}</div>
-                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Played</u></strong>: {props.data.played}</div>
+                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Uploaded</u></strong>: {props.data.uploaded.date} ({props.data.uploaded.time} GMT)</div>
+                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Played</u></strong>: {props.data.played.date} ({props.data.played.time} GMT)</div>
                     <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Uploader</u></strong>: {props.data.uploader}</div>
                     <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Arena</u></strong>: {props.data.arena}</div>
                 </div>
@@ -151,7 +158,10 @@ export function Replay(props: {data: ReplayData}) {
 
                 <div className="h-32 w-72 mt-2 mb-2 ml-2 mr-2 flex flex-wrap">
                     <div className="h-6 w-full text-xl flex align-middle justify-center"><strong>{props.data.rank}</strong></div>
-                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Duration</u></strong>: {props.data.duration}</div>
+                    { props.data.overtime != "0:00" ?
+                        <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Duration</u></strong>: {props.data.duration} ({props.data.overtime} OT)</div> :
+                        <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Duration</u></strong>: {props.data.duration} (no OT)</div>
+                    }
                     <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Season</u></strong>: {props.data.season}</div>
                     <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Gamemode</u></strong>: {props.data.gamemode}</div>
                     <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Gametype</u></strong>: {props.data.gametype}</div>

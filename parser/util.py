@@ -23,6 +23,9 @@ def getTeamInfo(returnData, num, cur):
     while len(playerList) < 4:
         playerList.append("")
 
+    if len(playerList) > 4:
+        playerList[3] = "..."
+
     teamInfo["players"] = playerList
     
     return teamInfo
@@ -53,3 +56,9 @@ def convertToMinSec(duration):
         return str(int(duration / 60)) + ":" + str(duration % 60)
     else: # If seconds value < 10 (ex. 9, we want mm:09, not mm:9)
         return str(int(duration / 60)) + ":0" + str(duration % 60)
+
+def breakDateTimeApart(datetime):
+    datetime = datetime.split(" ")
+    date = datetime[0]
+    time = datetime[1]
+    return {"date": date, "time": time}

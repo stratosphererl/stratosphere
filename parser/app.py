@@ -7,7 +7,7 @@ import carball
 from carball.json_parser.game import Game
 from carball.analysis.analysis_manager import AnalysisManager
 import psycopg
-from util import getTeamInfo, convertToDict, convertToMinSec
+from util import getTeamInfo, convertToDict, convertToMinSec, breakDateTimeApart
 
 UPLOAD_FOLDER = 'uploads'
 if not os.path.isdir(UPLOAD_FOLDER):
@@ -94,9 +94,13 @@ def parse_replayList():
     returnData = []
 
     for index in range(len(data)):
-        # if index == 10:
-        #     break
         returnData.append(list(data[index]))
+
+        # Converting upload date into two parts: date and time
+        returnData[-1][4] = breakDateTimeApart(returnData[-1][4])
+
+        # Converting played date into two parts: date and time
+        returnData[-1][5] = breakDateTimeApart(returnData[-1][5])
 
         # Converting duration in seconds into mm:ss format
         returnData[-1][6] = convertToMinSec(returnData[-1][6])
