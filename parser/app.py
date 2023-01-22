@@ -109,10 +109,10 @@ def parse_replayList():
         arena = cur.fetchone()
         returnData[-1][8] = arena[0]
 
-        # Converting BLUE team id number into a list which includes clubname and player usernames
+        # Converting BLUE team id number into a dict which includes clubname, list of player usernames, and team score
         returnData[-1][9] = getTeamInfo(returnData, 9, cur)
 
-        # Converting ORANGE team id number into a list which includes clubname and player usernames
+        # Converting ORANGE team id number into a dict which includes clubname, list of player usernames, and team score
         returnData[-1][10] = getTeamInfo(returnData, 10, cur)
 
         # Converting season num into name

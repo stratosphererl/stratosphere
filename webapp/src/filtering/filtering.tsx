@@ -128,7 +128,7 @@ export function Replay(props: {data: ReplayData}) {
             <div className="flex flex-nowrap-36 bg-[#333333]">
                 <div className="h-32 w-44 mt-2 mb-2 ml-2 mr-2 flex items-center justify-center">
 
-                    {props.data.winner === 1 ?
+                    {props.data.blue.score > props.data.orange.score ?
                         <div className="text-5xl ml-2 mr-2 blue-stroke-2"><strong>{props.data.blue.score} - {props.data.orange.score}</strong></div> :
                         <div className="text-5xl ml-2 mr-2 orange-stroke-2"><strong>{props.data.orange.score} - {props.data.blue.score}</strong></div>
                     }
@@ -160,14 +160,18 @@ export function Replay(props: {data: ReplayData}) {
                 <VerticalSeparatorBar />
 
                 <div className="h-32 w-36 mt-2 mb-2 ml-2 mr-2 flex flex-wrap bg-[#333333]">
-                    <div className="h-6 w-full text-xl flex align-middle justify-center blue-stroke"><strong>{props.data.blue.name}</strong></div>
+                    <div className="h-6 w-full text-xl flex align-middle justify-center blue-stroke">
+                        <strong>{props.data.blue.name.length > 12 ? <div>{props.data.blue.name.substring(0,9) + "..."}</div> : <div>{props.data.blue.name}</div>}</strong>
+                    </div>
                     {props.data.blue.players.slice(0,4).map((player: any) => <div className="h-4 w-full text-sm flex align-middle justify-center">{player}</div>)}
                 </div>
 
                 <VerticalSeparatorBar />
 
                 <div className="h-32 w-36 mt-2 mb-2 ml-2 mr-2 flex flex-wrap bg-[#333333]">
-                    <div className="h-6 w-full text-xl flex align-middle justify-center orange-stroke"><strong>{props.data.orange.name}</strong></div>
+                    <div className="h-6 w-full text-xl flex align-middle justify-center orange-stroke">
+                        <strong>{props.data.blue.name.length > 12 ? <div>{props.data.orange.name.substring(0,9) + "..."}</div> : <div>{props.data.orange.name}</div>}</strong>
+                    </div>
                     {props.data.orange.players.slice(0,4).map((player: any) => <div className="h-4 w-full text-sm flex align-middle justify-center">{player}</div>)}
                 </div>
 

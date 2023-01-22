@@ -19,6 +19,10 @@ def getTeamInfo(returnData, num, cur):
     playerList = []
     for username in usernames:
         playerList.append(username[0])
+
+    while len(playerList) < 4:
+        playerList.append("")
+
     teamInfo["players"] = playerList
     
     return teamInfo
