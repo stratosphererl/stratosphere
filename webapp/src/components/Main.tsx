@@ -15,7 +15,6 @@ export default function Main() {
         let className = ""
 
         className += selected ? 'font-bold' : 'font-normal'
-        console.log(theme)
         className += ` ${theme === 'dark' ? 'text-white' : 'text-black'}`
 
         return className

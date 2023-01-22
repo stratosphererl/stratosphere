@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react"
 //   .then((data) => console.log(data));
 
 // import replayArray from "./replays"
-const replayArray = await fetch("localhost:5001/parse/replayList").then((response) => response.json())
+const replayArray = await fetch("http://localhost:5001/parse/replayList").then((response) => response.json())
 
 export default function SearchReplays({width = 1280, height = 720}: {width?: number, height?: number}) {
     const ref = useRef<HTMLDivElement>(null);
@@ -126,7 +126,7 @@ export function Replay(props: {data: ReplayData}) {
     return (
         <div className="mb-2">
             <div className="flex flex-nowrap-36 bg-[#333333]">
-                <div className="h-32 w-48 mt-2 mb-2 ml-2 mr-2 flex items-center justify-center">
+                <div className="h-32 w-44 mt-2 mb-2 ml-2 mr-2 flex items-center justify-center">
 
                     {props.data.winner === 1 ?
                         <div className="text-5xl ml-2 mr-2 blue-stroke-2"><strong>{props.data.blue.score} - {props.data.orange.score}</strong></div> :
@@ -137,8 +137,10 @@ export function Replay(props: {data: ReplayData}) {
                 
                 <VerticalSeparatorBar />
 
-                <div className="h-32 w-80 mt-2 mb-2 ml-2 mr-2 flex flex-wrap">
-                    <div className="h-6 w-full text-xl flex align-middle justify-center"><strong>{props.data.title}</strong></div>
+                <div className="h-32 w-96 mt-2 mb-2 ml-2 mr-2 flex flex-wrap justify-center">
+                    <div className="h-6 w-full text-xl flex flex-wrap justify-center">
+                        <strong>{props.data.title.length > 26 ? <div>{props.data.title.substring(0,23) + "..."}</div> : <div>{props.data.title}</div>}</strong>
+                    </div>
                     <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Uploaded</u></strong>: {props.data.uploaded}</div>
                     <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Played</u></strong>: {props.data.played}</div>
                     <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Uploader</u></strong>: {props.data.uploader}</div>
@@ -147,7 +149,7 @@ export function Replay(props: {data: ReplayData}) {
                 
                 <VerticalSeparatorBar />
 
-                <div className="h-32 w-56 mt-2 mb-2 ml-2 mr-2 flex flex-wrap">
+                <div className="h-32 w-72 mt-2 mb-2 ml-2 mr-2 flex flex-wrap">
                     <div className="h-6 w-full text-xl flex align-middle justify-center"><strong>{props.data.rank}</strong></div>
                     <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Duration</u></strong>: {props.data.duration}</div>
                     <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Season</u></strong>: {props.data.season}</div>

@@ -1,4 +1,5 @@
 from flask import Flask, redirect, request, flash
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 import os
 import json
@@ -15,6 +16,7 @@ if not os.path.isdir(UPLOAD_FOLDER):
 ALLOWED_EXTENSIONS = {'replay'}
 
 app = Flask(__name__)
+CORS(app)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = os.urandom(24)
     
