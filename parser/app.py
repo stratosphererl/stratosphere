@@ -128,10 +128,15 @@ def parse_replayList():
         season = cur.fetchone()
         returnData[-1][11] = season[0]
 
-        # Converting avgRank num into name
+        # Converting avgRank num into name and storing that with the rank's original number
+        rankInfo = {}
+        rankInfo["num"] = returnData[-1][13]
+
         cur.execute("SELECT name FROM ranking WHERE num = %(int)s;", {'int': returnData[-1][13]})
         avgRank = cur.fetchone()
-        returnData[-1][13] = avgRank[0]
+        rankInfo["name"] = avgRank[0]
+        
+        returnData[-1][13] = rankInfo
 
         # Converting gamemode num into name
         cur.execute("SELECT name FROM gamemode WHERE num = %(int)s;", {'int': returnData[-1][14]})
@@ -146,36 +151,12 @@ def parse_replayList():
         # Appeding a boolean to denote whether this replay is the the last replay in the list
         returnData[-1].append(0) # Set each replay to false (thus show horizontal bar below per filtering.tsx)
 
-        print(returnData[-1][16])
-
     returnData[-1][16] = 1 # For the last replay however, set its "last" values to true, meaning no horizontal bar will be shown below it
 
     for index in range(len(returnData)):
         returnData[index] = convertToDict(returnData[index])
         
     return returnData
-
-# def general_parseHelper(table):
-#     conn = psycopg.connect(dbname="parserdb", user="postgres", password=parserPassword, host="parserdb", port=5432) # the password part is INSECURE?
-    
-#     cur = conn.cursor()
-#     cur.execute("SELECT * FROM " + table)
-#     data = cur.fetchall()
-
-#     returnData = []
-
-#     for index in range(len(data)):
-#         returnData.append(data[index][1]) # Appending the name of each item, not its num/id
-
-#     return returnData
-
-# @app.route('/parse/allArenas', methods=['GET'])
-# def parse_allArenas():
-#     return general_parseHelper("arena")
-
-# @app.route('/parse/allRanks', methods=['GET'])
-# def parse_allRanks():
-#     return general_parseHelper("ranking")
 
 @app.route('/parse/all/<relation>')
 def parse_relation(relation):

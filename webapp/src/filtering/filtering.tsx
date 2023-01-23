@@ -1,5 +1,6 @@
 import { responsePathAsArray } from "graphql";
 import { useEffect, useRef, useState } from "react"
+import rankImages from './ranks';
 
 // fetch('http://example.com/movies.json')
 //   .then((response) => response.json())
@@ -118,7 +119,10 @@ type ReplayData = {
     }
     uploader: string;
     arena: string;
-    rank: string;
+    rank: {
+        name: string;
+        num: number;
+    }
     duration: string;
     overtime: string,
     season: string;
@@ -165,7 +169,7 @@ export function Replay(props: {data: ReplayData}) {
                 <VerticalSeparatorBar />
 
                 <div className="h-32 w-72 mt-2 mb-2 ml-2 mr-2 flex flex-wrap">
-                    <div className="h-6 w-full text-xl flex align-middle justify-center"><strong>{props.data.rank}</strong></div>
+                    <div className="h-6 w-full text-xl flex align-middle justify-center"><img src={rankImages[props.data.rank.num]} alt="" className="mr-1.5 mt-0.5"></img><strong>{props.data.rank.name}</strong></div>
                     { props.data.overtime != "0:00" ?
                         <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Duration</u></strong>: {props.data.duration} ({props.data.overtime} OT)</div> :
                         <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Duration</u></strong>: {props.data.duration} (no OT)</div>
