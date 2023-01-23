@@ -122,19 +122,22 @@ CREATE TABLE arena (
 
 -- Required arena data
 INSERT INTO arena (num, name) VALUES
-	(0,'DFH Stadium'),(1,'DFH Stadium (Day)'), (2, 'DFH Stadium (Circuit)'), (3, 'DFH Stadium (Snowy)'), (4,'Mannfield'),
-	(5,'Mannfield (Snowy)'),(6,'Mannfield (Night)'), (7,'Mannfield (Stormy)'),(8,'Mannfield (Snowy)'), (9,'Champions Field'),
-	(10,'Champions Field (Day)'), (11,'Urban Central'),(12,'Urban Central (Dawn)'),(13,'Urban Central (Night)'),(14,'Beckwith Park'),
-	(15,'Beckwith Park (Midnight)'),(16,'Beckwith Park (Stormy)'),(17,'Beckwith Park (Snowy)'),(18,'Utopia Coliseum'),
-	(19,'Utopia Coliseum (Dusk)'),(20,'Utopia Coliseum (Snowy)'),(21,'Utopia Coliseum (Gilded)'),(22,'Wasteland'),(23,'Wasteland (Night)'),
-	(24,'Neo Tokyo'),(25,'Neo Tokyo (Comic)'),(26,'AquaDome'),(27,'Starcase ARC'),(28,'Salty Shores'),(29,'Salty Shores (Night)'),
-	(30,'Farmstead'),(31,'Farmstead (Night)'),(32,'Forbidden Temple'),(33,'Forbidden Temple (Day)'),(34,'Neon Field'), (35,'Deadeye Canyon'),
-	(36,'Sovereign Heights'),(37,'Rivals Arena'),(38,'Badlands'),(39,'Badlands (Night)'),(40,'Tokyo Underpass'),(41,'ARCtagon'),
-	(42,'Throwback Stadium'),(43,'Pillars'),(44,'Cosmic'),(45,'Double Goal'),(46,'Underpass'),(47,'Utopia Retro'),(48,'Octagon'),
-	(49,'Forbidden Temple (Fire & Ice)');
+	(0, 'DFH Stadium'), (1, 'DFH Stadium (Day)'), (2, 'DFH Stadium (Stormy)'), (3, 'DFH Stadium (Circuit)'), (4, 'DFH Stadium (Snowy)'),
+	(5, 'Mannfield'), (6, 'Mannfield (Night)'), (7, 'Mannfield (Stormy)'), (8, 'Mannfield (Snowy)'),
+	(9, 'Champions Field'), (10, 'Champions Field (Day)'),
+	(11, 'Urban Central'), (12, 'Urban Central (Dawn)'), (13, 'Urban Central (Night)'),
+	(14, 'Beckwith Park'), (15, 'Beckwith Park (Midnight)'), (16, 'Beckwith Park (Stormy)'), (17, 'Beckwith Park (Snowy)'),
+	(18, 'Utopia Coliseum'), (19, 'Utopia Coliseum (Dusk)'), (20, 'Utopia Coliseum (Gilded)'), (21, 'Utopia Coliseum (Snowy)'),
+	(22, 'Beckwith Park'), (23, 'Beckwith Park (Midnight)'), (24, 'Beckwith Park (Stormy)'), (25, 'Beckwith Park (Snowy)'),
+	(26, 'Wasteland'), (27, 'Wasteland (Night)'), (28, 'Neo Tokyo'), (29, 'Neo Tokyo (Comic)'), (30, 'AquaDome'),
+	(31, 'Starbase Arc'), (32, 'Starbase Arc (Aftermath)'), (33, 'Salty Shores'), (34, 'Salty Shores (Night)'), (35, 'Farmstead'),
+	(36, 'Farmstead (Night)'), (37, 'Forbidden Temple'), (38, 'Forbidden Temple (Day)'), (39, 'Forbidden Temple (Fire & Ice)'),
+	(40, 'Neon Fields'), (41, 'Deadeye Canyon'), (42, 'Sovereign Heights'), (43, 'Rivals Arena'), (44, 'Badlands'), (45, 'Badlands (Night)'),
+	(46, 'Tokyo Underpass'), (47, 'ARCtagon'), (48, 'Throwback Stadium'), (49, 'Pillars'), (50, 'Cosmic'), (51, 'Double Goal'),
+	(52, 'Underpass'), (53, 'Utopia Retro'), (54, 'Octagon'), (55, 'Dunk House'), (56, 'The Block'), (57, 'Core 707');
 
--- Make it so num bigserial starts at 50, the next highest num value possible
-ALTER SEQUENCE arena_num_seq RESTART WITH 50;
+-- Make it so num bigserial starts at 58 the next highest num value possible
+ALTER SEQUENCE arena_num_seq RESTART WITH 58;
 
 -- REPLAYS
 -- Replay relation
