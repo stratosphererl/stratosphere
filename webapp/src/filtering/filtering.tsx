@@ -36,9 +36,9 @@ export default function SearchReplays({width = 1280, height = 720}: {width?: num
             </div>
 
             <div className="flex flex-nowrap mb-2">
-                <div className="h-10 w-full rounded-full bg-[#333333]">
+                <div className="h-10 w-full rounded-full bg-[#333333] border-[#555555] border-2">
                     <div className="ml-4 mr-4">
-                        <input onChange={onChange} type="search" className="focus:outline-none h-10 w-full bg-transparent text-[#ffffff] text-left text-sm flex items-center bg-[#333333]" placeholder="SEARCH..." />
+                        <input onChange={onChange} type="search" className="focus:outline-none h-8 mt-0.5 w-full bg-transparent text-[#ffffff] text-left text-sm flex items-center bg-[#333333]" placeholder="SEARCH..." />
                     </div>
                 </div>
                 {/* <button type="button" className="w-2/12 bg-[#333333] flex-wrap text-sm ml-3 mr-3 border-2 align-middle border-[#ffffff] bg-[#18A0FB]">SEARCH</button> */}
@@ -72,7 +72,7 @@ export default function SearchReplays({width = 1280, height = 720}: {width?: num
 export function FilteringDropdown(props: {name: string, values: Array<string>}) {
     let num = -1;
     return (
-        <div className="h-10 w-1/6 rounded-full bg-[#333333] flex flex-wrap justify-center items-center ml-1 mr-1">
+        <div className="h-10 w-1/6 rounded-full bg-[#333333] flex flex-wrap justify-center items-center ml-1 mr-1 border-[#555555] border-2">
             <form>
                 <select name="arenas" id="arenas" className="bg-[#333333] w-44">
                     <option value="0" selected>ALL {props.name}</option>
@@ -144,7 +144,7 @@ type ReplayData = {
 export function Replay(props: {data: ReplayData}) {
     return (
         <div className="mb-2">
-            <div className="flex flex-nowrap-36 bg-[#333333]">
+            <div className="flex flex-nowrap-36 bg-[#333333] border-[#555555] border-2">
                 <div className="h-32 w-44 mt-2 mb-2 ml-2 mr-2 flex items-center justify-center">
 
                     {props.data.blue.score > props.data.orange.score ?
