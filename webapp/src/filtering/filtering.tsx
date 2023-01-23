@@ -2,11 +2,6 @@ import { responsePathAsArray } from "graphql";
 import { useEffect, useRef, useState } from "react"
 import rankImages from './ranks';
 
-// fetch('http://example.com/movies.json')
-//   .then((response) => response.json())
-//   .then((data) => console.log(data));
-
-// import replayArray from "./replays"
 const replayArray = await fetch("http://localhost:5001/parse/replayList").then((response) => response.json())
 const arenaArray = await fetch("http://localhost:5001/parse/all/arena").then((response) => response.json())
 const rankArray = await fetch("http://localhost:5001/parse/all/ranking").then((response) => response.json())
@@ -74,7 +69,7 @@ export function FilteringDropdown(props: {name: string, values: Array<string>}) 
     return (
         <div className="h-10 w-1/6 rounded-full bg-[#333333] flex flex-wrap justify-center items-center ml-1 mr-1 border-[#555555] border-2">
             <form>
-                <select name="arenas" id="arenas" className="bg-[#333333] w-44">
+                <select name="arenas" id="arenas" className="bg-[#333333] w-44"> {/* Implement multiple, and hiding */} {/* add onChange */} 
                     <option value="0" selected>ALL {props.name}</option>
                     {props.values.map((name: any) => <option value={num++}>{name}</option>)}
                 </select>
@@ -169,7 +164,7 @@ export function Replay(props: {data: ReplayData}) {
                 <VerticalSeparatorBar />
 
                 <div className="h-32 w-72 mt-2 mb-2 ml-2 mr-2 flex flex-wrap">
-                    <div className="h-6 w-full text-xl flex align-middle justify-center"><img src={rankImages[props.data.rank.num]} alt="" className="mr-1.5 mt-0.5"></img><strong>{props.data.rank.name}</strong></div>
+                    <div className="h-6 w-full text-xl flex align-middle justify-center"><img src={rankImages[props.data.rank.num]} alt="" className="mr-1 -mt-1 -mb-1"></img><strong>{props.data.rank.name}</strong></div>
                     { props.data.overtime != "0:00" ?
                         <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Duration</u></strong>: {props.data.duration} ({props.data.overtime} OT)</div> :
                         <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Duration</u></strong>: {props.data.duration} (no OT)</div>
