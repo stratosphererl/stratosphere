@@ -160,7 +160,7 @@ def parse_replayList():
 
 @app.route('/parse/all/<relation>')
 def parse_relation(relation):
-    conn = psycopg.connect(dbname="parserdb", user="postgres", password=parserPassword, host="parserdb", port=5432) # the password part is INSECURE?
+    conn = psycopg.connect(dbname="parserdb", user="postgres", password=parserPassword, host="parserdb", port=5432)
     
     cur = conn.cursor()
     cur.execute("SELECT * FROM " + relation)
