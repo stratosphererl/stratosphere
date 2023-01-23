@@ -43,7 +43,7 @@ export default function SearchReplays({width = 1280, height = 720}: {width?: num
                 {/* <button type="button" className="w-2/12 bg-[#333333] flex-wrap text-sm ml-3 mr-3 border-2 align-middle border-[#ffffff] bg-[#18A0FB]">SEARCH</button> */}
             </div>
 
-            <div className="flex flex-nowrap mb-2 justify-center items-center">
+            <div className="flex flex-nowrap mb-2 justify-center items-center -ml-1 -mr-1">
                 <FilteringDropdown name="ARENAS" values={arenaArray} />
                 <FilteringDropdown name="RANKS" values={rankArray} />
                 <FilteringDropdown name="DURATIONS" values={durationArray }/>
@@ -71,7 +71,7 @@ export default function SearchReplays({width = 1280, height = 720}: {width?: num
 export function FilteringDropdown(props: {name: string, values: Array<string>}) {
     let num = -1;
     return (
-        <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex flex-wrap justify-center items-center">
+        <div className="h-10 w-1/6 rounded-full bg-[#333333] flex flex-wrap justify-center items-center ml-1 mr-1">
             <form>
                 <select name="arenas" id="arenas" className="bg-[#333333] w-44">
                     <option value="0" selected>ALL {props.name}</option>
@@ -134,8 +134,7 @@ type ReplayData = {
         score: number;
         players: Array<string>;
     }
-    winner: number;
-    last: boolean;
+    last: number;
 };
 
 export function Replay(props: {data: ReplayData}) {
@@ -203,7 +202,7 @@ export function Replay(props: {data: ReplayData}) {
                 </div>
             </div>
 
-            {props.data.last === true ? <div></div> : <HorizontalSeparatorBar />}
+            {props.data.last === 1 ? <div></div> : <HorizontalSeparatorBar />}
 
             {/* <PageButtons /> */}
 

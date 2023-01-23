@@ -48,6 +48,7 @@ def convertToDict(replayData):
     newData["rank"] = replayData[13] # avg rank of the replay, "Unranked" if casual
     newData["gamemode"] = replayData[14] # gamemode of the replay (ex. "Soccar")
     newData["gametype"] = replayData[15] # gametype of the replay (ex. "Doubles")
+    newData["last"] = replayData[16]
     
     return newData
 

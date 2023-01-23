@@ -143,6 +143,13 @@ def parse_replayList():
         gametype = cur.fetchone()
         returnData[-1][15] = gametype[0]
 
+        # Appeding a boolean to denote whether this replay is the the last replay in the list
+        returnData[-1].append(0) # Set each replay to false (thus show horizontal bar below per filtering.tsx)
+
+        print(returnData[-1][16])
+
+    returnData[-1][16] = 1 # For the last replay however, set its "last" values to true, meaning no horizontal bar will be shown below it
+
     for index in range(len(returnData)):
         returnData[index] = convertToDict(returnData[index])
         
