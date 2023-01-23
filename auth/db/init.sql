@@ -1,11 +1,9 @@
-DROP DATABASE authDB;
+-- DROP DATABASE authDB;
 
-CREATE DATABASE authDB;
-ALTER DATABASE authDB OWNER TO postgres;
+-- CREATE DATABASE authDB;
+-- ALTER DATABASE authDB OWNER TO postgres;
 
 \connect authdb
-
--- ALTER USER postgres PASSWORD 'test1'; -- variable name or value
 
 -- PLATFORMS
 -- Platform relation
