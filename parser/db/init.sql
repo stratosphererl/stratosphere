@@ -133,7 +133,7 @@ INSERT INTO arena (num, name) VALUES
 	(42,'Throwback Stadium'),(43,'Pillars'),(44,'Cosmic'),(45,'Double Goal'),(46,'Underpass'),(47,'Utopia Retro'),(48,'Octagon'),
 	(49,'Forbidden Temple (Fire & Ice)');
 
--- Make it so num smallserial starts at 50, the next highest num value possible
+-- Make it so num bigserial starts at 50, the next highest num value possible
 ALTER SEQUENCE arena_num_seq RESTART WITH 50;
 
 -- REPLAYS
@@ -165,7 +165,19 @@ CREATE TABLE replay (
 	FOREIGN KEY (gamemode) REFERENCES gamemode(num),
 	FOREIGN KEY (gametype) REFERENCES gametype(num));
 
--- '2021-12-12 02:21:27'
+
+-- DURATIONS
+-- Duration relations
+CREATE TABLE duration (
+	num			smallserial		not null,
+	range		text			not null,
+	PRIMARY KEY (num));
+
+INSERT INTO duration VALUES
+	(0,'0-2 mins'), (1,'2-4 mins'), (2,'4-6 mins'), (3,'6-8 mins'), (4,'8-10 mins'), (5,'10-15 mins'), (6,'15-20 mins'), (7,'20+ mins');
+
+-- Make it so num smallserial starts at 11, the next highest num value possible
+ALTER SEQUENCE duration_num_seq RESTART WITH 11;
 
 -- MOCK DATA: teams
 INSERT INTO team (clubname, score) VALUES ('Orange', 3);

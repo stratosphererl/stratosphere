@@ -7,8 +7,15 @@ import { useEffect, useRef, useState } from "react"
 
 // import replayArray from "./replays"
 const replayArray = await fetch("http://localhost:5001/parse/replayList").then((response) => response.json())
+const arenaArray = await fetch("http://localhost:5001/parse/all/arena").then((response) => response.json())
+const rankArray = await fetch("http://localhost:5001/parse/all/ranking").then((response) => response.json())
+const durationArray = await fetch("http://localhost:5001/parse/all/duration").then((response) => response.json())
+const seasonArray = await fetch("http://localhost:5001/parse/all/season").then((response) => response.json())
+const gamemodeArray = await fetch("http://localhost:5001/parse/all/gamemode").then((response) => response.json())
+const gametypeArray = await fetch("http://localhost:5001/parse/all/gametype").then((response) => response.json())
 
 export default function SearchReplays({width = 1280, height = 720}: {width?: number, height?: number}) {
+
     const ref = useRef<HTMLDivElement>(null);
 
     const [replaysAfterFiltering, setReplaysAfterFiltering] = useState(replayArray);
@@ -37,24 +44,12 @@ export default function SearchReplays({width = 1280, height = 720}: {width?: num
             </div>
 
             <div className="flex flex-nowrap mb-2 justify-center items-center">
-                <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex justify-center items-center">
-                    ARENA
-                </div>
-                <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex justify-center items-center">
-                    RANK
-                </div>
-                <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex justify-center items-center">
-                    DURATION
-                </div>
-                <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex justify-center items-center">
-                    SEASON
-                </div>
-                <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex justify-center items-center">
-                    GAMEMODE
-                </div>
-                <div className="h-10 w-1/6 rounded-full bg-[#333333] flex justify-center items-center">
-                    GAMETYPE
-                </div>
+                <FilteringDropdown name="ARENAS" values={arenaArray} />
+                <FilteringDropdown name="RANKS" values={rankArray} />
+                <FilteringDropdown name="DURATIONS" values={durationArray }/>
+                <FilteringDropdown name="SEASONS" values={seasonArray}/>
+                <FilteringDropdown name="GAMEMODES" values={gamemodeArray}/>
+                <FilteringDropdown name="GAMETYPES" values={gametypeArray}/>
             </div>
 
             <div className="text-xl mb-2">
@@ -71,6 +66,20 @@ export default function SearchReplays({width = 1280, height = 720}: {width?: num
         </div>
     )
 
+}
+
+export function FilteringDropdown(props: {name: string, values: Array<string>}) {
+    let num = -1;
+    return (
+        <div className="h-10 w-1/6 mr-2 rounded-full bg-[#333333] flex flex-wrap justify-center items-center">
+            <form>
+                <select name="arenas" id="arenas" className="bg-[#333333] w-44">
+                    <option value="0" selected>ALL {props.name}</option>
+                    {props.values.map((name: any) => <option value={num++}>{name}</option>)}
+                </select>
+            </form>
+        </div>
+    )
 }
 
 export function VerticalSeparatorBar() {

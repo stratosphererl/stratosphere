@@ -1,6 +1,7 @@
 from flask import Flask, redirect, request, flash
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv 
 import os
 import json
 import carball
@@ -14,6 +15,9 @@ if not os.path.isdir(UPLOAD_FOLDER):
     os.mkdir(UPLOAD_FOLDER)
 
 ALLOWED_EXTENSIONS = {'replay'}
+
+load_dotenv()
+parserPassword = os.environ.get('PARSERPASSWORD')
 
 app = Flask(__name__)
 CORS(app)
@@ -85,7 +89,7 @@ def parse_analysis():
 
 @app.route('/parse/replayList', methods=['GET'])
 def parse_replayList():
-    conn = psycopg.connect(dbname="parserdb", user="postgres", password="test1", host="parserdb", port=5432) # the password part is INSECURE?
+    conn = psycopg.connect(dbname="parserdb", user="postgres", password=parserPassword, host="parserdb", port=5432) # the password part is INSECURE?
 
     cur = conn.cursor()
     cur.execute("SELECT * FROM replay;")
@@ -142,4 +146,41 @@ def parse_replayList():
     for index in range(len(returnData)):
         returnData[index] = convertToDict(returnData[index])
         
+    return returnData
+
+# def general_parseHelper(table):
+#     conn = psycopg.connect(dbname="parserdb", user="postgres", password=parserPassword, host="parserdb", port=5432) # the password part is INSECURE?
+    
+#     cur = conn.cursor()
+#     cur.execute("SELECT * FROM " + table)
+#     data = cur.fetchall()
+
+#     returnData = []
+
+#     for index in range(len(data)):
+#         returnData.append(data[index][1]) # Appending the name of each item, not its num/id
+
+#     return returnData
+
+# @app.route('/parse/allArenas', methods=['GET'])
+# def parse_allArenas():
+#     return general_parseHelper("arena")
+
+# @app.route('/parse/allRanks', methods=['GET'])
+# def parse_allRanks():
+#     return general_parseHelper("ranking")
+
+@app.route('/parse/all/<relation>')
+def parse_relation(relation):
+    conn = psycopg.connect(dbname="parserdb", user="postgres", password=parserPassword, host="parserdb", port=5432) # the password part is INSECURE?
+    
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM " + relation)
+    data = cur.fetchall()
+
+    returnData = []
+
+    for index in range(len(data)):
+        returnData.append(data[index][1]) # Appending the name of each item, not its num/id
+
     return returnData
