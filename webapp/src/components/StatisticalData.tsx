@@ -6,9 +6,7 @@ import json from '../json/analysis.json'
 // Modify these to change colors of theme used in this file
 const primaryBackgroundColor = "444444"
 const secondaryBackgroundColor = "333333"
-const tertiaryBackgroundColor = "191919"
-const dataBorderColor = "ffffff"
-const boxBorderColor = "222222"
+const boxBorderColor = "555555" // 222222
 const blueTeamColor = "18A0FB"
 const orangeTeamColor = "FF6A00"
 //
@@ -93,14 +91,15 @@ export function MetadataEntryData(props: {str: string}) {
     )
 }
 
-export function VariableBlock(props: {text: string, height: number, bgColor: string, topBorderWidth: number, leftBorderWidth: number, bottomBorderWidth: number}) {
+export function VariableBlock(props: {text: string, height: number, bgColor: string, topBorderWidth: number, leftBorderWidth: number, bottomBorderWidth: number, rightBorderWidth: number}) {
     const heightString = "h-" + props.height
     const bgString = "bg-[#" + props.bgColor + "]"
     const topBorder = "border-t-" + props.topBorderWidth
     const leftBorder = "border-l-" + props.leftBorderWidth
     const bottomBorder = "border-b-" + props.bottomBorderWidth
+    const rightBorder = "border-r-" + props.rightBorderWidth
 
-    const classNameString = heightString + " " + bgString + " " + topBorder + " " + leftBorder + " " + bottomBorder + " flex items-center justify-center border-[#222222]";
+    const classNameString = heightString + " " + bgString + " " + topBorder + " " + leftBorder + " " + bottomBorder + " " + rightBorder + " flex items-center justify-center border-[#" + boxBorderColor + "]";
 
     return (
         <div className={classNameString}><strong>{props.text}</strong></div>
@@ -139,7 +138,7 @@ export function VerticalPositioningDataBox(props: {numerator: number, denominato
 
     return (
         <div className={classNameString}>
-            {Math.round(currAttTime / currTotalTime * 10000) / 100 + "%"}
+            {Math.round(props.numerator / props.denominator * 10000) / 100 + "%"}
         </div>
     )
 }
@@ -147,7 +146,7 @@ export function VerticalPositioningDataBox(props: {numerator: number, denominato
 export function VerticalPositioningDescBox(props: {text: string, bgColor: string}) {
     const bgString = "bg-[#" + props.bgColor + "]"
 
-    const classNameString = bgString + " text-xs h-6 w-10/12 mt-1 border-2 flex justify-center items-center"
+    const classNameString = bgString + " text-xs h-6 w-10/12 border-2 flex justify-center items-center"
 
     return (
         <div className={classNameString}>{props.text}</div>
@@ -173,9 +172,9 @@ let firstPlayerPresented = false
 export function PlayerTitleBox(props: {name: string, isOrange: number}) {
     let parentDivClassNameString = ""
     {
-        firstPlayerPresented === false ?
-        parentDivClassNameString = "border-l-2 justify-center border-t-2 border-[#222222]" :
-        parentDivClassNameString = "border-l-0 justify-center border-t-2 border-[#222222]"
+        firstPlayerPresented ?
+        parentDivClassNameString = "border-l-0 justify-center border-t-2 border-[#" + boxBorderColor + "]" :
+        parentDivClassNameString = "border-l-2 justify-center border-t-2 border-[#" + boxBorderColor + "]" 
     }
 
     return (
@@ -215,7 +214,7 @@ export default function StatisticalData({width = 1280, height = 720}: {width?: n
     const gridSuperparentDivClassName = "bg-[#" + secondaryBackgroundColor + "]" + " mr-3 h-64 w-5/6"
 
     return (
-        <div className="text-montserrat h-full bg-[#191919] justify-center">
+        <div className={`text-montserrat h-full justify-center`}>
             <div className="w-full flex items-center justify-center">
                 <div className={titleClassNameString}>{json.gameMetadata.name}</div>
                 <Button width="1/6" height="12" borderColor="ffffff" bgColor="18A0FB" text="3D View"/>
@@ -244,20 +243,20 @@ export default function StatisticalData({width = 1280, height = 720}: {width?: n
                 <TeamTitle name="Orange" stroke="orange" players={orangeTeam}/>
             </div>
             <div className="flex flex-nowrap">
-                <div className="ml-3 w-1/6 bg-[#191919] mt-0.5">
-                    <VariableBlock text="" height={8} bgColor="191919" topBorderWidth={0} leftBorderWidth={0} bottomBorderWidth={0}/>
-                    <VariableBlock text="Score" height={8} bgColor={secondaryBackgroundColor} topBorderWidth={2} leftBorderWidth={2} bottomBorderWidth={0}/>
-                    <VariableBlock text="Goals" height={8} bgColor={primaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={0}/>
-                    <VariableBlock text="Assists" height={8} bgColor={secondaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={0}/>
-                    <VariableBlock text="Saves" height={8} bgColor={primaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={0}/>
-                    <VariableBlock text="Shots" height={8} bgColor={secondaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={0}/>
-                    <VariableBlock text="Player of Match" height={8} bgColor={primaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={0}/>
-                    <VariableBlock text="Vertical Positioning" height={48} bgColor={secondaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={2}/>
+                <div className="ml-3 w-1/6 mt-0.5">
+                    <VariableBlock text="" height={8} bgColor="" topBorderWidth={0} leftBorderWidth={0} bottomBorderWidth={0} rightBorderWidth={2}/>
+                    <VariableBlock text="Score" height={8} bgColor={secondaryBackgroundColor} topBorderWidth={2} leftBorderWidth={2} bottomBorderWidth={0} rightBorderWidth={0}/>
+                    <VariableBlock text="Goals" height={8} bgColor={primaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={0} rightBorderWidth={0}/>
+                    <VariableBlock text="Assists" height={8} bgColor={secondaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={0} rightBorderWidth={0}/>
+                    <VariableBlock text="Saves" height={8} bgColor={primaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={0} rightBorderWidth={0}/>
+                    <VariableBlock text="Shots" height={8} bgColor={secondaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={0} rightBorderWidth={0}/>
+                    <VariableBlock text="Player of Match" height={8} bgColor={primaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={0} rightBorderWidth={0}/>
+                    <VariableBlock text="Vertical Positioning" height={48} bgColor={secondaryBackgroundColor} topBorderWidth={0} leftBorderWidth={2} bottomBorderWidth={2} rightBorderWidth={0}/>
                 </div>
                 {firstPlayerPresented = false}
                 <div className={gridSuperparentDivClassName}>
                     { 
-                        <div className={`grid grid-cols-${playerList.length} border-r-2 border-[#222222]`}>
+                        <div className={`grid grid-cols-${playerList.length} border-r-2 border-[#${boxBorderColor}]`}>
                             {
                                 playerList.map((player: any) =>
                                     <div key={player.id.id}>
@@ -274,7 +273,7 @@ export default function StatisticalData({width = 1280, height = 720}: {width?: n
                                             <DataBlock data="-" bgColor={primaryBackgroundColor}/>
                                         }
                                         <div className={verticialPositioningParentDivClassName}>
-                                            <div className="flex flex-wrap w-full items-center justify-center">
+                                            <div className="flex flex-wrap w-full items-center justify-center mt-1 mb-1">
                                                 <VerticalPositioningDescBox text="Offense" bgColor={primaryBackgroundColor}/>
                                                 <VerticalPositioningDataBox numerator={currAttTime} denominator={currTotalTime} bgColor={primaryBackgroundColor} borderColor="ffffff"/>
                                                 <VerticalPositioningDataBox numerator={currNeuTime} denominator={currTotalTime} bgColor={primaryBackgroundColor} borderColor="ffffff"/>
@@ -289,7 +288,6 @@ export default function StatisticalData({width = 1280, height = 720}: {width?: n
                     }
                 </div>
             </div>
-            <div className="bg-[#191919] h-3"></div>
         </div>
    )
 }
