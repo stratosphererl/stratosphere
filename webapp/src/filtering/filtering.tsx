@@ -90,17 +90,17 @@ export function HorizontalSeparatorBar() {
     )
 }
 
-export function PageButtons() {
-    return (
-        <div className="flex justify-center align-middle mt-4">
-            <button type="button" className="w-32 h-8 flex-wrap text-sm border-2 align-middle border-[#ffffff] bg-[#18A0FB] mr-2">Previous Page</button>
-            <div className="w-1/12 h-8 flex align-middle justify-center bg-[#333333]">
-                <div className="mt-1">1 / 9999</div>
-            </div>
-            <button type="button" className="w-32 h-8 flex-wrap text-sm border-2 align-middle border-[#ffffff] bg-[#18A0FB] ml-2">Next Page</button>
-        </div>
-    )
-}
+// export function PageButtons() {
+//     return (
+//         <div className="flex justify-center align-middle mt-4">
+//             <button type="button" className="w-32 h-8 flex-wrap text-sm border-2 align-middle border-[#ffffff] bg-[#18A0FB] mr-2">Previous Page</button>
+//             <div className="w-1/12 h-8 flex align-middle justify-center bg-[#333333]">
+//                 <div className="mt-1">1 / 9999</div>
+//             </div>
+//             <button type="button" className="w-32 h-8 flex-wrap text-sm border-2 align-middle border-[#ffffff] bg-[#18A0FB] ml-2">Next Page</button>
+//         </div>
+//     )
+// }
 
 type ReplayData = {
     title: string;
@@ -136,29 +136,79 @@ type ReplayData = {
     last: number;
 };
 
+type DataBlockItem = {
+    title: string
+    firstText: string
+    secondText: string
+    thirdText: string
+}
+
+export function Score(props: {blueScore: number, orangeScore: number}) {
+    return (
+        props.blueScore > props.orangeScore ?
+            <div className="text-5xl ml-2 mr-2 blue-stroke-2"><strong>{props.blueScore} - {props.orangeScore}</strong></div> :
+            <div className="text-5xl ml-2 mr-2 orange-stroke-2"><strong>{props.orangeScore} - {props.blueScore}</strong></div>
+    )
+}
+
+export function Truncation(props: {text: string, maxLen: number}) {
+    return (
+        <strong>
+            {props.text.length > props.maxLen ? 
+                <div>{props.text.substring(0,props.maxLen - 3) + "..."}</div> :
+                <div>{props.text}</div>}
+        </strong>
+    )
+}
+
+export function DataRow(props: {title: string, firstText: string, secondText?: string, thirdText?: string}) {
+    return (
+        props.thirdText != "" ?
+            props.secondText != "" ?
+                <div className="h-4 w-full text-sm flex align-middle justify-center"> <strong><u>{props.title}</u></strong>: {props.firstText} ({props.secondText} {props.thirdText})</div> :
+                <div className="h-4 w-full text-sm flex align-middle justify-center"> <strong><u>{props.title}</u></strong>: {props.firstText} ({props.thirdText})</div>
+            :
+        <div className="h-4 w-full text-sm flex align-middle justify-center"> <strong><u>{props.title}</u></strong>: {props.firstText}</div>
+    )
+}
+
+export function DataBlock(props: {items: DataBlockItem[]}) {
+    return (
+        props.items.map((item: any) => <DataRow title={item.title} firstText={item.firstText} secondText={item.secondText} thirdText={item.thirdText}/>)
+    )
+}
+
+export function Button(props: {width: string, height: string, text: string, borderColor: string, bgColor: string}) {
+    const widthStr = "w-" + props.width
+    const heightStr = "h-" + props.height
+    const borderStr = "border-[#" + props.borderColor +"]"
+    const bgStr = "bg-[#" + props.bgColor + "]"
+    const textColorStr = "text-[#" + props.borderColor + "]"
+    
+    const classNameString = widthStr + " " + heightStr + " " + borderStr + " " + bgStr + " " + textColorStr + " border-2 text-sm"
+
+    return (
+        <button type="button" className={classNameString}>{props.text}</button>
+    )
+}
+
 export function Replay(props: {data: ReplayData}) {
     return (
         <div className="mb-2">
             <div className="flex flex-nowrap-36 bg-[#333333] border-[#555555] border-2">
                 <div className="h-32 w-44 mt-2 mb-2 ml-2 mr-2 flex items-center justify-center">
-
-                    {props.data.blue.score > props.data.orange.score ?
-                        <div className="text-5xl ml-2 mr-2 blue-stroke-2"><strong>{props.data.blue.score} - {props.data.orange.score}</strong></div> :
-                        <div className="text-5xl ml-2 mr-2 orange-stroke-2"><strong>{props.data.orange.score} - {props.data.blue.score}</strong></div>
-                    }
-                    
+                    <Score blueScore={props.data.blue.score} orangeScore={props.data.orange.score}/>                    
                 </div>
                 
                 <VerticalSeparatorBar />
 
-                <div className="h-32 w-96 mt-2 mb-2 ml-2 mr-2 flex flex-wrap justify-center">
-                    <div className="h-6 w-full text-xl flex flex-wrap justify-center">
-                        <strong>{props.data.title.length > 26 ? <div>{props.data.title.substring(0,23) + "..."}</div> : <div>{props.data.title}</div>}</strong>
-                    </div>
-                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Uploaded</u></strong>: {props.data.uploaded.date} ({props.data.uploaded.time} GMT)</div>
-                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Played</u></strong>: {props.data.played.date} ({props.data.played.time} GMT)</div>
-                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Uploader</u></strong>: {props.data.uploader}</div>
-                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Arena</u></strong>: {props.data.arena}</div>
+                <div key={props.data.title} className="h-32 w-96 mt-2 mb-2 ml-2 mr-2 flex flex-wrap justify-center">
+                    <div className="h-6 w-full text-xl flex flex-wrap justify-center"><Truncation text={props.data.title} maxLen={26}/></div>
+                    <DataBlock items={[
+                            {title: "Uploaded", firstText: props.data.uploaded.date, secondText: props.data.uploaded.time, thirdText: "GMT"},
+                            {title: "Played", firstText: props.data.played.date, secondText: props.data.played.time, thirdText: "GMT"},
+                            {title: "Uploader", firstText: props.data.uploader, secondText: "", thirdText: ""},
+                            {title: "Arena", firstText: props.data.arena, secondText: "", thirdText: ""}]}/>
                 </div>
                 
                 <VerticalSeparatorBar />
@@ -166,19 +216,27 @@ export function Replay(props: {data: ReplayData}) {
                 <div className="h-32 w-72 mt-2 mb-2 ml-2 mr-2 flex flex-wrap">
                     <div className="h-6 w-full text-xl flex align-middle justify-center"><img src={rankImages[props.data.rank.num]} alt="" className="mr-1 -mt-1 -mb-1"></img><strong>{props.data.rank.name}</strong></div>
                     { props.data.overtime != "0:00" ?
-                        <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Duration</u></strong>: {props.data.duration} ({props.data.overtime} OT)</div> :
-                        <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Duration</u></strong>: {props.data.duration} (no OT)</div>
+                        <DataBlock items={[
+                            {title: "Duration", firstText: props.data.duration, secondText: props.data.overtime, thirdText: "OT"},
+                            {title: "Season", firstText: props.data.season, secondText: "", thirdText: ""},
+                            {title: "Gamemode", firstText: props.data.gamemode, secondText: "", thirdText: ""},
+                            {title: "Gametype", firstText: props.data.gametype, secondText: "", thirdText: ""}
+                        ]}/>
+                        :
+                        <DataBlock items={[
+                            {title: "Duration", firstText: props.data.duration, secondText: "", thirdText: "no OT"},
+                            {title: "Season", firstText: props.data.season, secondText: "", thirdText: ""},
+                            {title: "Gamemode", firstText: props.data.gamemode, secondText: "", thirdText: ""},
+                            {title: "Gametype", firstText: props.data.gametype, secondText: "", thirdText: ""}
+                        ]}/>
                     }
-                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Season</u></strong>: {props.data.season}</div>
-                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Gamemode</u></strong>: {props.data.gamemode}</div>
-                    <div className="h-4 w-full text-sm flex align-middle justify-center"><strong><u>Gametype</u></strong>: {props.data.gametype}</div>
                 </div>
                 
                 <VerticalSeparatorBar />
 
                 <div className="h-32 w-36 mt-2 mb-2 ml-2 mr-2 flex flex-wrap bg-[#333333]">
                     <div className="h-6 w-full text-xl flex align-middle justify-center blue-stroke">
-                        <strong>{props.data.blue.name.length > 12 ? <div>{props.data.blue.name.substring(0,9) + "..."}</div> : <div>{props.data.blue.name}</div>}</strong>
+                        <strong><Truncation text={props.data.blue.name} maxLen={12}/></strong>
                     </div>
                     {props.data.blue.players.slice(0,4).map((player: any) => <div className="h-4 w-full text-sm flex align-middle justify-center">{player}</div>)}
                 </div>
@@ -187,7 +245,7 @@ export function Replay(props: {data: ReplayData}) {
 
                 <div className="h-32 w-36 mt-2 mb-2 ml-2 mr-2 flex flex-wrap bg-[#333333]">
                     <div className="h-6 w-full text-xl flex align-middle justify-center orange-stroke">
-                        <strong>{props.data.blue.name.length > 12 ? <div>{props.data.orange.name.substring(0,9) + "..."}</div> : <div>{props.data.orange.name}</div>}</strong>
+                        <strong><Truncation text={props.data.orange.name} maxLen={12}/></strong>
                     </div>
                     {props.data.orange.players.slice(0,4).map((player: any) => <div className="h-4 w-full text-sm flex align-middle justify-center">{player}</div>)}
                 </div>
@@ -195,9 +253,9 @@ export function Replay(props: {data: ReplayData}) {
                 <VerticalSeparatorBar />
 
                 <div className="h-32 w-24 mt-2 mb-2 ml-2 mr-2 bg-[#333333] flex items-center justify-center flex-wrap">
-                    <button type="button" className="w-full h-1/4 flex-wrap text-sm border-2 align-middle border-[#ffffff] bg-[#18A0FB]">Full Data</button>
-                    <button type="button" className="w-full h-1/4 flex-wrap text-sm border-2 align-middle border-[#18A0FB] bg-[#ffffff] text-[#18A0FB]">3D View</button>
-                    <button type="button" className="w-full h-1/4 flex-wrap text-sm border-2 align-middle border-[#18A0FB] bg-[#ffffff] text-[#18A0FB]">Share</button>
+                    <Button width="full" height="1/4" text="Full Data" borderColor="ffffff" bgColor="18A0FB"/>
+                    <Button width="full" height="1/4" text="3D View" borderColor="18A0FB" bgColor="ffffff"/>
+                    <Button width="full" height="1/4" text="Share" borderColor="18A0FB" bgColor="ffffff"/>
                 </div>
             </div>
 
