@@ -12,8 +12,5 @@ RUN pip install pipenv && \
 # Copy the rest of the application code to the container
 COPY . .
 
-# Expose your port number
-# EXPOSE <PORT_NUMBER_HERE>
-
 # Run the application
 CMD python3 app.py

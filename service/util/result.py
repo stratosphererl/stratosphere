@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 from fastapi import Response
 
-load_dotenv()
+load_dotenv("config/.env.dev")
 
 class Result:
     def __init__(self, data):

@@ -7,7 +7,7 @@ from fastapi import FastAPI
 import dotenv
 import os
 
-dotenv.load_dotenv()
+dotenv.load_dotenv("config/.env.dev")
 
 database.init()
 app = FastAPI()
@@ -19,7 +19,7 @@ def shutdown_event():
     database.db.close_connection()
 
 if __name__ == "__main__":
-    port_number = os.getenv("PORT")
+    port_number = os.getenv("SERVICE_PORT")
 
     if port_number is None:
         raise Exception("SERVICE_PORT environment variable not set")
