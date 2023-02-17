@@ -1,5 +1,4 @@
 from fastapi import APIRouter
-from config import database
 from services.service import ServiceExample
 from util.result import ServiceResponse
 

@@ -24,4 +24,4 @@ if __name__ == "__main__":
     if port_number is None:
         raise Exception("SERVICE_PORT environment variable not set")
 
-    uvicorn.run(app, host="0.0.0.0", port=int(port_number), reload=True)
+    uvicorn.run(app, host="0.0.0.0", port=int(port_number))
