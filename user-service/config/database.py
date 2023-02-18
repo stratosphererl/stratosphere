@@ -34,11 +34,11 @@ class Database(AbstractDatabase):
     def connect(self):
         try:
             conn = psycopg2.connect(
-                host = os.getenv(DB_VAR_HOST_NAME),
-                dbname = os.getenv(DB_VAR_NAME),
-                user = os.getenv(DB_VAR_USER_NAME),
-                password = os.getenv(DB_VAR_PASSWORD_NAME),
-                port = os.getenv(DB_VAR_PORT_NAME)
+                host = os.getenv(USER_DB_VAR_HOST_NAME),
+                dbname = os.getenv(USER_DB_VAR_NAME),
+                user = os.getenv(USER_DB_VAR_USER_NAME),
+                password = os.getenv(USER_DB_VAR_PASSWORD_NAME),
+                port = os.getenv(USER_DB_VAR_PORT_NAME)
             )
         except psycopg2.OperationalError as e:
             print(f"Could not connect to Database: {e}")

@@ -28,31 +28,31 @@ services:
   #   build: ./ml
   #   ports:
   #     - '5002:5002'
-  service:
-    command: uvicorn app:app --reload --port ${SERVICE_PORT} --host 0.0.0.0
+  user-service:
+    command: uvicorn app:app --reload --port ${USER_SERVICE_PORT} --host 0.0.0.0
     build: 
       context: .
-      dockerfile: ./${SERVICE_NAME}/Dockerfile
+      dockerfile: ./${USER_SERVICE_NAME}/Dockerfile
     ports:
-      - ${SERVICE_PORT}:${SERVICE_PORT}
+      - ${USER_SERVICE_PORT}:${USER_SERVICE_PORT}
     depends_on:
-      - servicedb
+      - userdb
     volumes:
-      - ./${SERVICE_NAME}:/app
+      - ./${USER_SERVICE_NAME}:/app
     environment:
       - WATCHFILES_FORCE_POLLING=true
-  servicedb:
+  userdb:
     image: amd64/postgres:alpine
     restart: always
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${USER_DB_PORT}:${USER_DB_PORT}
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${USER_DB_USER}
+      - POSTGRES_PASSWORD=${USER_DB_PASSWORD}
+      - POSTGRES_DB=${USER_DB_HOST}
     volumes:
-      - ./${SERVICE_NAME}/config:/var/lib/postgres/data
-      - ./${SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
+      - ./${USER_SERVICE_NAME}/config:/var/lib/postgres/data
+      - ./${USER_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
 volumes:
-  servicedb:
+  userdb:
     driver: local

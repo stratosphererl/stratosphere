@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Copy the Pipfile and Pipfile.lock to the container
-COPY ./service/Pipfile ./service/Pipfile.lock ./
+COPY ./user-service/Pipfile ./user-service/Pipfile.lock ./
 
 # Install dependencies using Pipenv
 RUN pip install pipenv && \
@@ -14,7 +14,7 @@ RUN pip install pipenv && \
 
 # Copy the rest of the application code to the container
 COPY .env .
-COPY ./service .
+COPY ./user-service .
 
 # Run the application
 CMD python3 app.py
