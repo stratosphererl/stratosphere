@@ -60,6 +60,36 @@ class Database(AbstractDatabase):
     #     cur.execute("SELECT * FROM example WHERE id = %s", (example_id,))
     #     return cur.fetchone()
 
+    # Returns the total number of replays on our platform
+    def get_replay_count_all(self):
+        cur = self.conn.cursor()
+        cur.execute("SELECT COUNT(count) FROM replays_by_rank")
+        return cur.fetchone()
+    
+    # Returns the number of replays on our platform with a specific rank
+    def get_replay_count_rank(self, rank_num):
+        cur = self.conn.cursor()
+        cur.execute("SELECT count FROM replays_by_rank WHERE num = %s", (rank_num,))
+        return cur.fetchone()
+
+    # Returns the number of replays on our platform from a specific season
+    def get_replay_count_rank(self, season_num):
+        cur = self.conn.cursor()
+        cur.execute("SELECT count FROM replays_by_season WHERE num = %s", (season_num,))
+        return cur.fetchone()
+
+    # Returns the total number of users on our platform
+    def get_user_count_all(self):
+        cur = self.conn.cursor()
+        cur.execute("SELECT COUNT(count) FROM users_by_platform")
+        return cur.fetchone()
+    
+    # Returns the number of users on our platform from a specific platform (Steam or Epic)
+    def get_user_count_platform(self, platform_num):
+        cur = self.conn.cursor()
+        cur.execute("SELECT count FROM users_by_platform WHERE num = %s", (platform_num,))
+        return cur.fetchone()
+
 def init():
     """
     Initializes singleton database, avoids circular imports
