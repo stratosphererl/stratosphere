@@ -36,12 +36,12 @@ services:
     ports:
       - ${SERVICE_PORT}:${SERVICE_PORT}
     depends_on:
-      - servicedb
+      - statsdb
     volumes:
       - ./${SERVICE_NAME}:/app
     environment:
       - WATCHFILES_FORCE_POLLING=true
-  servicedb:
+  statsdb:
     image: amd64/postgres:alpine
     restart: always
     ports:
