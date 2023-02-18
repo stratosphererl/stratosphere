@@ -1,22 +1,22 @@
-from dotenv import load_dotenv
 import os
 from fastapi import Response
-
-load_dotenv("config/.env.dev")
-
-class Result:
-    def __init__(self, data):
-        self.data = data
+from config import envs
+from pydantic import BaseModel
 
 class ServiceResponse(Response):
-    def __init__(self, result, *args, **kwargs):
-        content = {'data': result}
+    def __init__(self, *args, **kwargs):
+        super().__init__(self, *args, **kwargs)
 
-        super().__init__(*args, **kwargs)
-
-        self.service_name = os.getenv("SERVICE_NAME")
+        self.service_name = os.getenv(envs.SERVICE_VAR_NAME)
         if self.service_name is None:
-            raise Exception("SERVICE_NAME not found in environment variables, please check your .env file")
+            raise Exception(f"{envs.SERVICE_VAR_NAME} not found in environment variables, please check your .env file")
     
     def __str__(self) -> str:
         return f"{self.service_name}<{super().__str__()}>"
+
+class ServiceResponseError(BaseModel):
+    error: str
+    message: str
+
+class ServiceResponseSuccess(BaseModel):
+    data: list
