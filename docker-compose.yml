@@ -29,15 +29,20 @@ services:
   #   ports:
   #     - '5002:5002'
   service:
-    build: ./service
+    command: uvicorn app:app --reload --port ${SERVICE_PORT} --host 0.0.0.0
+    build: 
+      context: .
+      dockerfile: ./${SERVICE_NAME}/Dockerfile
     ports:
       - ${SERVICE_PORT}:${SERVICE_PORT}
     depends_on:
       - servicedb
     volumes:
-      - ./service:/service
+      - ./${SERVICE_NAME}:/app
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
   servicedb:
-    image: postgres:14.0
+    image: amd64/postgres:alpine
     restart: always
     ports:
       - ${DB_PORT}:${DB_PORT}
@@ -46,8 +51,8 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
     volumes:
-      # - service:/var/lib/postgres/data
-      - ./service/config/setup/:/docker-entrypoint-initdb.d/
-# volumes:
-  # servicedb:
-    # driver: local
+      - ./${SERVICE_NAME}/config:/var/lib/postgres/data
+      - ./${SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
+volumes:
+  servicedb:
+    driver: local
