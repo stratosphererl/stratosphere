@@ -5,6 +5,8 @@ import os
 import abc
 from loguru import logger
 
+from .envs import *
+
 db = None
 
 class AbstractDatabase(abc.ABC):
@@ -31,13 +33,12 @@ class Database(AbstractDatabase):
     
     def connect(self):
         try:
-            load_dotenv()
             conn = psycopg2.connect(
-                host = os.getenv("DB_HOST"),
-                dbname = os.getenv("DB_NAME"),
-                user = os.getenv("DB_USER"),
-                password = os.getenv("DB_PASSWORD"),
-                port = os.getenv("DB_PORT")
+                host = os.getenv(DB_VAR_HOST_NAME),
+                dbname = os.getenv(DB_VAR_NAME),
+                user = os.getenv(DB_VAR_USER_NAME),
+                password = os.getenv(DB_VAR_PASSWORD_NAME),
+                port = os.getenv(DB_VAR_PORT_NAME)
             )
         except psycopg2.OperationalError as e:
             print(f"Could not connect to Database: {e}")

@@ -7,6 +7,6 @@ router = APIRouter()
 @router.get("/")
 def home():
     result = ServiceExample().get_example(2121)
-    return ServiceResponse(result)
+    return result
     
 ### TODO: Add more routes here ###
