@@ -2,6 +2,28 @@
 -- https://www.ibm.com/docs/en/db2/11.5?topic=functions-creating-sql-scalar
 
 -- RELATIONS FOR REPLAYS
+-- replays_by_arena
+CREATE TABLE replays_by_arena (
+    num     smallserial,
+    name    text,
+    count   int,
+    PRIMARY KEY (num));
+
+INSERT INTO replays_by_arena (num, name, count) VALUES
+	(0, 'DFH Stadium', 0), (1, 'DFH Stadium (Day)', 0), (2, 'DFH Stadium (Stormy)', 0), (3, 'DFH Stadium (Circuit)', 0), (4, 'DFH Stadium (Snowy)', 0),
+	(5, 'Mannfield', 0), (6, 'Mannfield (Night)', 0), (7, 'Mannfield (Stormy)', 0), (8, 'Mannfield (Snowy)', 0),
+	(9, 'Champions Field', 0), (10, 'Champions Field (Day)', 0),
+	(11, 'Urban Central', 0), (12, 'Urban Central (Dawn)', 0), (13, 'Urban Central (Night)', 0),
+	(14, 'Beckwith Park', 0), (15, 'Beckwith Park (Midnight)', 0), (16, 'Beckwith Park (Stormy)', 0), (17, 'Beckwith Park (Snowy)', 0),
+	(18, 'Utopia Coliseum', 0), (19, 'Utopia Coliseum (Dusk)', 0), (20, 'Utopia Coliseum (Gilded)', 0), (21, 'Utopia Coliseum (Snowy)', 0),
+	(22, 'Beckwith Park', 0), (23, 'Beckwith Park (Midnight)', 0), (24, 'Beckwith Park (Stormy)', 0), (25, 'Beckwith Park (Snowy)', 0),
+	(26, 'Wasteland', 0), (27, 'Wasteland (Night)', 0), (28, 'Neo Tokyo', 0), (29, 'Neo Tokyo (Comic)', 0), (30, 'AquaDome', 0),
+	(31, 'Starbase Arc', 0), (32, 'Starbase Arc (Aftermath)', 0), (33, 'Salty Shores', 0), (34, 'Salty Shores (Night)', 0), (35, 'Farmstead', 0),
+	(36, 'Farmstead (Night)', 0), (37, 'Forbidden Temple', 0), (38, 'Forbidden Temple (Day)', 0), (39, 'Forbidden Temple (Fire & Ice)', 0),
+	(40, 'Neon Fields', 0), (41, 'Deadeye Canyon', 0), (42, 'Sovereign Heights', 0), (43, 'Rivals Arena', 0), (44, 'Badlands', 0), (45, 'Badlands (Night)', 0),
+	(46, 'Tokyo Underpass', 0), (47, 'ARCtagon', 0), (48, 'Throwback Stadium', 0), (49, 'Pillars', 0), (50, 'Cosmic', 0), (51, 'Double Goal', 0),
+	(52, 'Underpass', 0), (53, 'Utopia Retro', 0), (54, 'Octagon', 0), (55, 'Dunk House', 0), (56, 'The Block', 0), (57, 'Core 707', 0);
+
 -- replays_by_rank
 CREATE TABLE replays_by_rank (
     num 	smallserial,

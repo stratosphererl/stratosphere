@@ -60,40 +60,61 @@ class Database(AbstractDatabase):
     #     cur.execute("SELECT * FROM example WHERE id = %s", (example_id,))
     #     return cur.fetchone()
 
+    ### QUERIES FOR REPLAYS DATA ###
+
     # Returns the total number of replays on our platform
     def get_replay_count_all(self):
-        cur = self.conn.cursor()
-        cur.execute("SELECT SUM(count) FROM replays_by_rank")
-        return cur.fetchone()[0]
+        return self.execute_query(["SELECT SUM(count) FROM replays_by_rank"])
     
+    # Returns the total number of replays on our platform played on a specific arena
+    def get_replay_count_arena(self, arena_num):
+        return self.execute_query(["SELECT count FROM replays_by_arena WHERE (num = %s)", [arena_num]])
+
     # Returns the number of replays on our platform with a specific rank
-    def get_replay_count_rank(self, rank_num):
-        cur = self.conn.cursor()
-        cur.execute("SELECT count FROM replays_by_rank WHERE num = %s", (rank_num,))
-        return cur.fetchone()[0]
+    def get_replay_count_rank(self, low_rank_num, high_rank_num):
+        return self.execute_query(["SELECT count FROM replays_by_rank WHERE (num >= %s) AND (num <= %s)", [low_rank_num, high_rank_num]])
 
     # Returns the number of replays on our platform from a specific season
-    def get_replay_count_season(self, season_num):
-        cur = self.conn.cursor()
-        cur.execute("SELECT count FROM replays_by_season WHERE num = %s", (season_num,))
-        return cur.fetchone()[0]
+    def get_replay_count_season(self, low_season_num, high_season_num):
+        return self.execute_query(["SELECT count FROM replays_by_season WHERE (num >= %s) AND (num <= %s)", [low_season_num, high_season_num]])
+
+    ### QUERIES FOR USERS DATA ###
 
     # Returns the total number of users on our platform
     def get_user_count_all(self):
-        cur = self.conn.cursor()
-        cur.execute("SELECT SUM(count) FROM users_by_platform")
-        return cur.fetchone()[0]
+        return self.execute_query(["SELECT SUM(count) FROM users_by_platform"])
     
     # Returns the number of users on our platform from a specific platform (Steam or Epic)
     def get_user_count_platform(self, platform_num):
-        cur = self.conn.cursor()
-        cur.execute("SELECT count FROM users_by_platform WHERE num = %s", (platform_num,))
-        return cur.fetchone()[0]
+        return self.execute_query(["SELECT count FROM users_by_platform WHERE num = %s", [platform_num]])
     
-    def get_user_count_test(self, low_rank, high_rank):
+    ### UTILITY METHODS ###
+
+    # Utility method to make get_x_count_x methods one-liners
+    def execute_query(self, query: list):
         cur = self.conn.cursor()
-        cur.execute("SELECT COUNT(num) FROM replays_by_rank WHERE (num >= %s) AND (num <= %s)", (low_rank, high_rank,))
+
+        if len(query) == 1:
+            print(query)
+            cur.execute(query[0])
+        elif len(query) == 2:
+            print(query)
+            cur.execute(query[0], query[1])
+
         return cur.fetchone()[0]
+
+    # Utility method for allowing only valid values
+    def get_valid_range(self, table_name):
+        valid_range = set()
+        cur = self.conn.cursor()
+
+        cur.execute("SELECT MIN(num) FROM " + table_name)
+        valid_range.add(cur.fetchone()[0])
+
+        cur.execute("SELECT MAX(num) FROM " + table_name)
+        valid_range.add(cur.fetchone()[0])
+
+        return valid_range
 
 def init():
     """

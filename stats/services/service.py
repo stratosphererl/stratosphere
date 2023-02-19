@@ -8,11 +8,29 @@ class StatsClass(Service):
     #     example = ExampleSchema(name="Foo", age=42)
     #     return example
     
+    ### Methods for replay counts ###
+
     def get_replay_count_all(self) -> CountSchema:
         return CountSchema(count = self.db.get_replay_count_all())
     
+    def get_replay_count_arena(self, arena_num) -> CountSchema:
+        return CountSchema(count = self.db.get_replay_count_arena(arena_num))
+    
+    def get_replay_count_rank(self, low_rank_num, high_rank_num) -> CountSchema:
+        return CountSchema(count = self.db.get_replay_count_rank(low_rank_num, high_rank_num))
+    
+    def get_replay_count_season(self, low_season_num, high_season_num) -> CountSchema:
+        return CountSchema(count = self.db.get_replay_count_season(low_season_num, high_season_num))
+    
+    ### Methods for user counts ###
+
     def get_user_count_all(self) -> CountSchema:
         return CountSchema(count = self.db.get_user_count_all())
     
-    def get_replay_count_test(self, low_rank, high_rank) -> CountSchema:
-        return CountSchema(count = self.db.get_user_count_test(low_rank, high_rank))
+    def get_user_count_platform(self, platform_num) -> CountSchema:
+        return CountSchema(count = self.db.get_user_count_platform(platform_num))
+    
+    ### Utility methods for allowing only valid values ###
+    
+    def get_valid_range(self, table_name) -> set:
+        return self.db.get_valid_range(table_name)
