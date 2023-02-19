@@ -13,3 +13,6 @@ class StatsClass(Service):
     
     def get_user_count_all(self) -> CountSchema:
         return CountSchema(count = self.db.get_user_count_all())
+    
+    def get_replay_count_test(self, low_rank, high_rank) -> CountSchema:
+        return CountSchema(count = self.db.get_user_count_test(low_rank, high_rank))

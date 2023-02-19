@@ -89,6 +89,11 @@ class Database(AbstractDatabase):
         cur = self.conn.cursor()
         cur.execute("SELECT count FROM users_by_platform WHERE num = %s", (platform_num,))
         return cur.fetchone()[0]
+    
+    def get_user_count_test(self, low_rank, high_rank):
+        cur = self.conn.cursor()
+        cur.execute("SELECT COUNT(num) FROM replays_by_rank WHERE (num >= %s) AND (num <= %s)", (low_rank, high_rank,))
+        return cur.fetchone()[0]
 
 def init():
     """
