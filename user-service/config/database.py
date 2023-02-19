@@ -49,7 +49,12 @@ class Database(AbstractDatabase):
     def close_connection(self):
         self.conn.close()
 
-    ## TODO: ADD MORE METHODS HERE ## 
+    ## TODO: ADD MORE METHODS HERE ##
+
+    def get_users(self, skip: int, limit: int):
+        cur = self.conn.cursor()
+        cur.execute("SELECT * FROM users LIMIT %s OFFSET %s", (limit, skip,))
+        return cur.fetchall()
 
     ## Example method
     # def example(self, example_id: int):

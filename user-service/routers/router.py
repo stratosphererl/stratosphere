@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from services.service import ServiceExample
+from services.service import ServiceExample, UserService
 from util.result import ServiceResponse
 
 router = APIRouter()
@@ -10,3 +10,8 @@ def home():
     return result
     
 ### TODO: Add more routes here ###
+
+@router.get("/users")
+def users(skip: int = 0, limit: int = 10):
+    response = UserService().get_users(skip, limit)
+    return response
