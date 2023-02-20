@@ -4,6 +4,7 @@ import sys
 import os
 import abc
 from loguru import logger
+from typing import Union
 
 from .envs import *
 
@@ -51,10 +52,14 @@ class Database(AbstractDatabase):
 
     ## TODO: ADD MORE METHODS HERE ##
 
-    def get_users(self, skip: int, limit: int):
-        cur = self.conn.cursor()
-        cur.execute("SELECT * FROM users LIMIT %s OFFSET %s", (limit, skip,))
-        return cur.fetchall()
+    def get_users(self, skip: int, limit: int, platform: str, username: str):
+        username = ''.join(('%(', username, ')%'))
+        with self.conn.cursor() as cur:
+            if platform != 'both':
+                cur.execute("SELECT * FROM users WHERE platform = %s AND LOWER(username) SIMILAR TO LOWER(%s) LIMIT %s OFFSET %s", (platform, username, limit, skip,))
+            else:
+                cur.execute("SELECT * FROM users WHERE LOWER(username) SIMILAR TO LOWER(%s) LIMIT %s OFFSET %s", (username, limit, skip,))
+            return cur.fetchall()
 
     ## Example method
     # def example(self, example_id: int):
