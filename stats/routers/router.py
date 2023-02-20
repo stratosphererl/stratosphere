@@ -20,6 +20,19 @@ def get_replay_count_all():
 def get_replay_count_arena(arena_num: int = -1):
     return StatsClass().get_replay_count_arena(arena_num)
 
+@router.get("/replays/duration")
+def get_replay_count_duration(min_duration: int = 0, max_duration: int = 1200):
+    if (min_duration % 30 != 0):
+        raise Exception("min_duration does not have a legal value (must be a multiple of 30)")
+    elif (max_duration % 30 != 0):
+        raise Exception("max_duration does not have a legal value (must be a multiple of 30)")
+    elif (min_duration < 0):
+        raise Exception("min_duration does not have a legal value (must be a positive value)")
+    elif (max_duration < 0):
+        raise Exception("max_duration does not have a legal value (must be a positive value)")
+    else:
+        return StatsClass().get_replay_count_duration(min_duration, max_duration)
+
 @router.get("/replays/rank")
 def get_replay_count_rank(low_rank_num: int = min_rank_num, high_rank_num: int = max_rank_num):
     legal_nums = range(min_rank_num, max_rank_num + 1)
@@ -53,3 +66,13 @@ def get_user_count_platform(platform_num: int = -1):
         raise Exception("platform_num does not have a legal value (must be >= %d AND <= %d)" % (min_platform_num, max_platform_num))
     else:
         return StatsClass().get_user_count_platform(platform_num)
+    
+@router.get ("/users/rank")
+def get_user_count_rank(low_rank_num: int = min_rank_num, high_rank_num: int = max_rank_num):
+    legal_nums = range(min_rank_num, max_rank_num + 1)
+    if (low_rank_num not in legal_nums):
+        raise Exception("low_rank_num does not have a legal value (must be >= %d AND <= %d)" % (min_rank_num, max_rank_num))
+    elif (high_rank_num not in legal_nums):
+        raise Exception("high_rank_num does not have a legal value (must be >= %d AND <= %d)" % (min_rank_num, max_rank_num))
+    else:
+        return StatsClass().get_user_count_rank(low_rank_num, high_rank_num)

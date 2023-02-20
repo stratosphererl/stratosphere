@@ -16,6 +16,9 @@ class StatsClass(Service):
     def get_replay_count_arena(self, arena_num) -> CountSchema:
         return CountSchema(count = self.db.get_replay_count_arena(arena_num))
     
+    def get_replay_count_duration(self, min_duration, max_duration) -> CountSchema:
+        return CountSchema(count = self.db.get_replay_count_duration(min_duration, max_duration))
+
     def get_replay_count_rank(self, low_rank_num, high_rank_num) -> CountSchema:
         return CountSchema(count = self.db.get_replay_count_rank(low_rank_num, high_rank_num))
     
@@ -29,6 +32,9 @@ class StatsClass(Service):
     
     def get_user_count_platform(self, platform_num) -> CountSchema:
         return CountSchema(count = self.db.get_user_count_platform(platform_num))
+    
+    def get_user_count_rank(self, low_rank_num, high_rank_num) -> CountSchema:
+        return CountSchema(count = self.db.get_user_count_rank(low_rank_num, high_rank_num))
     
     ### Utility methods for allowing only valid values ###
     

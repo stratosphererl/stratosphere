@@ -70,6 +70,10 @@ class Database(AbstractDatabase):
     def get_replay_count_arena(self, arena_num):
         return self.execute_query(["SELECT count FROM replays_by_arena WHERE (num = %s)", [arena_num]])
 
+    # Returns the total number of replays on our platform which have a duration in the specific range
+    def get_replay_count_duration(self, min_duration, max_duration):
+        return self.execute_query(["SELECT SUM(count) FROM replays_by_duration WHERE (duration >= %s) AND (duration <= %s)", [min_duration, max_duration]]) - self.execute_query(["SELECT count FROM replays_by_duration WHERE (duration = %s)", [max_duration]])
+    
     # Returns the number of replays on our platform with a specific rank
     def get_replay_count_rank(self, low_rank_num, high_rank_num):
         return self.execute_query(["SELECT count FROM replays_by_rank WHERE (num >= %s) AND (num <= %s)", [low_rank_num, high_rank_num]])
@@ -87,6 +91,10 @@ class Database(AbstractDatabase):
     # Returns the number of users on our platform from a specific platform (Steam or Epic)
     def get_user_count_platform(self, platform_num):
         return self.execute_query(["SELECT count FROM users_by_platform WHERE num = %s", [platform_num]])
+    
+    # Returns the number of users on our platform with their latest known rank being the specific rank(s)
+    def get_user_count_rank(self, low_rank_num, high_rank_num):
+        return self.execute_query(["SELECT SUM(count) FROM users_by_rank WHERE (num >= %s) AND (num <= %s)", [low_rank_num, high_rank_num]])
     
     ### UTILITY METHODS ###
 

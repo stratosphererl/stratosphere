@@ -24,6 +24,21 @@ INSERT INTO replays_by_arena (num, name, count) VALUES
 	(46, 'Tokyo Underpass', 0), (47, 'ARCtagon', 0), (48, 'Throwback Stadium', 0), (49, 'Pillars', 0), (50, 'Cosmic', 0), (51, 'Double Goal', 0),
 	(52, 'Underpass', 0), (53, 'Utopia Retro', 0), (54, 'Octagon', 0), (55, 'Dunk House', 0), (56, 'The Block', 0), (57, 'Core 707', 0);
 
+-- replays_by_duration
+CREATE TABLE replays_by_duration (
+    duration    int,
+    count       int,
+    PRIMARY KEY (duration));
+
+INSERT INTO replays_by_duration (duration, count) VALUES
+    (0,0), -- count of replays with duration of 0 to 29 seconds
+    (30,0), -- count of replays with duration of 30 to 59 seconds
+    (60,0), -- etc.
+    (90,0), (120,0), (150,0), (180,0), (210,0), (240,0), (270,0), (300,0), (330,0), (360,0), (390,0), (420,0), (450,0), (480,0), (510,0),
+    (540,0), (570,0), (600,0), (630,0), (660,0), (690,0), (720,0), (750,0), (780,0), (810,0), (840,0), (870,0), (900,0), (930,0), (960,0),
+    (990,0), (1020,0), (1050,0), (1080,0), (1110,0), (1140,0), (1170,0), (1200,0);
+
+
 -- replays_by_rank
 CREATE TABLE replays_by_rank (
     num 	smallserial,
@@ -98,3 +113,35 @@ CREATE TABLE users_by_platform (
 INSERT INTO users_by_platform (num, name, count) VALUES
     (0,'STEAM',0),
     (1,'EPIC',0);
+
+-- users_by_rank
+CREATE TABLE users_by_rank (
+    num     smallserial,
+    name    text,
+    count   int,
+    PRIMARY KEY (num));
+
+INSERT INTO users_by_rank (num, name, count) VALUES
+	(0,'Unranked',0),
+	(1,'Bronze1',0),
+    (2,'Bronze2',0),
+    (3,'Bronze3',0),
+	(4,'Silver1',0),
+    (5,'Silver2',0),
+    (6,'Silver3',0),
+	(7,'Gold1',0),
+    (8,'Gold2',0),
+    (9,'Gold3',0),
+	(10,'Platinum1',0),
+    (11,'Platinum2',0),
+    (12,'Platinum3',0),
+	(13,'Diamond1',0),
+    (14,'Diamond2',0),
+    (15,'Diamond3',0),
+	(16,'Champion1',0),
+    (17,'Champion2',0),
+    (18,'Champion3',0),
+	(19,'GrandChamp1',0),
+    (20,'GrandChamp2',0),
+    (21,'GrandChamp3',0),
+	(22,'SupersonicLegend',0);
