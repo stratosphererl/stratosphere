@@ -10,19 +10,25 @@ class ServiceExample(Service):
 class UserService(Service):
     def get_users(self, skip: int, limit: int, platform: str, username: str) -> list[UserSchema]:
         result = [
-            UserSchema(
-                id=x[0], 
-                platform = 'Steam' if x[1] == 'steam' else 'Epic',
-                username = x[2],
-                date_created = x[3] if x[3] else 0,
-                n_replays = x[4] if x[4] else 0,
-                n_wins = x[5] if x[5] else 0,
-                n_losses = x[6] if x[6] else 0,
-                n_goals = x[7] if x[7] else 0,
-                n_assists = x[8] if x[8] else 0,
-                n_saves = x[9] if x[9] else 0,
-                n_shots = x[10] if x[10] else 0,
-            ) for x in self.db.get_users(skip, limit, platform, username)
+            UserService._create_user_schema(x) for x in self.db.get_users(skip, limit, platform, username)
         ]
 
         return result
+
+    def get_user(self, user_id: int) -> UserSchema:
+        return UserService._create_user_schema(self.db.get_user(user_id))
+
+    def _create_user_schema(user_data: tuple):
+        return UserSchema(
+            id = user_data[0],
+            platform = 'Steam' if user_data[1] == 'steam' else 'Epic',
+            username = user_data[2],
+            date_created = user_data[3] if user_data[3] else 0,
+            n_replays = user_data[4] if user_data[4] else 0,
+            n_wins = user_data[5] if user_data[5] else 0,
+            n_losses = user_data[6] if user_data[6] else 0,
+            n_goals = user_data[7] if user_data[7] else 0,
+            n_assists = user_data[8] if user_data[8] else 0,
+            n_saves = user_data[9] if user_data[9] else 0,
+            n_shots = user_data[10] if user_data[10] else 0,
+        )

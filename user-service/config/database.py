@@ -61,6 +61,11 @@ class Database(AbstractDatabase):
                 cur.execute("SELECT * FROM users WHERE LOWER(username) SIMILAR TO LOWER(%s) LIMIT %s OFFSET %s", (username, limit, skip,))
             return cur.fetchall()
 
+    def get_user(self, user_id: int):
+        with self.conn.cursor() as cur:
+            cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+            return cur.fetchone()
+
     ## Example method
     # def example(self, example_id: int):
     #     """
