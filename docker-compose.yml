@@ -28,31 +28,29 @@ services:
   #   build: ./ml
   #   ports:
   #     - '5002:5002'
-  service:
-    command: uvicorn app:app --reload --port ${SERVICE_PORT} --host 0.0.0.0
+  replay:
+    command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0
     build: 
       context: .
-      dockerfile: ./${SERVICE_NAME}/Dockerfile
+      dockerfile: ./${REPLAY_SERVICE_NAME}/Dockerfile
     ports:
-      - ${SERVICE_PORT}:${SERVICE_PORT}
+      - ${REPLAY_SERVICE_PORT}:${REPLAY_SERVICE_PORT}
     depends_on:
-      - servicedb
+      - replaydb
     volumes:
-      - ./${SERVICE_NAME}:/app
+      - ./${REPLAY_SERVICE_NAME}:/app
     environment:
       - WATCHFILES_FORCE_POLLING=true
-  servicedb:
-    image: amd64/postgres:alpine
+  replaydb:
+    image: mongo:latest
     restart: always
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${REPLAY_DB_PORT}:${REPLAY_DB_PORT}
     environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - MONGO_INITDB_ROOT_USERNAME=${REPLAY_DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${REPLAY_DB_PASSWORD}
     volumes:
-      - ./${SERVICE_NAME}/config:/var/lib/postgres/data
-      - ./${SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
+      - ./${REPLAY_SERVICE_NAME}/config/db:/data/db
 volumes:
-  servicedb:
+  replaydb:
     driver: local

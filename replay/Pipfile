@@ -8,10 +8,11 @@ fastapi = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 python-dotenv = "*"
 loguru = "*"
-psycopg2-binary = "*"
+pymongo = "*"
 
 [dev-packages]
 pytest = "*"
+pydantic-factories = "*"
 
 [requires]
 python_version = "3.10"
