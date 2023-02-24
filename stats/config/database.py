@@ -28,9 +28,13 @@ class AbstractDatabase(abc.ABC):
         pass
 
 class Database(AbstractDatabase):
-    def __init__(self, test = False):
+    def __init__(self, test = False, mock = False):
         self.test = test
-        self.conn = self.connect()
+        if not mock:
+            self.conn = self.connect()
+
+    # def __init__(self):
+    #     self.conn = self.connect()
     
     def connect(self):
         try:
@@ -38,6 +42,7 @@ class Database(AbstractDatabase):
                 host = os.getenv(
                     DB_VAR_HOST_NAME_TEST if self.test else DB_VAR_HOST_NAME
                 ),
+                # host = os.getenv(DB_VAR_HOST_NAME),
                 dbname = os.getenv(DB_VAR_NAME),
                 user = os.getenv(DB_VAR_USER_NAME),
                 password = os.getenv(DB_VAR_PASSWORD_NAME),
@@ -106,10 +111,8 @@ class Database(AbstractDatabase):
         cur = self.conn.cursor()
 
         if len(query) == 1:
-            print(query)
             cur.execute(query[0])
         elif len(query) == 2:
-            print(query)
             cur.execute(query[0], query[1])
 
         return cur.fetchone()[0]

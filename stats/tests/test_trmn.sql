@@ -1,0 +1,1 @@
+UPDATE replays_by_rank SET count = 0 WHERE num >= 0; -- Resets all count values in replays_by_rank
