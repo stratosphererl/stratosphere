@@ -1,20 +1,15 @@
-from pydantic import BaseModel
-from enum import Enum
+from dataclasses import dataclass
 
-""" TODO: Add your schemas here. """
-class ExampleSchema(BaseModel):
-    name: str
-    age: int
-
-class UserSchema(BaseModel):
+@dataclass
+class UserSchema():
     id: int
     platform: str
     username: str
-    date_created: str
-    n_replays: int
-    n_wins: int
-    n_losses: int
-    n_goals: int
-    n_assists: int
-    n_saves: int
-    n_shots: int
+    date_created: str | None
+    number_of_replays: int  | None = 0
+    wins: int | None = 0
+    losses: int | None = 0
+    total_goals: int | None = 0
+    total_assists: int | None = 0
+    total_saves: int | None = 0
+    total_shots: int | None = 0

@@ -1,10 +1,8 @@
 import psycopg2
-from dotenv import load_dotenv
 import sys
 import os
 import abc
 from loguru import logger
-from typing import Union
 
 from .envs import *
 
@@ -50,31 +48,50 @@ class Database(AbstractDatabase):
     def close_connection(self):
         self.conn.close()
 
-    ## TODO: ADD MORE METHODS HERE ##
-
-    def get_users(self, skip: int, limit: int, platform: str, username: str):
-        username = ''.join(('%(', username, ')%'))
+    def get_users(self, search_parameters: dict):
+        username = ''.join(('%(', search_parameters["username"], ')%'))
         with self.conn.cursor() as cur:
-            if platform != 'both':
-                cur.execute("SELECT * FROM users WHERE platform = %s AND LOWER(username) SIMILAR TO LOWER(%s) LIMIT %s OFFSET %s", (platform, username, limit, skip,))
-            else:
-                cur.execute("SELECT * FROM users WHERE LOWER(username) SIMILAR TO LOWER(%s) LIMIT %s OFFSET %s", (username, limit, skip,))
-            return cur.fetchall()
+            try:
+                if search_parameters["platform"] != 'both':
+                    cur.execute("SELECT * FROM users WHERE platform = %s AND LOWER(username) SIMILAR TO LOWER(%s) LIMIT %s OFFSET %s;", 
+                                (search_parameters["platform"], username, search_parameters["limit"], search_parameters["skip"],))
+                else:
+                    cur.execute("SELECT * FROM users WHERE LOWER(username) SIMILAR TO LOWER(%s) LIMIT %s OFFSET %s;", 
+                                (username, search_parameters["limit"], search_parameters["skip"],))
+                self.conn.commit()
+                return cur.fetchall()
+            except:
+                cur.execute("ROLLBACK")
+                self.conn.commit()
+                return []
 
     def get_user(self, user_id: int):
         with self.conn.cursor() as cur:
-            cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
-            return cur.fetchone()
+            try:
+                cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+                self.conn.commit()
+                return cur.fetchone()
+            except:
+                cur.execute("ROLLBACK")
+                self.conn.commit() 
+                return None
 
-    ## Example method
-    # def example(self, example_id: int):
-    #     """
-    #     Example method
-    #     """
-    #     cur = self.conn.cursor()
-    #     cur.execute("SELECT * FROM example WHERE id = %s", (example_id,))
-    #     return cur.fetchone()
-
+    def create_user(self, user_values: dict) -> bool:
+        with self.conn.cursor() as cur:
+            keys, values = zip(*user_values.items())
+            execution_values = values
+            try:
+                cur.execute("""INSERT INTO users (id, platform, username, date_created, number_of_replays, wins, losses, total_goals, total_assists, total_saves, total_shots)
+                             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", execution_values)
+                self.conn.commit()
+                logger.debug(cur.statusmessage)
+                return True 
+            except:
+                cur.execute("ROLLBACK")
+                logger.error(cur.statusmessage)
+                self.conn.commit()
+                return False 
+            
 def init():
     """
     Initializes singleton database, avoids circular imports
