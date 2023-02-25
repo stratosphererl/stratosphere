@@ -4,12 +4,10 @@ from unittest.mock import Mock
 from unittest.mock import MagicMock
 from config.database import Database
 from schemas.schema import CountSchema
-
+import subprocess as sp
 import os
 import tarfile
 import docker
-
-import subprocess as sp
 
 def copy_to(src, dst):
     name, dst = dst.split(':')
@@ -34,9 +32,9 @@ def pass_file_to_docker(src, dst):
 def run_file_in_docker(filename):
     os.system("docker exec -it " + str(container_id) + " psql -U postgres -d statsdb -f " + filename.split("/",1)[-1])
 
-def remove_file_from_docker(filenames): # TODO
+def remove_files_from_docker(filenames):
     for filename in filenames:
-        pass
+        os.system("docker exec " + str(container_id) + " rm -rf " + filename.split("/",1)[-1])
 
 client = docker.from_env()
 container_id = sp.getoutput("docker ps -aqf name=statsdb")
@@ -95,14 +93,18 @@ def test_database_get_user_count_rank():
     assert db.get_user_count_rank(low_rank_num = 11, high_rank_num = 11) == 13 # Returns the number of users who are Platinum II which == 13
     assert db.get_user_count_rank(low_rank_num = 4, high_rank_num = 2) == 0 # low_rank_num > high_rank_num, should return 0
 
+# Instantiate test version of Database object
 db = Database(test = True)
 
+# Files to pass (..._src) to Docker destination (..._dst)
 init_src, init_dst = "/tests/test_init.sql", ":/tmp/test_init.sql"
 trmn_src, trmn_dst = "/tests/test_trmn.sql", ":/tmp/test_trmn.sql"
 
+# Pass initialization SQL file to Docker and run it (inputs mock data)
 pass_file_to_docker(init_src, init_dst)
 run_file_in_docker(init_dst)
 
+# Run all tests, all should pass
 test_database_get_replay_count_all()
 test_database_get_replay_count_arena()
 test_database_get_replay_count_duration()
@@ -112,8 +114,12 @@ test_database_get_user_count_all()
 test_database_get_user_count_platform()
 test_database_get_user_count_rank()
 
+# Pass termination SQL file to Docker and run it (removes mock data)
 pass_file_to_docker(trmn_src, trmn_dst)
 run_file_in_docker(trmn_dst)
+
+# Remove initialization and termination SQL files from Docker container
+remove_files_from_docker([init_dst, trmn_dst])
 
 
 
