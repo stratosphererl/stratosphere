@@ -80,15 +80,23 @@ class Database(AbstractDatabase):
 
     # Returns the total number of replays on our platform which have a duration in the specific range
     def get_replay_count_duration(self, min_duration, max_duration):
-        return self.execute_query(["SELECT SUM(count) FROM replays_by_duration WHERE (duration >= %s) AND (duration <= %s)", [min_duration, max_duration]]) - self.execute_query(["SELECT count FROM replays_by_duration WHERE (duration = %s)", [max_duration]])
+        if min_duration > max_duration:
+            return 0
+        elif max_duration <= 1200:
+            return self.execute_query(["SELECT SUM(count) FROM replays_by_duration WHERE (duration >= %s) AND (duration <= %s)", [min_duration, max_duration]]) - self.execute_query(["SELECT count FROM replays_by_duration WHERE (duration = %s)", [max_duration]])
+        else:
+            return self.execute_query(["SELECT SUM(count) FROM replays_by_duration WHERE (duration >= %s) AND (duration <= %s)", [min_duration, max_duration]])
     
     # Returns the number of replays on our platform with a specific rank
     def get_replay_count_rank(self, low_rank_num, high_rank_num):
-        return self.execute_query(["SELECT count FROM replays_by_rank WHERE (num >= %s) AND (num <= %s)", [low_rank_num, high_rank_num]])
+        if low_rank_num > high_rank_num:
+            return 0
+        else:
+            return self.execute_query(["SELECT SUM(count) FROM replays_by_rank WHERE (num >= %s) AND (num <= %s)", [low_rank_num, high_rank_num]])
 
     # Returns the number of replays on our platform from a specific season
     def get_replay_count_season(self, low_season_num, high_season_num):
-        return self.execute_query(["SELECT count FROM replays_by_season WHERE (num >= %s) AND (num <= %s)", [low_season_num, high_season_num]])
+        return self.execute_query(["SELECT SUM(count) FROM replays_by_season WHERE (num >= %s) AND (num <= %s)", [low_season_num, high_season_num]])
 
     ### QUERIES FOR USERS DATA ###
 
@@ -102,7 +110,10 @@ class Database(AbstractDatabase):
     
     # Returns the number of users on our platform with their latest known rank being the specific rank(s)
     def get_user_count_rank(self, low_rank_num, high_rank_num):
-        return self.execute_query(["SELECT SUM(count) FROM users_by_rank WHERE (num >= %s) AND (num <= %s)", [low_rank_num, high_rank_num]])
+        if low_rank_num > high_rank_num:
+            return 0
+        else:
+            return self.execute_query(["SELECT SUM(count) FROM users_by_rank WHERE (num >= %s) AND (num <= %s)", [low_rank_num, high_rank_num]])
     
     ### UTILITY METHODS ###
 
