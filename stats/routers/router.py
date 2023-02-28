@@ -21,7 +21,7 @@ def get_replay_count_arena(arena_num: int = -1):
     return StatsClass().get_replay_count_arena(arena_num)
 
 @router.get("/replays/duration")
-def get_replay_count_duration(min_duration: int = 0, max_duration: int = 1200):
+def get_replay_count_duration(min_duration: int = 0, max_duration: int = 1230):
     if (min_duration % 30 != 0):
         raise Exception("min_duration does not have a legal value (must be a multiple of 30)")
     elif (max_duration % 30 != 0):

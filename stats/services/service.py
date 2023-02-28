@@ -11,6 +11,7 @@ class StatsClass(Service):
     ### Methods for replay counts ###
 
     def get_replay_count_all(self) -> CountSchema:
+        print(self.db.get_replay_count_all())
         return CountSchema(count = self.db.get_replay_count_all())
     
     def get_replay_count_arena(self, arena_num) -> CountSchema:
