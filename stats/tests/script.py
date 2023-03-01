@@ -20,7 +20,7 @@ def copy_to(src, dst):
     container.put_archive(os.path.dirname(dst), data)
 
 def pass_file_to_docker(src, dst):
-    copy_to(os.getcwd().replace("\\tests","") + src, '' + str(container_id) + dst)
+    copy_to(os.getcwd().replace("\\tests\\sql_scripts","") + src, '' + str(container_id) + dst)
     os.remove(os.getcwd() + "/" + src.split("/")[-1] + ".tar")
 
 def run_file_in_docker(filename):
@@ -35,14 +35,15 @@ client = docker.from_env()
 container_id = sp.getoutput("docker ps -aqf name=statsdb")
 
 # Files to pass (..._src) to Docker destination (..._dst)
-init_src, init_dst = "/tests/test_init.sql", ":/tmp/test_init.sql"
-trmn_src, trmn_dst = "/tests/test_trmn.sql", ":/tmp/test_trmn.sql"
+init_src, init_dst = "/tests/sql_scripts/test_init.sql", ":/tmp/test_init.sql"
+trmn_src, trmn_dst = "/tests/sql_scripts/test_trmn.sql", ":/tmp/test_trmn.sql"
 
 # Pass initialization SQL file to Docker and run it (inputs mock data)
 pass_file_to_docker(init_src, init_dst)
 run_file_in_docker(init_dst)
 
-os.system("cd ..")
+# changing current directory so command "pytest" will work as expected, run command "pytest"
+os.chdir(os.getcwd()[0:-18])
 os.system("pytest")
 
 # Pass termination SQL file to Docker and run it (removes mock data)
