@@ -1,8 +1,9 @@
 ## Testing Guidelines
 
 ### RUNNING ###
-0. Run script.py with stratosphere/stats as working directory
-1. Use the following command: python -m tests.script
+0. Set working directory to stratosphere/stats
+1. Have Docker containers service-1 and statsdb-1 running (TODO: rename service-1 to stats-1)
+2. Use the following command: python -m tests.script
 
 ### How to use
 0. Make sure you have `pytest` installed
