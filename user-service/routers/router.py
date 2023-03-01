@@ -1,12 +1,65 @@
-from fastapi import APIRouter, Path, Query, Body
+import os
+
+from fastapi import APIRouter, HTTPException, status, Path, Query, Body, Depends
 from fastapi.responses import JSONResponse, PlainTextResponse
+
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+
 from pydantic import BaseModel, Field
 
 from services.service import UserService
 
-from dataclasses import dataclass
+from config.envs import *
+
+SECRET_KEY = os.getenv(SECRET_KEY_NAME)
+ENCODER_ALGORITHM = os.getenv(ENCODER_ALGORIGHTM_NAME)
+
+ADMIN_USERNAME = os.getenv(USER_DB_VAR_USER_NAME)
+ADMIN_PASSOWRD = os.getenv(USER_DB_VAR_PASSWORD_NAME)
 
 router = APIRouter()
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/token")
+
+def is_admin(username, password):
+    if username == ADMIN_USERNAME and password == ADMIN_PASSOWRD:
+        return True
+    return False
+
+def authenticate_user(username, password):
+    if is_admin:
+        return {"username": username, "password": password}
+    
+def create_access_token(data: dict):
+    encoded_jwt = jwt.encode(data.copy(), SECRET_KEY, algorithm=ENCODER_ALGORITHM)
+    return encoded_jwt
+
+def get_current_user(token: str = Depends(oauth2_scheme)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    ) 
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ENCODER_ALGORITHM])
+        if payload.get("username") is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    return payload.copy()
+
+@router.post("/token")
+def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = authenticate_user(form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        ) 
+    access_token = create_access_token(data=user)
+    return {"access_token": access_token, "token_type": "bearer"}
 
 # Get users based on parameters
 @router.get("/users")
@@ -42,7 +95,7 @@ class NewUserInfo(BaseModel):
     platform: str = Field(default=..., regex='steam|epic')
     username: str = Field(default=...)
 @router.post("/users")
-def create_user(user: NewUserInfo = Body()):
+def create_user(user: NewUserInfo = Body(), _ = Depends(get_current_user)):
     response = UserService().create_user(user.dict())
     
     if response is None:
@@ -61,7 +114,7 @@ class UpdatableUserInfo(BaseModel):
     total_saves: int | None = None
     total_shots: int | None = None
 @router.put("/users/{user_id}")
-def update_user(info_to_update: UpdatableUserInfo = Body(), user_id: int = Path(default=..., ge=1)):
+def update_user(info_to_update: UpdatableUserInfo = Body(), user_id: int = Path(default=..., ge=1), _ = Depends(get_current_user)):
     non_none_info = {key: value for key, value in info_to_update.__dict__.items() if value is not None}
     if len(non_none_info) == 0:
         return PlainTextResponse(content="To update this user, you have to provide parameters to update", status_code=422)
@@ -71,7 +124,7 @@ def update_user(info_to_update: UpdatableUserInfo = Body(), user_id: int = Path(
     return JSONResponse(content=response.__dict__, status_code=200)
 
 @router.delete("/users/{user_id}")
-def delete_user(user_id: int = Path(default=..., ge=1)):
+def delete_user(user_id: int = Path(default=..., ge=1), _ = Depends(get_current_user)):
     response = UserService().delete_user(user_id)
     if response is None:
         return PlainTextResponse(content="Something went wrong, but I'm sure it's your fault!", status_code=400)

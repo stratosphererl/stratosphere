@@ -9,6 +9,7 @@ uvicorn = {extras = ["standard"], version = "*"}
 python-dotenv = "*"
 loguru = "*"
 psycopg2-binary = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
 
 [dev-packages]
 pytest = "*"
