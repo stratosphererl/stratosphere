@@ -1,5 +1,9 @@
 ## Testing Guidelines
 
+### RUNNING ###
+0. Run script.py with stratosphere/stats as working directory
+1. Use the following command: python -m tests.script
+
 ### How to use
 0. Make sure you have `pytest` installed
 1.  `cd` into the service directory if you haven't already

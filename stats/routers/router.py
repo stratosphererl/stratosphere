@@ -43,7 +43,7 @@ def get_replay_count_rank(low_rank_num: int = min_rank_num, high_rank_num: int =
     else:
         return StatsClass().get_replay_count_rank(low_rank_num, high_rank_num)
 
-@router.get("/replays/season")
+@router.get("/replays/season") # Season of replay, may not be used
 def get_replay_count_season(low_season_num: int = min_season_num, high_season_num: int = max_season_num):
     legal_nums = range(min_season_num, max_season_num + 1)
     if (low_season_num not in legal_nums):
@@ -67,7 +67,7 @@ def get_user_count_platform(platform_num: int = -1):
     else:
         return StatsClass().get_user_count_platform(platform_num)
     
-@router.get ("/users/rank")
+@router.get ("/users/rank") # Rank of user, may not be used due to a user not having a single rank
 def get_user_count_rank(low_rank_num: int = min_rank_num, high_rank_num: int = max_rank_num):
     legal_nums = range(min_rank_num, max_rank_num + 1)
     if (low_rank_num not in legal_nums):
