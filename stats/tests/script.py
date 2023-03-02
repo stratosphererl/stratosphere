@@ -44,7 +44,7 @@ run_file_in_docker(init_dst)
 
 # changing current directory so command "pytest" will work as expected, run command "pytest"
 os.chdir(os.getcwd()[0:-18])
-os.system("pytest")
+os.system("pytest") # os.system("pytest -s")
 
 # Pass termination SQL file to Docker and run it (removes mock data)
 pass_file_to_docker(trmn_src, trmn_dst)

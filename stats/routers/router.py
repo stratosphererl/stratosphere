@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from services.service import StatsClass
-from util.result import ServiceResponse
+# from util.result import ServiceResponse
 
 router = APIRouter()
 
@@ -18,6 +18,8 @@ def get_replay_count_all():
 
 @router.get("/replays/arena")
 def get_replay_count_arena(arena_num: int = -1):
+    if (arena_num < min_arena_num) or (arena_num > max_arena_num):
+        raise Exception("arena_num does not have a legal value (must be " + str(min_arena_num) + " <= arena_num <= " + str(max_arena_num))
     return StatsClass().get_replay_count_arena(arena_num)
 
 @router.get("/replays/duration")
