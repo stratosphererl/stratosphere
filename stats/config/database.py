@@ -96,7 +96,10 @@ class Database(AbstractDatabase):
 
     # Returns the number of replays on our platform from a specific season
     def get_replay_count_season(self, low_season_num, high_season_num):
-        return self.execute_query(["SELECT SUM(count) FROM replays_by_season WHERE (num >= %s) AND (num <= %s)", [low_season_num, high_season_num]])
+        if low_season_num > high_season_num:
+            return 0
+        else:
+            return self.execute_query(["SELECT SUM(count) FROM replays_by_season WHERE (num >= %s) AND (num <= %s)", [low_season_num, high_season_num]])
 
     ### QUERIES FOR USERS DATA ###
 

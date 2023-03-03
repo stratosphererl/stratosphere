@@ -38,7 +38,7 @@ def test_get_replay_count_rank():
     assert db.get_replay_count_rank(low_rank_num = 10, high_rank_num = 9) == EXPECTED_VALUES[7] # low > high, returns 0
 
 def test_get_replay_count_season():
-    EXPECTED_VALUES = [22, 15, 11, 10, 4, 11, 10, 6]
+    EXPECTED_VALUES = [22, 15, 11, 10, 4, 11, 10, 6, 0]
     assert db.get_replay_count_season(low_season_num = 0, high_season_num = 21) == EXPECTED_VALUES[0] # Total count == 2
     assert db.get_replay_count_season(low_season_num = 1, high_season_num = 21) == EXPECTED_VALUES[1] # Legacy 2 and onwards count == 15
     assert db.get_replay_count_season(low_season_num = 11, high_season_num = 21) == EXPECTED_VALUES[2] # Legacy 12 and onwards count == 11
@@ -47,6 +47,7 @@ def test_get_replay_count_season():
     assert db.get_replay_count_season(low_season_num = 0, high_season_num = 4) == EXPECTED_VALUES[5] # Legacy 5 and backwards count == 11
     assert db.get_replay_count_season(low_season_num = 8, high_season_num = 20) == EXPECTED_VALUES[6] # Legacy 9 to FtP 7 count == 10
     assert db.get_replay_count_season(low_season_num = 15, high_season_num = 15) == EXPECTED_VALUES[7] # FtP 2 count == 6
+    assert db.get_replay_count_season(low_season_num = 7, high_season_num = 5) == EXPECTED_VALUES[8] # low > high, returns 0
 
 def test_get_user_count_all():
     EXPECTED_VALUES = [74]

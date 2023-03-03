@@ -62,9 +62,7 @@ def get_user_count_all():
 @router.get("/users/platform")
 def get_user_count_platform(platform_num: int = -1):
     legal_nums = range(min_platform_num, max_platform_num + 1)
-    if (platform_num == -1):
-        raise Exception("platform_num was not provided a query parameter, please provide one (must be >= %d AND <= %d)" % (min_platform_num, max_platform_num))
-    elif (platform_num not in legal_nums):
+    if (platform_num not in legal_nums):
         raise Exception("platform_num does not have a legal value (must be >= %d AND <= %d)" % (min_platform_num, max_platform_num))
     else:
         return StatsClass().get_user_count_platform(platform_num)
