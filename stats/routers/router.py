@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from services.service import StatsClass
 # from util.result import ServiceResponse
 
@@ -13,7 +13,7 @@ min_platform_num, max_platform_num = StatsClass().get_valid_range("users_by_plat
 ### TODO: Add more routes here ###
 
 @router.get("/replays/all")
-def get_replay_count_all():
+def get_replay_count_all(var1 = Depends(StatsClass)):
     return StatsClass().get_replay_count_all()
 
 @router.get("/replays/arena")
