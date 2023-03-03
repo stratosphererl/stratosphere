@@ -59,7 +59,6 @@ class Database(AbstractDatabase):
                 else:
                     cur.execute("SELECT * FROM users WHERE LOWER(username) SIMILAR TO LOWER(%s) ORDER BY id LIMIT %s OFFSET %s;", 
                                 (username, search_parameters["limit"], skip,))
-                self.conn.commit()
                 return cur.fetchall()
             except:
                 cur.execute("ROLLBACK")
@@ -70,7 +69,6 @@ class Database(AbstractDatabase):
         with self.conn.cursor() as cur:
             try:
                 cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
-                self.conn.commit()
                 return cur.fetchone()
             except:
                 cur.execute("ROLLBACK")
@@ -125,4 +123,4 @@ def init():
     """
     logger.debug("Initializing database...")
     global db
-    db = Database()
+    # db = Database()
