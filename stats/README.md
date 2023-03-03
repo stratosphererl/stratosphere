@@ -16,17 +16,14 @@ This folder is broken up into:
 
 To run this project, you will need to add the following environment variables to your config/.env file
 
-`SERVICE_NAME`
-
-`SERVICE_PORT`
-
-`DB_HOST`
-
-`DB_NAME`
-
-`DB_USER`
-
-`DB_PASSWORD`
+`STATS_SERVICE_NAME`
+`STATS_SERVICE_PORT`
+`STATS_DB_HOST`
+`STATS_DB_HOST_TEST`
+`STATS_DB_USER`
+`STATS_DB_NAME`
+`STATS_DB_PORT`
+`STATS_DB_PASSWORD`
 
 ## Dockerfile
 
