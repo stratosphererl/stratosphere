@@ -77,7 +77,7 @@ def test_get_replay_count_season_integration(client):
     INPUT_VALUES = iptl.input_list_get_replay_count_season()
     EXPECTED_RESULTS = expl.expected_list_get_replay_count_season()
     for index in range(len(INPUT_VALUES)):
-        response = client.get("api/v1/replays/season?low_rank_num=" + str(INPUT_VALUES[index][0]) + "&high_rank_num=" + str(INPUT_VALUES[index][1]))
+        response = client.get("api/v1/replays/season?low_season_num=" + str(INPUT_VALUES[index][0]) + "&high_season_num=" + str(INPUT_VALUES[index][1]))
         assert response.status_code == GOOD_CODE
         assert response.json()["count"] == EXPECTED_RESULTS[index]
 
