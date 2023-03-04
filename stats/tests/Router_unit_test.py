@@ -1,7 +1,7 @@
+from fastapi import HTTPException
 from schemas.schema import CountSchema
 import routers.router as routes
 import tests.lists.exception_lists as excl
-
 import tests.lists.expected_lists as expl
 import tests.lists.input_lists as iptl
 import tests.lists.invalid_lists as ivdl
@@ -24,7 +24,7 @@ def check_for_exceptions(method, values, exceptions):
                 method(values[index][0], values[index][1])
 
         RESULTING_EXCEPTION = exception_info._excinfo[1]
-        EXPECTED_EXCEPTION = Exception(exceptions[index])
+        EXPECTED_EXCEPTION = HTTPException(400, exceptions[index])
 
         assert type(RESULTING_EXCEPTION) == type(EXPECTED_EXCEPTION)
         assert RESULTING_EXCEPTION.args == EXPECTED_EXCEPTION.args
@@ -100,7 +100,7 @@ def test_get_replay_count_season():
     check_for_exceptions(routes.get_replay_count_season, INVALID_VALUES, EXPECTED_EXCEPTIONS)
 
     # Results
-    EXPECTED_VALUES = expl.expected_list_get_reason_count_season()
+    EXPECTED_VALUES = expl.expected_list_get_replay_count_season()
     RESULTING_VALUES = append_resulting_values(routes.get_replay_count_season, iptl.input_list_get_replay_count_season())
     check_for_equality(RESULTING_VALUES, EXPECTED_VALUES)
 

@@ -10,7 +10,7 @@ def expected_list_get_replay_count_duration():
 def expected_list_get_replay_count_rank():
     return [56, 53, 15, 33, 51, 8, 4, 0]
 
-def expected_list_get_reason_count_season():
+def expected_list_get_replay_count_season():
     return [22, 15, 11, 10, 4, 11, 10, 6, 0]
 
 def expected_list_get_user_count_all():
