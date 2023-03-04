@@ -150,4 +150,4 @@ def init():
     """
     logger.debug("Initializing database...")
     global db
-    db = Database()
+    db = Database(test = True, mock = False)
