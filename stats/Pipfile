@@ -9,6 +9,8 @@ uvicorn = {extras = ["standard"], version = "*"}
 python-dotenv = "*"
 loguru = "*"
 psycopg2-binary = "*"
+docker = "*"
+schedule = "*"
 
 [dev-packages]
 pytest = "*"

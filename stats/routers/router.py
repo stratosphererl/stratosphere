@@ -10,7 +10,7 @@ min_rank_num, max_rank_num = StatsClass().get_valid_range("replays_by_rank")
 min_season_num, max_season_num = StatsClass().get_valid_range("replays_by_season")
 min_platform_num, max_platform_num = StatsClass().get_valid_range("users_by_platform")
 
-### TODO: Add more routes here ###
+### Public GET routes ###
 
 @router.get("/replays/all")
 def get_replay_count_all(var1 = Depends(StatsClass)):
@@ -76,3 +76,6 @@ def get_user_count_rank(low_rank_num: int = min_rank_num, high_rank_num: int = m
         raise HTTPException(400, "high_rank_num does not have a legal value (must be >= %d AND <= %d)" % (min_rank_num, max_rank_num))
     else:
         return StatsClass().get_user_count_rank(low_rank_num, high_rank_num)
+    
+### Private PUT methods ###
+

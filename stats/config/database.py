@@ -38,10 +38,9 @@ class Database(AbstractDatabase):
     
     def connect(self):
         try:
+            # print(self.test)
             conn = psycopg2.connect(
-                host = os.getenv(
-                    DB_VAR_HOST_NAME_TEST if self.test else DB_VAR_HOST_NAME
-                ),
+                host = os.getenv(DB_VAR_HOST_NAME_TEST if self.test else DB_VAR_HOST_NAME),
                 # host = os.getenv(DB_VAR_HOST_NAME),
                 dbname = os.getenv(DB_VAR_NAME),
                 user = os.getenv(DB_VAR_USER_NAME),
@@ -56,17 +55,6 @@ class Database(AbstractDatabase):
     
     def close_connection(self):
         self.conn.close()
-
-    ## TODO: ADD MORE METHODS HERE ## 
-
-    ## Example method
-    # def example(self, example_id: int):
-    #     """
-    #     Example method
-    #     """
-    #     cur = self.conn.cursor()
-    #     cur.execute("SELECT * FROM example WHERE id = %s", (example_id,))
-    #     return cur.fetchone()
 
     ### QUERIES FOR REPLAYS DATA ###
 
@@ -131,6 +119,11 @@ class Database(AbstractDatabase):
 
         return cur.fetchone()[0]
 
+    # Utility method to make set_all_zeros code cleaner
+    def execute_update(self, cur, update):
+        cur.execute(update)
+        self.conn.commit()
+
     # Utility method for allowing only valid values
     def get_valid_range(self, table_name):
         valid_range = set()
@@ -143,6 +136,37 @@ class Database(AbstractDatabase):
         valid_range.add(cur.fetchone()[0])
 
         return valid_range
+    
+    # Sets all counts in statsdb to zero
+    def set_all_zeros(self):
+        cur = self.conn.cursor()
+
+        updates_to_perform = [
+            "UPDATE replays_by_arena SET count = 0;",
+            "UPDATE replays_by_duration SET count = 0;",
+            "UPDATE replays_by_rank SET count = 0;",
+            "UPDATE replays_by_season SET count = 0;",
+            "UPDATE users_by_platform SET count = 0;",
+            "UPDATE users_by_rank SET count = 0;"
+        ]
+
+        for update in updates_to_perform:
+            self.execute_update(cur, update)
+    
+    def update_value(self, table_name, id, count):
+        cur = self.conn.cursor()
+        if "duration" not in table_name:
+            cur.execute("UPDATE " + str(table_name) + " SET count = " + str(count) + " WHERE num = " + str(id))
+            
+        else:
+            cur.execute("UPDATE " + str(table_name) + " SET count = " + str(count) + " WHERE duration = " + str(id))
+        self.conn.commit()
+
+    #def a():
+        #pass
+        # Receive data from CRON job call
+        # Insert, etc., etc.
+        # cron python update.py
 
 def init():
     """
