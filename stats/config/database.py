@@ -153,11 +153,18 @@ class Database(AbstractDatabase):
         for update in updates_to_perform:
             self.execute_update(cur, update)
     
+    def update_tables(self, table_counts_pairs):
+        for table_name in table_counts_pairs: # Each key in table_counts_pairs is a table_name
+            self.update_table(table_name, table_counts_pairs[table_name])
+
+    def update_table(self, table_name, counts_dict):
+        for key in counts_dict:
+            self.update_value(table_name, key, counts_dict[key])
+
     def update_value(self, table_name, id, count):
         cur = self.conn.cursor()
         if "duration" not in table_name:
             cur.execute("UPDATE " + str(table_name) + " SET count = " + str(count) + " WHERE num = " + str(id))
-            
         else:
             cur.execute("UPDATE " + str(table_name) + " SET count = " + str(count) + " WHERE duration = " + str(id))
         self.conn.commit()
