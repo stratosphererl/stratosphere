@@ -6,6 +6,7 @@ A brief description of what this project does and who it's for
 This folder is broken up into:
 
 - `../config`: contains environment variables, database, and sql files
+- `../cron`: contains scripts to update stats db at regular intervals
 - `../routers`: contains the routers of the service's api
 - `../schemas`: contains the schemas for your data
 - `../services`: contains the business logic of your service
@@ -14,7 +15,7 @@ This folder is broken up into:
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your config/.env file
+To run this project, you will need to add the following environment variables to your stats/.env file
 
 `STATS_SERVICE_NAME`
 `STATS_SERVICE_PORT`
