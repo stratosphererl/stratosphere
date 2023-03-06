@@ -8,9 +8,8 @@ def perform_update():
     print("Completed CRON job to update StatsDB")
 
 perform_update() # Update the database whenever database container is turned on
-# schedule.every().day.at("11:59").do(perform_update) # Schedules CRON job at 11:59pm everyday (UTC due to docker container being in UTC)
-# schedule.every().minute.do(perform_update)
-schedule.every(5).seconds.do(perform_update)
+schedule.every().day.at("11:59").do(perform_update) # Schedules CRON job at 11:59pm everyday UTC (In UTC due to docker using that timezone)
+# schedule.every(5).seconds.do(perform_update) # For testing purposes 
 
 while True:
     schedule.run_pending()

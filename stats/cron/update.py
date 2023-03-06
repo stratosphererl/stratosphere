@@ -8,24 +8,24 @@ user_headers = {'cookie': "layer0_bucket=15; layer0_destination=default; layer0_
 replay_endpoint = "/replays.json"
 user_endpoint = "/users?key=fa95aac0&limit=limit&platform=platform"
 
-def fake_endpoint():
-    mock_replays_file = open("mock_replays.json", "r")
-    mock_replays_data = json.load(mock_replays_file)
-    return mock_replays_data
+# def fake_endpoint():
+#     mock_replays_file = open("mock_replays.json", "r")
+#     mock_replays_data = json.load(mock_replays_file)
+#     return mock_replays_data
 
 ### GENERAL METHODS ###
 def update_stats_db():
-    # replay_data = get_data(replay_headers, replay_endpoint) # Getting replay data from replaydb endpoint from replay service (TODO: unmock)
-    # user_data = get_data(user_headers, user_endpoint) # Getting user data from userdb endpoint from user service (TODO: unmock)
+    replay_data = get_data(replay_headers, replay_endpoint) # Getting replay data from replaydb endpoint from replay service (TODO: unmock)
+    user_data = get_data(user_headers, user_endpoint) # Getting user data from userdb endpoint from user service (TODO: unmock)
 
-    replay_data = fake_endpoint()
+    # replay_data = fake_endpoint()
 
     updated_data = {
         "replays_by_arena": get_replay_arena_counts(replay_data),
         "replays_by_duration": get_replay_duration_counts(replay_data),
         "replays_by_rank": get_replay_rank_counts(replay_data),
         "replays_by_season": get_replay_season_counts(replay_data),
-        # "user_platform_counts": get_user_platform_counts(user_data),
+        "user_platform_counts": get_user_platform_counts(user_data),
     }
 
     db = Database()
