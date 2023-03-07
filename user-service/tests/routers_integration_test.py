@@ -1,3 +1,4 @@
+from datetime import datetime
 import pytest
 import os
 from config.envs import *
@@ -43,24 +44,6 @@ def database(request):
             "POSTGRES_DB": host,
         },
         name=db_name,
-        # mounts=[
-        #     Mount(
-        #         source=f"~/{service_name}/tests/setup/",
-        #         target="/docker-entrypoint-initdb.d/",
-        #         type="bind",
-        #         # no_copy=True,
-        #         # consistency="delegated",
-        #         # propagation="rslave",
-        #         read_only=False,
-        #     )
-        # ],
-        # volumes={
-        #     # f"~/{service_name}/tests/data": {"bind": "/var/lib/postgres/data", "mode": "rw"},
-        #     f"~/{service_name}/tests/setup/": {"bind": "/docker-entrypoint-initdb.d/", "mode": "rw"},
-        # },
-        # volumes={
-        #     volume.id: {"bind": "/docker-entrypoint-initdb.d/", "mode": "rw"},
-        # },
         detach=True,
     )
 
@@ -85,12 +68,108 @@ def database(request):
 
     request.addfinalizer(teardown)
 
-def test_get_users(database):
+@pytest.fixture(scope="session")
+def client():
     client = TestClient(app)
-    response = client.get("/api/v1/users")
-    assert response.status_code == 200
+    yield client
 
-def test_get_user_by_id(database):
-    client = TestClient(app)
-    response = client.get("/api/v1/users/1")
+# Test basic users
+def test_get_users(database, client):
+    limit = 10
+    response = client.get(f"/api/v1/users?limit={limit}")
     assert response.status_code == 200
+    users = response.json()
+    assert len(users) == 10
+    for idx, user in enumerate(users):
+        assert user["id"] == idx + 1
+
+# Test get user by id
+def test_get_user_by_id(database, client):
+    user_id = 5
+    response = client.get(f"/api/v1/users/{user_id}")
+    assert response.status_code == 200
+    user = response.json()
+    assert user["id"] == user_id
+
+# Test get users with pagination
+def test_get_users_with_pagination(database, client):
+    limit = 10
+    page = 2
+    response = client.get(f"/api/v1/users?limit={limit}&page={page}")
+    assert response.status_code == 200
+    users = response.json()
+    assert len(users) == limit
+    for idx, user in enumerate(users):
+        assert user["id"] == idx + 1 + (page - 1) * limit
+
+# Test get users with user search
+def test_get_users_with_user_search(database, client):
+    limit = 10
+    search = "ad"
+    response = client.get(f"/api/v1/users?limit={limit}&username={search}")
+    assert response.status_code == 200
+    users = response.json()
+    assert len(users) <= limit
+    for user in users:
+        assert search in user["username"]
+
+# Test get users with platform search
+def test_get_users_with_platform_search(database, client):
+    limit = 10
+    platform="steam"
+    response = client.get(f"/api/v1/users?limit={limit}&platform={platform}")
+    assert response.status_code == 200
+    users = response.json()
+    assert len(users) == 10
+    for user in users:
+        assert user["platform"] == platform
+
+# Test search not found
+def test_search_not_found(database, client):
+    limit = 100
+    page = 2
+    response = client.get(f"/api/v1/users?limit={limit}&page={page}")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "No users with those parameters could be found!"
+
+# Test not authenticated
+def test_not_authenticated(database, client):
+    # Post request
+    response = client.post("/api/v1/users")
+    assert response.status_code == 401
+    assert response.json()["detail"] == "Not authenticated"
+
+@pytest.fixture(scope="session")
+def authenticated_client():
+    client = TestClient(app)
+    response = client.post("/api/v1/token", data={"username": "admin", "password": "admin"})
+    assert response.status_code == 200
+    token = response.json()["access_token"]
+    client.headers.update({"Authorization": f"Bearer {token}"})
+    yield client
+
+# Test create user
+def test_authenticated_actions(database, authenticated_client):
+    username = "Chicken935"
+    platform = "steam"
+    response = authenticated_client.post("/api/v1/users", json={"id": 101, "username": username, "platform": platform})
+    assert response.status_code == 201
+    user = response.json()
+    assert user["id"] == 101
+    assert user["username"] == username
+    assert user["platform"] == platform
+    assert user["date_created"] == datetime.today().strftime('%Y-%m-%d')
+
+    _test_user_update(authenticated_client, 101, username, "Chicken936")
+    _test_user_delete(authenticated_client, 101)
+
+def _test_user_update(authenticated_client, user_id, old_username, new_username):
+    response = authenticated_client.put(f"/api/v1/users/{user_id}", json={"username": new_username})
+    assert response.status_code == 200
+    user = response.json()
+    assert user["username"] == new_username
+
+def _test_user_delete(authenticated_client, user_id):
+    response = authenticated_client.delete(f"/api/v1/users/{user_id}")
+    assert response.status_code == 200
+    assert response.json()["id"] == user_id
