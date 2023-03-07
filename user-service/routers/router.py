@@ -77,7 +77,10 @@ def get_users_by_params(
     }))
 
     if len(response) == 0:
-        return PlainTextResponse(content="No users with those parameters could be found!", status_code=404)
+        raise HTTPException(
+            status_code = status.HTTP_404_NOT_FOUND, 
+            detail = "No users with those parameters could be found!"
+        )
     return JSONResponse(content=[x.__dict__ for x in response], status_code=200)
 
 # Get User by ID
@@ -86,7 +89,7 @@ def get_user_by_id(user_id: int = Path(ge=1)):
     response = UserService().get_user(user_id)
 
     if response is None:
-        return PlainTextResponse(content=f"The user with id: {user_id} does not exist!", status_code=404)
+        raise HTTPException(detail=f"The user with id: {user_id} does not exist!", status_code=404)
     return JSONResponse(content=response.__dict__, status_code=200)
 
 # Create New User
@@ -99,7 +102,7 @@ def create_user(user: NewUserInfo = Body(), _ = Depends(get_current_user)):
     response = UserService().create_user(user.dict())
     
     if response is None:
-        return PlainTextResponse(content="This user already exists and thus could not be created again!", status_code=409)
+        raise HTTPException(detail="This user already exists and thus could not be created again!", status_code=409)
     return JSONResponse(content=response.__dict__, status_code=201)
 
 # Update Existing User
@@ -117,15 +120,15 @@ class UpdatableUserInfo(BaseModel):
 def update_user(info_to_update: UpdatableUserInfo = Body(), user_id: int = Path(default=..., ge=1), _ = Depends(get_current_user)):
     non_none_info = {key: value for key, value in info_to_update.__dict__.items() if value is not None}
     if len(non_none_info) == 0:
-        return PlainTextResponse(content="To update this user, you have to provide parameters to update", status_code=422)
+        raise HTTPException(detail="To update this user, you have to provide parameters to update", status_code=422)
     response = UserService().update_user(non_none_info, user_id)
     if response is None:
-        return PlainTextResponse(content="Something went wrong, but I'm sure it's your fault!", status_code=400)
+        raise HTTPException(detail="Something went wrong, but I'm sure it's your fault!", status_code=400)
     return JSONResponse(content=response.__dict__, status_code=200)
 
 @router.delete("/users/{user_id}")
 def delete_user(user_id: int = Path(default=..., ge=1), _ = Depends(get_current_user)):
     response = UserService().delete_user(user_id)
     if response is None:
-        return PlainTextResponse(content="Something went wrong, but I'm sure it's your fault!", status_code=400)
+        raise HTTPException(detail="Something went wrong, but I'm sure it's your fault!", status_code=400)
     return JSONResponse(content=response.__dict__, status_code=200)

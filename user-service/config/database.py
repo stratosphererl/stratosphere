@@ -27,13 +27,14 @@ class AbstractDatabase(abc.ABC):
         pass
 
 class Database(AbstractDatabase):
-    def __init__(self):
+    def __init__(self, test=False):
+        self.test = test
         self.conn = self.connect()
     
     def connect(self):
         try:
             conn = psycopg2.connect(
-                host = os.getenv(USER_DB_VAR_HOST_NAME),
+                host = "localhost" if self.test else os.getenv(USER_DB_VAR_HOST_NAME),
                 dbname = os.getenv(USER_DB_VAR_NAME),
                 user = os.getenv(USER_DB_VAR_USER_NAME),
                 password = os.getenv(USER_DB_VAR_PASSWORD_NAME),
