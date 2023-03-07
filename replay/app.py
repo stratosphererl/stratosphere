@@ -1,6 +1,4 @@
 from routers import router
-from config import database
-
 from fastapi import FastAPI
 
 app = FastAPI()

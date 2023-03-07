@@ -20,3 +20,8 @@ class ServiceResponseError(BaseModel):
 
 class ServiceResponseSuccess(BaseModel):
     data: list
+
+class ServiceResponsePage(BaseModel):
+    page: int
+    total: int
+    data: list

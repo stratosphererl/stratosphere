@@ -35,7 +35,7 @@ class RepositoryABC(ABC):
         pass
 
     @abstractmethod
-    def paginateAndFilter(self, page, per_page, filters: dict):
+    def paginate_filter(self, page, per_page, filters: dict):
         pass
 
 class MongoRepository():

@@ -9,10 +9,13 @@ uvicorn = {extras = ["standard"], version = "*"}
 python-dotenv = "*"
 loguru = "*"
 pymongo = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+python-multipart = "*"
 
 [dev-packages]
 pytest = "*"
 pydantic-factories = "*"
+docker = "*"
 
 [requires]
 python_version = "3.10"

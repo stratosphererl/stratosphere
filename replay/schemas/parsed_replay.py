@@ -342,18 +342,14 @@ class Mutators(BaseModel):
 
 
 class DetailedReplay(BaseModel):
-    _id: str
     gameMetadata: ReplayHeader
+    id: str = Field(None, alias="_id", title="Primary key", description="mongodb's Primary key")
     players: List[Player]
     teams: List[Team]
     gameStats: GameStats
     version: int
     mutators: Mutators
 
-    @validator('_id', check_fields=False)
-    def assign_id(cls, v):
-        # If it doesn't have an _id, it's a brand new parsed replay
-        if not v.get('_id'):
-            return v['gameMetadata']['id']
-    
-        return v['_id']
+    @validator('id', always=True)
+    def ab(cls, v, values) -> str:
+        return values['gameMetadata'].id
