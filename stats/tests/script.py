@@ -3,6 +3,7 @@ import docker
 import tarfile
 import subprocess as sp
 from config.database import Database
+from cron.update import update_stats_db
 
 def copy_to(src, dst):
     name, dst = dst.split(':')
@@ -24,7 +25,7 @@ def pass_file_to_docker(src, dst):
     os.remove(os.getcwd() + "/" + src.split("/")[-1] + ".tar")
 
 def run_file_in_docker(filename):
-    os.system("docker exec -it " + str(container_id) + " psql -U postgres -d statsdb -f " + filename.split("/",1)[-1])
+    os.system("docker exec -it " + str(container_id) + " psql -U postgres -d stats-service-db -f " + filename.split("/",1)[-1])
 
 def remove_files_from_docker(filenames):
     for filename in filenames:
@@ -32,7 +33,9 @@ def remove_files_from_docker(filenames):
 
 db = Database(test = True)
 client = docker.from_env()
-container_id = sp.getoutput("docker ps -aqf name=statsdb")
+container_id = sp.getoutput("docker ps -aqf name=stats-service-db")
+
+db.set_all_zeros()
 
 # Files to pass (..._src) to Docker destination (..._dst)
 init_src, init_dst = "/tests/scripts/test_init.sql", ":/tmp/test_init.sql"
@@ -49,6 +52,8 @@ os.system("pytest") # os.system("pytest -s")
 # Pass termination SQL file to Docker and run it (removes mock data)
 pass_file_to_docker(trmn_src, trmn_dst)
 run_file_in_docker(trmn_dst)
+
+update_stats_db(testing = True)
 
 # Remove initialization and termination SQL files from Docker container
 remove_files_from_docker([init_dst, trmn_dst])

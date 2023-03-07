@@ -1,6 +1,7 @@
 from config.database import Database
 import http.client
 import json
+import os
 
 ### GENERAL VARIABLES ###
 replay_headers = {'cookie': "layer0_bucket=15; layer0_destination=default; layer0_environment_id_info=1680b086-a116-4dc7-a17d-9e6fdbb9f6d9", 'X-API-Key': "7fb73d50"}
@@ -18,7 +19,10 @@ def fake_endpoint(): # TODO: un-mock endpoint and get rid of this method
     return mock_replays_data, mock_users_data
 
 ### GENERAL METHODS ###
-def update_stats_db():
+def update_stats_db(testing = False):
+    if testing:
+        os.chdir(os.getcwd()[0:-14])
+    
     # replay_data = get_data(replay_headers, replay_endpoint) # Getting replay data from replaydb endpoint from replay service (TODO: unmock)
     # user_data = get_data(user_headers, user_endpoint) # Getting user data from userdb endpoint from user service (TODO: unmock)
 
@@ -32,7 +36,7 @@ def update_stats_db():
         "users_by_platform": get_user_platform_counts(user_data),
     }
 
-    db = Database()
+    db = Database(test = testing)
     db.set_all_zeros()
     db.update_tables(updated_data)
 
@@ -114,4 +118,5 @@ def convert_platform_names(user_platform_dict):
     
     return return_dict
 
-update_stats_db()
+if __name__ == "__main__":
+    update_stats_db()

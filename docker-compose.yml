@@ -28,7 +28,7 @@ services:
   #   build: ./ml
   #   ports:
   #     - '5002:5002'
-  service:
+  stats-service:
     command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
     build: 
       context: .
@@ -36,12 +36,12 @@ services:
     ports:
       - ${STATS_SERVICE_PORT}:${STATS_SERVICE_PORT}
     depends_on:
-      - statsdb
+      - stats-service-db
     volumes:
       - ./${STATS_SERVICE_NAME}:/app
     environment:
       - WATCHFILES_FORCE_POLLING=true
-  statsdb:
+  stats-service-db:
     image: amd64/postgres:alpine
     restart: always
     ports:
@@ -54,5 +54,5 @@ services:
       - ./${STATS_SERVICE_NAME}/config:/var/lib/postgres/data
       - ./${STATS_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
 volumes:
-  statsdb:
+  stats-service-db:
     driver: local
