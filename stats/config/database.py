@@ -1,5 +1,4 @@
 import psycopg2
-from dotenv import load_dotenv
 import sys
 import os
 import abc
@@ -38,14 +37,12 @@ class Database(AbstractDatabase):
     
     def connect(self):
         try:
-            # print(self.test)
             conn = psycopg2.connect(
-                host = os.getenv(DB_VAR_HOST_NAME_TEST if self.test else DB_VAR_HOST_NAME),
-                # host = os.getenv(DB_VAR_HOST_NAME),
+                host = "localhost" if self.test else os.getenv(DB_VAR_HOST_NAME),
                 dbname = os.getenv(DB_VAR_NAME),
                 user = os.getenv(DB_VAR_USER_NAME),
                 password = os.getenv(DB_VAR_PASSWORD_NAME),
-                port = os.getenv(DB_VAR_PORT_NAME)
+                port = os.getenv(DB_VAR_PORT_NAME) if self.test else 5432
             )
         except psycopg2.OperationalError as e:
             print(f"Could not connect to Database: {e}")
