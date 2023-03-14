@@ -73,15 +73,10 @@ export default function PlayerBarGraph({
     const ref = useRef(null);
 
     useEffect(() => {
-        if (!data || !ref.current) 
-            return;
-
         const graph_height = svg_height - 2 * padding;
         const graph_width = svg_width - 2 * padding;
 
-        const refSelection = 
-            d3.select(ref.current)
-                .style("display", "flex")
+        const refSelection = d3.select(ref.current)
             .append("svg")
                 .attr("width", svg_width)
                 .attr("height", svg_height)

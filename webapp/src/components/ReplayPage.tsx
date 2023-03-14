@@ -1,3 +1,4 @@
+import GraphLegend from "./replay-graphs/GraphLegend";
 import PlayerBarGraph from "./replay-graphs/PlayerBarGraph";
 
 const data: any[] = [
@@ -51,6 +52,9 @@ const sub_groups = ["Goals", "Assists", "Saves", "Shots"];
 
 export default function() {
     return (
-        <PlayerBarGraph data={data} group_label={group_label} sub_groups={sub_groups} />
+        <div className="flex">
+            <PlayerBarGraph data={data} group_label={group_label} sub_groups={sub_groups} />
+            <GraphLegend keys={sub_groups} />
+        </div>
     )
 }
