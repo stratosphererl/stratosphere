@@ -54,9 +54,7 @@ services:
     volumes:
       - ./${STATS_SERVICE_NAME}/config:/var/lib/postgres/data
       - ./${STATS_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
-volumes:
-  stats-service-db:
-user-service:
+  user-service:
     command: uvicorn app:app --reload --port ${USER_SERVICE_PORT} --host 0.0.0.0
     build: 
       context: .
@@ -85,3 +83,4 @@ user-service:
 volumes:
   userdb:
     driver: local
+  stats-service-db:
