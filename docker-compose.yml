@@ -39,13 +39,14 @@ services:
       - userdb
     volumes:
       - ./${USER_SERVICE_NAME}:/app
+      - ./env:/app/.env
     environment:
       - WATCHFILES_FORCE_POLLING=true
   userdb:
     image: amd64/postgres:alpine
     restart: always
     ports:
-      - ${USER_DB_PORT}:${USER_DB_PORT}
+      - ${USER_DB_PORT}:5432
     environment:
       - POSTGRES_USER=${USER_DB_USER}
       - POSTGRES_PASSWORD=${USER_DB_PASSWORD}
