@@ -39,13 +39,14 @@ services:
       - stats-service-db
     volumes:
       - ./${STATS_SERVICE_NAME}:/app
+      - .env:/app/.env
     environment:
       - WATCHFILES_FORCE_POLLING=true
   stats-service-db:
     image: amd64/postgres:alpine
     restart: always
     ports:
-      - ${STATS_DB_PORT}:${STATS_DB_PORT}
+      - ${STATS_DB_PORT}:5432
     environment:
       - POSTGRES_USER=${STATS_DB_USER}
       - POSTGRES_PASSWORD=${STATS_DB_PASSWORD}
