@@ -42,7 +42,6 @@ services:
       - ./${REPLAY_SERVICE_NAME}:/app
       - .env:/app/.env
     environment:
-      - WATCHFILES_FORCE_POLLING=true
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
   replaydb:
@@ -64,6 +63,7 @@ services:
     command: celery -A worker worker
     volumes:
       - .env:/worker/.env
+      - ./${REPLAY_SERVICE_NAME}/parser/files:/worker/files
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
