@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, Response, HTTPException, status, UploadFile
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.responses import FileResponse
 from jose import JWTError, jwt
 from typing import Optional
 import os, json
@@ -174,7 +175,7 @@ def post_replay(file : UploadFile, token: str = Depends(get_current_user), servi
     filename = str(uuid.uuid4()) + ".replay"
     with open(f"./parser/files/{filename}", "wb+") as buffer:
         shutil.copyfileobj(file.file, buffer)
-
+    
     path = f"./files/{filename}"
 
     task = celery.send_task("parse", args=[path])
@@ -204,3 +205,11 @@ def update_replay_by_id(form: ReplayUpdateForm, id: str, token: str = Depends(ge
         return Response(content=result.json(), media_type="application/json", status_code=200)
     else:
         return HTTPException(status_code=404, detail=result.message)
+
+@router.get("/replays/download/{id}")
+def download_replay_by_id(id: str, service = Depends(service)):
+    result = service.get_replay(id)
+    if isinstance(result, ServiceResponseSuccess):
+        return FileResponse(f"./parser/files/{id}/{id}.replay", media_type="application/octet-stream")
+    else:
+        return HTTPException(status_code=404, detail=f"Unable to download replay. {result.message}")
