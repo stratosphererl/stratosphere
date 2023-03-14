@@ -2,7 +2,8 @@ from fastapi import APIRouter, Depends, Response, HTTPException, status, UploadF
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from typing import Optional
-import os 
+import os, json
+from parser.worker import celery
 
 from services.service import ReplayService
 from util.result import ServiceResponseSuccess, ServiceResponseError, ServiceResponsePage
@@ -10,6 +11,9 @@ from config.database import collection
 from repository.ReplayRepository import ReplayRepository
 from config.envs import *
 from schemas.forms import ReplayUpdateForm
+
+import shutil
+import uuid
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/token")
 
@@ -134,6 +138,25 @@ def get_replay_by_id(id: str, service = Depends(service)):
     else:
         return HTTPException(status_code=404, detail=result.message)
 
+@router.get("/replay/status/{id}")
+def get_replay_status(id: str, service = Depends(service)):
+    if id is None:
+        return HTTPException(status_code=400, detail="Replay id is required")
+    
+    result = celery.AsyncResult(id)
+    print(result.state, result.info)
+
+    response = {}
+    if result.state == "PENDING":
+        response = {"state": str(result.state), "status": "Pending..."}
+    elif result.state != "FAILURE":
+        response = {"state": str(result.state), "status": str(result.traceback)}
+    else:
+        response = {"state": str(result.state), "status": str(result.info)}
+    
+    return Response(content=json.dumps(response), media_type="application/json", status_code=200)
+
+
 @router.get("/replays/user/{user_id}")
 def get_user_replay(user_id: str, service = Depends(service)):
     result = service.search(0, 999, {"players": user_id})
@@ -148,7 +171,15 @@ def post_replay(file : UploadFile, token: str = Depends(get_current_user), servi
     if not str(file.filename).endswith(".replay"):
         return HTTPException(status_code=400, detail="Not a valid replay file")
     
-    return {"filename": file.filename}
+    filename = str(uuid.uuid4()) + ".replay"
+    with open(f"./parser/files/{filename}", "wb+") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    path = f"./files/{filename}"
+
+    task = celery.send_task("parse", args=[path])
+
+    return Response(content=json.dumps({"task-id": task.id}), media_type="application/json", status_code=202)
 
 @router.delete("/replays/{id}")
 def delete_replay_by_id(id: str, token: str = Depends(get_current_user), service = Depends(service)):

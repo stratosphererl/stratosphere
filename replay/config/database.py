@@ -4,9 +4,6 @@ from .envs import *
 
 from pymongo import MongoClient
 from pymongo.collection import Collection
-import json
-
-from schemas.parsed_replay import DetailedReplay
 
 assert os.getenv(DB_VAR_HOST_NAME) is not None, "DB_HOST is not set"
 assert os.getenv(DB_VAR_NAME) is not None, "DB_NAME is not set"

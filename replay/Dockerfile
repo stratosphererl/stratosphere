@@ -13,8 +13,9 @@ RUN pip install pipenv && \
     pipenv install --system --deploy --ignore-pipfile
 
 # Copy the rest of the application code to the container
-COPY ../.env ./
-# COPY .env ./
+
+
+COPY .env /app/
 COPY ./replay .
 
 # Run the application
