@@ -47,7 +47,7 @@ def database(request):
         detach=True,
     )
 
-    src_path = os.getcwd() + "/tests/setup/init.sql"
+    src_path = os.getcwd() + "/user-service/tests/setup/init.sql"
     copy_to_container(database_container, src_path, "/docker-entrypoint-initdb.d/")
     database_container.start()
 

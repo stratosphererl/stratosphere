@@ -1,9 +1,17 @@
 import dotenv
+import shutil, os, pathlib
 
 ENV_PATH = ".env"
+
 dotenv.load_dotenv(dotenv_path=ENV_PATH)
 
-# TODO: Add your environment variables names here
+
+if not os.getenv("DOCKER_RUNNING"):
+    # running locally means our .env wasn't mounted
+    path = pathlib.Path(__file__).parent.absolute()
+    shutil.copyfile(path.parent.parent / ".env", path.parent / ".env")
+
+# Add your environment variables names here
 USER_SERVICE_VAR_NAME = "USER_SERVICE_NAME"
 USER_SERVICE_VAR_PORT_NAME = "USER_SERVICE_PORT"
 
