@@ -14,8 +14,8 @@ RUN pip install pipenv && \
     pipenv install --system --deploy --ignore-pipfile
 
 # Copy the rest of the application code to the container
-COPY .env .
-COPY ./user-service .
+COPY .env ./
+COPY ./user-service ./
 
 # Run the application
 CMD python3 app.py

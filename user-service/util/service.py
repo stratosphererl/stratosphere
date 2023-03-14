@@ -1,7 +1,6 @@
 from config.database import Database
 import abc
 import os
-from loguru import logger
 
 class Service(abc.ABC):
     db = None

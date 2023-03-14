@@ -6,8 +6,6 @@ from loguru import logger
 
 from .envs import *
 
-db = None
-
 class AbstractDatabase(abc.ABC):
     """
     Abstract database class
@@ -38,7 +36,7 @@ class Database(AbstractDatabase):
                 dbname = os.getenv(USER_DB_VAR_NAME),
                 user = os.getenv(USER_DB_VAR_USER_NAME),
                 password = os.getenv(USER_DB_VAR_PASSWORD_NAME),
-                port = os.getenv(USER_DB_VAR_PORT_NAME)
+                port = os.getenv(USER_DB_VAR_PORT_NAME) if self.test else os.getenv(USER_DB_VAR_PORT_NAME)
             )
         except psycopg2.OperationalError as e:
             print(f"Could not connect to Database: {e}")
@@ -116,12 +114,3 @@ class Database(AbstractDatabase):
                 cur.execute("ROLLBACK")
                 self.conn.commit()
                 return None
-
-            
-def init():
-    """
-    Initializes singleton database, avoids circular imports
-    """
-    logger.debug("Initializing database...")
-    global db
-    # db = Database()
