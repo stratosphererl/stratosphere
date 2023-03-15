@@ -117,7 +117,8 @@ export default function PlayerBarGraph({
             .style("border-radius", tooltip_border_radius + "px")
             .style("padding", tooltip_padding + "px")
             .style("color", tooltip_text_color)
-            .style("font-family", tooltip_font);
+            .style("font-family", tooltip_font)
+            .style("font-weight", "bold");
 
         const mouseover = function(this: any, event: any, d: any) {
             Tooltip
@@ -171,12 +172,14 @@ export default function PlayerBarGraph({
             .style("color", axis_color)
             .style("font-size", axis_font_size + "px")
             .style("font-family", axis_font)
+            .style("font-weight", "bold")
             .call(d3.axisBottom(x));
 
         refSelection.append("g")
             .style("color", axis_color)
             .style("font-size", axis_font_size + "px")
             .style("font-family", axis_font)
+            .style("font-weight", "bold")
             .call(d3.axisLeft(y));
 
         return () => {

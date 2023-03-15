@@ -93,7 +93,8 @@ export default function GraphLegend({
                 .attr("text-anchor", "left")
                 .style("alignment-baseline", "middle")
                 .style("font-size", (size * .8) + "px")
-                .style("font-family", font);
+                .style("font-family", font)
+                .style("font-weight", "bold");
 
         return () => {
             d3.select(ref.current).selectAll("*").remove();

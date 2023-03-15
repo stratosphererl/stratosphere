@@ -1,5 +1,8 @@
+import { useState, useEffect } from "react";
+
 import GraphLegend from "./replay-graphs/GraphLegend";
 import PlayerBarGraph from "./replay-graphs/PlayerBarGraph";
+import TugGraph from "./replay-graphs/TugGraph";
 
 const data: any[] = [
     {
@@ -50,11 +53,26 @@ const group_label = "name";
 
 const sub_groups = ["Goals", "Assists", "Saves", "Shots"];
 
+const tug_graph_data = [{}, {}] as [any, any];
+
+sub_groups.forEach((key) => {
+    tug_graph_data[0][key] = data.slice(0, 3).map((d) => d[key]).reduce((x, y) => x + y) as number;
+});
+sub_groups.forEach((key) => {
+    tug_graph_data[1][key] = data.slice(3, 6).map((d) => d[key]).reduce((x, y) => x + y) as number;
+});
+
 export default function() {
+        
     return (
-        <div className="flex">
-            <PlayerBarGraph data={data} group_label={group_label} sub_groups={sub_groups} />
-            <GraphLegend keys={sub_groups} />
+        <div>
+            <div id="player-bar-graph" className="flex">
+                <PlayerBarGraph data={data} group_label={group_label} sub_groups={sub_groups} />
+                <GraphLegend keys={sub_groups} />
+            </div>
+            <div id="team-tug-graph">
+                <TugGraph data={tug_graph_data} sub_groups={sub_groups} />
+            </div>
         </div>
     )
 }
