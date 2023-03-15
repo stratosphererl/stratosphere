@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, Response, HTTPException, status, UploadFile
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from jose import JWTError, jwt
-from typing import Optional
+from typing import Optional, List
 import os, json
 from parser.worker import celery
 
@@ -12,6 +12,7 @@ from config.database import collection
 from repository.ReplayRepository import ReplayRepository
 from config.envs import *
 from schemas.forms import ReplayUpdateForm
+from schemas.parsed_replay import DetailedReplay, ReplayHeader
 
 import shutil
 import uuid
@@ -22,6 +23,7 @@ ADMIN_USERNAME = os.getenv(ADMIN_USER_NAME)
 ADMIN_PASSWORD = os.getenv(ADMIN_PASSWORD_NAME)
 SECRET_KEY = os.getenv(SECRET_KEY_NAME)
 ENCODER_ALGORITHM = os.getenv(ENCODER_ALGORIGHTM_NAME)
+
 
 def is_admin(username, password):
     if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
@@ -52,7 +54,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 
 router = APIRouter()
 
-@router.post("/token")
+@router.post("/token", tags=['Post Methods'])
 def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -67,11 +69,47 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
 def service():
     return ReplayService(ReplayRepository(collection))
 
-@router.get("/")
+@router.get("/", tags=['Get Methods (Dynamic)'])
 def home():
     return {"message": "Welcome to the Replay API"}
 
-@router.get("/replays")
+@router.get("/replays/maps", tags=['Get Methods (Static)'])
+def get_maps():
+    fp = "./resource/map.json"
+    if not os.path.exists(fp):
+        return HTTPException(status_code=404, detail="Unable to find map data")
+    else:
+        with open(fp, "r") as f:
+            return FileResponse(fp, media_type="application/json", status_code=200)
+
+@router.get("/replays/ranks", tags=['Get Methods (Static)'])
+def get_ranks():
+    fp = "./resource/rank.json"
+    if not os.path.exists(fp):
+        return HTTPException(status_code=404, detail="Unable to find rank data")
+    else:
+        with open(fp, "r") as f:
+            return FileResponse(fp, media_type="application/json", status_code=200)
+
+@router.get("/replays/seasons", tags=['Get Methods (Static)'])
+def get_seasons():
+    fp = "./resource/season.json"
+    if not os.path.exists(fp):
+        return HTTPException(status_code=404, detail="Unable to find season data")
+    else:
+        with open(fp, "r") as f:
+            return FileResponse(fp, media_type="application/json", status_code=200)
+
+@router.get("/replays/playlist", tags=['Get Methods (Static)'])
+def get_playlist():
+    fp = "./resource/playlist.json"
+    if not os.path.exists(fp):
+        return HTTPException(status_code=404, detail="Unable to find playlist data")
+    else:
+        with open(fp, "r") as f:
+            return JSONResponse(fp, media_type="application/json", status_code=200)
+
+@router.get("/replays", tags=['Get Methods (Dynamic)'])
 def get_replays(page: int = 0, limit: int = 30, service: ReplayService = Depends(service)):
     result = service.get_replays(page, limit)
 
@@ -83,7 +121,7 @@ def get_replays(page: int = 0, limit: int = 30, service: ReplayService = Depends
     else:
         return HTTPException(status_code=404, detail=result.message)
 
-@router.get("/replays/search")
+@router.get("/replays/search", tags=['Get Methods (Dynamic)'])
 def search_replays(page: int = 0, 
                    limit: int = 30, 
                    name: Optional[str] = None,
@@ -126,11 +164,11 @@ def search_replays(page: int = 0,
         return HTTPException(status_code=404, detail=result.message)
     
 
-@router.get("/replays/count")
+@router.get("/replays/count", tags=['Get Methods (Dynamic)'])
 def get_replays_count(service = Depends(service)):
     return Response(content=service.get_replays_count().json(), media_type="application/json", status_code=200)
 
-@router.get("/replays/{id}")
+@router.get("/replays/{id}", tags=['Get Methods (Dynamic)'])
 def get_replay_by_id(id: str, service = Depends(service)):
     result = service.get_replay(id)
     
@@ -139,26 +177,22 @@ def get_replay_by_id(id: str, service = Depends(service)):
     else:
         return HTTPException(status_code=404, detail=result.message)
 
-@router.get("/replay/status/{id}")
+@router.get("/replays/status/{id}", tags=['Get Methods (Dynamic)'])
 def get_replay_status(id: str, service = Depends(service)):
     if id is None:
         return HTTPException(status_code=400, detail="Replay id is required")
     
     result = celery.AsyncResult(id)
-    print(result.state, result.info)
 
-    response = {}
-    if result.state == "PENDING":
-        response = {"state": str(result.state), "status": "Pending..."}
-    elif result.state != "FAILURE":
-        response = {"state": str(result.state), "status": str(result.traceback)}
-    else:
-        response = {"state": str(result.state), "status": str(result.info)}
+    response = {
+        "state": str(result.state),
+        "status": result.info if result.state != "FAILURE" else result.traceback
+    }
     
     return Response(content=json.dumps(response), media_type="application/json", status_code=200)
 
 
-@router.get("/replays/user/{user_id}")
+@router.get("/replays/user/{user_id}", tags=['Get Methods (Dynamic)'])
 def get_user_replay(user_id: str, service = Depends(service)):
     result = service.search(0, 999, {"players": user_id})
     
@@ -167,7 +201,7 @@ def get_user_replay(user_id: str, service = Depends(service)):
     else:
         return HTTPException(status_code=404, detail=result.message)
 
-@router.post("/replays")
+@router.post("/replays", tags=['Post Methods'])
 def post_replay(file : UploadFile, token: str = Depends(get_current_user), service = Depends(service)):
     if not str(file.filename).endswith(".replay"):
         return HTTPException(status_code=400, detail="Not a valid replay file")
@@ -182,16 +216,20 @@ def post_replay(file : UploadFile, token: str = Depends(get_current_user), servi
 
     return Response(content=json.dumps({"task-id": task.id}), media_type="application/json", status_code=202)
 
-@router.delete("/replays/{id}")
+@router.delete("/replays/{id}", tags=['Delete Methods'])
 def delete_replay_by_id(id: str, token: str = Depends(get_current_user), service = Depends(service)):
     result = service.delete_replay(id)
 
     if isinstance(result, ServiceResponseSuccess):
+        try:
+            shutil.rmtree(f"./parser/files/{id}")
+        except Exception as e:
+            print(f"Couldn't delete replay in data store: {e}")
         return Response(content=result.json(), media_type="application/json", status_code=200)
     else:
         return HTTPException(status_code=404, detail=result.message)
 
-@router.put("/replays/{id}")
+@router.put("/replays/{id}", tags=["Put Methods"])
 def update_replay_by_id(form: ReplayUpdateForm, id: str, token: str = Depends(get_current_user), service = Depends(service)):
     if not isinstance(form, ReplayUpdateForm):
         return HTTPException(status_code=400, detail="Invalid request body")
@@ -206,10 +244,12 @@ def update_replay_by_id(form: ReplayUpdateForm, id: str, token: str = Depends(ge
     else:
         return HTTPException(status_code=404, detail=result.message)
 
-@router.get("/replays/download/{id}")
+@router.get("/replays/download/{id}", tags=['Get Methods (Dynamic)'])
 def download_replay_by_id(id: str, service = Depends(service)):
     result = service.get_replay(id)
     if isinstance(result, ServiceResponseSuccess):
-        return FileResponse(f"./parser/files/{id}/{id}.replay", media_type="application/octet-stream")
+        return FileResponse(f"./parser/files/{id}/{id}.replay", 
+                            media_type="application/octet-stream",
+                            filename=f"{id}")
     else:
         return HTTPException(status_code=404, detail=f"Unable to download replay. {result.message}")
