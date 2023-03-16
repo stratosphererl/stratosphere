@@ -1,5 +1,5 @@
-export default function Filter() {
+export default function Filtering() {
     return (
-        <div>filter.tsx</div>
+        <div>filtering.tsx</div>
     );
 }
