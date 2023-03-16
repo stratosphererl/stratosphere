@@ -3,6 +3,8 @@ FROM python:3.10
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+ENV DOCKER_RUNNING=true
+
 WORKDIR /app
 
 # Copy the Pipfile and Pipfile.lock to the container

@@ -150,6 +150,11 @@ def parse(self, path):
 
         mmr = extract_mmr(raw_replay['debug_info'])
 
+        try:
+            parsed_replay = carball_parse(path)
+        except Exception as e:
+            raise Exception(f"Failed to analyze replay: {e}")
+        
         self.update_state(state="PROGRESS", meta={
             "replay_id": f"{id}",
             "process_time": None,
@@ -160,13 +165,7 @@ def parse(self, path):
             }
         })
 
-        try:
-            parsed_replay = carball_parse(path)
-        except Exception as e:
-            raise Exception(f"Failed to analyze replay: {e}")
-
-        if mmr:
-            parsed_replay['mmr'] = mmr
+        parsed_replay['mmr'] = mmr
 
         parsed_replay['uploadDate'] = str(datetime.now())
 
