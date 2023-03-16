@@ -28,47 +28,59 @@ const client = new ApolloClient(
   }
 )
 
+// const errorPage = <ErrorPage message = "A general error has occured"/>
+const errorPage = <ErrorPage message = "An unexpected error has occured" />
+
 const router = createBrowserRouter([
   { // redirect.tsx
     path: "/",
     element: <RedirectPage />,
-    errorElement: <ErrorPage />,
+    errorElement: errorPage
   },
   { // about.tsx
     path: "/about",
-    element: <AboutPage />
+    element: <AboutPage />,
+    errorElement: errorPage
   },
   { // browse.tsx
     path: "/browse/:version",
-    element: <BrowsePage />
+    element: <BrowsePage />,
+    errorElement: errorPage
   },
   { // home.tsx
     path: "/home",
-    element: <HomePage />
+    element: <HomePage />,
+    errorElement: errorPage
   },
   { // login.tsx
     path: "/login",
-    element: <LoginPage />
+    element: <LoginPage />,
+    errorElement: errorPage
   },
   { // overlay.tsx
     path: "/overlay",
-    element: <OverlayPage />
+    element: <OverlayPage />,
+    errorElement: errorPage
   },
   { // replay.tsx
     path: "/replay/:replayid",
-    element: <ReplayPage />
+    element: <ReplayPage />,
+    errorElement: errorPage
   },
   { // settings.tsx
     path: "/settings",
-    element: <SettingsPage />
+    element: <SettingsPage />,
+    errorElement: errorPage
   },
   { // statistics.tsx
     path: "/stats/:version",
-    element: <StatsPage />
+    element: <StatsPage />,
+    errorElement: errorPage
   },
   { // upload.tsx
     path: "/upload",
-    element: <UploadPage />
+    element: <UploadPage />,
+    errorElement: errorPage
   },
 ]);
 

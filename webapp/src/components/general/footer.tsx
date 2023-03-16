@@ -1,5 +1,5 @@
 export default function Footer() {
     return (
-        <div>Footer.tsx</div>
+        <div>footer.tsx</div>
     );
 }
