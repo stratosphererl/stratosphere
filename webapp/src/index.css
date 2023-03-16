@@ -19,24 +19,98 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-.montserrat {
-  font-family: Montserrat;
+/* Fonts used */
+.montserrat { font-family: Montserrat; }
+
+/* Colors used */
+.gray-1 { color: #1F1F1F; }
+.gray-2 { color: #111111; }
+.gray-3 { color: #666666; }
+.ice-blue { color: #71ACD9; }
+.ocean-blue { color: #1F7989; }
+.orange { color: #FF6A00; }
+.progress-green { color: #128721; }
+.sky-blue { color: #18A0FB; }
+.warning-red { color: #CC0000; }
+.white { color: #FFFFFF; }
+
+/* Text styling used */
+.ocean-blue-stroke-2 { /* Puts ~2px ocean blue border around text */
+  text-shadow: #1F7989 2px 0px 0px, 
+    #1F7989 1.75517px 0.958851px 0px, 
+    #1F7989 1.0806px 1.68294px 0px, 
+    #1F7989 0.141474px 1.99499px 0px, 
+    #1F7989 -0.832294px 1.81859px 0px, 
+    #1F7989 -1.60229px 1.19694px 0px, 
+    #1F7989 -1.97998px 0.28224px 0px, 
+    #1F7989 -1.87291px -0.701566px 0px, 
+    #1F7989 -1.30729px -1.5136px 0px, 
+    #1F7989 -0.421592px -1.95506px 0px, 
+    #1F7989 0.567324px -1.91785px 0px, 
+    #1F7989 1.41734px -1.41108px 0px, 
+    #1F7989 1.92034px -0.558831px 0px;  
 }
 
-.blue-stroke-2 {
-  text-shadow: rgb(24, 160, 251) 2px 0px 0px, rgb(24, 160, 251) 1.75517px 0.958851px 0px, rgb(24, 160, 251) 1.0806px 1.68294px 0px, rgb(24, 160, 251) 0.141474px 1.99499px 0px, rgb(24, 160, 251) -0.832294px 1.81859px 0px, rgb(24, 160, 251) -1.60229px 1.19694px 0px, rgb(24, 160, 251) -1.97998px 0.28224px 0px, rgb(24, 160, 251) -1.87291px -0.701566px 0px, rgb(24, 160, 251) -1.30729px -1.5136px 0px, rgb(24, 160, 251) -0.421592px -1.95506px 0px, rgb(24, 160, 251) 0.567324px -1.91785px 0px, rgb(24, 160, 251) 1.41734px -1.41108px 0px, rgb(24, 160, 251) 1.92034px -0.558831px 0px;  
-}
-
-.blue-stroke {
-  text-shadow: rgb(24, 160, 251) 1px 0px 0px, rgb(24, 160, 251) 0.540302px 0.841471px 0px, rgb(24, 160, 251) -0.416147px 0.909297px 0px, rgb(24, 160, 251) -0.989992px 0.14112px 0px, rgb(24, 160, 251) -0.653644px -0.756802px 0px, rgb(24, 160, 251) 0.283662px -0.958924px 0px, rgb(24, 160, 251) 0.96017px -0.279415px 0px;
+.sky-blue-stroke-2 { /* Puts ~2px sky  blue border around text */
+  text-shadow: #18A0FB 2px 0px 0px, 
+    #18A0FB 1.75517px 0.958851px 0px, 
+    #18A0FB 1.0806px 1.68294px 0px, 
+    #18A0FB 0.141474px 1.99499px 0px, 
+    #18A0FB -0.832294px 1.81859px 0px, 
+    #18A0FB -1.60229px 1.19694px 0px, 
+    #18A0FB -1.97998px 0.28224px 0px, 
+    #18A0FB -1.87291px -0.701566px 0px, 
+    #18A0FB -1.30729px -1.5136px 0px, 
+    #18A0FB -0.421592px -1.95506px 0px, 
+    #18A0FB 0.567324px -1.91785px 0px, 
+    #18A0FB 1.41734px -1.41108px 0px, 
+    #18A0FB 1.92034px -0.558831px 0px;  
 }
 
 .orange-stroke-2 {
-  text-shadow: rgb(255, 106, 0) 2px 0px 0px, rgb(255, 106, 0) 1.75517px 0.958851px 0px, rgb(255, 106, 0) 1.0806px 1.68294px 0px, rgb(255, 106, 0) 0.141474px 1.99499px 0px, rgb(255, 106, 0) -0.832294px 1.81859px 0px, rgb(255, 106, 0) -1.60229px 1.19694px 0px, rgb(255, 106, 0) -1.97998px 0.28224px 0px, rgb(255, 106, 0) -1.87291px -0.701566px 0px, rgb(255, 106, 0) -1.30729px -1.5136px 0px, rgb(255, 106, 0) -0.421592px -1.95506px 0px, rgb(255, 106, 0) 0.567324px -1.91785px 0px, rgb(255, 106, 0) 1.41734px -1.41108px 0px, rgb(255, 106, 0) 1.92034px -0.558831px 0px;
+  text-shadow: #FF6A00 2px 0px 0px, 
+    #FF6A00 1.75517px 0.958851px 0px, 
+    #FF6A00 1.0806px 1.68294px 0px, 
+    #FF6A00 0.141474px 1.99499px 0px, 
+    #FF6A00 -0.832294px 1.81859px 0px, 
+    #FF6A00 -1.60229px 1.19694px 0px, 
+    #FF6A00 -1.97998px 0.28224px 0px, 
+    #FF6A00 -1.87291px -0.701566px 0px, 
+    #FF6A00 -1.30729px -1.5136px 0px, 
+    #FF6A00 -0.421592px -1.95506px 0px, 
+    #FF6A00 0.567324px -1.91785px 0px, 
+    #FF6A00 1.41734px -1.41108px 0px, 
+    #FF6A00 1.92034px -0.558831px 0px; 
 }
 
-.orange-stroke {
-  text-shadow: rgb(255, 106, 0) 1px 0px 0px, rgb(255, 106, 0) 0.540302px 0.841471px 0px, rgb(255, 106, 0) -0.416147px 0.909297px 0px, rgb(255, 106, 0) -0.989992px 0.14112px 0px, rgb(255, 106, 0) -0.653644px -0.756802px 0px, rgb(255, 106, 0) 0.283662px -0.958924px 0px, rgb(255, 106, 0) 0.96017px -0.279415px 0px;  
+.ocean-blue-stroke-1 {
+  text-shadow: #1F7989 1px 0px 0px, 
+    #1F7989 0.540302px 0.841471px 0px, 
+    #1F7989 -0.416147px 0.909297px 0px, 
+    #1F7989 -0.989992px 0.14112px 0px, 
+    #1F7989 -0.653644px -0.756802px 0px, 
+    #1F7989 0.283662px -0.958924px 0px, 
+    #1F7989 0.96017px -0.279415px 0px;
+}
+
+.sky-blue-stroke-1 {
+  text-shadow: #18A0FB 1px 0px 0px, 
+    #18A0FB 0.540302px 0.841471px 0px, 
+    #18A0FB -0.416147px 0.909297px 0px, 
+    #18A0FB -0.989992px 0.14112px 0px, 
+    #18A0FB -0.653644px -0.756802px 0px, 
+    #18A0FB 0.283662px -0.958924px 0px, 
+    #18A0FB 0.96017px -0.279415px 0px;
+}
+
+.orange-blue-stroke-1 {
+  text-shadow: #FF6A00 1px 0px 0px, 
+    #FF6A00 0.540302px 0.841471px 0px, 
+    #FF6A00 -0.416147px 0.909297px 0px, 
+    #FF6A00 -0.989992px 0.14112px 0px, 
+    #FF6A00 -0.653644px -0.756802px 0px, 
+    #FF6A00 0.283662px -0.958924px 0px, 
+    #FF6A00 0.96017px -0.279415px 0px;
 }
 
 .truncate {
