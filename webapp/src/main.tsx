@@ -8,19 +8,19 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-import AboutPage from "./routes/about"
-import BrowsePage from "./routes/Browse/browse"
-import HomePage from "./routes/Home/home"
-import LoginPage from "./routes/Login/login"
-import OverlayPage from "./routes/overlay"
-import RedirectPage from "./routes/redirect"
-import ReplayPage from "./routes/replay"
-import SettingsPage from "./routes/Settings/settings"
-import StatsPage from "./routes/Statistics/statistics"
-import UploadPage from "./routes/upload"
-import ErrorPage from "./routes/Error/error"
-import DataPage from "./components/replays/data"
-import ReplayJSON from "./mock/replay.json"
+import AboutPage from "./routes/about";
+import BrowsePage from "./routes/Browse/browse";
+import HomePage from "./routes/Home/home";
+import LoginPage from "./routes/Login/login";
+import OverlayPage from "./routes/overlay";
+import RedirectPage from "./routes/redirect";
+import ReplayPage from "./routes/replay";
+import SettingsPage from "./routes/Settings/settings";
+import StatsPage from "./routes/Statistics/statistics";
+import UploadPage from "./routes/upload";
+import ErrorPage from "./routes/Error/error";
+import DataPage from "./components/replays/data";
+import ReplayJSON from "./mock/replay.json";
 
 import Wrapper from "./components/general/wrapper";
 
