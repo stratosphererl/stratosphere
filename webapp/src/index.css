@@ -51,7 +51,7 @@ body {
     #1F7989 1.92034px -0.558831px 0px;  
 }
 
-.sky-blue-stroke-2 { /* Puts ~2px sky  blue border around text */
+.sky-blue-stroke-2 { /* Puts ~2px sky blue border around text */
   text-shadow: #18A0FB 2px 0px 0px, 
     #18A0FB 1.75517px 0.958851px 0px, 
     #18A0FB 1.0806px 1.68294px 0px, 
@@ -67,7 +67,7 @@ body {
     #18A0FB 1.92034px -0.558831px 0px;  
 }
 
-.orange-stroke-2 {
+.orange-stroke-2 { /* Puts ~2px orange border around text */
   text-shadow: #FF6A00 2px 0px 0px, 
     #FF6A00 1.75517px 0.958851px 0px, 
     #FF6A00 1.0806px 1.68294px 0px, 
@@ -83,7 +83,7 @@ body {
     #FF6A00 1.92034px -0.558831px 0px; 
 }
 
-.ocean-blue-stroke-1 {
+.ocean-blue-stroke-1 { /* ~1px border */
   text-shadow: #1F7989 1px 0px 0px, 
     #1F7989 0.540302px 0.841471px 0px, 
     #1F7989 -0.416147px 0.909297px 0px, 
@@ -93,7 +93,7 @@ body {
     #1F7989 0.96017px -0.279415px 0px;
 }
 
-.sky-blue-stroke-1 {
+.sky-blue-stroke-1 { /* ~1px border */
   text-shadow: #18A0FB 1px 0px 0px, 
     #18A0FB 0.540302px 0.841471px 0px, 
     #18A0FB -0.416147px 0.909297px 0px, 
@@ -103,7 +103,7 @@ body {
     #18A0FB 0.96017px -0.279415px 0px;
 }
 
-.orange-blue-stroke-1 {
+.orange-blue-stroke-1 { /* ~1px border */
   text-shadow: #FF6A00 1px 0px 0px, 
     #FF6A00 0.540302px 0.841471px 0px, 
     #FF6A00 -0.416147px 0.909297px 0px, 

@@ -6,7 +6,7 @@ import {
   RouterProvider,
   redirect
 } from "react-router-dom";
-import App from './App'
+// import App from './App'
 import './index.css'
 
 import AboutPage from "./routes/about"
