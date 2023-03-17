@@ -1,4 +1,4 @@
-import { Routes, Route, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ErrorPage from "./error"
 
 export default function Browse() {
