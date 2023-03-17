@@ -9,6 +9,8 @@ import {
 // import App from './App'
 import './index.css'
 
+import { Navigate } from "react-router-dom";
+
 import AboutPage from "./routes/about"
 import BrowsePage from "./routes/browse"
 import ErrorPage from "./routes/error"
@@ -20,6 +22,8 @@ import ReplayPage from "./routes/replay"
 import SettingsPage from "./routes/settings"
 import StatsPage from "./routes/statistics"
 import UploadPage from "./routes/upload"
+
+import Wrapper from "./components/general/wrapper"
 
 const client = new ApolloClient(
   {
@@ -37,49 +41,54 @@ const router = createBrowserRouter([
     element: <RedirectPage />,
     errorElement: errorPage
   },
-  { // about.tsx
+  {
     path: "/about",
-    element: <AboutPage />,
+    element: <Wrapper pageHeight = {1383} background = "background-about"><AboutPage/></Wrapper>,
     errorElement: errorPage
   },
   { // browse.tsx
     path: "/browse/:version",
-    element: <BrowsePage />,
+    element: <Wrapper pageHeight = {2845} background = "background-browse"><BrowsePage/></Wrapper>,
+    errorElement: errorPage
+  },
+  {
+    path: "/error",
+    element: <Wrapper pageHeight = {1920} background = "">{errorPage}</Wrapper>,
     errorElement: errorPage
   },
   { // home.tsx
     path: "/home",
-    element: <HomePage />,
+    element: <Wrapper pageHeight = {3013} background = "background-home"><HomePage/></Wrapper>,
     errorElement: errorPage
   },
   { // login.tsx
     path: "/login",
-    element: <LoginPage />,
+    element: <Wrapper pageHeight = {1455} background = "background-login"><LoginPage/></Wrapper>,
     errorElement: errorPage
   },
   { // overlay.tsx
     path: "/overlay",
-    element: <OverlayPage />,
+    element: <Wrapper pageHeight = {1459} background = "background-overlay"><OverlayPage/></Wrapper>,
     errorElement: errorPage
   },
   { // replay.tsx
     path: "/replay/:replayid",
-    element: <ReplayPage />,
-    errorElement: errorPage
+    element: <Wrapper pageHeight = {1626} background = "background-replay"><ReplayPage/></Wrapper>,
+    errorElement: <Navigate to="/error"/>
   },
   { // settings.tsx
     path: "/settings",
-    element: <SettingsPage />,
+    element: <Wrapper pageHeight = {1455} background = "background-replay"><SettingsPage/></Wrapper>,
     errorElement: errorPage
   },
   { // statistics.tsx
     path: "/stats/:version",
-    element: <StatsPage />,
+    element: <Wrapper pageHeight = {1494} background = "background-stats"><StatsPage/></Wrapper>,
     errorElement: errorPage
   },
   { // upload.tsx
     path: "/upload",
-    element: <UploadPage />,
+    element: <Wrapper pageHeight = {1481} background = "background-upload"><UploadPage/></Wrapper>,
     errorElement: errorPage
   },
 ]);

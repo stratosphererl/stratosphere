@@ -2,25 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #1a202c;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
 /* Fonts used */
 .montserrat { font-family: Montserrat; }
+.montserrat-semibold-italic {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Font sizes used */
+.text-size-32 {
+  font-size: 32px;
+}
 
 /* Colors used */
 .gray-1 { color: #1F1F1F; }
@@ -111,6 +104,119 @@ body {
     #FF6A00 -0.653644px -0.756802px 0px, 
     #FF6A00 0.283662px -0.958924px 0px, 
     #FF6A00 0.96017px -0.279415px 0px;
+}
+
+/* Gradients uses */
+.gray-2-gradient{
+  height:108px;
+  width:1912px;
+  background:linear-gradient(#111111, transparent);
+}
+
+/* Background images used */
+.background-about {
+  background-image: url("./assets/images/backgrounds/about.png");
+}
+
+.background-browse-general {
+  background-image: url("./assets/images/backgrounds/browse_general.png");
+}
+
+.background-browse-personal {
+  background-image: url("./assets/images/backgrounds/browse_personal.png");
+}
+
+.background-home {
+  background-image: url("./assets/images/backgrounds/home.png");
+}
+
+.background-login {
+  background-image: url("./assets/images/backgrounds/login.png");
+}
+
+.background-overlay {
+  background-image: url("./assets/images/backgrounds/overlay.png");
+}
+
+.background-replay {
+  background-image: url("./assets/images/backgrounds/replay.png");
+}
+
+.background-settings {
+  background-image: url("./assets/images/backgrounds/settings.png");
+}
+
+.background-stats-general {
+  background-image: url("./assets/images/backgrounds/stats_general.png");
+}
+
+.background-stats-personal {
+  background-image: url("./assets/images/backgrounds/stats_personal.png");
+}
+
+.background-upload {
+  background-image: url("./assets/images/backgrounds/upload.png");
+}
+
+/* Modifying scrollbar */
+::-webkit-scrollbar { /* Width & height */
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track { /* Track color */
+  background: #FFFFFF;
+}
+
+::-webkit-scrollbar-thumb { /* Bar color when idle */
+  background: #1F7989;
+}
+
+::-webkit-scrollbar-thumb:hover { /* Bar color when hovering */
+  background: #666666;
+}
+
+/* Header CSS */
+
+.header-logo-padding {
+  padding-left: 1.125rem;
+  padding-right: 1.125rem;
+}
+
+.header-text-padding {
+  padding-left: 1.125rem;
+  padding-right: 1.125rem;
+}
+
+.header-block-button {
+  display: block;
+  color: #1F7989;
+  background: #FFFFFF;
+  font-size: 32px;
+  font-family: Montserrat;
+  font-weight: 600;
+  height: 73px;
+  width: 234px;
+  border: solid #1F7989;
+  border-width: 4px;
+}
+
+/* Other */
+body {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1a202c;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
 .truncate {

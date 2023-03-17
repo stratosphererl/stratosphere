@@ -1,7 +1,7 @@
 import React from 'react';
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-export default function YourComponent() {
+export default function Redirect() {
     return (
       <Navigate to="/home" />
     );
