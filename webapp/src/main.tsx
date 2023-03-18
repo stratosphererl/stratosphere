@@ -19,7 +19,7 @@ import UploadPage from "./routes/upload"
 
 import Wrapper from "./components/general/wrapper"
 
-import { UserProvider } from "./context/contexts"
+import { HeaderProvider, UserProvider } from "./context/contexts"
 
 const client = new ApolloClient(
   {
@@ -73,7 +73,7 @@ const router = createBrowserRouter([
   },
   { // settings.tsx
     path: "/settings",
-    element: <Wrapper pageHeight = {1455} background = "background-replay"><SettingsPage/></Wrapper>,
+    element: <Wrapper pageHeight = {1455} background = "background-settings"><SettingsPage/></Wrapper>,
     errorElement: errorPage
   },
   { // statistics.tsx
@@ -95,7 +95,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
     <React.StrictMode>
       <UserProvider>
-        <RouterProvider router={router} />
+        <HeaderProvider>
+          <RouterProvider router={router} />
+        </HeaderProvider>
       </UserProvider>
     </React.StrictMode>
   </ApolloProvider>

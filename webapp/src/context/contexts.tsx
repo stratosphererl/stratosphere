@@ -1,5 +1,30 @@
 import React, { createContext, useState, useEffect } from 'react'
 
+// HEADER CONTEXT
+export const HeaderContext = createContext({
+    showDropdown: false,
+    toggleDropdown: () => {}
+})
+
+export const HeaderProvider = ({ children }) => {
+    const [showDropdown, setShowDropdown] = React.useState(false)
+
+    const toggleDropdown = () => {
+        console.log(showDropdown)
+        if (showDropdown === false) {
+            setShowDropdown(true)
+        } else {
+            setShowDropdown(false)
+        }
+    }
+
+    return (
+        <HeaderContext.Provider value={{showDropdown, toggleDropdown}}>
+            { children }
+        </HeaderContext.Provider>
+    )
+}
+
 // USER CONTEXT
 
 export const UserContext = createContext({
