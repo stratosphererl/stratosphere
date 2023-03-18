@@ -2,6 +2,23 @@ import logo from "../../assets/logo/72.png"
 import { useContext } from "react"
 import { HeaderContext, UserContext } from "../../context/contexts"
 
+// export default function About() {  
+//     // const {user, setUser} = useContext(UserContext) // This line WORKS
+
+//     const user = useContext(UserContext)
+
+//     const userValue = user.user
+//     const setUserValue = user.reviseUser
+
+//     return (
+//         <div>
+//             <div>about.tsx</div>
+//             <div>{JSON.stringify(userValue)}</div>
+//             <button onClick={() => setUserValue("ABC")}>click this</button>
+//         </div>
+//     )
+// }
+
 export default function Header() {
     const userValue = useContext(UserContext).user
     const setUserValue = useContext(UserContext).reviseUser
@@ -10,7 +27,7 @@ export default function Header() {
     const toggleDropdownValue = useContext(HeaderContext).toggleDropdown
 
     const dropdownTitles = ["Replays","Stats","Settings","Logout"]
-    const dropdownLinks = ["/browse/1","/stats/1","/settings","/about"]
+    const dropdownLinks = ["/browse/1","/stats/1","/settings","/home"]
 
     return (
         <div className="gray-2-gradient flex items-center">
@@ -31,7 +48,7 @@ export default function Header() {
                     <HeaderToggleButton text="Profile" toggle={toggleDropdownValue}/> :
                     <div style={{height: 73}}>
                         <HeaderToggleButton text="Profile" toggle={toggleDropdownValue}/>
-                        <ProfileDropdown titles={dropdownTitles} links={dropdownLinks}/>
+                        <ProfileDropdown titles={dropdownTitles} links={dropdownLinks} toggle={setUserValue}/>
                     </div>
                 )
             }
@@ -58,12 +75,16 @@ export function HeaderToggleButton(props: {text: string, toggle: Function}) {
     return ( <button type="button" className="header-block-button" onClick={() => props.toggle()}>{props.text}</button> )
 }
 
-export function ProfileDropdown(props: {titles: string[], links: string[]}) {
+export function ProfileDropdown(props: {titles: string[], links: string[], toggle: Function}) {
     return (
         props.titles.map((item, i) => (
             <div className="flex flex-nowrap">
                 <div style={{width: 23, height: 62}}></div>
-                <a href={props.links[i]}> <button className="mini-header-block-button">{props.titles[i]}</button> </a>
+                {
+                    i < 3 ? 
+                    <a href={props.links[i]}> <button className="mini-header-block-button-regular">{props.titles[i]}</button> </a> :
+                    <a href={props.links[i]}> <button className="mini-header-block-button-logout" onClick={() => props.toggle("0")}>{props.titles[i]}</button> </a>
+                }
             </div>
         ))
     )
