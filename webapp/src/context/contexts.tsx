@@ -4,20 +4,31 @@ import React, { createContext, useState, useEffect } from 'react'
 
 export const UserContext = createContext({
     user: {id: "0"},
-    reviseUser: (id: string) => {}
+    reviseUser: (input: string) => {}
 })
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState({id: "0"})
+    const [user, setUser] = React.useState({id: "0"})
 
-    const reviseUser = (id: string) => {
-        setUser({id: id})
-        localStorage.setItem("STRATOSPHERE_USER", JSON.stringify(id))
+    const reviseUser = (input: any) => {
+        const newValue = {id: input}
+        localStorage.setItem("STRATOSPHERE_USER", JSON.stringify(newValue))
+        setUser(newValue)
     }
 
+    useEffect(() => {
+        const newValue = localStorage.getItem("STRATOSPHERE_USER")
+
+        if (newValue === null) {
+            setUser({id: "0"})
+        } else {
+            setUser(JSON.parse(newValue))
+        }
+    }, [localStorage.getItem("STRATOSPHERE_USER")])
+
     return (
-        <UserContext.Provider value={{user, reviseUser}}>
-            { children }
+        <UserContext.Provider value = {{user, reviseUser}}>
+            {children}
         </UserContext.Provider>
     )
 }
