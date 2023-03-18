@@ -4,7 +4,16 @@
 
 /* CSS variables */
 :root {
-  --warning-red: #CC0000
+  --gray-1: #1F1F1F;
+  --gray-2: #111111;
+  --gray-3: #666666;
+  --ice-blue: #71ACD9;
+  --ocean-blue: #1F7989;
+  --orange: #FF6A00;
+  --progress-green: #128721;
+  --sky-blue: #18A0FB;
+  --warning-red: #CC0000;
+  --white: #FFFFFF;
 }
 
 /* Fonts used */
@@ -21,101 +30,107 @@
 }
 
 /* Colors used */
-.gray-1 { color: #1F1F1F; }
-.gray-2 { color: #111111; }
-.gray-3 { color: #666666; }
-.ice-blue { color: #71ACD9; }
-.ocean-blue { color: #1F7989; }
-.orange { color: #FF6A00; }
-.progress-green { color: #128721; }
-.sky-blue { color: #18A0FB; }
-.warning-red { color: #CC0000; }
-.white { color: #FFFFFF; }
+.gray-1 { color: var(--gray-1); }
+.gray-2 { color: var(--gray-2); }
+.gray-3 { color: var(--gray-3); }
+.ice-blue { color: var(--ice-blue); }
+.ocean-blue { color: var(--ocean-blue); }
+.orange { color: var(--strat-orange); }
+.progress-green { color: var(--progress-green); }
+.sky-blue { color: var(--sky-blue); }
+.warning-red { color: var(--warning-red); }
+.white { color: var(--white); }
 
 /* Text styling used */
 .ocean-blue-stroke-2 { /* Puts ~2px ocean blue border around text */
-  text-shadow: #1F7989 2px 0px 0px, 
-    #1F7989 1.75517px 0.958851px 0px, 
-    #1F7989 1.0806px 1.68294px 0px, 
-    #1F7989 0.141474px 1.99499px 0px, 
-    #1F7989 -0.832294px 1.81859px 0px, 
-    #1F7989 -1.60229px 1.19694px 0px, 
-    #1F7989 -1.97998px 0.28224px 0px, 
-    #1F7989 -1.87291px -0.701566px 0px, 
-    #1F7989 -1.30729px -1.5136px 0px, 
-    #1F7989 -0.421592px -1.95506px 0px, 
-    #1F7989 0.567324px -1.91785px 0px, 
-    #1F7989 1.41734px -1.41108px 0px, 
-    #1F7989 1.92034px -0.558831px 0px;  
+  text-shadow: 
+    var(--ocean-blue) 2px 0px 0px, 
+    var(--ocean-blue) 1.75517px 0.958851px 0px, 
+    var(--ocean-blue) 1.0806px 1.68294px 0px, 
+    var(--ocean-blue) 0.141474px 1.99499px 0px, 
+    var(--ocean-blue) -0.832294px 1.81859px 0px, 
+    var(--ocean-blue) -1.60229px 1.19694px 0px, 
+    var(--ocean-blue) -1.97998px 0.28224px 0px, 
+    var(--ocean-blue) -1.87291px -0.701566px 0px, 
+    var(--ocean-blue) -1.30729px -1.5136px 0px, 
+    var(--ocean-blue) -0.421592px -1.95506px 0px, 
+    var(--ocean-blue) 0.567324px -1.91785px 0px, 
+    var(--ocean-blue) 1.41734px -1.41108px 0px, 
+    var(--ocean-blue) 1.92034px -0.558831px 0px;  
 }
 
 .sky-blue-stroke-2 { /* Puts ~2px sky blue border around text */
-  text-shadow: #18A0FB 2px 0px 0px, 
-    #18A0FB 1.75517px 0.958851px 0px, 
-    #18A0FB 1.0806px 1.68294px 0px, 
-    #18A0FB 0.141474px 1.99499px 0px, 
-    #18A0FB -0.832294px 1.81859px 0px, 
-    #18A0FB -1.60229px 1.19694px 0px, 
-    #18A0FB -1.97998px 0.28224px 0px, 
-    #18A0FB -1.87291px -0.701566px 0px, 
-    #18A0FB -1.30729px -1.5136px 0px, 
-    #18A0FB -0.421592px -1.95506px 0px, 
-    #18A0FB 0.567324px -1.91785px 0px, 
-    #18A0FB 1.41734px -1.41108px 0px, 
-    #18A0FB 1.92034px -0.558831px 0px;  
+  text-shadow: 
+    var(--sky-blue) 2px 0px 0px, 
+    var(--sky-blue) 1.75517px 0.958851px 0px, 
+    var(--sky-blue) 1.0806px 1.68294px 0px, 
+    var(--sky-blue)0.141474px 1.99499px 0px, 
+    var(--sky-blue) -0.832294px 1.81859px 0px, 
+    var(--sky-blue) -1.60229px 1.19694px 0px, 
+    var(--sky-blue) -1.97998px 0.28224px 0px, 
+    var(--sky-blue) -1.87291px -0.701566px 0px, 
+    var(--sky-blue) -1.30729px -1.5136px 0px, 
+    var(--sky-blue) -0.421592px -1.95506px 0px, 
+    var(--sky-blue) 0.567324px -1.91785px 0px, 
+    var(--sky-blue) 1.41734px -1.41108px 0px, 
+    var(--sky-blue) 1.92034px -0.558831px 0px;  
 }
 
 .orange-stroke-2 { /* Puts ~2px orange border around text */
-  text-shadow: #FF6A00 2px 0px 0px, 
-    #FF6A00 1.75517px 0.958851px 0px, 
-    #FF6A00 1.0806px 1.68294px 0px, 
-    #FF6A00 0.141474px 1.99499px 0px, 
-    #FF6A00 -0.832294px 1.81859px 0px, 
-    #FF6A00 -1.60229px 1.19694px 0px, 
-    #FF6A00 -1.97998px 0.28224px 0px, 
-    #FF6A00 -1.87291px -0.701566px 0px, 
-    #FF6A00 -1.30729px -1.5136px 0px, 
-    #FF6A00 -0.421592px -1.95506px 0px, 
-    #FF6A00 0.567324px -1.91785px 0px, 
-    #FF6A00 1.41734px -1.41108px 0px, 
-    #FF6A00 1.92034px -0.558831px 0px; 
+  text-shadow: 
+    var(--orange) 2px 0px 0px, 
+    var(--orange) 1.75517px 0.958851px 0px, 
+    var(--orange) 1.0806px 1.68294px 0px, 
+    var(--orange) 0.141474px 1.99499px 0px, 
+    var(--orange) -0.832294px 1.81859px 0px, 
+    var(--orange) -1.60229px 1.19694px 0px, 
+    var(--orange) -1.97998px 0.28224px 0px, 
+    var(--orange) -1.87291px -0.701566px 0px, 
+    var(--orange) -1.30729px -1.5136px 0px, 
+    var(--orange) -0.421592px -1.95506px 0px, 
+    var(--orange) 0.567324px -1.91785px 0px, 
+    var(--orange) 1.41734px -1.41108px 0px, 
+    var(--orange) 1.92034px -0.558831px 0px; 
 }
 
 .ocean-blue-stroke-1 { /* ~1px border */
-  text-shadow: #1F7989 1px 0px 0px, 
-    #1F7989 0.540302px 0.841471px 0px, 
-    #1F7989 -0.416147px 0.909297px 0px, 
-    #1F7989 -0.989992px 0.14112px 0px, 
-    #1F7989 -0.653644px -0.756802px 0px, 
-    #1F7989 0.283662px -0.958924px 0px, 
-    #1F7989 0.96017px -0.279415px 0px;
+  text-shadow: 
+    var(--ocean-blue) 1px 0px 0px, 
+    var(--ocean-blue) 0.540302px 0.841471px 0px, 
+    var(--ocean-blue) -0.416147px 0.909297pvar(--ocean-blue) 0px, 
+    var(--ocean-blue) -0.989992px 0.14112px 0px, 
+    var(--ocean-blue) -0.653644px -0.756802px 0px, 
+    var(--ocean-blue) 0.283662px -0.958924px 0px, 
+    var(--ocean-blue) 0.96017px -0.279415px 0px;
 }
 
 .sky-blue-stroke-1 { /* ~1px border */
-  text-shadow: #18A0FB 1px 0px 0px, 
-    #18A0FB 0.540302px 0.841471px 0px, 
-    #18A0FB -0.416147px 0.909297px 0px, 
-    #18A0FB -0.989992px 0.14112px 0px, 
-    #18A0FB -0.653644px -0.756802px 0px, 
-    #18A0FB 0.283662px -0.958924px 0px, 
-    #18A0FB 0.96017px -0.279415px 0px;
+  text-shadow: 
+    var(--sky-blue) 1px 0px 0px, 
+    var(--sky-blue) 0.540302px 0.841471px 0px, 
+    var(--sky-blue) -0.416147px 0.909297px 0px, 
+    var(--sky-blue) -0.989992px 0.14112px 0px, 
+    var(--sky-blue) -0.653644px -0.756802px 0px, 
+    var(--sky-blue) 0.283662px -0.958924px 0px, 
+    var(--sky-blue) 0.96017px -0.279415px 0px;
 }
 
 .orange-blue-stroke-1 { /* ~1px border */
-  text-shadow: #FF6A00 1px 0px 0px, 
-    #FF6A00 0.540302px 0.841471px 0px, 
-    #FF6A00 -0.416147px 0.909297px 0px, 
-    #FF6A00 -0.989992px 0.14112px 0px, 
-    #FF6A00 -0.653644px -0.756802px 0px, 
-    #FF6A00 0.283662px -0.958924px 0px, 
-    #FF6A00 0.96017px -0.279415px 0px;
+  text-shadow: 
+    var(--orange) 1px 0px 0px, 
+    var(--orange) 0.540302px 0.841471px 0px, 
+    var(--orange) -0.416147px 0.909297px 0px, 
+    var(--orange) -0.989992px 0.14112px 0px, 
+    var(--orange) -0.653644px -0.756802px 0px, 
+    var(--orange) 0.283662px -0.958924px 0px, 
+    var(--orange) 0.96017px -0.279415px 0px;
 }
 
 /* Gradients uses */
 .gray-2-gradient{
   height:108px;
   width:1912px;
-  background:linear-gradient(#111111, transparent);
+  background:linear-gradient(var(--gray-2), transparent);
 }
 
 /* Background images used */
@@ -171,15 +186,15 @@
 }
 
 ::-webkit-scrollbar-track { /* Track color */
-  background: #FFFFFF;
+  background: var(--white);
 }
 
 ::-webkit-scrollbar-thumb { /* Bar color when idle */
-  background: #1F7989;
+  background: var(--ocean-blue);
 }
 
 ::-webkit-scrollbar-thumb:hover { /* Bar color when hovering */
-  background: #666666;
+  background: var(--gray-3);
 }
 
 /* Header CSS */
@@ -196,40 +211,40 @@
 
 .header-block-button {
   display: block;
-  color: #1F7989;
-  background: #FFFFFF;
+  color: var(--ocean-blue);
+  background: var(--white);
   font-size: 32px;
   font-family: Montserrat;
   font-weight: 600;
   height: 73px;
   width: 234px;
-  border: solid #1F7989;
+  border: solid var(--ocean-blue);
   border-width: 4px;
 }
 
 .mini-header-block-button-regular {
   display: block;
-  color: #1F7989;
-  background: #FFFFFF;
+  color: var(--ocean-blue);
+  background: var(--white);
   font-size: 24px;
   font-family: Montserrat;
   font-weight: 600;
   height: 64px;
   width: 189px;
-  border: 4px solid #1F7989;
+  border: 4px solid var(--ocean-blue);
   border-top: 0;
 }
 
 .mini-header-block-button-logout {
   display: block;
-  color: #FFFFFF;
+  color: var(--white);
   background: var(--warning-red);
   font-size: 24px;
   font-family: Montserrat;
   font-weight: 600;
   height: 64px;
   width: 189px;
-  border: 4px solid #1F7989;
+  border: 4px solid var(--ocean-blue);
   border-top: 0;
 }
 
