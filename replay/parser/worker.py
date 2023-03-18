@@ -11,6 +11,12 @@ from schemas.parsed_replay import DetailedReplay
 import time
 from datetime import datetime
 
+# worker container has no parser module so we need to import from the correct location
+if os.getenv("PARSER"):
+    from helper import date2season, filename2map, debug2mmr
+else:
+    from parser.helper import date2season, filename2map, debug2mmr
+
 logger = logging.getLogger(__name__)
 repo = ReplayRepository(collection)
 
@@ -54,8 +60,6 @@ def carball_parse(path):
     import carball
     from carball.json_parser.game import Game
     from carball.analysis.analysis_manager import AnalysisManager
-
-    logger = logging.getLogger('carball')
 
     _json = carball.decompile_replay(path)
     game = Game()
@@ -148,8 +152,6 @@ def parse(self, path):
         with open(f"./files/{id}/{id}_boxcars.json", "w") as f:
             json.dump(raw_replay, f)
 
-        mmr = extract_mmr(raw_replay['debug_info'])
-
         try:
             parsed_replay = carball_parse(path)
         except Exception as e:
@@ -164,17 +166,19 @@ def parse(self, path):
                 "total": 4
             }
         })
+        
+        addMap(parsed_replay)
 
-        parsed_replay['mmr'] = mmr
+        addSeason(parsed_replay)
 
-        parsed_replay['uploadDate'] = str(datetime.now())
+        addUploadDate(parsed_replay)
 
+        addRanks(parsed_replay, raw_replay)
+        
         with open(f"./files/{id}/{id}_carball.json", "w") as f:
             json.dump(parsed_replay, f)
         
         shutil.copyfile(path, f"./files/{id}/{id}.replay")
-
-
 
         end_time = time.time()
         execution_time = end_time - start_time
@@ -182,7 +186,9 @@ def parse(self, path):
         assert parsed_replay['gameMetadata']['id'] == id
 
         try:
-            repo.add(DetailedReplay(**parsed_replay))
+            detailedReplay = DetailedReplay(**parsed_replay)
+            detailedReplay.update_forward_refs()
+            repo.add(detailedReplay)
             pass
         except Exception as e:
             logging.error(f"Failed to save replay to database: {e}")
@@ -200,11 +206,30 @@ def parse(self, path):
         })
 
     except Exception as e:
-        if alreadyExists:
-            logging.info(f"Replay file {path} already exists")
-            os.remove(path)
-        else:
-            if os.path.exists(f"./files/{id}"):
-                shutil.rmtree(f"./files/{id}")
-                os.remove(path)
+        # if alreadyExists:
+        #     logging.info(f"Replay file {path} already exists")
+        #     os.remove(path)
+        # else:
+        #     if os.path.exists(f"./files/{id}"):
+        #         shutil.rmtree(f"./files/{id}")
+        #         os.remove(path)
         raise(e)
+
+def addUploadDate(replay):
+    replay['gameMetadata']['uploadDate'] = str(datetime.now().timestamp())
+
+
+def addMap(replay):
+    replay['gameMetadata']['map'] = dict(filename2map(replay['gameMetadata']['map']))
+
+
+def addSeason(replay):
+    if replay['gameMetadata']['time'].isdigit():
+        time = int(replay['gameMetadata']['time'])
+        replay['gameMetadata']['season'] = dict(date2season(datetime.utcfromtimestamp(time)))
+    else:
+        replay['gameMetadata']['season'] = None
+
+def addRanks(replay, parsedReplay):
+    ranks = debug2mmr(parsedReplay['debug_info'], replay['gameMetadata']['playlist'])
+    replay['gameMetadata']['ranks'] = ranks

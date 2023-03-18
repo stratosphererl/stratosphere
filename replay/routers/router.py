@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Response, HTTPException, status, UploadF
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.responses import FileResponse, JSONResponse
 from jose import JWTError, jwt
-from typing import Optional, List
+from typing import Optional
 import os, json
 from parser.worker import celery
 
@@ -12,7 +12,6 @@ from config.database import collection
 from repository.ReplayRepository import ReplayRepository
 from config.envs import *
 from schemas.forms import ReplayUpdateForm
-from schemas.parsed_replay import DetailedReplay, ReplayHeader
 
 import shutil
 import uuid

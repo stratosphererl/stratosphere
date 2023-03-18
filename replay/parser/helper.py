@@ -1,9 +1,9 @@
 import json
 import datetime 
-from pydantic import BaseModel
-from typing import Optional
 import logging
 import os
+
+from schemas.parsed_replay import Season, Rank, Playlist, Map, PlayerRank
 
 __name__ = "parser.helper"
 
@@ -34,22 +34,17 @@ class BadFormatException(Exception):
     def __init__(self, message):
         self.message = message
 
-class Season(BaseModel):
-    id: int = -1
-    name: Optional[str] = None
-
-class Rank(BaseModel):
-    id: int = -1
-    name: Optional[str] = None
-    division: Optional[str] = None
-
-class Playlist(BaseModel):
-    name: str
-
-class Map(BaseModel):
-    id: int = -1
-    base_name: Optional[str] = None
-    variant: Optional[str] = None
+# translatation of playlist names to the names used in the json files
+SUPPORTED_PLAYLISTS = {
+    "duel": "Duel",
+    "doubles": "Doubles",
+    "standard": "Standard",
+    "hoops": "Hoops",
+    "rumble": "Rumble",
+    "dropshot": "Dropshot",
+    "snowday": "Snowday",
+    "tournament": "Tournament",
+}
 
 def date2season(date: datetime.datetime) -> Season:
     """
@@ -92,14 +87,13 @@ def date2season(date: datetime.datetime) -> Season:
 
         try:
             if start <= date <= end:
-                
                     seasonName = season["name"]
                     id = season["id"]
                 
             elif date > end:
-                logger.warning("Unable to find season for date: %s. Using latest season.", date)
                 seasonName = season["name"]
                 id = season["id"]
+
         except:
             raise BadFormatException("Unable to parse season data. Check the format of name.")
     
@@ -108,7 +102,7 @@ def date2season(date: datetime.datetime) -> Season:
         
     return Season(id=id, name=seasonName)
 
-def mmr2rank(mmr : int, playlist : Playlist) -> Rank:
+def mmr2rank(mmr : float, playlist : Playlist):
     """
     Parses the mmr and playlist to find the rank and division.
 
@@ -172,7 +166,7 @@ def mmr2rank(mmr : int, playlist : Playlist) -> Rank:
                 id = int(rank_id)
                 break
 
-    return Rank(id=id, name=rankName, division=divisionName)
+    return {"id": id, "name": rankName, "division": divisionName}
 
 def filename2map(filename: str):
     map_result = Map()
@@ -200,3 +194,47 @@ def filename2map(filename: str):
         logger.warning("Unable to find variant for filename: %s.", filename)
 
     return map_result
+
+def debug2mmr(debug_info, playlist):
+    translate = lambda playlist: next((value for key, value in SUPPORTED_PLAYLISTS.items() if key in playlist.lower()), None)
+    playlist = translate(playlist)
+    players = {}
+    
+    for item in debug_info:
+        if "user" in item and "MMR" in item["user"]:
+            [platform, uid, match_point] = item["user"].split('|')
+            mmr = item["text"].split("|")[0]
+            
+            # e.g. MMR:Epic -> Epic
+            clean = lambda unparsed: unparsed.split(":")[-1]
+            
+            if not uid in players:
+                players[uid] = {}
+                players[uid]["platform"] =clean(platform)
+                
+            players[uid][clean(match_point).lower()] = mmr
+
+    
+    if not players:
+        logger.warning("Unable to find any players in debug info.")
+        return None
+    
+    # fill missing info with None
+
+    for uid in players:
+        for match_point in ["pre", "post"]:
+            if match_point not in players[uid]:
+                players[uid][match_point] = None
+    
+    return [
+        {
+            "id": uid,
+            "platform": players[uid]["platform"],
+            "pre_mmr": players[uid]["pre"],
+            "post_mmr": players[uid]["post"],
+            "post_rank": mmr2rank(float(players[uid]["post"]), Playlist(name=playlist)) if players[uid]["post"] else None,
+            "pre_rank": mmr2rank(float(players[uid]["pre"]), Playlist(name=playlist)) if players[uid]["pre"] else None
+        }
+
+        for uid in players
+    ]

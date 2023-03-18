@@ -10,6 +10,23 @@ from typing import List
 import datetime
 
 
+class Season(BaseModel):
+    id: int = -1
+    name: Optional[str] = None
+
+class Rank(BaseModel):
+    id: int = -1
+    name: Optional[str] = None
+    division: Optional[str] = None
+
+class Playlist(BaseModel):
+    name: Optional[str] = None
+
+class Map(BaseModel):
+    id: int = -1
+    base_name: Optional[str] = None
+    variant: Optional[str] = None
+
 class Score(BaseModel):
     team0Score: Optional[int]=None
     team1Score: Optional[int]=None
@@ -29,13 +46,23 @@ class Demo(BaseModel):
     attackerId: Optional[PlayerId]=None
     victimId: Optional[PlayerId]=None
 
+class PlayerRank(BaseModel):
+    pre_mmr: Optional[float]=None
+    post_mmr: Optional[float]=None
+    pre_rank: Optional[Rank]=None
+    post_rank: Optional[Rank]=None
+    id: Optional[str]=None
+    platform: Optional[str]=None
 
 class ReplayHeader(BaseModel):
     id: Optional[str]=None
     name: Optional[str]=None
-    map: Optional[str]=None
+    uploadDate: Optional[datetime.datetime]=None
+    map: Optional[Map]=None 
     version: Optional[int]=None
     time: Optional[str]=None
+    season: Optional[Season]=None 
+    ranks: Optional[List[PlayerRank]]=None 
     frames: Optional[int]=None
     score: Optional[Score]=None
     goals: Optional[List[Goal]]=None
@@ -346,13 +373,8 @@ class Mutators(BaseModel):
 class DetailedReplay(BaseModel):
     gameMetadata: Optional[ReplayHeader]=None
     id: str = Field(None, alias="_id", title="Primary key", description="mongodb's Primary key")
-    uploadDate: Optional[datetime.datetime]=None
     players: Optional[List[Player]]=None
     teams: Optional[List[Team]]=None
     gameStats: Optional[GameStats]=None
     version: Optional[int]=None
     mutators: Optional[Mutators]=None
-
-    @validator('id', always=True)
-    def ab(cls, v, values) -> str:
-        return values['gameMetadata'].id
