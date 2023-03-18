@@ -1,15 +1,9 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
-import React from 'react'
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import React, { useState, createContext } from 'react'
 import ReactDOM from 'react-dom/client'
-import {
-  createBrowserRouter,
-  RouterProvider,
-  redirect
-} from "react-router-dom";
 // import App from './App'
 import './index.css'
-
-import { Navigate } from "react-router-dom";
 
 import AboutPage from "./routes/about"
 import BrowsePage from "./routes/browse"
@@ -25,6 +19,8 @@ import UploadPage from "./routes/upload"
 
 import Wrapper from "./components/general/wrapper"
 
+import { UserProvider } from "./context/contexts"
+
 const client = new ApolloClient(
   {
     uri: 'http://localhost:4000',
@@ -32,7 +28,6 @@ const client = new ApolloClient(
   }
 )
 
-// const errorPage = <ErrorPage message = "A general error has occured"/>
 const errorPage = <ErrorPage message = "An unexpected error has occured" />
 
 const router = createBrowserRouter([
@@ -74,7 +69,7 @@ const router = createBrowserRouter([
   { // replay.tsx
     path: "/replay/:replayid",
     element: <Wrapper pageHeight = {1626} background = "background-replay"><ReplayPage/></Wrapper>,
-    errorElement: <Navigate to="/error"/>
+    errorElement: errorPage
   },
   { // settings.tsx
     path: "/settings",
@@ -93,10 +88,15 @@ const router = createBrowserRouter([
   },
 ]);
 
+// export const UserContext = createContext({});
+// const [user, setUser] = useState({id: 0})
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <UserProvider>
+        <RouterProvider router={router} />
+      </UserProvider>
     </React.StrictMode>
   </ApolloProvider>
 )

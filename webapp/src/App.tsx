@@ -1,14 +1,14 @@
-// import './App.css'
-// import { ThemeProvider } from './context/ThemeContext'
+import './App.css'
+import { ThemeProvider } from './context/contexts'
 
-// function App() {
-//   return (
-//     <ThemeProvider>
-//       <div className="App">
-//           "From App.tsx"
-//       </div>
-//     </ThemeProvider>
-//   )
-// }
+function App() {
+  return (
+    <ThemeProvider>
+      <div className="App">
+          "From App.tsx"
+      </div>
+    </ThemeProvider>
+  )
+}
 
-// export default App
+export default App

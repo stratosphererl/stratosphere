@@ -116,6 +116,7 @@
 /* Background images used */
 .background-about {
   background-image: url("./assets/images/backgrounds/about.png");
+  /* background-size: 80%; */
 }
 
 .background-browse-general {
@@ -160,8 +161,8 @@
 
 /* Modifying scrollbar */
 ::-webkit-scrollbar { /* Width & height */
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track { /* Track color */

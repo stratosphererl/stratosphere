@@ -1,4 +1,28 @@
-import React, {createContext} from 'react'
+import React, { createContext, useState, useEffect } from 'react'
+
+// USER CONTEXT
+
+export const UserContext = createContext({
+    user: {id: "0"},
+    reviseUser: (id: string) => {}
+})
+
+export const UserProvider = ({ children }) => {
+    const [user, setUser] = useState({id: "0"})
+
+    const reviseUser = (id: string) => {
+        setUser({id: id})
+        localStorage.setItem("STRATOSPHERE_USER", JSON.stringify(id))
+    }
+
+    return (
+        <UserContext.Provider value={{user, reviseUser}}>
+            { children }
+        </UserContext.Provider>
+    )
+}
+
+// THEME CONTEXT
 
 export const ThemeContext = createContext({
     theme: 'dark',

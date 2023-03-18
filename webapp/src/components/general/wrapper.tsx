@@ -15,7 +15,7 @@ export default function HeaderFooterWrapper(props: {pageHeight: number, backgrou
     }
 
     return (
-        <div className={classname} style={{height: props.pageHeight, width: 1912}}>
+        <div className={classname} style={{height: props.pageHeight, width: 1912, zoom: 0.8}}>
             <Header />
             {props.children}
             <Footer />
