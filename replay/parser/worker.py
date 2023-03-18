@@ -13,9 +13,9 @@ from datetime import datetime
 
 # worker container has no parser module so we need to import from the correct location
 if os.getenv("PARSER"):
-    from helper import date2season, filename2map, debug2mmr
+    from helper import date2season, filename2map, debug2mmr, mmr2rank
 else:
-    from parser.helper import date2season, filename2map, debug2mmr
+    from parser.helper import date2season, filename2map, debug2mmr, mmr2rank
 
 logger = logging.getLogger(__name__)
 repo = ReplayRepository(collection)
@@ -231,5 +231,8 @@ def addSeason(replay):
         replay['gameMetadata']['season'] = None
 
 def addRanks(replay, parsedReplay):
-    ranks = debug2mmr(parsedReplay['debug_info'], replay['gameMetadata']['playlist'])
+    playlist = replay['gameMetadata']['playlist']
+    # weird bug here, sometimes the ranks aren't processed correctly
+    ranks = debug2mmr(parsedReplay['debug_info'], playlist)
+
     replay['gameMetadata']['ranks'] = ranks

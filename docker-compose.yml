@@ -52,8 +52,10 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${REPLAY_DB_USER}
       - MONGO_INITDB_ROOT_PASSWORD=${REPLAY_DB_PASSWORD}
+      - MONGO_INITDB_DATABASE=${REPLAY_DB_NAME}
     volumes:
-      - ./${REPLAY_SERVICE_NAME}/config/db:/data/db
+      - ./${REPLAY_SERVICE_NAME}/config/db/data:/data/db
+      - ./${REPLAY_SERVICE_NAME}/config/setup/init-mongo.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
   redis:
     image: redis:6.2.10-alpine
   parser:

@@ -1,10 +1,12 @@
-from fastapi import APIRouter, Depends, Response, HTTPException, status, UploadFile
+from fastapi import APIRouter, Depends, Response, HTTPException, status, UploadFile, File
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.responses import FileResponse, JSONResponse
 from jose import JWTError, jwt
-from typing import Optional
+from typing import Optional, List
 import os, json
 from parser.worker import celery
+from parser.helper import mmr2rank
+import simplejson as sjson
 
 from services.service import ReplayService
 from util.result import ServiceResponseSuccess, ServiceResponseError, ServiceResponsePage
@@ -12,6 +14,7 @@ from config.database import collection
 from repository.ReplayRepository import ReplayRepository
 from config.envs import *
 from schemas.forms import ReplayUpdateForm
+from schemas.parsed_replay import Playlist
 
 import shutil
 import uuid
@@ -170,9 +173,12 @@ def get_replays_count(service = Depends(service)):
 @router.get("/replays/{id}", tags=['Get Methods (Dynamic)'])
 def get_replay_by_id(id: str, service = Depends(service)):
     result = service.get_replay(id)
+
     
     if isinstance(result, ServiceResponseSuccess):
-        return Response(content=result.data[0].json(), media_type="application/json", status_code=200)
+        # figure me father, for I have sinned
+        data = sjson.loads(sjson.dumps(sjson.loads(result.data[0].json()), ignore_nan=True))
+        return JSONResponse(data, media_type="application/json", status_code=200)
     else:
         return HTTPException(status_code=404, detail=result.message)
 
@@ -201,19 +207,25 @@ def get_user_replay(user_id: str, service = Depends(service)):
         return HTTPException(status_code=404, detail=result.message)
 
 @router.post("/replays", tags=['Post Methods'])
-def post_replay(file : UploadFile, token: str = Depends(get_current_user), service = Depends(service)):
-    if not str(file.filename).endswith(".replay"):
-        return HTTPException(status_code=400, detail="Not a valid replay file")
-    
-    filename = str(uuid.uuid4()) + ".replay"
-    with open(f"./parser/files/{filename}", "wb+") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-    
-    path = f"./files/{filename}"
+def post_replays(files: List[UploadFile] = File(...), token: str = Depends(get_current_user), service = Depends(service)):
+    response = []
+    for file in files:
+        if not str(file.filename).endswith(".replay"):
+            response.append({"filename": file.filename, "status": "Not a valid replay file"})
+            continue
+        
+        filename = str(uuid.uuid4()) + ".replay"
+        with open(f"./parser/files/{filename}", "wb+") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        
+        path = f"./files/{filename}"
 
-    task = celery.send_task("parse", args=[path])
+        task = celery.send_task("parse", args=[path])
 
-    return Response(content=json.dumps({"task-id": task.id}), media_type="application/json", status_code=202)
+        response.append({"filename": file.filename, "task-id": task.id, "status": "Processing"})
+    
+    return Response(content=json.dumps(response), media_type="application/json", status_code=202)
+
 
 @router.delete("/replays/{id}", tags=['Delete Methods'])
 def delete_replay_by_id(id: str, token: str = Depends(get_current_user), service = Depends(service)):
@@ -252,3 +264,13 @@ def download_replay_by_id(id: str, service = Depends(service)):
                             filename=f"{id}")
     else:
         return HTTPException(status_code=404, detail=f"Unable to download replay. {result.message}")
+
+@router.get("/mmr/{playlist}/{mmr}", tags=['Get Methods (Static)'])
+def get_rank_by_mmr(playlist: str, mmr: int):
+    try:
+        
+        result = mmr2rank(mmr, Playlist(name=playlist.capitalize()))
+    except Exception as e:
+        return HTTPException(status_code=400, detail=f"Invalid playlist or mmr. {e}")
+    
+    return Response(content=json.dumps(result), media_type="application/json", status_code=200)

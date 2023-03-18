@@ -103,6 +103,8 @@ def date2season(date: datetime.datetime) -> Season:
     return Season(id=id, name=seasonName)
 
 def mmr2rank(mmr : float, playlist : Playlist):
+    if isinstance(mmr, str):
+        mmr = float(mmr)
     """
     Parses the mmr and playlist to find the rank and division.
 
@@ -150,12 +152,13 @@ def mmr2rank(mmr : float, playlist : Playlist):
             if "start" not in division or "end" not in division:
                 raise BadFormatException(f"Unable to find start or end in division data for playlist {playlist.name}, rank {rank_id} and division {division_id}")
 
+    
             # Special case, there is no end range for the highest rank
             if rank['name'] == "Supersonic Legend" and mmr >= divisions[division_id]["start"]:
                 divisionName = division["name"]
                 rankName = rank['name']
                 id = int(rank_id)
-
+        
             elif divisions[division_id]["start"] <= mmr <= divisions[division_id]["end"]:
 
                 if "name" not in rank or "name" not in division:
@@ -165,7 +168,7 @@ def mmr2rank(mmr : float, playlist : Playlist):
                 divisionName = division["name"]
                 id = int(rank_id)
                 break
-
+    
     return {"id": id, "name": rankName, "division": divisionName}
 
 def filename2map(filename: str):

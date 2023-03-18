@@ -1,6 +1,7 @@
 from routers import router
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
+from typing import Any
 
 app = FastAPI()
 

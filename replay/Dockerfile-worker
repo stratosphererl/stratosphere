@@ -11,6 +11,10 @@ ENV PARSER=true
 
 WORKDIR /worker
 
+COPY ./parser/install.py ./
+COPY ./parser/whl ./whl
+RUN python install.py
+
 COPY ./parser/requirements.txt ./
 RUN pip3 install -r requirements.txt
 

@@ -59,10 +59,11 @@ class ReplayService():
                page=0, 
                limit=50, filters = {}):
         try:
-            filters = {self.available_filters.get(key): self._field_mapper(self.available_filters.get(key), value) for key, value in filters.items()}
+            filters = {self.available_filters()[key]: self._field_mapper(self.available_filters()[key], value) for key, value in filters.items()}
+            print(filters)
             replays = list(self.repository.paginate_filter(page, limit, filters))
-        except:
-            return ServiceResponseError(error="Replays not found", message="Replays not found")
+        except Exception as e:
+            return ServiceResponseError(error="Replays not found", message=f"Replays not found: {e}")
         return ServiceResponsePage(
             data=[ReplayHeader(**replay['gameMetadata']) for replay in replays],
             page=page,

@@ -378,3 +378,7 @@ class DetailedReplay(BaseModel):
     gameStats: Optional[GameStats]=None
     version: Optional[int]=None
     mutators: Optional[Mutators]=None
+
+    @validator('id', always=True)
+    def ab(cls, v, values) -> str:
+        return values['gameMetadata'].id
