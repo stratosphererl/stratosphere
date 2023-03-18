@@ -1,6 +1,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,windows,macos
 
+
+### replay service ###
+replay/config/db
+replay/parser/config/db
+replay/parser/files
+
 ### macOS ###
 # General
 .DS_Store
