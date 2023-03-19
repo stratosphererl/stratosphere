@@ -1,5 +1,4 @@
 version: "3.6"
-version: '3.6'
 services:
   # webapp:
   #   build: ./webapp
@@ -16,7 +15,7 @@ services:
   #     - NODE_ENV=development
   # parser:
   #   ports:
-  #   ports: 
+  #   ports:
   #     - '5001:5001'
   #   tmpfs:
   #     - /tmp:exec,mode=777
@@ -59,7 +58,6 @@ services:
     image: redis:6.2.10-alpine
   parser:
     build:
-    build:
       dockerfile: Dockerfile-worker
       context: ./replay/
     command: celery -A worker worker
@@ -75,11 +73,7 @@ services:
       - redis
       - replay
   stats:
-  stats:
-  stats-service:
     build:
-    build:
-    build: 
       context: .
       dockerfile: ./${STATS_SERVICE_NAME}/Dockerfile
     ports:
@@ -105,11 +99,7 @@ services:
     volumes:
       - ./${STATS_SERVICE_NAME}/config:/var/lib/postgres/data
   user:
-  user:
-  user-service:
     build:
-    build:
-    build: 
       context: .
       dockerfile: ./${USER_SERVICE_NAME}/Dockerfile
     ports:
@@ -136,10 +126,8 @@ services:
 volumes:
   userdb:
     driver: local
-  volumes:
   replaydb:
     driver: local
   replay-data:
   parser-store:
-
   stats-service-db:
