@@ -1,0 +1,38 @@
+.dropdown {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    display: none;
+    text-align: center;
+  
+    /* Animation stuff */
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+  
+  /* Show dropdown menu and animate items */
+  .dropdown-active .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    animation: showMenu 0.5s ease-in-out forwards;
+  }
+  
+  /* Animation for showing menu items one by one */
+  @keyframes showMenu {
+    0% {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
