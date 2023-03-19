@@ -19,12 +19,10 @@ export default function HeaderFooterWrapper(props: {pageHeight: number, backgrou
     const window = useContext(WindowContext)
 
     return (
-        <WindowProvider>
-            <div className={classname} style={{height: props.pageHeight, width: 1912, zoom: window.currDims.width / 1920}}>
-                <Header />
-                {props.children}
-                <Footer />
-            </div>
-        </WindowProvider>
+        <div className={classname} style={{height: props.pageHeight, width: 1912, zoom: window.currDims.width / 1920}}>
+            <Header />
+            {props.children}
+            <Footer />
+        </div>
     );
 }
