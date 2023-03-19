@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { useParams } from 'react-router-dom';
-import { WindowContext } from "../../context/contexts"
+import { WindowContext, WindowProvider } from "../../context/contexts"
 import Header from "./header"
 import Footer from "./footer"
 
@@ -18,16 +18,13 @@ export default function HeaderFooterWrapper(props: {pageHeight: number, backgrou
 
     const window = useContext(WindowContext)
 
-    const windowWidth = window.currDims.width
-    console.log(windowWidth)
-
-    const currZoom = windowWidth / 1920
-
     return (
-        <div className={classname} style={{height: props.pageHeight, width: 1912, zoom: currZoom}}>
-            <Header />
-            {props.children}
-            <Footer />
-        </div>
+        <WindowProvider>
+            <div className={classname} style={{height: props.pageHeight, width: 1912, zoom: window.currDims.width / 1920}}>
+                <Header />
+                {props.children}
+                <Footer />
+            </div>
+        </WindowProvider>
     );
 }

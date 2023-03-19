@@ -15,7 +15,7 @@ export const WindowProvider = ({ children }) => {
 
     useEffect(() => {
         changeDims(window.innerWidth, window.innerHeight)
-    }, [window.innerWidth, window.innerHeight])
+    }, [currDims])
 
     return (
         <WindowContext.Provider value={{currDims, changeDims}}>

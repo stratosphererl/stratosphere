@@ -181,8 +181,8 @@
 
 /* Modifying scrollbar */
 ::-webkit-scrollbar { /* Width & height */
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track { /* Track color */
