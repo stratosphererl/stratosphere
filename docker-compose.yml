@@ -72,11 +72,6 @@ services:
     depends_on:
       - redis
       - replay
-volumes:
-  replaydb:
-    driver: local
-  replay:
-    external: true
   stats-service:
     command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
     build: 
@@ -133,3 +128,6 @@ volumes:
   userdb:
     driver: local
   stats-service-db:
+  volumes:
+  replaydb:
+    driver: local

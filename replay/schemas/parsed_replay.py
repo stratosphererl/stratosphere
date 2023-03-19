@@ -74,7 +74,7 @@ class ReplayHeader(BaseModel):
     matchGuid: Optional[str]=None
     teamSize: Optional[int]=None
     playlist: Optional[str]=None
-
+    # players
 
 class CameraSettings(BaseModel):
     stiffness: Optional[float]=None
