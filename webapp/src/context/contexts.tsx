@@ -1,5 +1,29 @@
 import React, { createContext, useState, useEffect } from 'react'
 
+// WINDOW SIZE CONTEXT
+export const WindowContext = createContext({
+    currDims: {width: 0, height: 0},
+    changeDims: (newWidth: number, newHeight: number) => {}
+})
+
+export const WindowProvider = ({ children }) => {
+    const [currDims, setCurrDims] = React.useState({width: 0, height: 0})
+
+    const changeDims = (newWidth: number, newHeight: number) => {
+        setCurrDims({width: newWidth, height: newHeight})
+    }
+
+    useEffect(() => {
+        changeDims(window.innerWidth, window.innerHeight)
+    }, [window.innerWidth, window.innerHeight])
+
+    return (
+        <WindowContext.Provider value={{currDims, changeDims}}>
+            { children }
+        </WindowContext.Provider>
+    )
+}
+
 // HEADER CONTEXT
 export const HeaderContext = createContext({
     showDropdown: false,

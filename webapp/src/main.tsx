@@ -19,7 +19,7 @@ import UploadPage from "./routes/upload"
 
 import Wrapper from "./components/general/wrapper"
 
-import { HeaderProvider, UserProvider } from "./context/contexts"
+import { HeaderProvider, UserProvider, WindowProvider } from "./context/contexts"
 
 const client = new ApolloClient(
   {
@@ -94,9 +94,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
     <React.StrictMode>
-      <UserProvider><HeaderProvider>
+      <UserProvider><HeaderProvider><WindowProvider>
           <RouterProvider router={router} />
-      </HeaderProvider></UserProvider>
+      </WindowProvider></HeaderProvider></UserProvider>
     </React.StrictMode>
   </ApolloProvider>
 )
