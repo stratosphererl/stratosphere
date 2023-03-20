@@ -6,19 +6,21 @@ import "./header.css"
 
 export default function Header() {
     const navStyle = "text-2xl self-center montserrat font-semibold italic ocean-blue-stroke-2"
+    const dropdownStyle = "text-xl px-4 py-4 border-t-0"
+
     const {user, reviseUser} = useContext(UserContext)
 
+    // The logout button should be its own component, but I'm lazy
     const logOut = () => {
         reviseUser("0")
     }
 
     return (
-        <header style={{justifyContent: "space-between"}} className="p-4 gray-2-gradient flex">
+        <header className="p-4 gray-2-gradient flex mb-5 justify-between">
             <nav className="flex gap-4">
                 <a href={user.id !== "0" ? "/browse/0" : "/home"}>
                     <img 
                     style={{display: "inline-block", maxHeight: "72px", maxWidth: "72px"}} 
-                    className="header-logo-padding"
                     src={logo}>
                     </img>
                 </a>
@@ -31,14 +33,14 @@ export default function Header() {
             {
                 user.id === "0" ?
                 <div className="flex gap-4">
-                    <a className="header-block header-block-button" href="/login">Login</a>
+                    <a className="primary-btn" href="/login">Login</a>
                 </div>
                 :
-                <Dropdown DropdownButton={<button className="header-block header-block-button justify-self-end">Profile</button>}>
-                    <a href="/browse/1" className="mini-header-block-button-regular">Replays</a>
-                    <a href="/stats/1" className="mini-header-block-button-regular">Stats</a>
-                    <a href="/settings" className="mini-header-block-button-regular">Settings</a>
-                    <a onClick={logOut} href="/home" className="mini-header-block-button-logout">Logout</a>
+                <Dropdown DropdownButton={<button className="primary-btn justify-self-end">Profile</button>}>
+                    <a href="/browse/1" className={`${dropdownStyle} primary-btn`}>Replays</a>
+                    <a href="/stats/1" className={`${dropdownStyle} primary-btn`}>Stats</a>
+                    <a href="/settings" className={`${dropdownStyle} primary-btn`}>Settings</a>
+                    <a onClick={logOut} href="/home" className={`${dropdownStyle} warning-btn`}>Logout</a>
                 </Dropdown>
             }
         </header>
