@@ -1,4 +1,4 @@
-import logo from "../../../assets/logo/72.png"
+import logo from "../../../assets/logo/700.png"
 import Dropdown from "../Dropdown/dropdown"
 import { useContext } from "react"
 import { UserContext } from "../../../context/contexts"
@@ -15,13 +15,14 @@ export default function Header() {
     return (
         <header style={{justifyContent: "space-between"}} className="p-4 gray-2-gradient flex">
             <nav className="flex gap-4">
-            <a href="/home">
+            <a href={user.id !== "0" ? "/browse/0" : "/home"}>
                 <img 
-                style={{display: "inline-block", minHeight: "72px", minWidth: "72px"}} 
+                style={{display: "inline-block", maxHeight: "72px", maxWidth: "72px"}} 
                 className="header-logo-padding"
                 src={logo}>
                 </img>
             </a>
+            <a className={`${navStyle}`} href="/upload">Upload</a>
             <a className={`${navStyle}`} href="/browse/0">Browse</a>
             <a className={`${navStyle}`} href="/overlay">Overlay</a>
             <a className={`${navStyle}`} href="/stats/0">Statistics</a>
@@ -40,7 +41,6 @@ export default function Header() {
                     <a onClick={logOut} href="/home" className="mini-header-block-button-logout">Logout</a>
                 </Dropdown>
             }
-            
         </header>
     )
 }
