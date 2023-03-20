@@ -6,7 +6,7 @@ import "./header.css"
 
 export default function Header() {
     const navStyle = "text-2xl self-center montserrat font-semibold italic ocean-blue-stroke-2"
-    const dropdownStyle = "text-xl px-4 py-4 border-t-0"
+    const dropdownStyle = "text-xl px-6 py-4 border-t-0"
 
     const {user, reviseUser} = useContext(UserContext)
 
