@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import Header from "./Header/header"
 import Footer from "./footer"
 
-export default function HeaderFooterWrapper(props: {background: string, children: JSX.Element[]}) {
+export default function HeaderFooterWrapper(props: {background: string, children: JSX.Element}) {
     const params = useParams();
     let classname = "";
 
@@ -28,6 +28,5 @@ export default function HeaderFooterWrapper(props: {background: string, children
 
 function addImageClassToBody(className : string) {
     const inheritedClass = "background";
-    document.body.style.setProperty('--curr-bg', className);
     document.body.classList.add(inheritedClass, className);
 }
