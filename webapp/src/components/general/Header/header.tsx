@@ -15,18 +15,18 @@ export default function Header() {
     return (
         <header style={{justifyContent: "space-between"}} className="p-4 gray-2-gradient flex">
             <nav className="flex gap-4">
-            <a href={user.id !== "0" ? "/browse/0" : "/home"}>
-                <img 
-                style={{display: "inline-block", maxHeight: "72px", maxWidth: "72px"}} 
-                className="header-logo-padding"
-                src={logo}>
-                </img>
-            </a>
-            <a className={`${navStyle}`} href="/upload">Upload</a>
-            <a className={`${navStyle}`} href="/browse/0">Browse</a>
-            <a className={`${navStyle}`} href="/overlay">Overlay</a>
-            <a className={`${navStyle}`} href="/stats/0">Statistics</a>
-            <a className={`${navStyle}`} href="/about">About</a>
+                <a href={user.id !== "0" ? "/browse/0" : "/home"}>
+                    <img 
+                    style={{display: "inline-block", maxHeight: "72px", maxWidth: "72px"}} 
+                    className="header-logo-padding"
+                    src={logo}>
+                    </img>
+                </a>
+                <a className={`${navStyle}`} href="/upload">Upload</a>
+                <a className={`${navStyle}`} href="/browse/0">Browse</a>
+                <a className={`${navStyle}`} href="/overlay">Overlay</a>
+                <a className={`${navStyle}`} href="/stats/0">Statistics</a>
+                <a className={`${navStyle}`} href="/about">About</a>
             </nav>
             {
                 user.id === "0" ?

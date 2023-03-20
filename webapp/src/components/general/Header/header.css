@@ -32,12 +32,24 @@ header {
     background: var(--warning-red);
   }
 
-  /* Mobile styles */
-@media (max-width: 768px) {
+  /* Tablet styles */
+@media (max-width: 850px) {
   header {
-    /* Mobile styles */
+    /* Tablet styles */
     flex-direction: column;
     align-items: center;
     max-height: none;
+  }
+}
+
+/* super mobile styles */
+@media (max-width: 600px) {
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  nav img {
+    order: 2;
   }
 }
