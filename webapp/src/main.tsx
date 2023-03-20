@@ -29,7 +29,7 @@ const client = new ApolloClient(
 
 function ErrorBoundary() {
   let error = useRouteError();
-  return <Wrapper background=''><ErrorPage message = {`An unexpected error has occured: ${error}`} /></Wrapper>
+  return <Wrapper background=''><ErrorPage message = {`${error}`} /></Wrapper>
 }
 
 
