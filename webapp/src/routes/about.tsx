@@ -14,8 +14,8 @@ export default function About() {
                 <h2>Our Team</h2>
                 <ul>
                     <li>Chris Holland (BS Computer Science) -- In-game: Oakerinos</li>
-                    <li>Jugovic (BA Computer Science, Economics) -- In-game: Novarchite</li>
-                    <li>Churness (BS Computer Science) -- In-game: Chicken935</li>
+                    <li>Matt Jugovic (BA Computer Science, Economics) -- In-game: Novarchite</li>
+                    <li>Caleb Churness (BS Computer Science) -- In-game: Chicken935</li>
                 </ul>
             </div>
             
