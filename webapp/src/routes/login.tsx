@@ -1,17 +1,14 @@
 export default function Login() {
-  const { user, reviseUser } = useContext(UserContext);
+  const user = useContext(UserContext);
 
-  const logIn = () => {
-    reviseUser("ABC");
-  };
+  const userValue = user.user;
+  const setUserValue = user.reviseUser;
 
   return (
     <div>
       <div>login.tsx</div>
-      <div>{JSON.stringify(user)}</div>
-      <a onClick={logIn} href="/browse/1">
-        click this
-      </a>
+      <div>{JSON.stringify(userValue)}</div>
+      <button onClick={() => setUserValue("ABC")}>click this</button>
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import ErrorPage from "./Error/error";
+import { useParams } from 'react-router-dom';
+import ErrorPage from "./Error/error"
 
 export default function Browse() {
   const params = useParams();
@@ -9,4 +9,8 @@ export default function Browse() {
   }
 
   return <div>browse.tsx</div>;
+}
+    return (
+        <div>browse.tsx</div>
+    );
 }

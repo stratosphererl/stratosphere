@@ -8,11 +8,17 @@ export default function Home() {
   const userValue = user.user;
   const setUserValue = user.reviseUser;
 
-  return userValue.id !== "0" ? (
-    <Navigate to="/browse/0" />
-  ) : (
-    <div>
-      <div>home.tsx</div>
-    </div>
-  );
+  const userValue = user.user;
+  const setUserValue = user.reviseUser;
+
+  if (userValue.id !== "0") {
+    return <Navigate to="/browse/0" />;
+  } else {
+    return (
+      <div>
+        <div style={{ height: 972, width: 1912 }}>home.tsx</div>
+        <div style={{ height: 1766, width: 1912 }}>TEST</div>
+      </div>
+    );
+  }
 }

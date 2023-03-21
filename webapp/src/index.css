@@ -424,6 +424,21 @@ body {
   /* Apply any effects here*/
 }
 
+.background {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center center;
+}
+
+.background:before {
+  /* Apply any effects here*/
+}
+
+.background:after {
+  /* Apply any effects here*/
+}
+
 /* Background images used */
 .background-about {
   background-image: url("./assets/images/halftone.png"),
