@@ -14,8 +14,4 @@ export default function Replay() {
     return (
       <div>replay.tsx</div>
     );
-  }
-    return (
-      <div>replay.tsx</div>
-    );
-  }
+}
