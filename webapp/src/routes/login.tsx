@@ -1,5 +1,17 @@
 export default function Login() {
-    return (
-        <div>login.tsx</div>
-    );
+  const { user, reviseUser } = useContext(UserContext);
+
+  const logIn = () => {
+    reviseUser("ABC");
+  };
+
+  return (
+    <div>
+      <div>login.tsx</div>
+      <div>{JSON.stringify(user)}</div>
+      <a onClick={logIn} href="/browse/1">
+        click this
+      </a>
+    </div>
+  );
 }

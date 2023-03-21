@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import ErrorPage from "./error"
+import ErrorPage from "./Error/error"
 
 export default function Browse() {
     const params = useParams();
@@ -8,6 +8,10 @@ export default function Browse() {
         return <ErrorPage message = "Version parameter must be 0 or 1"/>;
     }
 
+    return (
+        <div>browse.tsx</div>
+    );
+}
     return (
         <div>browse.tsx</div>
     );
