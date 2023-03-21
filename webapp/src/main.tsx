@@ -1,13 +1,11 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
-import React, { useState, createContext } from 'react'
+import { createBrowserRouter, RouterProvider, useRouteError } from "react-router-dom";
+import React from 'react'
 import ReactDOM from 'react-dom/client'
-// import App from './App'
 import './index.css'
 
 import AboutPage from "./routes/about"
 import BrowsePage from "./routes/browse"
-import ErrorPage from "./routes/error"
 import HomePage from "./routes/home"
 import LoginPage from "./routes/login"
 import OverlayPage from "./routes/overlay"
@@ -16,10 +14,11 @@ import ReplayPage from "./routes/replay"
 import SettingsPage from "./routes/settings"
 import StatsPage from "./routes/statistics"
 import UploadPage from "./routes/upload"
+import ErrorPage from "./routes/Error/error"
 
 import Wrapper from "./components/general/wrapper"
 
-import { HeaderProvider, UserProvider, WindowProvider } from "./context/contexts"
+import { UserProvider} from "./context/contexts"
 
 const client = new ApolloClient(
   {
@@ -28,75 +27,76 @@ const client = new ApolloClient(
   }
 )
 
-const errorPage = <ErrorPage message = "An unexpected error has occured" />
+function ErrorBoundary() {
+  let error = useRouteError();
+  return <Wrapper background=''><ErrorPage message = {`${error}`} /></Wrapper>
+}
+
 
 const router = createBrowserRouter([
   { // redirect.tsx
     path: "/",
     element: <RedirectPage />,
-    errorElement: errorPage
+    errorElement: <ErrorBoundary/>
   },
   {
     path: "/about",
-    element: <Wrapper pageHeight = {1383} background = "background-about"><AboutPage/></Wrapper>,
-    errorElement: errorPage
+    element: <Wrapper background = "background-about"><AboutPage/></Wrapper>,
+    errorElement: <ErrorBoundary/>
   },
   { // browse.tsx
     path: "/browse/:version",
-    element: <Wrapper pageHeight = {2845} background = "background-browse"><BrowsePage/></Wrapper>,
-    errorElement: errorPage
+    element: <Wrapper background = "background-browse"><BrowsePage/></Wrapper>,
+    errorElement: <ErrorBoundary/>
   },
   {
     path: "/error",
-    element: <Wrapper pageHeight = {1920} background = "">{errorPage}</Wrapper>,
-    errorElement: errorPage
+    element: <Wrapper background = "">{<ErrorBoundary/>}</Wrapper>,
+    errorElement: <ErrorBoundary/>
   },
   { // home.tsx
     path: "/home",
-    element: <Wrapper pageHeight = {3013} background = "background-home"><HomePage/></Wrapper>,
-    errorElement: errorPage
+    element: <Wrapper background = "background-home"><HomePage/></Wrapper>,
+    errorElement: <ErrorBoundary/>
   },
   { // login.tsx
     path: "/login",
-    element: <Wrapper pageHeight = {1455} background = "background-login"><LoginPage/></Wrapper>,
-    errorElement: errorPage
+    element: <Wrapper background = "background-login"><LoginPage/></Wrapper>,
+    errorElement: <ErrorBoundary/>
   },
   { // overlay.tsx
     path: "/overlay",
-    element: <Wrapper pageHeight = {1459} background = "background-overlay"><OverlayPage/></Wrapper>,
-    errorElement: errorPage
+    element: <Wrapper background = "background-overlay"><OverlayPage/></Wrapper>,
+    errorElement: <ErrorBoundary/>
   },
   { // replay.tsx
     path: "/replay/:replayid",
-    element: <Wrapper pageHeight = {1626} background = "background-replay"><ReplayPage/></Wrapper>,
-    errorElement: errorPage
+    element: <Wrapper background = "background-replay"><ReplayPage/></Wrapper>,
+    errorElement: <ErrorBoundary/>
   },
   { // settings.tsx
     path: "/settings",
-    element: <Wrapper pageHeight = {1455} background = "background-settings"><SettingsPage/></Wrapper>,
-    errorElement: errorPage
+    element: <Wrapper background = "background-settings"><SettingsPage/></Wrapper>,
+    errorElement: <ErrorBoundary/>
   },
   { // statistics.tsx
     path: "/stats/:version",
-    element: <Wrapper pageHeight = {1494} background = "background-stats"><StatsPage/></Wrapper>,
-    errorElement: errorPage
+    element: <Wrapper background = "background-stats"><StatsPage/></Wrapper>,
+    errorElement: <ErrorBoundary/>
   },
   { // upload.tsx
     path: "/upload",
-    element: <Wrapper pageHeight = {1481} background = "background-upload"><UploadPage/></Wrapper>,
-    errorElement: errorPage
+    element: <Wrapper background = "background-upload"><UploadPage/></Wrapper>,
+    errorElement: <ErrorBoundary/>
   },
 ]);
-
-// export const UserContext = createContext({});
-// const [user, setUser] = useState({id: 0})
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <ApolloProvider client={client}>
     <React.StrictMode>
-      <UserProvider><HeaderProvider><WindowProvider>
+      <UserProvider>
           <RouterProvider router={router} />
-      </WindowProvider></HeaderProvider></UserProvider>
+      </UserProvider>
     </React.StrictMode>
   </ApolloProvider>
 )

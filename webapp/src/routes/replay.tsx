@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Navigate } from "react-router-dom";
-import ErrorPage from "./error"
+import ErrorPage from "./Error/error"
 
 export default function Replay() {
     const params = useParams();
@@ -11,6 +11,10 @@ export default function Replay() {
         throw new Error("Replay ID parameter must follow regex [A-Z0-9]{32}");
     }
 
+    return (
+      <div>replay.tsx</div>
+    );
+  }
     return (
       <div>replay.tsx</div>
     );

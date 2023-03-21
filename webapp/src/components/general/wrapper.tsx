@@ -1,10 +1,8 @@
-import { useContext } from "react"
 import { useParams } from 'react-router-dom';
-import { WindowContext, WindowProvider } from "../../context/contexts"
-import Header from "./header"
+import Header from "./Header/header"
 import Footer from "./footer"
 
-export default function HeaderFooterWrapper(props: {pageHeight: number, background: string, children: JSX.Element}) {
+export default function HeaderFooterWrapper(props: {background: string, children: JSX.Element}) {
     const params = useParams();
     let classname = "";
 
@@ -16,13 +14,19 @@ export default function HeaderFooterWrapper(props: {pageHeight: number, backgrou
         classname = `${props.background}`
     }
 
-    const window = useContext(WindowContext)
+    if(props.background !== "") 
+        addImageClassToBody(classname);
 
     return (
-        <div className={classname} style={{height: props.pageHeight, width: 1912, zoom: window.currDims.width / 1920}}>
+        <div style={{}}>
             <Header />
             {props.children}
             <Footer />
         </div>
     );
+}
+
+function addImageClassToBody(className : string) {
+    const inheritedClass = "background";
+    document.body.classList.add(inheritedClass, className);
 }

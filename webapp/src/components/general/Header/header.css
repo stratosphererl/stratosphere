@@ -1,0 +1,55 @@
+
+/* Header CSS */
+
+header {
+  display: flex;
+  max-height: 100px;
+}
+
+.mini-header-block-button-regular, .header-block-button, .mini-header-block-button-logout {
+    color: var(--ocean-blue);
+    background: var(--white);
+    font-family: Montserrat;
+    font-weight: 600;
+    border: solid var(--ocean-blue);
+    border-width: 4px;
+    cursor: pointer;
+  }
+  
+  .mini-header-block-button-regular, .mini-header-block-button-logout{
+    font-size: 1.25rem;
+    padding: 1rem 2rem;
+    border-top: 0;
+  }
+  
+  .header-block-button {
+    font-size: 1.5rem;
+    padding: 1.2rem 3rem;
+    
+  }
+  .mini-header-block-button-logout {
+    color: var(--white);
+    background: var(--warning-red);
+  }
+
+  /* Tablet styles */
+@media (max-width: 850px) {
+  header {
+    /* Tablet styles */
+    flex-direction: column;
+    align-items: center;
+    max-height: none;
+  }
+}
+
+/* super mobile styles */
+@media (max-width: 600px) {
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  nav img {
+    order: 2;
+  }
+}
