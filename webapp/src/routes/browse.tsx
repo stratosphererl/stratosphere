@@ -12,7 +12,3 @@ export default function Browse() {
         <div>browse.tsx</div>
     );
 }
-    return (
-        <div>browse.tsx</div>
-    );
-}
