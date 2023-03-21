@@ -15,3 +15,7 @@ export default function Replay() {
       <div>replay.tsx</div>
     );
   }
+    return (
+      <div>replay.tsx</div>
+    );
+  }
