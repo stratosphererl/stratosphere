@@ -1,5 +1,4 @@
 import { Routes, Route, useParams } from 'react-router-dom';
-import ErrorPage from "./Error/error"
 
 export default function Statistics() {
     const params = useParams();

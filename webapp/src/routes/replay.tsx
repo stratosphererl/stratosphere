@@ -1,6 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { Navigate } from "react-router-dom";
-import ErrorPage from "./Error/error"
 
 export default function Replay() {
     const params = useParams();
