@@ -25,7 +25,17 @@ export default function Upload() {
       "Analyzing your playstyle for strategic insights...",
       "Checking the stats on your wheels and boost pads...",
       "Recharging the boost tanks for a speedy upload...",
-      "Testing the ball trajectory for accurate analysis..."
+      "Testing the ball trajectory for accurate analysis...",
+      "Running diagnostics on your car's air freshener...",
+      "Engaging rocket thrusters for optimal style points...",
+      "Checking your car's cup holder for any loose beverages...",
+      "Adjusting the stadium's gravity settings to match your playstyle...",
+      "Polishing the ball for maximum aerodynamics...",
+      "Performing a thorough inspection of the goalposts for any sneaky bugs...",
+      "Calibrating the crowd's enthusiasm levels for maximum hype...",
+      "Analyzing your teammate's chat history for communication tips...",
+      "Checking the weather forecast to ensure perfect playing conditions...",
+      "Performing a routine check of the stadium's hot dog stands for any technical difficulties..."
     ]
 
     const upload = async () => {
