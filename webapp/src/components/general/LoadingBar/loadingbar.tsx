@@ -22,12 +22,13 @@ export default function LoadingBar(
             const id = setInterval(() => {
               setProgress((prev) => {
                 const times = [3, 5, 8, 13];
-                const status = statusList[Math.floor(Math.random() * statusList.length)];
-                setStatus(status);
                 const increment = times[Math.floor(Math.random() * times.length)];
                 console.log(prev);
-                if(prev + increment < 100) 
-                  return prev + increment;
+                if(prev + increment < 100) {
+                    const status = statusList[Math.floor(Math.random() * statusList.length)];
+                    setStatus(status);
+                    return prev + increment;
+                }
                 else {
                   clearInterval(id);
                   // wait for catchup
