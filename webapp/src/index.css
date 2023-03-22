@@ -154,6 +154,7 @@ body {
 /* CSS variables */
 :root {
   --gray-1: #1F1F1F;
+  --gray-1-transparent: rgba(31,31,31,0.6);
   --gray-2: #111111;
   --gray-3: #666666;
   --ice-blue: #71ACD9;
@@ -162,6 +163,7 @@ body {
   --progress-green: #128721;
   --sky-blue: #18A0FB;
   --warning-red: #CC0000;
+  --white-transparent: rgba(0,0,0,0.6);
   --white: #FFFFFF;
 }
 
@@ -175,6 +177,7 @@ body {
 
 /* Colors used */
 .gray-1 { color: var(--gray-1); }
+.gray-1-transparent { color: var(--gray-1-transparent); }
 .gray-2 { color: var(--gray-2); }
 .gray-3 { color: var(--gray-3); }
 .ice-blue { color: var(--ice-blue); }
@@ -183,6 +186,7 @@ body {
 .progress-green { color: var(--progress-green); }
 .sky-blue { color: var(--sky-blue); }
 .warning-red { color: var(--warning-red); }
+.white-transparent { color: var(--white-transparent); }
 .white { color: var(--white); }
 
 /* Text styling used */
@@ -277,6 +281,12 @@ body {
   background:linear-gradient(var(--gray-2), transparent);
 }
 
+.gray-2-gradient-inverted {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background: linear-gradient(to top, var(--gray-2), var(--gray-2), transparent)
+}
+
 .background {
   background-size: cover;
   background-repeat: no-repeat;
@@ -342,6 +352,23 @@ body {
 .background-upload {
   background-image: url("./assets/images/backgrounds/upload.jpg");
   background-position: top left;
+}
+
+.wrapper-background {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  background-color: var(--gray-1-transparent)
+}
+
+/* Halftones */
+.halftone-1 {
+  background-image: radial-gradient(
+    circle at center,
+    var(--white-transparent) 0.075rem,
+    transparent 0
+  );
+  background-size: 1rem 1rem;
+  background-repeat: round;
 }
 
 /* Modifying scrollbar */
