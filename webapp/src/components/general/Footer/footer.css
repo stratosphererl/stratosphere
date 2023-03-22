@@ -1,0 +1,60 @@
+footer { /* Why doesn't calling this work? */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-height: 267px;
+}
+
+/* Tablet */
+@media (max-width: 850px) {
+footer {
+    /* Tablet styles */
+    flex-direction: column;
+    align-items: center;
+    max-height: none;
+}
+}
+
+/* Mobile styles */
+@media (max-width: 637px) {
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.horizontal-footer-bar {
+    display: flex;
+    height: 8px;
+    width: 95vw;
+    background: white;
+}
+
+.vertical-footer-bar {
+    display: flex;
+    width: 4px;
+    height: 64px;
+    background: white;
+}
+
+.upper-margin {
+    margin-top: 48px;
+}
+
+.footer-icon {
+    width: 64px;
+    height: 64px;
+    margin-right: 32px;
+}
+
+.bar-padding {
+    margin-right: 32px;
+}
+
+.show-pointer { cursor: pointer; }
+
+footer a {
+    color: none;
+    border-bottom: none;
+}
