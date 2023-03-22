@@ -34,7 +34,7 @@ export default function LoadingBar(
                   setTimeout(() => {
                     setUploadComplete(true);
                     setUploading(false);
-                  }, 2000);
+                  }, 3000);
                   return 100;
                 }
               })
