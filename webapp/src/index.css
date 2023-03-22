@@ -2,6 +2,155 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Other */
+body {
+  max-width: 95%;
+  margin: 0 auto;
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1a202c;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Tailwind Directives */
+@layer base {
+  p {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 30px;
+    margin-bottom: 0.5rem;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    line-height: 30px;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    @apply text-xl;
+  }
+
+  h3 {
+    @apply text-lg;
+  }
+
+  h4 {
+    @apply text-base;
+  }
+
+  h5 {
+    @apply text-sm;
+  }
+
+  h6 {
+    @apply text-xs;
+  }
+
+  ul, ol {
+    margin-left: 1rem;
+  }
+
+  ul li, ol li {
+    margin-bottom: 0.5rem;
+  }
+  
+  ul { 
+    list-style-type: disc; 
+    list-style-position: inside; 
+ }
+
+  ol { 
+    list-style-type: decimal; 
+    list-style-position: inside; 
+  }
+
+  a {
+    border-bottom: 1px solid var(--sky-blue);
+    color: var(--sky-blue);
+  }
+
+  nav a {
+    border-bottom: none;
+    color: var(--white);
+  }
+
+  .primary-btn, .warning-btn {
+    border-bottom: none;
+  }
+}
+
+@layer components {
+  .round {
+    border-radius: 10px;
+  }
+
+  .alpha-dark-border {
+    box-shadow: 0px 0px 0px 8px rgba(25,25,25,0.2);
+  }
+
+  .border-white {
+    border: solid var(--white) 5px;
+  }
+
+  .glass-outer {
+    background: rgb(0, 0, 0, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-background-filter: blur(15px);
+    /* shadow */
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  } 
+
+  .glass-inner {
+    background: rgb(0, 0, 0, 0.3);
+  }
+
+  /** user stays clicked on button styles **/
+  .primary-btn:active, .warning-btn:active {
+    transform: translateY(2px);
+  }
+
+  .primary-btn {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--ocean-blue);
+    background: var(--white);
+    font-weight: 600;
+    border: solid var(--ocean-blue);
+    border-width: 4px;
+    font-size: 1.5rem;
+    padding: 1.2rem 3rem;
+    cursor: pointer;
+  }
+
+  .warning-btn {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--white);
+    background: var(--warning-red);
+    font-weight: 600;
+    border: solid var(--ocean-blue);
+    border-width: 4px;
+    font-size: 1.5rem;
+    padding: 1.2rem 3rem;
+    cursor: pointer;
+  }
+}
+
 /* CSS variables */
 :root {
   --gray-1: #1F1F1F;
@@ -211,26 +360,6 @@
 
 ::-webkit-scrollbar-thumb:hover { /* Bar color when hovering */
   background: var(--gray-3);
-}
-
-/* Other */
-body {
-  max-width: 95%;
-  margin: 0 auto;
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #1a202c;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 }
 
 .truncate {

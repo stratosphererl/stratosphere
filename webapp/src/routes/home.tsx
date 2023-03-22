@@ -9,11 +9,13 @@ export default function Home() {
   const userValue = user.user
   const setUserValue = user.reviseUser
 
-  return (
-    userValue.id !== "0" ?
-      <Navigate to="/browse/0"/> :
+  if (userValue.id !== "0") {
+    return (<Navigate to="/browse/0"/>)
+  } else {
+    return (
       <div>
         <div>home.tsx</div>
       </div>
-  )
+    );
+  }
 }
