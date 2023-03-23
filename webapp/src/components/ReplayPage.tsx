@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
-import GoalChart from "./replay-graphs/GoalChart";
+import GoalChart from "./visualizations/goals";
 
-import GraphLegend from "./replay-graphs/GraphLegend";
-import PlayerBarGraph from "./replay-graphs/PlayerBarGraph";
-import TugGraph from "./replay-graphs/TugGraph";
+import GraphLegend from "./visualizations/legend";
+import PlayerBarGraph from "./visualizations/stacked";
+import TugGraph from "./visualizations/tug";
 
-import goal_chart_data from "./replay-graphs/goal_chart_data"
-import PositionHeatmap from "./replay-graphs/position";
-import TestPositionHeatmap from "./replay-graphs/TestHeatmap";
+import goal_chart_data from "./visualizations/goal_chart_data"
+import Heatmap from "./visualizations/heatmap";
+
+import TestHeatmapData from "./visualizations/position_heatmap_data";
+
+import stadium from "../assets/std-stadium-stolen-temporarily.svg";
 
 const data: any[] = [
     {
@@ -68,6 +70,9 @@ sub_groups.forEach((key) => {
 });
 
 export default function() {
+
+    const width_height_ratio = 362 / 246;
+    const width = 1000
         
     return (
         <div>
@@ -79,13 +84,30 @@ export default function() {
                 <TugGraph data={tug_graph_data} sub_groups={sub_groups} />
             </div>
             <div>
-                <GoalChart data={goal_chart_data} data_display={["Scorer", "Speed"]} postfixes={{"Speed": " kph"}} />
+                <GoalChart 
+                    data={goal_chart_data} 
+                    data_display={["Scorer", "Speed"]} 
+                    postfixes={{"Speed": " kph"}} 
+                    underlayed_image={stadium} 
+                    svg_height={width / width_height_ratio}
+                    svg_width={width}
+                />
             </div>
             <div className="pt-10">
-                <PositionHeatmap />
-            </div>
-            <div className="pt-10">
-                <TestPositionHeatmap />
+                <div style={{width: width, height: width / width_height_ratio}} >
+                    <Heatmap 
+                        data={TestHeatmapData} 
+                        svg_width={width} 
+                        svg_height={width / width_height_ratio} 
+                        size={width * .008} 
+                        x_domain={[-5000, 5000]}
+                        y_domain={[-7500, 7500]}
+                        color_range={["transparent", "grey", "green", "orange", "red"]}
+                        color_density={15}
+                        overlayed_image={stadium}
+                        // underlayed_image={stadium}
+                    />
+                </div>
             </div>
         </div>
     )

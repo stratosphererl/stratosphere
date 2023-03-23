@@ -10,7 +10,6 @@ interface Props {
 
     svg_width?: number; // The total width of the component
     svg_height?: number; // The total height of the component
-    padding?: number; // The padding around the graph
 
     ball_size?: number; // The size of the ball
 
@@ -26,6 +25,9 @@ interface Props {
     tooltip_padding?: number; // The padding within the tooltip
     tooltip_text_color?: string; // The text color of the tooltip
     tooltip_font?: string; // The font of the tooltip
+
+    overlayed_image?: string | null; // The image to overlay on the graph
+    underlayed_image?: string | null; // The image to underlay on the graph
 }
 
 export default function GoalChart({
@@ -35,7 +37,6 @@ export default function GoalChart({
 
     svg_width = 800,
     svg_height = 600,
-    padding = 10,
 
     ball_size = 80,
 
@@ -51,6 +52,9 @@ export default function GoalChart({
     tooltip_padding = 5,
     tooltip_text_color = "black",
     tooltip_font = "Montserrat",
+
+    overlayed_image = null,
+    underlayed_image = null,
 }: Props) {
     const ref = useRef(null);
 
@@ -62,18 +66,27 @@ export default function GoalChart({
                 this.parentNode.appendChild(this);
             });
         };
-
-        const g = d3.select(ref.current)
+        
+        const width = svg_width;
+        const height = svg_height;
+       
+        const svg = d3.select(ref.current)
             .append("svg")
                 .attr("width", svg_width)
-                .attr("height", svg_height)
-                .style("background-color", "white")
-                .style("border-radius", "20px")
-            .append("g")
-                .attr("transform", `translate(${padding}, ${padding})`);
+                .attr("height", svg_height);
+        const g = svg.append("g");
 
-        const width = svg_width - 2 * padding;
-        const height = svg_height - 2 * padding;
+        if (underlayed_image) {
+            svg.style("background-image", "url(" + underlayed_image + ")")
+                .style("background-size", "contain")
+                .style("background-repeat", "no-repeat");
+        }
+        if (overlayed_image) {
+            svg.append("svg:image")
+                .attr("xlink:href", overlayed_image)
+                .attr("width", width)
+                .attr("height", height);
+        }
 
         const x = d3.scaleLinear()
             .domain([0, x_max])

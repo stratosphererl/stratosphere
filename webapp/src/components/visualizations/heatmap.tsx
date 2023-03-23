@@ -1,26 +1,45 @@
 import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-import data from "./position_heatmap_data";
-
-const svg_width = 500;
-const svg_height = 500;
-const padding = 50;
-
-const [x_min, x_max] = [-5000, 5000];
-const [y_min, y_max] = [-7500, 7500];
-
-const size = 5;
-
 interface Props {
+    data: {x: number, y: number}[];
 
+    overlayed_image?: string | null;
+    underlayed_image?: string | null;
+
+    x_domain?: [number, number];
+    y_domain?: [number, number];
+
+    size?: number;
+
+    svg_width?: number;
+    svg_height?: number;
+
+    color_range?: string[];
+    color_density?: number;
 };
 
-export default function TestPositionHeatmap(props: Props) {
+export default function Heatmap({
+    data,
+
+    overlayed_image = null,
+    underlayed_image = null,
+
+    x_domain = [0, 1],
+    y_domain = [0, 1],
+
+    size = 5,
+
+    svg_width = 500,
+    svg_height = 500,
+
+    color_range = ["transparent", "grey", "green", "red"],
+    color_density = 10,
+}: Props) {
     const ref = useRef(null);
 
-    const width = svg_width - 2 * padding;
-    const height = svg_height - 2 * padding;
+    const width = svg_width;
+    const height = svg_height;
 
     useEffect(() => {
         const destroy = () => {
@@ -28,35 +47,43 @@ export default function TestPositionHeatmap(props: Props) {
         };
 
         const x = d3.scaleLinear()
-            .domain([x_min, x_max])
+            .domain(x_domain)
             .range([0, width]);
 
         const y = d3.scaleLinear()
-            .domain([y_min, y_max])
+            .domain(y_domain)
             .range([height, 0]);
 
         const color = d3.scaleLinear<string>()
-            .domain(d3.ticks(0, 10, 4))
-            .range(["transparent", "grey", "green", "red"]);
+            .domain(d3.ticks(0, color_density, color_range.length))
+            .range(color_range);
 
         const mapped_data = data.map<[number, number]>(d => [x(d.x), y(d.y)]);
 
-        const g = d3.select(ref.current)
+        const svg = d3.select(ref.current)
             .append("svg")
                 .attr("width", svg_width)
-                .attr("height", svg_height)
-                .style("background-color", "white")
-            .append("g")
-                .attr("transform", `translate(${padding}, ${padding})`);
+                .attr("height", svg_height); 
+
+        const g = svg.append("g");
+
+        if (underlayed_image) {
+            svg.style("background-image", `url(${underlayed_image})`)
+                .style("background-size", "cover")
+                .style("background-repeat", "no-repeat");
+        }
+        if (overlayed_image) {
+            svg.append("image")
+                .attr("href", overlayed_image)
+                .attr("width", svg_width)
+                .attr("height", svg_height);
+        }
 
         const foreignObject = g.append("foreignObject")
             .attr("width", width)
             .attr("height", height);
 
         const foreignBody = foreignObject.append("xhtml:body")
-            .style("margin", "0px")
-            .style("padding", "0px")
-            .style("background-color", "white")
             .style("width", `${width}px`)
             .style("height", `${height}px`);
 
@@ -69,8 +96,6 @@ export default function TestPositionHeatmap(props: Props) {
             
         const context = canvas?.getContext("2d");
         const image = context?.createImageData(width, height);
-
-        // console.log(canvas, context, image)
 
         if (context && image) {
             const bucket_size = size * 2;
@@ -130,15 +155,6 @@ export default function TestPositionHeatmap(props: Props) {
             });
             context.putImageData(image, 0, 0);
         }
-        
-        g.append("g")
-            .attr("transform", `translate(0, ${height})`)
-            .style("color", "black")
-            .call(d3.axisBottom(x));
-
-        g.append("g")
-            .style("color", "black")
-            .call(d3.axisLeft(y));
 
         return destroy;
     }, [ref]);
