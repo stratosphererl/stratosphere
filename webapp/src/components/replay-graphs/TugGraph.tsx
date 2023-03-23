@@ -38,8 +38,6 @@ export default function TugGraph({
     const ref = useRef(null);
 
     useEffect(() => {
-        console.log(data);
-        
         const cloned_data = data.map((d) => ({...d})) as [any, any];
 
         cloned_data.map((d) => {

@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
+import GoalChart from "./replay-graphs/GoalChart";
 
 import GraphLegend from "./replay-graphs/GraphLegend";
 import PlayerBarGraph from "./replay-graphs/PlayerBarGraph";
 import TugGraph from "./replay-graphs/TugGraph";
+
+import goal_chart_data from "./replay-graphs/goal_chart_data"
+import PositionHeatmap from "./replay-graphs/position";
+import TestPositionHeatmap from "./replay-graphs/TestHeatmap";
 
 const data: any[] = [
     {
@@ -72,6 +77,15 @@ export default function() {
             </div>
             <div id="team-tug-graph">
                 <TugGraph data={tug_graph_data} sub_groups={sub_groups} />
+            </div>
+            <div>
+                <GoalChart data={goal_chart_data} data_display={["Scorer", "Speed"]} postfixes={{"Speed": " kph"}} />
+            </div>
+            <div className="pt-10">
+                <PositionHeatmap />
+            </div>
+            <div className="pt-10">
+                <TestPositionHeatmap />
             </div>
         </div>
     )

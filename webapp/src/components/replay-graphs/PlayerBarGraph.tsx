@@ -123,7 +123,7 @@ export default function PlayerBarGraph({
         const mouseover = function(this: any, event: any, d: any) {
             Tooltip
                 .style("visibility", "visible");
-            d3.select(this)
+            const sel = d3.select(this)
                 .style("stroke", column_stroke_color_highlight)
                 .style("stroke-width", column_stroke_width_highlight)
                 .style("opacity", 1);
