@@ -4,10 +4,10 @@ import GraphLegend from "./visualizations/legend";
 import PlayerBarGraph from "./visualizations/stacked";
 import TugGraph from "./visualizations/tug";
 
-import goal_chart_data from "./visualizations/goal_chart_data"
+import goal_chart_data from "./visualizations/mock_data/goal_chart_data"
 import Heatmap from "./visualizations/heatmap";
 
-import TestHeatmapData from "./visualizations/position_heatmap_data";
+import TestHeatmapData from "./visualizations/mock_data/position_heatmap_data";
 
 import stadium from "../assets/std-stadium-stolen-temporarily.svg";
 

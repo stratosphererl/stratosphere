@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-import data from "./position_heatmap_data";
+import data from "./mock_data/position_heatmap_data";
 
 const svg_width = 500;
 const svg_height = 500;
