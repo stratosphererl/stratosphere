@@ -6,7 +6,7 @@ import './index.css'
 
 import AboutPage from "./routes/about"
 import BrowsePage from "./routes/browse"
-import HomePage from "./routes/home"
+import HomePage from "./routes/Home/home"
 import LoginPage from "./routes/login"
 import OverlayPage from "./routes/overlay"
 import RedirectPage from "./routes/redirect"
@@ -29,7 +29,7 @@ const client = new ApolloClient(
 
 function ErrorBoundary() {
   let error = useRouteError();
-  return <Wrapper background=''><ErrorPage message = {`${error}`} /></Wrapper>
+  return <Wrapper background='' callPage=""><ErrorPage message = {`${error}`} /></Wrapper>
 }
 
 
@@ -41,52 +41,52 @@ const router = createBrowserRouter([
   },
   {
     path: "/about",
-    element: <Wrapper background = "background-about"><AboutPage/></Wrapper>,
+    element: <Wrapper background = "background-about" callPage=""><AboutPage/></Wrapper>,
     errorElement: <ErrorBoundary/>
   },
   { // browse.tsx
     path: "/browse/:version",
-    element: <Wrapper background = "background-browse"><BrowsePage/></Wrapper>,
+    element: <Wrapper background = "background-browse" callPage=""><BrowsePage/></Wrapper>,
     errorElement: <ErrorBoundary/>
   },
   {
     path: "/error",
-    element: <Wrapper background = "">{<ErrorBoundary/>}</Wrapper>,
+    element: <Wrapper background = "" callPage="">{<ErrorBoundary/>}</Wrapper>,
     errorElement: <ErrorBoundary/>
   },
   { // home.tsx
     path: "/home",
-    element: <Wrapper background = "background-home"><HomePage/></Wrapper>,
+    element: <Wrapper background = "background-home" callPage="Home"><HomePage/></Wrapper>,
     errorElement: <ErrorBoundary/>
   },
   { // login.tsx
     path: "/login",
-    element: <Wrapper background = "background-login"><LoginPage/></Wrapper>,
+    element: <Wrapper background = "background-login" callPage=""><LoginPage/></Wrapper>,
     errorElement: <ErrorBoundary/>
   },
   { // overlay.tsx
     path: "/overlay",
-    element: <Wrapper background = "background-overlay"><OverlayPage/></Wrapper>,
+    element: <Wrapper background = "background-overlay" callPage=""><OverlayPage/></Wrapper>,
     errorElement: <ErrorBoundary/>
   },
   { // replay.tsx
     path: "/replay/:replayid",
-    element: <Wrapper background = "background-replay"><ReplayPage/></Wrapper>,
+    element: <Wrapper background = "background-replay" callPage=""><ReplayPage/></Wrapper>,
     errorElement: <ErrorBoundary/>
   },
   { // settings.tsx
     path: "/settings",
-    element: <Wrapper background = "background-settings"><SettingsPage/></Wrapper>,
+    element: <Wrapper background = "background-settings" callPage=""><SettingsPage/></Wrapper>,
     errorElement: <ErrorBoundary/>
   },
   { // statistics.tsx
     path: "/stats/:version",
-    element: <Wrapper background = "background-stats"><StatsPage/></Wrapper>,
+    element: <Wrapper background = "background-stats" callPage=""><StatsPage/></Wrapper>,
     errorElement: <ErrorBoundary/>
   },
   { // upload.tsx
     path: "/upload",
-    element: <Wrapper background = "background-upload"><UploadPage/></Wrapper>,
+    element: <Wrapper background = "background-upload" callPage=""><UploadPage/></Wrapper>,
     errorElement: <ErrorBoundary/>
   },
 ]);
