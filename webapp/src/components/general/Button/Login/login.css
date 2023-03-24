@@ -1,0 +1,68 @@
+
+/* Resets fa default styles */
+.fa .fa-epicgames {}
+
+.fa-epicgames {
+    content: url("../../../../assets/media/epicgames.svg");
+    width: 24px;
+    height: 24px;
+    fill: var(--white);
+}
+a.login-btn {
+    /* reset */
+    border-bottom: none;
+    color: inherit;
+}
+
+.login-btn, .login-btn div, .login-btn .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-btn { 
+    width: 300px;
+    height: 45px;
+    cursor: pointer;
+}
+
+.login-btn div {
+    width: 90%;
+    height: 100%;
+    background-color: rgb(39,39,39);
+    font-weight: 600;
+    overflow: hidden;
+    transition: width 0.5s;
+    -moz-transition: width 0.5s;
+    -o-transition: width 0.5s;
+}
+
+.login-btn:hover div {
+    width: 0;
+}
+
+.login-btn div span {
+    opacity: 1;
+    transition: opacity 0.3s;
+    -moz-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+    white-space: nowrap;
+}
+
+.login-btn:hover div span, .login-btn:hover div .icon {
+    opacity: 0;
+}
+
+.login-btn .icon {
+    width: 30%;
+    order: -1;
+    color: var(--white);
+    background-color: rgb(41, 90, 140);
+    font-size: 1.15rem;
+    transition: width 0.5s;
+}
+
+.login-btn:hover .icon, .login-btn:hover .icon {
+    width: 100%;
+
+}

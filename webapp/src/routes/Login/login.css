@@ -1,0 +1,42 @@
+.divider {
+    position: relative;
+    text-align: center;
+}
+.divider::before, .divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 150px;
+    height: 1px;
+    background-color: #fff
+}
+
+.divider::before {
+    right: 0;
+    margin-right: 25px;
+}
+
+.divider::after {
+    left: 0;
+    margin-left: 25px;
+}
+
+main {
+    max-width: 800px;
+    margin-left: 2rem !important;
+
+}
+
+/* Tablet */
+@media (max-width: 850px) {
+    main {
+        max-width: 600px;
+        margin: 0 auto !important;
+    }
+}
+
+@media (max-width: 637px) {
+    main {
+        width: 95%;
+    }
+}
