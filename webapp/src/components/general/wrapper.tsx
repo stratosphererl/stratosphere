@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import Header from "./Header/header"
 import Footer from "./Footer/footer"
 
-export default function HeaderFooterWrapper(props: {background: string, children: JSX.Element}) {
+export default function HeaderFooterWrapper(props: {background: string, children: JSX.Element, callPage: string}) {
     const params = useParams();
     let classname = "";
 
@@ -19,13 +19,23 @@ export default function HeaderFooterWrapper(props: {background: string, children
 
     // TODO: Dynamically use wrapper-background depending on whether in darkmode (show) or lightmode (don't show)
     // CONSIDER: Are there pages not to use wrapper-background on even in darkmode?
-    return (
-        <div style={{}} className="wrapper-background">
-            <Header />
-            {props.children}
-            <Footer />
-        </div>
-    );
+    if (props.callPage !== "Home") {
+        return (
+            <div style={{}} className="wrapper-background">
+                <Header />
+                {props.children}
+                <Footer isHome={false}/>
+            </div>
+        );
+    } else {
+        return (
+            <div style={{}} className="wrapper-background">
+                <Header />
+                {props.children}
+                <Footer isHome={true}/>
+            </div>
+        )
+    }
 }
 
 function addImageClassToBody(className : string) {
