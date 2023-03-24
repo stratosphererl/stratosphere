@@ -1,4 +1,4 @@
-import logo from "../../../assets/logo/700.png"
+import logo from "../../../assets/logo/500.png"
 import Dropdown from "../Dropdown/dropdown"
 import { useContext } from "react"
 import { UserContext } from "../../../context/contexts"
