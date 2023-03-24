@@ -28,7 +28,6 @@ export default function Dropzone({file, setFile, uploading} : {file: File | unde
     const handleFileChange = (files : FileList) => {
         if(file) setFile(undefined);
         
-        console.log(files)
         if(manyFiles(files)) return announceInvalidAction("Too many files. Please only upload one file at a time.");
 
         const newFile = files[0];
