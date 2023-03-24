@@ -21,22 +21,28 @@
     margin-left: 25px;
 }
 
-main {
-    max-width: 800px;
+main.login {
+    max-width: 800px !important;;
     margin-left: 2rem !important;
 
 }
 
+@media (max-width: 1440px) {
+    main.login {
+        max-width: 600px !important;;
+    }
+}
+
 /* Tablet */
 @media (max-width: 850px) {
-    main {
-        max-width: 600px;
+    main.login  {
+        max-width: 500px !important;;
         margin: 0 auto !important;
     }
 }
 
 @media (max-width: 637px) {
-    main {
-        width: 95%;
+    main.login {
+        width: 95% !important;
     }
 }

@@ -19,7 +19,7 @@ export default function Login() {
     }
 
     return (
-        <MainPane title="">
+        <MainPane className="login" title="">
             <div>
                 <h1 className="text-center">Login</h1>
                 <p className="text-center mt-[-0.6rem]">New to Stratosphere? Signing up is free.</p>
