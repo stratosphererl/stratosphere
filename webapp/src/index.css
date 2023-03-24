@@ -137,6 +137,12 @@ body {
     cursor: pointer;
   }
 
+  @media (max-width: 637px) {
+    .primary-btn {
+      margin-top: 28px;
+    }
+  }
+
   .warning-btn {
     display: inline-block;
     font-family: 'Montserrat', sans-serif;
@@ -159,12 +165,14 @@ body {
   --gray-3: #666666;
   --ice-blue: #71ACD9;
   --ocean-blue: #1F7989;
+  --chill-blue: #1F79B9;
   --orange: #FF6A00;
   --progress-green: #128721;
   --sky-blue: #18A0FB;
   --warning-red: #CC0000;
   --white-transparent: rgba(0,0,0,0.6);
   --white: #FFFFFF;
+  --black: #000000;
 }
 
 /* Fonts used */
@@ -188,6 +196,7 @@ body {
 .warning-red { color: var(--warning-red); }
 .white-transparent { color: var(--white-transparent); }
 .white { color: var(--white); }
+.black { color: var(--black); }
 
 /* Text styling used */
 .ocean-blue-stroke-2 { /* Puts ~2px ocean blue border around text */
@@ -207,12 +216,12 @@ body {
     var(--ocean-blue) 1.92034px -0.558831px 0px;  
 }
 
-.sky-blue-stroke-2 { /* Puts ~2px sky blue border around text */
+.sky-blue-stroke-2 { /* ~2px border */
   text-shadow: 
     var(--sky-blue) 2px 0px 0px, 
     var(--sky-blue) 1.75517px 0.958851px 0px, 
     var(--sky-blue) 1.0806px 1.68294px 0px, 
-    var(--sky-blue)0.141474px 1.99499px 0px, 
+    var(--sky-blue) 0.141474px 1.99499px 0px, 
     var(--sky-blue) -0.832294px 1.81859px 0px, 
     var(--sky-blue) -1.60229px 1.19694px 0px, 
     var(--sky-blue) -1.97998px 0.28224px 0px, 
@@ -224,7 +233,7 @@ body {
     var(--sky-blue) 1.92034px -0.558831px 0px;  
 }
 
-.orange-stroke-2 { /* Puts ~2px orange border around text */
+.orange-stroke-2 { /* ~2px border */
   text-shadow: 
     var(--orange) 2px 0px 0px, 
     var(--orange) 1.75517px 0.958851px 0px, 
@@ -245,7 +254,7 @@ body {
   text-shadow: 
     var(--ocean-blue) 1px 0px 0px, 
     var(--ocean-blue) 0.540302px 0.841471px 0px, 
-    var(--ocean-blue) -0.416147px 0.909297pvar(--ocean-blue) 0px, 
+    var(--ocean-blue) -0.416147px 0.909297 0px, 
     var(--ocean-blue) -0.989992px 0.14112px 0px, 
     var(--ocean-blue) -0.653644px -0.756802px 0px, 
     var(--ocean-blue) 0.283662px -0.958924px 0px, 
@@ -304,53 +313,53 @@ body {
 
 /* Background images used */
 .background-about {
-  background-image: url("./assets/images/backgrounds/about.jpg");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/about.jpg");
 }
 
 .background-browse-general {
-  background-image: url("./assets/images/backgrounds/browse_general.jpeg");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/browse_general.jpeg");
   background-position: center right;
 
 }
 
 .background-browse-personal {
-  background-image: url("./assets/images/backgrounds/browse_personal.png");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/browse_personal.png");
   background-position: center center;
 }
 
 .background-home {
-  background-image: url("./assets/images/backgrounds/home.jpg");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/home.jpg");
 }
 
 .background-login {
-  background-image: url("./assets/images/backgrounds/login.jpg");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/login.jpg");
 }
 
 .background-overlay {
-  background-image: url("./assets/images/backgrounds/overlay.webp");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/overlay.webp");
 }
 
 .background-replay {
-  background-image: url("./assets/images/backgrounds/replay.jpeg");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/replay.jpeg");
 }
 
 .background-settings {
-  background-image: url("./assets/images/backgrounds/settings.jpeg");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/settings.jpeg");
   background-position: bottom center;
 }
 
 .background-stats-general {
-  background-image: url("./assets/images/backgrounds/stats_general.jpeg");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/stats_general.jpeg");
   background-position: center right;
 }
 
 .background-stats-personal {
-  background-image: url("./assets/images/backgrounds/stats_personal.jpg");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/stats_personal.jpg");
   background-position: center center;
 }
 
 .background-upload {
-  background-image: url("./assets/images/backgrounds/upload.jpg");
+  background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/upload.jpg");
   background-position: top left;
 }
 
