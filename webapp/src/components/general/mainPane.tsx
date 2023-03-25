@@ -1,6 +1,6 @@
 import logo from "../../assets/logo/700.png"
 
-export default function MainPane({title, className, children}: {title: string, className: string, children: React.ReactNode}) {
+export default function MainPane({title, className, children}: {title?: string, className?: string, children: React.ReactNode}) {
     return (
         <main className={`${className} round glass-outer p-10 m-auto border-white`}>
             <div className="flex mb-4">
