@@ -22,7 +22,7 @@ export default function Home() {
     return (<Navigate to="/browse/1"/>)
   } else {
     return (
-      <div className="">
+      <div className="mt-24">
         <div className="m-auto flex items-center justify-center mb-[48px] text-logo">
           <img src={StratosphereLogo} className="logo-dims"/>
           <div className="home-chill-blue-stroke-4 strat-text">Stratosphere</div>
@@ -42,13 +42,13 @@ export default function Home() {
             </h2>
           </div>
         </div>
-        <footer className="flex justify-center top-margin-72">
+        {/* <footer className="flex justify-center top-margin-72">
           <a href="/login">
             <button className="home-login-button flex justify-center bottom-margin-48">
               <div className="vertical-text">LOGIN</div>
             </button>
           </a>
-        </footer>
+        </footer> */}
         <img src={BackgroundTransition} className="home-background-transition"></img>
 
         {/* Block 1: Want to Improve?*/}
@@ -59,11 +59,11 @@ export default function Home() {
           longName="Upload your replay"
           text={
             <p className="home-body-text -mb-1">
-              Send your replay file to our
+              Send your replay to our
               <InTextColoring text="backend services"/>
               in order to receive
               <InTextColoring text="simple data"/>
-              about the play of you and your opponents,
+              about your play and that of your opponents,
               <InTextColoring text="aggregated match statistics"/>
               for you to parse through, and
               <InTextColoring text="unique analytics"/>
