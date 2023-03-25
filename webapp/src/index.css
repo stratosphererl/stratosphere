@@ -92,6 +92,17 @@ body {
   .primary-btn, .warning-btn {
     border-bottom: none;
   }
+
+  button:disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+  }
+
+  button:disabled:active {
+    transform: none;
+  }
 }
 
 @layer components {
@@ -100,7 +111,7 @@ body {
   }
 
   .alpha-dark-border {
-    box-shadow: 0px 0px 0px 8px rgba(25,25,25,0.2);
+    box-shadow: 0px 0px 0px 10px rgba(25,25,25,0.2);
   }
 
   .border-white {
@@ -117,6 +128,10 @@ body {
 
   .glass-inner {
     background: rgb(0, 0, 0, 0.3);
+  }
+
+  .glass-inner-light {
+    background: rgba(255, 255, 255, 0.1);
   }
 
   /** user stays clicked on button styles **/
@@ -420,4 +435,22 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   display: block;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
