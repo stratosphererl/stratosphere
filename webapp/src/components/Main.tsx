@@ -7,7 +7,6 @@ import { ThemeContext } from '../context/ThemeContext'
 import { useContext } from 'react'
 import SearchReplays from '../filtering/filtering'
 import StatisticalData from '../components/StatisticalData'
-import ReplayPage from '../routes/replay'
 
 export default function Main() {
     const {theme} = useContext(ThemeContext)
@@ -30,7 +29,6 @@ export default function Main() {
             <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>View Replay</button>)}</Tab>
             <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Replay Data</button>)}</Tab>
             <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Search Replays</button>)}</Tab>
-            <Tab as={Fragment}>{({ selected }) => (<button className={determineTabClass(selected)}>Replay Page</button>)}</Tab>
           </div>
           <Tab.Panels>
             <Tab.Panel>
@@ -47,9 +45,6 @@ export default function Main() {
             </Tab.Panel>
             <Tab.Panel>
               <SearchReplays />
-            </Tab.Panel>
-            <Tab.Panel>
-              <ReplayPage />
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>

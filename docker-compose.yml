@@ -3,55 +3,84 @@ services:
   # webapp:
   #   build: ./webapp
   #   ports:
-  #     - '3000:3000'
-  gql:
-    build: ./gql
-    ports:
-      - '4000:4000'
-      - '9229:9229'
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    environment:
-      - NODE_ENV=development
-  parser:
-    build: ./parser
-    ports: 
-      - '5001:5001'
-    tmpfs:
-      - /tmp:exec,mode=777
-    volumes:
-      - ./parser:/parser
-    depends_on:
-      - parserdb
-  ml:
-    build: ./ml
-    ports:
-      - '5002:5002'
-  # db:
-  #   build: ./db
+  # #     - '3000:3000'
+  # gql:
+  #   build: ./gql
   #   ports:
-  #     - 5432:5432
+  #     - '4000:4000'
+  #     - '9229:9229'
   #   volumes:
-  #     - db:/var/lib/postgres/data
+  #     - .:/usr/src/app
+  #     - /usr/src/app/node_modules
   #   environment:
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
-  #     - POSTGRES_DB=stratosphere
-  parserdb:
-    image: postgres:14.0
+  #     - NODE_ENV=development
+  # parser:
+  #   build: ./parser
+  #   ports: 
+  #     - '5001:5001'
+  #   tmpfs:
+  #     - /tmp:exec,mode=777
+  #   volumes:
+  #     - ./parser:/parser
+  #   depends_on:
+  #     - parserdb
+  # ml:
+  #   build: ./ml
+  #   ports:
+  #     - '5002:5002'
+  stats-service:
+    command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
+    build: 
+      context: .
+      dockerfile: ./${STATS_SERVICE_NAME}/Dockerfile
+    ports:
+      - ${STATS_SERVICE_PORT}:${STATS_SERVICE_PORT}
+    depends_on:
+      - stats-service-db
+    volumes:
+      - ./${STATS_SERVICE_NAME}:/app
+      - .env:/app/.env
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
+  stats-service-db:
+    image: amd64/postgres:alpine
     restart: always
     ports:
-      - 5432:5432
-    volumes:
-      - db:/var/lib/postgres/data
-      - ./parser/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ${STATS_DB_PORT}:5432
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=test1
-      - POSTGRES_DB=parserdb
+      - POSTGRES_USER=${STATS_DB_USER}
+      - POSTGRES_PASSWORD=${STATS_DB_PASSWORD}
+      - POSTGRES_DB=${STATS_DB_NAME}
+    volumes:
+      - ./${STATS_SERVICE_NAME}/config:/var/lib/postgres/data
+      - ./${STATS_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
+  user-service:
+    command: uvicorn app:app --reload --port ${USER_SERVICE_PORT} --host 0.0.0.0
+    build: 
+      context: .
+      dockerfile: ./${USER_SERVICE_NAME}/Dockerfile
+    ports:
+      - ${USER_SERVICE_PORT}:${USER_SERVICE_PORT}
+    depends_on:
+      - userdb
+    volumes:
+      - ./${USER_SERVICE_NAME}:/app
+      - .env:/app/.env
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
+  userdb:
+    image: amd64/postgres:alpine
+    restart: always
+    ports:
+      - ${USER_DB_PORT}:5432
+    environment:
+      - POSTGRES_USER=${USER_DB_USER}
+      - POSTGRES_PASSWORD=${USER_DB_PASSWORD}
+      - POSTGRES_DB=${USER_DB_HOST}
+    volumes:
+      - ./${USER_SERVICE_NAME}/config:/var/lib/postgres/data
+      - ./${USER_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
 volumes:
-  db:
+  userdb:
     driver: local
-  parserdb:
-    driver: local
+  stats-service-db:
