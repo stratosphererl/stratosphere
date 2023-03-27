@@ -7,7 +7,7 @@ import { ThemeContext } from '../context/ThemeContext'
 import { useContext } from 'react'
 import SearchReplays from '../filtering/filtering'
 import StatisticalData from '../components/StatisticalData'
-import ReplayPage from './ReplayPage'
+import ReplayPage from '../routes/replay'
 
 export default function Main() {
     const {theme} = useContext(ThemeContext)

@@ -1,13 +1,13 @@
-import GoalChart from "./visualizations/goals";
+import GoalChart from "../components/visualizations/goals";
 
-import GraphLegend from "./visualizations/legend";
-import PlayerBarGraph from "./visualizations/stacked";
-import TugGraph from "./visualizations/tug";
+import GraphLegend from "../components/visualizations/legend";
+import PlayerBarGraph from "../components/visualizations/stacked";
+import TugGraph from "../components/visualizations/tug";
 
-import goal_chart_data from "./visualizations/mock_data/goal_chart_data"
-import Heatmap from "./visualizations/heatmap";
+import goal_chart_data from "../components/visualizations/mock_data/goal_chart_data"
+import Heatmap from "../components/visualizations/heatmap";
 
-import TestHeatmapData from "./visualizations/mock_data/position_heatmap_data";
+import TestHeatmapData from "../components/visualizations/mock_data/position_heatmap_data";
 
 import stadium from "../assets/std-stadium-stolen-temporarily.svg";
 
