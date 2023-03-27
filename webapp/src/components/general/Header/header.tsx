@@ -20,7 +20,7 @@ export default function Header() {
             <nav className="flex gap-4">
                 <a href={user.id !== "0" ? "/browse/0" : "/home"}>
                     <img 
-                    style={{display: "inline-block", maxHeight: "72px", maxWidth: "72px"}} 
+                    style={{display: "inline-block", maxHeight: "56px", maxWidth: "56px", margin: "8px"}} 
                     src={logo}>
                     </img>
                 </a>
