@@ -5,7 +5,7 @@ import { Tab } from "@headlessui/react";
 import { Fragment } from "react";
 
 import ReplayData from "../components/replays/data";
-import replay from "../mock/replay.json"
+import replay from "../mock/replay.json";
 
 import MainPane from "../components/general/MainPane/mainPane";
 import {
