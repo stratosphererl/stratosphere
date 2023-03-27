@@ -1,0 +1,15 @@
+<svg viewBox="-5982 -4080 11960 8160" xmlns="http://www.w3.org/2000/svg">
+
+    <polyline fill="none" stroke="#209cee" stroke-width="40"
+              points="0,-4083 -4104,-4083 -5104,-3083 -5104,-983 -5982,-983 -5982,0 -5982,983 -5104,983 -5104,3083 -4104,4083 0,4083">
+    </polyline>
+
+
+    <polyline fill="none" stroke="#ee6f58" stroke-width="40"
+              points="0,-4083 4104,-4083 5104,-3083 5104,-983 5982,-983 5982,0 5982,983 5104,983 5104,3083 4104,4083 0,4083">
+    </polyline>
+
+    <polyline fill="none" stroke="#999" stroke-width="40"
+              points="0,-4080 0,4080" />
+
+</svg>
