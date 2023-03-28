@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import useReplay from '../hooks/useReplay';
 
 import { Tab } from '@headlessui/react';
 import { Fragment } from 'react';
@@ -33,10 +34,15 @@ export default function Replay() {
     const params = useParams();
     const regex = /^[A-Z0-9]{32}$/
 
-    if (!regex.test(params.replayid!)) {
+    const { data, loading, error } = useReplay(params.replayid!);
+
+    if (error || !regex.test(params.replayid!)) {
       // return <ErrorPage message = "Replay ID parameter must follow regex [A-Z0-9]{32}"/>;
         throw new Error("Replay ID parameter must follow regex [A-Z0-9]{32}");
     }
+    
+    if (loading) 
+        return (<MainPane className="mx-[5%]" title="Replay"><h1 className="text-center">Collecting boost...</h1></MainPane>);
 
     return (
         <MainPane className="mx-[5%]" title="Replay">
