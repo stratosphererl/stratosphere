@@ -22,7 +22,7 @@ export default function useReplay(replayid: string) {
 }
 
     return {
-        data: data,
+        data: new ResponseWrapper(data),
         loading: loading,
         error: error,
     }
