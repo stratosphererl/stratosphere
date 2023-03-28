@@ -1,15 +1,11 @@
-export function Scoreboard() {
-    const teams = [
-        [
-            {name: "Player 1", score: 0, goals: 0, assists: 0, saves: 0, shots: 0},
-            {name: "Player 2", score: 0, goals: 0, assists: 0, saves: 0, shots: 0},
-            {name: "Player 3", score: 0, goals: 0, assists: 0, saves: 0, shots: 0},
-        ], [
-            {name: "Player 4", score: 0, goals: 0, assists: 0, saves: 0, shots: 0},
-            {name: "Player 5", score: 0, goals: 0, assists: 0, saves: 0, shots: 0},
-            {name: "Player 6", score: 0, goals: 0, assists: 0, saves: 0, shots: 0},
-        ],
-    ]
+import ResponseWrapper from "../../data/ResponseWrapper"
+
+interface Props {
+    data: ResponseWrapper;
+}
+
+export function Scoreboard({data}: Props) {
+    const teams = data.getScoreboardData();
 
     const goals = teams.map((team) => team.reduce((acc, player) => acc + player.goals, 0))
 
