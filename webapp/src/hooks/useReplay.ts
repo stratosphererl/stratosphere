@@ -10,12 +10,12 @@ export default function useReplay(replayid: string) {
     //     }`
     // );
 
-    const data = new ResponseWrapper(response);
+    const data = response;
     const loading = false;
     const error = false;
 
     return {
-        data: data,
+        data: new ResponseWrapper(data),
         loading: loading,
         error: error,
     }

@@ -5,7 +5,7 @@ import { Tab } from '@headlessui/react';
 import { Fragment } from 'react';
 
 import MainPane from '../components/general/mainPane';
-import { Scoreboard } from '../components/visualizations/contentPanels';
+import { Scoreboard, TeamComparison } from '../components/visualizations/contentPanels';
 
 export default function Replay() {
     const params = useParams();
@@ -24,7 +24,7 @@ export default function Replay() {
     const GROUPS: { groupName: string, tabs: { tabName: string, content: JSX.Element}[]}[] = [
         { groupName: "Group 1", tabs: [
             { tabName: "Scoreboard", content: <Scoreboard data={data} /> },
-            { tabName: "Page 2", content: <h1 className="text-center">Content 2</h1> },
+            { tabName: "Team Comparison", content: <TeamComparison data={data} /> },
             { tabName: "Page 3", content: <h1 className="text-center">Content 3</h1> },    
         ]},
         { groupName: "Group 2", tabs: [

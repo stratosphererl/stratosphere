@@ -1,3 +1,5 @@
+import TugGraph from "./tug";
+
 import ResponseWrapper from "../../data/ResponseWrapper"
 
 interface Props {
@@ -15,7 +17,7 @@ export function Scoreboard({data}: Props) {
             <div className="pt-8 px-16 flex flex-col space-y-8">
                 {teams.map((team, index) =>
                     <div>
-                        <div className="text-center font-extrabold text-2xl mb-2">{goals[index]} {index ? "Blue Team" : "Orange Team"}</div>
+                        <div className="text-center font-extrabold text-2xl mb-2">{goals[index]} {index ? "Orange Team" : "Blue Team"}</div>
                         <table className="w-full">
                             <tr className="text-4xl">
                                 <th className="pb-2">Player</th>
@@ -26,7 +28,7 @@ export function Scoreboard({data}: Props) {
                                 <th className="pb-2">Shots</th>
                             </tr>
                             {team.map((player) => 
-                                <tr className="text-center text-xl" style={{backgroundColor: (index ? "blue" : "orange"), border: "1px solid", borderColor: "black"}}>
+                                <tr className="text-center text-xl" style={{backgroundColor: (index ? "orange" : "blue"), border: "1px solid", borderColor: "black"}}>
                                     <td className="py-2">{player.name}</td>
                                     <td className="py-2">{player.score}</td>
                                     <td className="py-2">{player.goals}</td>
@@ -41,4 +43,25 @@ export function Scoreboard({data}: Props) {
             </div>
         </>
     )
+}
+
+export function TeamComparison({data}: Props) {
+
+    const teamComparisonData = [
+        {goals: 10, saves: 10, shots: 10},
+        {goals: 5, saves: 5, shots: 5},
+    ] as [any, any];
+
+    const teamComparisonGroups = [
+        "goals",
+        "saves",
+        "shots",
+    ]
+
+    return (<>
+        <h1 className="text-center">Team Comparison</h1>
+        <div className="w-full flex justify-center">
+            <TugGraph data={teamComparisonData} sub_groups={teamComparisonGroups} />
+        </div>
+    </>)
 }
