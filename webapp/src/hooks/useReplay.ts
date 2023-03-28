@@ -20,3 +20,10 @@ export default function useReplay(replayid: string) {
     error: error,
   };
 }
+
+    return {
+        data: data,
+        loading: loading,
+        error: error,
+    }
+}
