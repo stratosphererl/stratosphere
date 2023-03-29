@@ -18,11 +18,11 @@ export default function ReplayData(props: {data: JSON, version: number}) {
     const mapName = props.data.gameMetadata.map.base_name
 
     // Replay variables for second column
-    const avgRank = getAverageRank(props.data.gameMetadata.ranks)
+    const avgRank = Math.round(getAverageRank(props.data.gameMetadata.ranks))
     const duration = convertToTimeString(props.data.gameMetadata.length)
     const season = props.data.gameMetadata.season.name.replace("Season","")
-    const gamemode = props.data.gameMetadata.playlist
-    const gametype = "--PLACEHOLDER--"
+    const gamemode = "--PLACEHOLDER--"
+    const gametype = props.data.gameMetadata.playlist
 
     // Replay players
     const [blueName, orangeName, bluePlayers, orangePlayers] = getPlayers(props.data.players)
@@ -32,19 +32,19 @@ export default function ReplayData(props: {data: JSON, version: number}) {
         // version == 0 used for calls from browse.tsx
 
         <div className="glass-inner round mt-2 flex flex-wrap justify-center replay-data-mobile">
-            <div className="glass-inner mx-2 flex mt-2 title-box">{replayTitle}</div>
+            <div className="glass-inner mx-2 flex mt-2 title-box"><b><i>{replayTitle}</i></b></div>
             <div className="score-column flex justify-center">
             { blueScore > orangeScore ?
-                <div className="sky-blue-stroke-2">{blueScore} - {orangeScore}</div> :
-                <div className="orange-stroke-2">{orangeScore} - {blueScore}</div>
+                <div className="sky-blue-stroke-2"><b>{blueScore} - {orangeScore}</b></div> :
+                <div className="orange-stroke-2"><b>{orangeScore} - {blueScore}</b></div>
             }
             </div>
 
-            <InfoColumn subtitles={["Uploaded","Played","Uploader","Arena"]} info={[uploadDate,playingDate,uploaderUsername,mapName]}>
+            <InfoColumn subtitles={["Uploaded","Played","Uploader","Arena"]} info={[uploadDate,playingDate,uploaderUsername,mapName]} titleInfo="small-title">
                 <div><b>{replayID}</b></div>
             </InfoColumn>
 
-            <InfoColumn subtitles={["Duration","Season","Gamemode","Gametype"]} info={[duration,season,gamemode,gametype]}>
+            <InfoColumn subtitles={["Duration","Season","Gamemode","Gametype"]} info={[duration,season,gamemode,gametype]} titleInfo="">
                 <div><b>{avgRank}</b></div>
             </InfoColumn>
 
@@ -56,11 +56,11 @@ export default function ReplayData(props: {data: JSON, version: number}) {
     );
 }
 
-export function InfoColumn(props: {subtitles: string[], info: string[], children: JSX.Element}) {
+export function InfoColumn(props: {subtitles: string[], info: string[], children: JSX.Element, titleInfo: string}) {
     const fullWidthCentered = "w-full flex justify-center"
     return (
         <div className="info-column flex flex-wrap justify-center">
-            <div className={`${fullWidthCentered} title truncate`}>{props.children}</div>
+            <div className={`${fullWidthCentered} title truncation ${props.titleInfo}`}><b>{props.children}</b></div>
             <div className={fullWidthCentered}><b><u>{props.subtitles[0]}</u></b>: {props.info[0]}</div>
             <div className={fullWidthCentered}><b><u>{props.subtitles[1]}</u></b>: {props.info[1]}</div>
             <div className={fullWidthCentered}><b><u>{props.subtitles[2]}</u></b>: {props.info[2]}</div>
@@ -74,7 +74,7 @@ export function TeamColumn(props: {name: string, teamTextStyle: string, playerNa
     
     return (
         <div className="team-column flex flex-wrap justify-center">
-            <div className={`${fullWidthCentered} ${props.teamTextStyle} title truncate`}>{props.name}</div>
+            <div className={`${fullWidthCentered} ${props.teamTextStyle} title truncate`}><b>{props.name}</b></div>
 
             {
                 props.playerNames.map((playerName) =>
@@ -93,7 +93,18 @@ export function ButtonColumn(props: {version: number, replayID: string}) {
             <div className="button-column flex flex-wrap">
                 <a className="data-inverted-primary-btn top-btn flex justify-center" href={`/replay/${props.replayID}`}>Full Data</a>
                 <a className="data-primary-btn mid-btn" onClick={() =>
-                    console.log("3D View button clicked!")}>3D View</a>
+                    console.log("2D View button clicked!")}>2D View</a>
+                <a className="data-primary-btn bot-btn" onClick={
+                    () => navigator.clipboard.writeText(`http://127.0.0.1:5173/replay/${props.replayID}`)}>Share</a>
+            </div>
+        )
+    } else if (props.version === 1) {
+        return (
+            <div className="button-column flex flex-wrap">
+                <a className="data-inverted-primary-btn top-btn flex justify-center" onClick={() =>
+                    console.log("Download button clicked!")}>Download</a>
+                <a className="data-primary-btn mid-btn" onClick={() =>
+                    console.log("2D View button clicked!")}>2D View</a>
                 <a className="data-primary-btn bot-btn" onClick={
                     () => navigator.clipboard.writeText(`http://127.0.0.1:5173/replay/${props.replayID}`)}>Share</a>
             </div>
