@@ -4,6 +4,7 @@ import * as d3 from 'd3';
 interface Props {
     data: [any, any]; // Tuple of two objects each containing a key for each sub_group
     sub_groups: string[]; // The keys corresponding to the sub_groups (e.g. "goals", "shots", "saves", etc.) in your data
+    sub_group_names?: { [key: string]: string }; // The names of the sub_groups (e.g. "Goals", "Shots", "Saves", etc.) { [key: string]: string
     colors?: [string, string]; // The colors of the two teams
 
     svg_width?: number; // The total width of the component
@@ -23,6 +24,7 @@ interface Props {
 export default function TugGraph({
     data,
     sub_groups,
+    sub_group_names = {},
     colors = ["blue", "orange"],
     svg_width = 800,
     svg_height = 500,
@@ -51,6 +53,10 @@ export default function TugGraph({
             sub_groups.forEach((key, i) => {
                 d[key] = {value: d[key], ratio: totals[i] ? d[key] / totals[i] : .5};
             });
+        });
+
+        sub_groups.forEach((key, i) => {
+            sub_group_names[key] = sub_group_names[key] ?? key;
         });
 
         const g = d3.select(ref.current)
@@ -92,15 +98,15 @@ export default function TugGraph({
                 .data(sub_groups)
                 .enter()
                 .append("text")
-                    .attr("x", (d) => idx ? width - font_size : font_size)
+                    .attr("x", (d) => idx ? width - font_size / 2 : font_size / 2)
                     .attr("y", (d) => (y(d) ?? 0) + y.bandwidth() / 2)
                     .style("font-size", `${font_size}px`)
                     .style("font-family", font)
                     .attr("fill", text_color)
-                    .style("text-anchor", "middle")
+                    .style("text-anchor", (idx ? "end" : "start"))
                     .style("alignment-baseline", "middle")
                     .style("font-weight", "bold")
-                    .text((d) => team_data[d].value);
+                    .text((d) => Math.round(team_data[d].value));
         });
 
         const sub_group_labels = g.append("g");
@@ -115,7 +121,7 @@ export default function TugGraph({
                 .style("text-anchor", "middle")
                 .style("alignment-baseline", "middle")
                 .style("font-weight", "bold")
-                .text(key);
+                .text(sub_group_names[key]);
         });
         
         return () => {

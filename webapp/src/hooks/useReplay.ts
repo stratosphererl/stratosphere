@@ -1,6 +1,6 @@
 // import { gql, useQuery } from "@apollo/client";
 
-import ResponseWrapper from "../data/ResponseWrapper";
+import ResponseDataWrapper from "../data/ResponseDataWrapper";
 import response from "../data/mock/response.json";
 
 export default function useReplay(replayid: string) {
@@ -15,7 +15,7 @@ export default function useReplay(replayid: string) {
     const error = false;
 
     return {
-        data: new ResponseWrapper(data),
+        data: new ResponseDataWrapper(data),
         loading: loading,
         error: error,
     }

@@ -1,9 +1,9 @@
 import TugGraph from "./tug";
 
-import ResponseWrapper from "../../data/ResponseWrapper"
+import ResponseDataWrapper from "../../data/ResponseDataWrapper"
 
 interface Props {
-    data: ResponseWrapper;
+    data: ResponseDataWrapper;
 }
 
 export function Scoreboard({data}: Props) {
@@ -47,21 +47,12 @@ export function Scoreboard({data}: Props) {
 
 export function TeamComparison({data}: Props) {
 
-    const teamComparisonData = [
-        {goals: 10, saves: 10, shots: 10},
-        {goals: 5, saves: 5, shots: 5},
-    ] as [any, any];
-
-    const teamComparisonGroups = [
-        "goals",
-        "saves",
-        "shots",
-    ]
+    const [teamComparisonData, teamComparisonGroups, teamComparisonGroupNames]: any[] = data.getTeamTugData();
 
     return (<>
         <h1 className="text-center">Team Comparison</h1>
         <div className="w-full flex justify-center">
-            <TugGraph data={teamComparisonData} sub_groups={teamComparisonGroups} />
+            <TugGraph data={teamComparisonData} sub_groups={teamComparisonGroups} sub_group_names={teamComparisonGroupNames} svg_width={1500} svg_height={800} />
         </div>
     </>)
 }
