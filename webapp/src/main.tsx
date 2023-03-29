@@ -93,7 +93,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/data",
-    element: <Wrapper background="background-white" callPage=""> <DataPage data={ReplayJSON} version={0}/> </Wrapper>,
+    element: <Wrapper background="background-white" callPage="">
+                <DataPage data={ReplayJSON} version={0}/>
+                <DataPage data={ReplayJSON} version={1}/>
+              </Wrapper>,
     errorElement: <ErrorBoundary/>
   }
 ]);
