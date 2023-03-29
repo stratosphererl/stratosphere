@@ -3,6 +3,7 @@ interface TeamTugEntry {possession: number, goals: number, saves: number, shots:
     aerials: number, clears: number, hits: number, demos: number, boost: number}
 interface BoostDataEntry {name: string, small_pads: number, big_pads: number, time_full: number, time_low: number, 
     time_empty: number, wasted_small: number, wasted_big: number, boost_used: number}
+interface HitDataEntry {name: string, goals: number, assists: number, saves: number, shots: number, clears: number, demos: number}
 
 export default class ResponseDataWrapper {
     constructor(private data: any) {}
@@ -25,7 +26,7 @@ export default class ResponseDataWrapper {
         return teams;
     }
 
-    getTeamTugEntry(isOrange: boolean): TeamTugEntry {
+    private getTeamTugEntry(isOrange: boolean): TeamTugEntry {
         const team: any = this.data.teams.find((team: any) => team.isOrange == isOrange);
         const players: any[] = this.data.players.filter((player: any) => player.isOrange == isOrange);
 
@@ -69,9 +70,54 @@ export default class ResponseDataWrapper {
         return [teams, keys, key_names]
     }
 
-    getBoostData(insertSeparator: boolean = false) {
+    private getTeamsPlayers() {
         const team1 = this.data.players.filter((player: any) => player.isOrange == 0);
         const team2 = this.data.players.filter((player: any) => player.isOrange == 1);
+
+        return [team1, team2];
+    }
+
+    getPlayerHitData(insertSeparator: boolean = false) {
+        const [team1, team2] = this.getTeamsPlayers();
+
+        const hitData: HitDataEntry[] = [];
+
+        const addHitData = (team: any[]) => {
+            team.forEach((player: any) => {
+                hitData.push({
+                    name: player.name,
+                    goals: player.goals,
+                    assists: player.assists,
+                    saves: player.saves,
+                    shots: player.shots,
+                    clears: player.stats.hitCounts.totalClears,
+                    demos: player.stats.demoStats?.numDemosInflicted ?? 0,
+                });
+            });
+        }
+
+        addHitData(team1);
+
+        if (insertSeparator) {
+            hitData.push({
+                name: "",
+                goals: 0,
+                assists: 0,
+                saves: 0,
+                shots: 0,
+                clears: 0,
+                demos: 0,
+            });
+        }
+
+        addHitData(team2);
+
+        return hitData;
+
+    }
+
+    getBoostData(insertSeparator: boolean = false) {
+        const [team1, team2] = this.getTeamsPlayers();
         
         const boostData: BoostDataEntry[] = [];
 

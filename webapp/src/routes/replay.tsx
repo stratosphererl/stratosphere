@@ -5,7 +5,7 @@ import { Tab } from '@headlessui/react';
 import { Fragment } from 'react';
 
 import MainPane from '../components/general/mainPane';
-import { Scoreboard, TeamComparison, BoostAnalysis } from '../components/visualizations/contentPanels';
+import { Scoreboard, TeamComparison, BoostAnalysis, PlayerComparison } from '../components/visualizations/contentPanels';
 
 export default function Replay() {
     const params = useParams();
@@ -25,6 +25,7 @@ export default function Replay() {
         { groupName: "Overview", tabs: [
             { tabName: "Scoreboard", content: <Scoreboard data={data} /> },
             { tabName: "Team Comparison", content: <TeamComparison data={data} /> },
+            { tabName: "Player Comparison", content: <PlayerComparison data={data} /> },
         ]},
         { groupName: "Details", tabs: [
             { tabName: "Boost", content: <BoostAnalysis data={data} /> },

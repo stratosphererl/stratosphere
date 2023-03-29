@@ -60,6 +60,38 @@ export function TeamComparison({data}: Props) {
     </>)
 }
 
+export function PlayerComparison({data}: Props) {
+    const playerData = data.getPlayerHitData() as any;
+    const displayNames: {[key: string]: string} = {
+        "goals": "Goals",
+        "assists": "Assists",
+        "saves": "Saves",
+        "shots": "Shots",
+        "clears": "Clears",
+        "demos": "Demos",
+    }
+
+    const label = "name";
+    const groups = ["clears", "shots", "saves", "goals", "assists", "demos"];
+    const colors = ["var(--sky-blue)", "var(--sky-orange)", "white", "green", "purple", "red"];
+
+
+    return (<>
+        <h1 className="text-center">Player Comparison</h1>
+        <div className="w-full flex justify-center">
+            <div className="w-full flex justify-between">
+                <div className="w-[70%]">
+                    <PlayerBarGraph data={playerData} group_label={label} sub_groups={groups} svg_width={1500} svg_height={1000} sub_group_display_names={displayNames}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={colors} axis_font_size={30} />
+                </div>
+                <div className="w-[30%] flex flex-col justify-center">
+                    <GraphLegend colors={colors} keys={groups.map((group) => displayNames[group])} svg_width={500} svg_height={400} />
+                </div>
+            </div>
+        </div>
+    </>)
+}
+
 export function BoostAnalysis({data}: Props) {
     const boostData = data.getBoostData() as any;
     const displayNames: {[key: string]: string} = {
@@ -92,7 +124,7 @@ export function BoostAnalysis({data}: Props) {
         <div className="w-full flex flex-col justify-center">
             <h2 className="text-center mt-5 underline">Boost Used</h2>
             <div className="w-full flex justify-between">
-                <div className="w-[100%]">
+                <div className="w-[70%]">
                     <PlayerBarGraph data={boostData} group_label={label} sub_groups={used_groups} svg_width={1500} svg_height={600} sub_group_display_names={displayNames}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={used_colors} axis_font_size={30} />
                 </div>
