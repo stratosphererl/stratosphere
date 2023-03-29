@@ -1,6 +1,8 @@
 import TugGraph from "./tug";
+import PlayerBarGraph from "./stacked";
 
 import ResponseDataWrapper from "../../data/ResponseDataWrapper"
+import GraphLegend from "./legend";
 
 interface Props {
     data: ResponseDataWrapper;
@@ -54,6 +56,67 @@ export function TeamComparison({data}: Props) {
         <div className="w-full flex justify-center">
             <TugGraph data={teamComparisonData} sub_groups={teamComparisonGroups} sub_group_names={teamComparisonGroupNames} svg_width={1500} svg_height={800} 
             colors={["var(--sky-blue)", "var(--sky-orange)"]} />
+        </div>
+    </>)
+}
+
+export function BoostAnalysis({data}: Props) {
+    const boostData = data.getBoostData() as any;
+    const displayNames: {[key: string]: string} = {
+        "small_pads": "Small Pads",
+        "big_pads": "Big Pads",
+        "time_full": "Time Full",
+        "time_low": "Time Low",
+        "time_empty": "Time with Empty",
+        "wasted_small": "Wasted Small",
+        "wasted_big": "Wasted Big",
+    }
+
+    const label = "name";
+    const collected_groups = ["small_pads", "big_pads"];
+    const collected_colors = ["var(--sky-blue)", "var(--sky-orange)"];
+
+    const time_groups = ["time_full", "time_low", "time_empty"];
+    const time_colors = ["var(--sky-blue)", "var(--sky-orange)", "white"];
+
+    const wasted_groups = ["wasted_big", "wasted_small"];
+    const wasted_colors = ["var(--sky-blue)", "var(--sky-orange)"];
+
+    return (<>
+        <h1 className="text-center">Boost Analysis</h1>
+        <div className="w-full flex flex-col justify-center">
+            <h2 className="text-center mt-5 underline">Boost Collected</h2>
+            <div className="w-full flex justify-between">
+                <div className="w-[70%]">
+                    <PlayerBarGraph data={boostData} group_label={label} sub_groups={collected_groups} svg_width={1500} svg_height={600} sub_group_display_names={displayNames}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={collected_colors} axis_font_size={30} />
+                </div>
+                <div className="w-[30%] flex flex-col justify-center">
+                    <GraphLegend keys={collected_groups.map((key) => displayNames[key])} svg_width={1500} svg_height={400} colors={collected_colors} />
+                </div>
+            </div>
+
+            <h2 className="text-center mt-10 underline">Time with Boost Levels</h2>
+            <div className="w-full flex justify-between">
+                <div className="w-[70%]">
+                    <PlayerBarGraph data={boostData} group_label={label} sub_groups={time_groups} svg_width={1500} svg_height={600} sub_group_display_names={displayNames}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={time_colors} axis_font_size={30} ticks={5} />
+                </div>
+                <div className="w-[30%] flex flex-col justify-center">
+                    <GraphLegend keys={time_groups.map((key) => displayNames[key])} svg_width={1500} svg_height={400} colors={time_colors} />
+                </div>
+            </div>
+
+            <h2 className="text-center mt-10 underline">Boost Wasted</h2>
+            <div className="w-full flex justify-between">
+                <div className="w-[70%]">
+                    <PlayerBarGraph data={boostData} group_label={label} sub_groups={wasted_groups} svg_width={1500} svg_height={600} sub_group_display_names={displayNames}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={wasted_colors} axis_font_size={30} ticks={5} />
+                </div>
+                <div className="w-[30%] flex flex-col justify-center">
+                    <GraphLegend keys={wasted_groups.map((key) => displayNames[key])} svg_width={1500} svg_height={400} colors={wasted_colors} />
+                </div>
+            </div>
         </div>
     </>)
 }

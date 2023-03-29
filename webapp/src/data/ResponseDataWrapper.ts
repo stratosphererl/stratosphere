@@ -1,6 +1,7 @@
 interface ScorebaordEntry {name: string, score: number, goals: number, assists: number, saves: number, shots: number}
 interface TeamTugEntry {possession: number, goals: number, saves: number, shots: number, assists: number, 
     aerials: number, clears: number, hits: number, demos: number, boost: number}
+interface BoostDataEntry {name: string, small_pads: number, big_pads: number, time_full: number, time_low: number, time_empty: number, wasted_small: number, wasted_big: number}
 
 export default class ResponseDataWrapper {
     constructor(private data: any) {}
@@ -67,4 +68,45 @@ export default class ResponseDataWrapper {
         return [teams, keys, key_names]
     }
 
+    getBoostData(insertSeparator: boolean = false) {
+        const team1 = this.data.players.filter((player: any) => player.isOrange == 0);
+        const team2 = this.data.players.filter((player: any) => player.isOrange == 1);
+        
+        const boostData: BoostDataEntry[] = [];
+
+        const addBoostData = (team: any[]) => {
+            team.forEach((player: any) => {
+                const boostStats = player.stats.boost;
+                boostData.push({
+                    name: player.name,
+                    small_pads: boostStats.numSmallBoosts,
+                    big_pads: boostStats.numLargeBoosts,
+                    time_full: boostStats.timeFullBoost,
+                    time_low: boostStats.timeLowBoost,
+                    time_empty: boostStats.timeNoBoost,
+                    wasted_small: boostStats.wastedSmall,
+                    wasted_big: boostStats.wastedBig,
+                });
+            });
+        }
+
+        addBoostData(team1);
+
+        if (insertSeparator) {
+            boostData.push({
+                name: "",
+                small_pads: 0,
+                big_pads: 0,
+                time_full: 0,
+                time_low: 0,
+                time_empty: 0,
+                wasted_small: 0,
+                wasted_big: 0,
+            });
+        }
+
+        addBoostData(team2);
+
+        return boostData;
+    }
 }

@@ -7,6 +7,7 @@ interface Props {
     data: {[key: string]: number | string}[]; // Your data, a list of objects containing numbers for each sub_group and a string for the group
     group_label: string; // The key corresponding to the group (e.g. "name" or "label") in your data
     sub_groups: string[]; // The keys corresponding to the sub_groups (e.g. "goals", "shots", "saves", etc.) in your data
+    sub_group_display_names?: {[key: string]: string}; // The names of the sub_groups (e.g. "Goals", "Shots", "Saves", etc.) to display in the tooltip
 
     // Optional props
     
@@ -14,7 +15,7 @@ interface Props {
     background_color?: string; // The background color of the graph
     svg_width?: number; // The total width of the component
     svg_height?: number; // The total height of the component
-    padding?: number; // The padding around the graph
+    margin?: {top: number, right: number, bottom: number, left: number}; // The margin around the graph
 
     // Column
     color_scale?: string[]; // The range of colors to use for each sub_group (note: if you don't provide enough, the colors will be reused)
@@ -29,6 +30,7 @@ interface Props {
     axis_color?: string; // The color of the axis and text on the axis
     axis_font_size?: number; // The font size of the axis and text on the axis
     axis_font?: string; // The font of the axis and text on the axis
+    ticks?: number; // The number of ticks on the y axis
 
     // tooltip
     tooltip_background_color?: string; // The background color of the tooltip
@@ -44,11 +46,12 @@ export default function PlayerBarGraph({
     data,
     group_label,
     sub_groups,
+    sub_group_display_names = {},
 
     background_color = "transparent",
     svg_width = 700,
     svg_height = 500,
-    padding = 30,
+    margin = {top: 30, right: 30, bottom: 30, left: 30},
 
     color_scale = ["#ff0000", "#00ff00", "#0000ff", "#ffff00"],
     column_stroke_color = "black",
@@ -61,6 +64,7 @@ export default function PlayerBarGraph({
     axis_color = "white",
     axis_font_size = 20,
     axis_font = "Montserrat",
+    ticks = 5,
 
     tooltip_background_color = "white",
     tooltip_border_width = 2,
@@ -73,16 +77,22 @@ export default function PlayerBarGraph({
     const ref = useRef(null);
 
     useEffect(() => {
-        const graph_height = svg_height - 2 * padding;
-        const graph_width = svg_width - 2 * padding;
+        const graph_height = svg_height - margin.top - margin.bottom;
+        const graph_width = svg_width - margin.left - margin.right;
 
-        const refSelection = d3.select(ref.current)
+        const svg = d3.select(ref.current)
             .append("svg")
-                .attr("width", svg_width)
-                .attr("height", svg_height)
-                .style("background-color", background_color)
-            .append("g")
-                .attr("transform", "translate(" + padding + "," + padding + ")");
+                .attr("viewBox", `0 0 ${svg_width} ${svg_height}`)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                // .attr("width", svg_width)
+                // .attr("height", svg_height)
+                .style("background-color", background_color);
+        const refSelection = svg.append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        sub_groups.forEach((sub_group) => {
+            sub_group_display_names[sub_group] = sub_group_display_names[sub_group] ?? sub_group;
+        });
 
         const groups = d3.map(data, function(d){return(d[group_label])}) as string[];
 
@@ -140,9 +150,9 @@ export default function PlayerBarGraph({
 
         const mousemove = function(this: any, event: any, d: any) {
             Tooltip
-                .html(d[2] + ": " + (d[1] - d[0]))
-                .style("left", (event.pageX + 10) + "px")
-                .style("top", (event.pageY - 16) + "px");
+                .html(sub_group_display_names[d[2]] + ": " + Math.round(d[1] - d[0]))
+                .style("left", (event.layerX + 10) + "px")
+                .style("top", (event.layerY - 16) + "px");
         }
 
         refSelection.append("g")
@@ -180,7 +190,7 @@ export default function PlayerBarGraph({
             .style("font-size", axis_font_size + "px")
             .style("font-family", axis_font)
             .style("font-weight", "bold")
-            .call(d3.axisLeft(y));
+            .call(d3.axisLeft(y).tickArguments([ticks]));
 
         return () => {
             d3.select(ref.current).selectAll("*").remove();
@@ -189,6 +199,6 @@ export default function PlayerBarGraph({
     }, [ref]);
 
     return (
-        <div ref={ref}></div>
+        <div className="w-full" ref={ref}></div>
     );
 }

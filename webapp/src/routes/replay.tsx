@@ -5,7 +5,7 @@ import { Tab } from '@headlessui/react';
 import { Fragment } from 'react';
 
 import MainPane from '../components/general/mainPane';
-import { Scoreboard, TeamComparison } from '../components/visualizations/contentPanels';
+import { Scoreboard, TeamComparison, BoostAnalysis } from '../components/visualizations/contentPanels';
 
 export default function Replay() {
     const params = useParams();
@@ -22,25 +22,12 @@ export default function Replay() {
         return (<MainPane className="mx-[5%]" title="Replay"><h1 className="text-center">Collecting boost...</h1></MainPane>);
 
     const GROUPS: { groupName: string, tabs: { tabName: string, content: JSX.Element}[]}[] = [
-        { groupName: "Group 1", tabs: [
+        { groupName: "Overview", tabs: [
             { tabName: "Scoreboard", content: <Scoreboard data={data} /> },
             { tabName: "Team Comparison", content: <TeamComparison data={data} /> },
-            { tabName: "Page 3", content: <h1 className="text-center">Content 3</h1> },    
         ]},
-        { groupName: "Group 2", tabs: [
-            { tabName: "Page 4", content: <h1 className="text-center">Content 4</h1> },
-            { tabName: "Page 5", content: <h1 className="text-center">Content 5</h1> },
-            { tabName: "Page 6", content: <h1 className="text-center">Content 6</h1> },
-        ]},
-        { groupName: "Group 3", tabs: [
-            { tabName: "Page 7", content: <h1 className="text-center">Content 7</h1> },
-            { tabName: "Page 8", content: <h1 className="text-center">Content 8</h1> },
-            { tabName: "Page 9", content: <h1 className="text-center">Content 9</h1> },
-        ]},
-        { groupName: "Group 4", tabs: [
-            { tabName: "Page 10", content: <h1 className="text-center">Content 10</h1> },
-            { tabName: "Page 11", content: <h1 className="text-center">Content 11</h1> },
-            { tabName: "Page 12", content: <h1 className="text-center">Content 12</h1> }, 
+        { groupName: "Player Comparisons", tabs: [
+            { tabName: "Boost Analysis", content: <BoostAnalysis data={data} /> },
         ]},
     ];
 
