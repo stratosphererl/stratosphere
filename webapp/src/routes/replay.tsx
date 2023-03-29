@@ -26,8 +26,8 @@ export default function Replay() {
             { tabName: "Scoreboard", content: <Scoreboard data={data} /> },
             { tabName: "Team Comparison", content: <TeamComparison data={data} /> },
         ]},
-        { groupName: "Player Comparisons", tabs: [
-            { tabName: "Boost Analysis", content: <BoostAnalysis data={data} /> },
+        { groupName: "Details", tabs: [
+            { tabName: "Boost", content: <BoostAnalysis data={data} /> },
         ]},
     ];
 

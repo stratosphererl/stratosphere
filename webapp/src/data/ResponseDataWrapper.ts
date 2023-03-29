@@ -1,7 +1,8 @@
 interface ScorebaordEntry {name: string, score: number, goals: number, assists: number, saves: number, shots: number}
 interface TeamTugEntry {possession: number, goals: number, saves: number, shots: number, assists: number, 
     aerials: number, clears: number, hits: number, demos: number, boost: number}
-interface BoostDataEntry {name: string, small_pads: number, big_pads: number, time_full: number, time_low: number, time_empty: number, wasted_small: number, wasted_big: number}
+interface BoostDataEntry {name: string, small_pads: number, big_pads: number, time_full: number, time_low: number, 
+    time_empty: number, wasted_small: number, wasted_big: number, boost_used: number}
 
 export default class ResponseDataWrapper {
     constructor(private data: any) {}
@@ -86,6 +87,7 @@ export default class ResponseDataWrapper {
                     time_empty: boostStats.timeNoBoost,
                     wasted_small: boostStats.wastedSmall,
                     wasted_big: boostStats.wastedBig,
+                    boost_used: boostStats.boostUsage,
                 });
             });
         }
@@ -102,6 +104,7 @@ export default class ResponseDataWrapper {
                 time_empty: 0,
                 wasted_small: 0,
                 wasted_big: 0,
+                boost_used: 0,
             });
         }
 

@@ -70,9 +70,14 @@ export function BoostAnalysis({data}: Props) {
         "time_empty": "Time with Empty",
         "wasted_small": "Wasted Small",
         "wasted_big": "Wasted Big",
+        "boost_used": "Boost Used",
     }
 
     const label = "name";
+
+    const used_groups = ["boost_used"];
+    const used_colors = ["var(--sky-blue)"];
+
     const collected_groups = ["small_pads", "big_pads"];
     const collected_colors = ["var(--sky-blue)", "var(--sky-orange)"];
 
@@ -85,6 +90,14 @@ export function BoostAnalysis({data}: Props) {
     return (<>
         <h1 className="text-center">Boost Analysis</h1>
         <div className="w-full flex flex-col justify-center">
+            <h2 className="text-center mt-5 underline">Boost Used</h2>
+            <div className="w-full flex justify-between">
+                <div className="w-[100%]">
+                    <PlayerBarGraph data={boostData} group_label={label} sub_groups={used_groups} svg_width={1500} svg_height={600} sub_group_display_names={displayNames}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={used_colors} axis_font_size={30} />
+                </div>
+            </div>
+
             <h2 className="text-center mt-5 underline">Boost Collected</h2>
             <div className="w-full flex justify-between">
                 <div className="w-[70%]">
