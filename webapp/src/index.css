@@ -304,7 +304,7 @@ body {
     var(--sky-blue) 0.96017px -0.279415px 0px;
 }
 
-.orange-blue-stroke-1 { /* ~1px border */
+.orange-stroke-1 { /* ~1px border */
   text-shadow: 
     var(--orange) 1px 0px 0px, 
     var(--orange) 0.540302px 0.841471px 0px, 
