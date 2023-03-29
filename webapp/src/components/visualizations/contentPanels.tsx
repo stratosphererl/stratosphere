@@ -28,7 +28,7 @@ export function Scoreboard({data}: Props) {
                                 <th className="pb-2">Shots</th>
                             </tr>
                             {team.map((player) => 
-                                <tr className="text-center text-xl" style={{backgroundColor: (index ? "orange" : "blue"), border: "1px solid", borderColor: "black"}}>
+                                <tr className="text-center text-xl" style={{backgroundColor: (index ? "var(--sky-orange)" : "var(--sky-blue)"), border: "1px solid", borderColor: "black"}}>
                                     <td className="py-2">{player.name}</td>
                                     <td className="py-2">{player.score}</td>
                                     <td className="py-2">{player.goals}</td>
@@ -52,7 +52,8 @@ export function TeamComparison({data}: Props) {
     return (<>
         <h1 className="text-center">Team Comparison</h1>
         <div className="w-full flex justify-center">
-            <TugGraph data={teamComparisonData} sub_groups={teamComparisonGroups} sub_group_names={teamComparisonGroupNames} svg_width={1500} svg_height={800} />
+            <TugGraph data={teamComparisonData} sub_groups={teamComparisonGroups} sub_group_names={teamComparisonGroupNames} svg_width={1500} svg_height={800} 
+            colors={["var(--sky-blue)", "var(--sky-orange)"]} />
         </div>
     </>)
 }

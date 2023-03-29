@@ -45,7 +45,7 @@ export default class ResponseDataWrapper {
 
     getTeamTugData() {
         const key_names = {
-            possession: "Possession Time",
+            possession: "Possession Time (sec)",
             goals: "Goals",
             saves: "Saves",
             shots: "Shots",
