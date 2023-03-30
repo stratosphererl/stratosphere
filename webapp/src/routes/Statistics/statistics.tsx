@@ -51,7 +51,7 @@ export default function Statistics() {
                 <div className="glass-inner round data-pane flex flex-nowrap justify-center items-center">
                     <div className="title-column"><b><i>UNIQUE PLAYERS</i></b></div>
                     <VerticalBar rightMargin={false}/>
-                    <DataColumn title="STRATOSPHERE ACCOUNTS" data={numUsers} class={1}/>
+                    <DataColumn title="ON STRATOSPHERE" data={numUsers} class={1}/>
                     <VerticalBar rightMargin={false}/>
                     <div className="chart-column">
                         <div className="pie-chart-mock flex justify-center items-center">placeholder</div>
