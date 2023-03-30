@@ -32,7 +32,7 @@
 }
 
 .small-title {
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .info-column {
@@ -138,7 +138,7 @@
     /* margin: 16px; */
   }
 
-  @media (max-width: 1340px) {
+  @media (max-width: 1440px) {
     .replay-data-mobile {
         flex-direction: column;
     }
@@ -182,5 +182,11 @@
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
         margin-bottom: 2rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .info-column {
+        font-size: 14px;
     }
   }
