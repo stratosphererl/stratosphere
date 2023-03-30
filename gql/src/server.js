@@ -1,30 +1,14 @@
-const { ApolloServer } = require('apollo-server');
-const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
-
-const PORT = 4000
-
-// const knex = require('knex')({
-//     client: 'pg',
-//     connection: {
-//       host : 'localhost',
-//       port : 5432,
-//       user : 'postgres',
-//       password : 'mynewpassword',
-//       database : 'stratosphere'
-//     }
-// });
+const { ApolloServer } = require("apollo-server");
+const { typeDefs, resolvers } = require("./schemas/schema");
+const { GQL_SERVICE_PORT } = require("./config/datasources");
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    csrfPrevention: true,
-    cache: 'bounded',
-    // context: ({ req, res }) => {
-    //     return { req, res, knex };
-    // }
-})
+  csrfPrevention: true,
+  cache: "bounded",
+  typeDefs,
+  resolvers,
+});
 
-server.listen(PORT).then(({ url }) => {
-    console.log(`🚀  Server ready at ${url}`);
+server.listen(GQL_SERVICE_PORT).then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
 });
