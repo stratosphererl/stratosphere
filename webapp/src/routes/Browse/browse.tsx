@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import MainPane from "../../components/general/mainPane"
+import MainPane from "../../components/general/MainPane/mainPane"
 import DataComponent from "../../components/replays/data"
 import ErrorPage from "../Error/error"
 import ReplayJSON from "../../mock/replay.json"

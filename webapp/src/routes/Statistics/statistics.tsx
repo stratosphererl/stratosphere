@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import { useContext } from "react"
 import { UserContext } from "../../context/contexts"
-import MainPane from "../../components/general/mainPane"
+import MainPane from "../../components/general/MainPane/mainPane"
 import "./statistics.css"
 
 export default function Statistics() {
