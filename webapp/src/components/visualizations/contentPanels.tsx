@@ -655,3 +655,49 @@ export function TeamComparison({data}: Props) {
         </div>
     </>)
 }
+
+export function Possession({data}: Props) {
+    const possessionData = data.getPossessionTimes() as any;
+    const dribbleData = data.getDribbleData() as any;
+
+    return (<>
+        <h1 className="text-center">Possession</h1>
+        <div className="w-full flex flex-col justify-center space-y-10 pt-10">
+            <div className="w-[75%] flex flex-col justify-center m-auto">
+                <h2 className="text-center underline">Possession Times</h2>
+                <PlayerBarGraph data={possessionData} group_label="name" sub_groups={["possession"]} color_scale={["var(--sky-blue)"]} 
+                    sub_group_display_names={{"possession": "Possession Time"}}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}}
+                    svg_width={1500} svg_height={600} axis_font_size={30} />
+            </div>
+
+            <div className="w-[75%] flex flex-col justify-center m-auto">
+                <h2 className="text-center underline">Dribbles</h2>
+                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbles"]} color_scale={["var(--sky-blue)"]} 
+                    sub_group_display_names={{"dribbles": "Dribbles"}}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}}
+                    svg_width={1500} svg_height={600} axis_font_size={30} />
+            </div>
+
+            <div className="w-[75%] flex flex-col justify-center m-auto">
+            <h2 className="text-center underline">Dribble Time</h2>
+                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbleTime"]} color_scale={["var(--sky-blue)"]}
+                    sub_group_display_names={{"dribbleTime": "Dribble Time"}}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}} 
+                    svg_width={1500} svg_height={600} axis_font_size={30} />
+            </div>
+        </div>
+    </>)
+}
+
+export function Position({data}: Props) {
+    return (<>
+        <h1 className="text-center">Position</h1>
+    </>)
+}
+
+export function Ball({data}: Props) {
+    return (<>
+        <h1 className="text-center">The Ball</h1>
+    </>)
+}
