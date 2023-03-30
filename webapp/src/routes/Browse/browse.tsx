@@ -3,6 +3,7 @@ import MainPane from "../../components/general/mainPane"
 import DataComponent from "../../components/replays/data"
 import ErrorPage from "../Error/error"
 import ReplayJSON from "../../mock/replay.json"
+import ReplayJSONs from "../../mock/replays.json"
 
 export default function Browse() {
     const params = useParams();
@@ -11,13 +12,24 @@ export default function Browse() {
         return <ErrorPage message = "Version parameter must be 0 or 1"/>;
     }
 
+    const replayArray = ReplayJSONs.data
+
     if (params.version === "0") {
         return (
-            <MainPane title="Browse Replays" className="browse">
+            <MainPane title="Browse Replays" className="w-[96%]">
                 <div className="glass-inner round p-2">
-                    <DataComponent data={ReplayJSON} version={parseInt(params.version)} classname="rounded-lg"/>
-                    <HorizontalSpacing/>
-                    <DataComponent data={ReplayJSON} version={parseInt(params.version)} classname="rounded-lg"/>
+                    {
+                        replayArray.map((replay, index) =>
+                            <div>
+                                <DataComponent data={replay} version={0} classname="rounded-lg"/>
+                                {
+                                    index + 1 === replayArray.length ?
+                                    <div></div> :
+                                    <HorizontalSpacing/>
+                                }
+                            </div>
+                        )
+                    }
                 </div>
             </MainPane>
         );
