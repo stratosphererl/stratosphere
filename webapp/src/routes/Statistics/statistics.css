@@ -1,0 +1,130 @@
+@import "../../index.css";
+
+.statistics {
+    width: 96%;
+}
+
+.data-pane {
+    width: 100%;
+    height: 187px;
+    margin-top: 3rem;
+}
+
+.title-column {
+    width: 16%;
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+    text-align: center;
+    align-items: center;
+    line-height: 36px;
+}
+
+.chart-column {
+    width: 136px;
+    display: flex;
+    justify-content: center;
+}
+
+.graph-column {
+    min-width: 62% + 136px;
+    min-height: 187px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-data-column {
+    width: 13.5%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 28px;
+    border-width: 2.5px;
+    padding: 5px;
+    margin: auto;
+}
+
+.primary-data-column {
+    width: 22%;
+    display: flex;
+    justify-content: center;
+    font-size: 28px;
+    border-width: 2.5px;
+    padding: 5px;
+    margin: auto;
+    text-align: center;
+}
+
+.secondary-data-column {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    font-size: 28px;
+    border-width: 2.5px;
+    padding: 5px;
+    margin: auto;
+}
+
+.data-column-title {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    line-height: 32px;
+}
+
+.data-column-data {
+    font-size: 24px;
+    margin-top: 4px;
+}
+
+.vertical-bar {
+    min-width: 0.1rem;
+    min-height: 75%;
+    background-color: white;
+}
+
+.pie-chart-mock {
+    height: 100px;
+    width: 100px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+@media (max-width: 1430px) {
+    .title-column {
+        margin-top: 24px;
+        width: 65%;
+    }
+    .vertical-bar {
+        display: none;
+    }
+    .data-pane {
+        display: flex;
+        flex-direction: column;
+    }
+    .pie-chart-mock {
+        display: none;
+    }
+    .primary-data-column {
+        width: 45%;
+    }
+    .secondary-data-column {
+        margin-top: 0px;
+        width: 45%;
+    }
+    .data-pane {
+        height: 632px;
+    }
+}
+
+@media (max-width: 630px) {
+    .primary-data-column {
+        width: 95%
+    }
+    .secondary-data-column {
+        width: 95%
+    }
+}
