@@ -14,6 +14,8 @@ export default function Browse() {
 
     const replayArray = ReplayJSONs.data
 
+    // TODO: Implement filtering out of replays NOT uploaded by a user when on browse/1
+
     if (params.version === "0") {
         return (
             <MainPane title="Browse Replays" className="w-[96%]">
@@ -35,8 +37,21 @@ export default function Browse() {
         );
     } else {
         return (
-            <MainPane title="Browse Your Replays" className="browse">
-                <div></div>
+            <MainPane title="Browse Your Replays" className="w-[96%]">
+                <div className="glass-inner round p-2">
+                    {
+                        replayArray.map((replay, index) =>
+                            <div>
+                                <DataComponent data={replay} version={0} classname="rounded-lg"/>
+                                {
+                                    index + 1 === replayArray.length ?
+                                    <div></div> :
+                                    <HorizontalSpacing/>
+                                }
+                            </div>
+                        )
+                    }
+                </div>
             </MainPane>
         )
     }
