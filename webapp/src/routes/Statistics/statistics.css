@@ -116,7 +116,12 @@
         width: 45%;
     }
     .data-pane {
-        height: 632px;
+        height: auto;
+        padding-bottom: 12px;
+    }
+    .text-data-column {
+        width: 85%;
+        margin: 12px;
     }
 }
 

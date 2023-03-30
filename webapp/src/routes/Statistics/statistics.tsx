@@ -1,23 +1,45 @@
+import { gql, useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
+import { useContext } from "react"
+import { UserContext } from "../../context/contexts"
 import MainPane from "../../components/general/mainPane"
 import "./statistics.css"
 
 export default function Statistics() {
     const params = useParams();
 
-    // TODO: Implement gathering of data below
+    // TODO: Remove mock user id, use real id
+    const userValue = useContext(UserContext).user
+    const currUserId = userValue.id
 
-    const numUsers = "..."
+    const numUsers = getData(
+        gql`query Query { usersCount { count } }`, {}, "numUsers"
+    )
+
     const steamPlayers = "..."
     const epicPlayers = "..."
     const xboxPlayers = "..."
     const psnPlayers = "..."
 
-    const replaysDataString = "..."
-    const goalsDataString = "..."
-    const assistsDataString = "..."
-    const savesDataString = "..."
-    const shotsDataString = "..."
+    const replaysDataString = getData(
+        gql`query Query($userId: Int!) { user(id: $userId) { wins losses number_of_replays } }`, {userId: currUserId}, "replays"
+    )
+
+    const goalsDataString = getData(
+        gql`query Query($userId: Int!) { user(id: $userId) { total_goals number_of_replays } }`, {userId: currUserId}, "goals"
+    )
+
+    const assistsDataString = getData(
+        gql`query Query($userId: Int!) { user(id: $userId) { total_assists number_of_replays } }`, {userId: currUserId}, "assists"
+    )
+
+    const savesDataString = getData(
+        gql`query Query($userId: Int!) { user(id: $userId) { total_saves number_of_replays } }`, {userId: currUserId}, "saves"
+    )
+
+    const shotsDataString = getData(
+        gql`query Query($userId: Int!) { user(id: $userId) { total_shots number_of_replays } }`, {userId: currUserId}, "shots"
+    )
 
     if (params.version != "0" && params.version != "1") {
         throw new Error("Version parameter must be 0 or 1");
@@ -118,4 +140,104 @@ export function VerticalBar(props: {rightMargin: boolean}) {
     return (
         <div className={classname}></div>
     )
+}
+
+function getNumUsers() {
+    const QUERY = gql`
+        query Query {
+            usersCount {
+                count
+            }
+        }
+    `;
+    
+    const { loading, error, data } = useQuery(QUERY)
+
+    if (loading || error) {
+        if (loading) {
+            console.log(loading)
+        }
+        if (error) {
+            console.log(error)
+        }
+        return null
+    } else {
+        return data.usersCount.count
+    }
+}
+
+function getReplayDataString() {
+    const QUERY = gql`
+        query Query($userId: Int!) {
+            user(id: $userId) {
+                wins
+                losses
+            }
+        }
+    `;
+
+    const { loading, error, data } = useQuery(QUERY, {variables: {userId: 1}})
+    
+    if (loading || error) {
+        if (loading) {
+            console.log(loading)
+        }
+        if (error) {
+            console.log(error)
+        }
+        return null
+    } else {
+        const numReplays = data.user.wins + data.user.losses
+
+        const replayString = <div>{numReplays} total<br/>({data.user.wins} wins)</div>
+
+        return replayString
+    }
+}
+
+function getData(queryString, variables, stringType) {
+    const QUERY = queryString;
+
+    const { loading, error, data } = useQuery(QUERY, {variables: variables})
+    
+    if (loading || error) {
+        if (loading) {
+            console.log(loading)
+        }
+        if (error) {
+            console.log(error)
+        }
+        return null
+    } else {
+        if (stringType === "numUsers") {
+            return data.usersCount.count
+        }
+        if (stringType === "replays") {
+            return <div>{data.user.number_of_replays} total<br/>({data.user.wins} wins)</div>
+        }
+        if (stringType === "goals") {
+            const goals = data.user.total_goals
+            const matches = data.user.number_of_replays
+            const average = Math.round(goals / matches * 100) / 100
+            return <div>{goals} total<br/>({average} / gm)</div>
+        }
+        if (stringType === "assists") {
+            const assists = data.user.total_assists
+            const matches = data.user.number_of_replays
+            const average = Math.round(assists / matches * 100) / 100
+            return <div>{assists} total<br/>({average} / gm)</div>
+        }
+        if (stringType === "saves") {
+            const saves = data.user.total_saves
+            const matches = data.user.number_of_replays
+            const average = Math.round(saves / matches * 100) / 100
+            return <div>{saves} total<br/>({average} / gm)</div>
+        }
+        if (stringType === "shots") {
+            const shots = data.user.total_shots
+            const matches = data.user.number_of_replays
+            const average = Math.round(shots / matches * 100) / 100
+            return <div>{shots} total<br/>({average} / gm)</div>
+        }
+    }
 }
