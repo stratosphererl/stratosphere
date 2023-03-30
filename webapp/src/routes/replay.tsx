@@ -30,7 +30,7 @@ export default function Replay() {
         { groupName: "Details", tabs: [
             { tabName: "Boost", content: <BoostAnalysis data={data} /> },
             { tabName: "Possession", content: <Possession data={data} /> },
-            { tabName: "Position", content: <Position data={data} /> },
+            { tabName: "Positioning", content: <Position data={data} /> },
             { tabName: "The Ball", content: <Ball data={data} /> },
         ]},
         { groupName: "Other", tabs: [
@@ -39,23 +39,23 @@ export default function Replay() {
     ];
 
     return (
-        <MainPane className="mx-[5%]" title="Replay">
+        <MainPane className="mx-0 xl:mx-[5%]" title="Replay">
             <div className="p-4 pt-6 glass-inner rounded-2xl text-center h-[200px] flex flex-col justify-center" >
                 <h1 className="break-words">{params.replayid}</h1>
             </div>
             <Tab.Group>
-                <div className="flex mt-4 space-x-4">
-                    <div className="glass-inner rounded-2xl w-[20%] pt-6 p-8">
+                <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 mt-4 lg:space-x-4">
+                    <div className="glass-inner rounded-2xl w-full lg:w-[20%] pt-6 p-8 mx-auto">
                         <div className="flex flex-col space-y-8">{
                             GROUPS.map((group) =><div>
-                                <h1 className="text-center">{group.groupName}</h1>
+                                <h1 className="text-center text-2xl">{group.groupName}</h1>
                                 <div className="flex flex-col space-y-2">{
                                     group.tabs.map((tab) => 
                                         <Tab as={Fragment} >
                                             {({ selected }) => 
                                             <button className={
                                                 `${selected ? 'font-bold bg-stratosphere-blue' : 'border-stratosphere-blue text-stratosphere-blue'}
-                                                border-solid border-2 p-2 mx-5
+                                                border-solid border-2 p-2 xl:mx-5
                                                 rounded-tl-2xl rounded-br-2xl outline-none`
                                             } style={selected ? {borderColor: "white", color: "white"} : {backgroundColor: "white"}}>{tab.tabName}</button>}
                                         </Tab>
@@ -64,7 +64,7 @@ export default function Replay() {
                             </div>)}
                         </div>
                     </div>
-                    <div className="glass-inner rounded-2xl w-[80%] pt-6 p-8" >
+                    <div className="glass-inner rounded-2xl w-full lg:w-[80%] pt-6 p-0 sm:p-8 mx-auto" >
                         {GROUPS.map((group) => group.tabs.map((tab) => <Tab.Panel>{tab.content}</Tab.Panel>))}
                     </div>
                 </div>

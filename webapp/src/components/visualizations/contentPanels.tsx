@@ -3,6 +3,7 @@ import PlayerBarGraph from "./stacked";
 
 import ResponseDataWrapper from "../../data/ResponseDataWrapper"
 import GraphLegend from "./legend";
+import Heatmap from "./heatmap";
 
 interface Props {
     data: ResponseDataWrapper;
@@ -170,25 +171,25 @@ export function Possession({data}: Props) {
 
     return (<>
         <h1 className="text-center">Possession</h1>
-        <div className="w-full flex flex-col justify-center space-y-10 pt-10">
-            <div className="w-[75%] flex flex-col justify-center m-auto">
-                <h2 className="text-center underline">Possession Times</h2>
+        <div className="w-[75%] space-y-10 pt-10 m-auto text-center underline">
+            <div>
+                <h2>Possession Times</h2>
                 <PlayerBarGraph data={possessionData} group_label="name" sub_groups={["possession"]} color_scale={["var(--sky-blue)"]} 
                     sub_group_display_names={{"possession": "Possession Time"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}}
                     svg_width={1500} svg_height={600} axis_font_size={30} />
             </div>
 
-            <div className="w-[75%] flex flex-col justify-center m-auto">
-                <h2 className="text-center underline">Dribbles</h2>
+            <div>
+                <h2>Dribbles</h2>
                 <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbles"]} color_scale={["var(--sky-blue)"]} 
                     sub_group_display_names={{"dribbles": "Dribbles"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}}
                     svg_width={1500} svg_height={600} axis_font_size={30} />
             </div>
 
-            <div className="w-[75%] flex flex-col justify-center m-auto">
-            <h2 className="text-center underline">Dribble Time</h2>
+            <div>
+                <h2>Dribble Time</h2>
                 <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbleTime"]} color_scale={["var(--sky-blue)"]}
                     sub_group_display_names={{"dribbleTime": "Dribble Time"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}} 
@@ -198,14 +199,85 @@ export function Possession({data}: Props) {
     </>)
 }
 
+function HeatmapAndTendencies({name, tendencies, positions}: {
+    name: string, 
+    tendencies: { defendingHalf: number, attackingHalf: number,
+        defendingThird: number, neutralThird: number, attackingThird: number },
+    positions: { x: number, y: number }[]
+}) {
+    const mapWidth = 10280 + 900;
+    const mapHeight = 8200;
+
+    const ratio = mapWidth / mapHeight;
+    const heatmapWidth = 300;
+
+    return (
+        <div className="w-[80%] m-auto">
+            <h3 className="text-center">{name}</h3>
+            <Heatmap data={positions} x_domain={[-mapWidth / 2, mapWidth / 2]} y_domain={[-mapHeight / 2, mapHeight / 2]} svg_width={heatmapWidth} svg_height={heatmapWidth / ratio} />
+        </div>
+    )
+}
+
 export function Position({data}: Props) {
+    const aerialData = data.getAerialPosistionData() as any;
+
+    const nameLabel = "name";
+    const aerialGroups = ["ground", "low", "high"];
+    const aerialDisplayNames: { [key: string]: string } = { "ground": "Ground", "low": "Low", "high": "High" };
+    const aerialColors = ["var(--sky-blue)", "var(--sky-orange)", "var(--warning-red)"];
+
+    const [playerBallData, playerNames] = data.getPlayerPositionViaBall() as [[any, any], string[]];
+
+    const teamPlayerPositions = data.getPlayerPositionData();
+    const playerPositions = teamPlayerPositions[0].concat(teamPlayerPositions[1]);
+
     return (<>
-        <h1 className="text-center">Position</h1>
+        <h1 className="text-center">Positioning</h1>
+        <div className="space-y-10">
+            <div className="mt-10 text-center">
+                <h2 className="underline">Aerial Positions</h2>
+                <p className="italic">Time in low air (below crossbar) and high air (above crossbar). Measured in seconds.</p>
+                <div className="flex justify-between">
+                    <div className="w-[75%]">
+                        <PlayerBarGraph data={aerialData} group_label={nameLabel} sub_groups={aerialGroups} color_scale={aerialColors}
+                            sub_group_display_names={aerialDisplayNames} margin={{left: 100, right: 100, top: 20, bottom: 50}}
+                            svg_width={1500} svg_height={800} axis_font_size={30} />
+                    </div>
+                    <div className="w-[25%] flex flex-col justify-center">
+                        <GraphLegend keys={aerialGroups.map((key) => aerialDisplayNames[key])} svg_width={1500} svg_height={800} colors={aerialColors} />
+                    </div>
+                </div>
+            </div>
+            <div className="mx-[5%]">
+                <h2 className="text-center underline">Position via Ball</h2>
+                <p className="text-center italic">Time spent behind and in front of the ball. Measured in seconds.</p>
+                <div className="flex justify-between text-[10px] leading-[12px] md:text-lg sm:text-sm font-semibold">
+                    <text>Time Behind Ball</text>
+                    <text className="text-right">Time In Front of Ball</text>
+                </div>
+                <TugGraph data={playerBallData} sub_groups={playerNames} svg_width={1500} svg_height={800} outer_padding={0} />
+            </div>
+            <div>
+                <h2 className="text-center underline">Player Position Heatmaps</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3">
+                    {playerPositions.map((player) => <HeatmapAndTendencies name={player.name} tendencies={player.tendencies} positions={player.positions} />)}
+                </div>
+            </div>
+        </div>
     </>)
 }
 
 export function Ball({data}: Props) {
     return (<>
         <h1 className="text-center">The Ball</h1>
+        <div className="text-center underline space-y-10 pt-10">
+            <div>
+                <h2>Goals Scored</h2>
+            </div>
+            <div>
+                <h2>Ball Heatmap</h2>
+            </div>
+        </div>
     </>)
 }

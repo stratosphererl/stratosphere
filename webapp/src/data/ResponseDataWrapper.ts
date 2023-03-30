@@ -71,8 +71,8 @@ export default class ResponseDataWrapper {
     }
 
     private getTeamsPlayers() {
-        const team1 = this.data.players.filter((player: any) => player.isOrange == 0);
-        const team2 = this.data.players.filter((player: any) => player.isOrange == 1);
+        const team1 = this.data.players.filter((player: any) => player.isOrange == 0) as any[];
+        const team2 = this.data.players.filter((player: any) => player.isOrange == 1) as any[];
 
         return [team1, team2];
     }
@@ -215,5 +215,103 @@ export default class ResponseDataWrapper {
         addDribbleData(team2);
 
         return dribbleData;
+    }
+
+    getAerialPosistionData(insertSeparator: boolean = false) {
+        const [team1, team2] = this.getTeamsPlayers();
+
+        const aerialData: {name: string, ground: number, low: number, high: number}[] = [];
+
+        const addAerialData = (team: any[]) => {
+            team.forEach((player: any) => {
+                const positionalTendencies = player.stats.positionalTendencies;
+                aerialData.push({
+                    name: player.name,
+                    ground: positionalTendencies?.timeOnGround ?? 0,
+                    low: positionalTendencies?.timeLowInAir ?? 0,
+                    high: positionalTendencies?.timeHighInAir ?? 0,
+                });
+            });
+        };
+
+        addAerialData(team1);
+
+        if (insertSeparator) {
+            aerialData.push({
+                name: "",
+                ground: 0,
+                low: 0,
+                high: 0,
+            });
+        }
+
+        addAerialData(team2);
+
+        return aerialData;
+    }
+
+    getPlayerPositionViaBall() {
+        const [team1, team2] = this.getTeamsPlayers();
+        const players = team1.concat(team2);
+
+        const positionData: [{ [key: string]: number }, { [key: string]: number }] = [{},{}];
+
+        players.forEach((player: any) => {
+            positionData[0][player.name] = player.stats.positionalTendencies?.timeBehindBall ?? 0;
+        });
+        players.forEach((player: any) => {
+            positionData[1][player.name] = player.stats.positionalTendencies?.timeInFrontBall ?? 0;
+        });
+
+        return [positionData as [any, any], players.map((player: any) => player.name) as string[]];
+    }
+
+    private getFieldPositioning(positionalTendencies: any) {
+        return {
+            defendingHalf: (positionalTendencies?.timeInDefendingHalf ?? 0) as number,
+            attackingHalf: (positionalTendencies?.timeInAttackingHalf ?? 0) as number,
+            defendingThird: (positionalTendencies?.timeInDefendingThird ?? 0) as number,
+            neutralThird: (positionalTendencies?.timeInNeutralThird ?? 0) as number,
+            attackingThird: (positionalTendencies?.timeInAttackingThird ?? 0) as number,
+        }
+    }
+
+    getPlayerPositionData() {
+        const positionData: {
+            name: string,
+            tendencies: { defendingHalf: number, attackingHalf: number, 
+                defendingThird: number, neutralThird: number, attackingThird: number },
+            positions: { x: number, y: number }[]
+        }[][] = [];
+
+        const [team1, team2] = this.getTeamsPlayers();
+
+        const addPositionData = (team: any[]) => {
+            const teamData: {
+                name: string,
+                tendencies: { defendingHalf: number, attackingHalf: number,
+                    defendingThird: number, neutralThird: number, attackingThird: number },
+                positions: { x: number, y: number }[]
+            }[] = [];
+
+            team.forEach((player: any) => {
+                const positionalTendencies = player.stats.positionalTendencies;
+
+                const name = player.name;
+                const tendencies = this.getFieldPositioning(positionalTendencies);
+                const positions: { x: number, y: number }[] = [{ x: 0, y: 0 }];
+
+                // TODO: Push positional data
+
+                teamData.push({ name: name, tendencies: tendencies, positions: positions })
+            });
+
+            positionData.push(teamData);
+        }
+
+        addPositionData(team1);
+        addPositionData(team2);
+
+        return positionData;
     }
 }

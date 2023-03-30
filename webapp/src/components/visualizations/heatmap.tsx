@@ -62,8 +62,10 @@ export default function Heatmap({
 
         const svg = d3.select(ref.current)
             .append("svg")
-                .attr("width", svg_width)
-                .attr("height", svg_height); 
+                .attr("viewBox", `0 0 ${svg_width} ${svg_height}`)
+                .attr("preserveAspectRatio", "xMidYMid meet");
+                // .attr("width", svg_width)
+                // .attr("height", svg_height); 
 
         const g = svg.append("g");
 
@@ -160,6 +162,6 @@ export default function Heatmap({
     }, [ref]);
 
     return (
-        <div ref={ref} />
+        <div className="w-full" ref={ref} />
     )
 }
