@@ -135,7 +135,7 @@
   }
 
   .replay-data-mobile {
-    margin: 16px;
+    /* margin: 16px; */
   }
 
   @media (max-width: 1340px) {
