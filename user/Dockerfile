@@ -7,7 +7,7 @@ ENV DOCKER_RUNNING = true
 WORKDIR /app
 
 # Copy the Pipfile and Pipfile.lock to the container
-COPY ./user-service/Pipfile ./user-service/Pipfile.lock ./
+COPY ./user/Pipfile ./user/Pipfile.lock ./
 
 # Install dependencies using Pipenv
 RUN pip install pipenv && \
@@ -15,7 +15,7 @@ RUN pip install pipenv && \
 
 # Copy the rest of the application code to the container
 COPY .env ./
-COPY ./user-service ./
+COPY ./user ./
 
 # Run the application
 CMD python3 app.py
