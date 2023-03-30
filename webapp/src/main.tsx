@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 
 import AboutPage from "./routes/about"
-import BrowsePage from "./routes/browse"
+import BrowsePage from "./routes/Browse/browse"
 import HomePage from "./routes/Home/home"
 import LoginPage from "./routes/Login/login"
 import OverlayPage from "./routes/overlay"
