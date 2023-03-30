@@ -5,7 +5,7 @@ import { Tab } from '@headlessui/react';
 import { Fragment } from 'react';
 
 import MainPane from '../components/general/mainPane';
-import { Scoreboard, TeamComparison, BoostAnalysis, PlayerComparison } from '../components/visualizations/contentPanels';
+import { Scoreboard, TeamComparison, BoostAnalysis, PlayerComparison, Possession, Position, Ball } from '../components/visualizations/contentPanels';
 
 export default function Replay() {
     const params = useParams();
@@ -29,7 +29,13 @@ export default function Replay() {
         ]},
         { groupName: "Details", tabs: [
             { tabName: "Boost", content: <BoostAnalysis data={data} /> },
+            { tabName: "Possession", content: <Possession data={data} /> },
+            { tabName: "Position", content: <Position data={data} /> },
+            { tabName: "The Ball", content: <Ball data={data} /> },
         ]},
+        { groupName: "Other", tabs: [
+            { tabName: "2D Replay", content: <h1 className="text-center">2D Replay</h1> },
+        ]}
     ];
 
     return (

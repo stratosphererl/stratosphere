@@ -158,4 +158,62 @@ export default class ResponseDataWrapper {
 
         return boostData;
     }
+
+    getPossessionTimes(insertSeparator: boolean = false) {
+        const [team1, team2] = this.getTeamsPlayers();
+
+        const possessionData: {name: string, possession: number}[] = [];
+
+        const addPossessionData = (team: any[]) => {
+            team.forEach((player: any) => {
+                possessionData.push({
+                    name: player.name,
+                    possession: player.stats.possession.possessionTime,
+                });
+            });
+        }
+
+        addPossessionData(team1);
+
+        if (insertSeparator) {
+            possessionData.push({
+                name: "",
+                possession: 0,
+            });
+        }
+
+        addPossessionData(team2);
+
+        return possessionData;
+    }
+
+    getDribbleData(insertSeparator: boolean = false) {
+        const [team1, team2] = this.getTeamsPlayers();
+
+        const dribbleData: {name: string, dribbles: number, dribbleTime: number}[] = [];
+
+        const addDribbleData = (team: any[]) => {
+            team.forEach((player: any) => {
+                dribbleData.push({
+                    name: player.name,
+                    dribbles: player.stats.ballCarries?.totalCarries ?? 0,
+                    dribbleTime: player.stats.ballCarries?.totalCarryTime ?? 0,
+                });
+            });
+        }
+
+        addDribbleData(team1);
+
+        if (insertSeparator) {
+            dribbleData.push({
+                name: "",
+                dribbles: 0,
+                dribbleTime: 0,
+            });
+        }
+
+        addDribbleData(team2);
+
+        return dribbleData;
+    }
 }

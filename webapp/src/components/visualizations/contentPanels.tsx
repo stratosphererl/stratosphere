@@ -78,15 +78,13 @@ export function PlayerComparison({data}: Props) {
 
     return (<>
         <h1 className="text-center">Player Comparison</h1>
-        <div className="w-full flex justify-center">
-            <div className="w-full flex justify-between">
-                <div className="w-[70%]">
-                    <PlayerBarGraph data={playerData} group_label={label} sub_groups={groups} svg_width={1500} svg_height={1000} sub_group_display_names={displayNames}
-                    margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={colors} axis_font_size={30} />
-                </div>
-                <div className="w-[30%] flex flex-col justify-center">
-                    <GraphLegend colors={colors} keys={groups.map((group) => displayNames[group])} svg_width={500} svg_height={400} />
-                </div>
+        <div className="w-full flex justify-between">
+            <div className="w-[70%]">
+                <PlayerBarGraph data={playerData} group_label={label} sub_groups={groups} svg_width={1500} svg_height={1000} sub_group_display_names={displayNames}
+                margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={colors} axis_font_size={30} />
+            </div>
+            <div className="w-[30%] flex flex-col justify-center">
+                <GraphLegend colors={colors} keys={groups.map((group) => displayNames[group])} svg_width={500} svg_height={400} />
             </div>
         </div>
     </>)
@@ -163,5 +161,51 @@ export function BoostAnalysis({data}: Props) {
                 </div>
             </div>
         </div>
+    </>)
+}
+
+export function Possession({data}: Props) {
+    const possessionData = data.getPossessionTimes() as any;
+    const dribbleData = data.getDribbleData() as any;
+
+    return (<>
+        <h1 className="text-center">Possession</h1>
+        <div className="w-full flex flex-col justify-center space-y-10 pt-10">
+            <div className="w-[75%] flex flex-col justify-center m-auto">
+                <h2 className="text-center underline">Possession Times</h2>
+                <PlayerBarGraph data={possessionData} group_label="name" sub_groups={["possession"]} color_scale={["var(--sky-blue)"]} 
+                    sub_group_display_names={{"possession": "Possession Time"}}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}}
+                    svg_width={1500} svg_height={600} axis_font_size={30} />
+            </div>
+
+            <div className="w-[75%] flex flex-col justify-center m-auto">
+                <h2 className="text-center underline">Dribbles</h2>
+                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbles"]} color_scale={["var(--sky-blue)"]} 
+                    sub_group_display_names={{"dribbles": "Dribbles"}}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}}
+                    svg_width={1500} svg_height={600} axis_font_size={30} />
+            </div>
+
+            <div className="w-[75%] flex flex-col justify-center m-auto">
+            <h2 className="text-center underline">Dribble Time</h2>
+                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbleTime"]} color_scale={["var(--sky-blue)"]}
+                    sub_group_display_names={{"dribbleTime": "Dribble Time"}}
+                    margin={{left: 100, right: 100, top: 20, bottom: 50}} 
+                    svg_width={1500} svg_height={600} axis_font_size={30} />
+            </div>
+        </div>
+    </>)
+}
+
+export function Position({data}: Props) {
+    return (<>
+        <h1 className="text-center">Position</h1>
+    </>)
+}
+
+export function Ball({data}: Props) {
+    return (<>
+        <h1 className="text-center">The Ball</h1>
     </>)
 }
