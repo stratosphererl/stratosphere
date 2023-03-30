@@ -56,9 +56,9 @@ const statsResolvers = {
       });
     },
     replayArenas: (parent, args, context, info) => {
-      let arenaPath = args?.arenaId ? `${args.arenaId}` : "";
+      let arenaPath = args?.arenaId ? `?arena_num=${args.arenaId}` : "";
       return fetch(
-        `http://${STATS_SERVICE_URL}:${STATS_SERVICE_PORT}/api/v1/replays/arena/${arenaPath}`
+        `http://${STATS_SERVICE_URL}:${STATS_SERVICE_PORT}/api/v1/replays/arena${arenaPath}`
       ).then((res) => {
         if (!res.ok) {
           return res.json().then((data) => {
