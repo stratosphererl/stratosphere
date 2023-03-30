@@ -1,4 +1,4 @@
-import logo from "../../assets/logo/700.png"
+import logo from "../../../assets/logo/700.png"
 
 export default function MainPane({title, className, children}: {title?: string, className?: string, children: React.ReactNode}) {
     return (
