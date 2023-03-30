@@ -119,8 +119,8 @@ body {
   }
 
   .glass-outer {
-    background: rgb(0, 0, 0, 0.6);
-    backdrop-filter: blur(15px);
+    background: rgb(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
     -webkit-background-filter: blur(15px);
     /* shadow */
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
