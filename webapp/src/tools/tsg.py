@@ -26,7 +26,7 @@ def helper(text_file, color_var, max_pixel_width, num_steps, signs, curr_iterati
     curr_iteration = curr_iteration_value
 
     for pixel_width in np.linspace(0, max_pixel_width, num_steps):
-        text_file.write(color_var + " " + str((4 - pixel_width) * signs[0]) + "px " + str((0 + pixel_width) * signs[1]) + "px 0px")
+        text_file.write(color_var + " " + str((max_pixel_width - pixel_width) * signs[0]) + "px " + str((0 + pixel_width) * signs[1]) + "px 0px")
 
         if curr_iteration != num_steps * 4:
             text_file.write(",\n")
@@ -37,4 +37,4 @@ def helper(text_file, color_var, max_pixel_width, num_steps, signs, curr_iterati
 
     return curr_iteration
     
-generate_text_shadow_css("var(--black)", 4, 9)
+generate_text_shadow_css("var(--sky-blue)", 3, 14)

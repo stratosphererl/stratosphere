@@ -11,10 +11,12 @@ import LoginPage from "./routes/Login/login"
 import OverlayPage from "./routes/overlay"
 import RedirectPage from "./routes/redirect"
 import ReplayPage from "./routes/replay"
-import SettingsPage from "./routes/settings"
-import StatsPage from "./routes/statistics"
+import SettingsPage from "./routes/Settings/settings"
+import StatsPage from "./routes/Statistics/statistics"
 import UploadPage from "./routes/upload"
 import ErrorPage from "./routes/Error/error"
+import DataPage from "./components/replays/data"
+import ReplayJSON from "./mock/replay.json"
 
 import Wrapper from "./components/general/wrapper"
 
@@ -89,6 +91,14 @@ const router = createBrowserRouter([
     element: <Wrapper background = "background-upload" callPage=""><UploadPage/></Wrapper>,
     errorElement: <ErrorBoundary/>
   },
+  {
+    path: "/data",
+    element: <Wrapper background="background-white" callPage="">
+                <DataPage data={ReplayJSON} version={0}/>
+                <DataPage data={ReplayJSON} version={1}/>
+              </Wrapper>,
+    errorElement: <ErrorBoundary/>
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

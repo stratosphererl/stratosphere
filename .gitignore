@@ -1,6 +1,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,windows,macos
 
+
+### replay service ###
+replay/config/db
+replay/parser/config/db
+replay/parser/files
+
 ### macOS ###
 # General
 .DS_Store
@@ -390,4 +396,5 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-replay/config/db/data/*
+/replay/config/db
+/replay/parser/files

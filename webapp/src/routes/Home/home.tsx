@@ -55,8 +55,7 @@ export default function Home() {
         <HomePresentationBlock
           img={HomeImage1}
           title="WANT TO IMPROVE?"
-          shortName="Upload"
-          longName="Upload your replay"
+          name="Upload your replay"
           text={
             <p className="home-body-text -mb-1">
               Send your replay to our
@@ -78,8 +77,7 @@ export default function Home() {
         <HomePresentationBlock 
           img = {HomeImage2}
           title = "SEE YOUR OPPONENTS?"
-          shortName = "Browse"
-          longName = "Browse other replays"
+          name = "Browse other replays"
           text={
             <p className="home-body-text -mb-1">
               Browse through the over
@@ -104,8 +102,7 @@ export default function Home() {
           <HomePresentationBlock
           img = {HomeImage3}
           title = "HAVE DATA IN-GAME?"
-          shortName="Download"
-          longName="Download our overlay"
+          name="Download our overlay"
           text = {
             <p className="home-body-text -mb-1">
               <InTextColoring text="In addition"/>
@@ -122,7 +119,7 @@ export default function Home() {
   }
 }
 
-export function HomePresentationBlock (props: {img: string, title: string, shortName: string, longName: string, text: JSX.Element}) {
+export function HomePresentationBlock (props: {img: string, title: string, name: string, text: JSX.Element}) {
   return (
     <div className="home-main">
       <div className="flex flex-nowrap justify-center">
@@ -130,10 +127,7 @@ export function HomePresentationBlock (props: {img: string, title: string, short
         <div className="mx-8 home-text-box my-auto">
           <h1 className="chill-blue-stroke-2 italic home-subtitle">{props.title}</h1>
           {props.text}
-          { window.innerWidth < 845 ? // Change display of text based on initial screen width
-            <a href="/upload" className="home-lower-button mt-6"><div className="vertical-text">{props.shortName}</div></a> :
-            <a href="/upload" className="home-lower-button mt-6"><div className="vertical-text">{props.longName}</div></a>
-          }
+          <a href="/upload" className="home-lower-button mt-6"><div className="vertical-text">{props.name}</div></a>
         </div>
       </div>
     </div>

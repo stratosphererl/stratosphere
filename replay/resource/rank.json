@@ -1,0 +1,4298 @@
+{
+  "Duel": {
+    "1": {
+      "name": "Bronze I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": -100,
+          "end": 112
+        },
+        "2": {
+          "name": "Division II",
+          "start": 114,
+          "end": 124
+        },
+        "3": {
+          "name": "Division III",
+          "start": 133,
+          "end": 139
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 142,
+          "end": 154
+        }
+      }
+    },
+    "2": {
+      "name": "Bronze II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 156,
+          "end": 158
+        },
+        "2": {
+          "name": "Division II",
+          "start": 160,
+          "end": 175
+        },
+        "3": {
+          "name": "Division III",
+          "start": 184,
+          "end": 195
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 197,
+          "end": 212
+        }
+      }
+    },
+    "3": {
+      "name": "Bronze III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 213,
+          "end": 218
+        },
+        "2": {
+          "name": "Division II",
+          "start": 220,
+          "end": 237
+        },
+        "3": {
+          "name": "Division III",
+          "start": 238,
+          "end": 256
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 257,
+          "end": 274
+        }
+      }
+    },
+    "4": {
+      "name": "Silver I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 275,
+          "end": 278
+        },
+        "2": {
+          "name": "Division II",
+          "start": 279,
+          "end": 297
+        },
+        "3": {
+          "name": "Division III",
+          "start": 298,
+          "end": 316
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 317,
+          "end": 334
+        }
+      }
+    },
+    "5": {
+      "name": "Silver II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 335,
+          "end": 338
+        },
+        "2": {
+          "name": "Division II",
+          "start": 339,
+          "end": 357
+        },
+        "3": {
+          "name": "Division III",
+          "start": 358,
+          "end": 376
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 377,
+          "end": 394
+        }
+      }
+    },
+    "6": {
+      "name": "Silver III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 395,
+          "end": 398
+        },
+        "2": {
+          "name": "Division II",
+          "start": 399,
+          "end": 417
+        },
+        "3": {
+          "name": "Division III",
+          "start": 418,
+          "end": 436
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 437,
+          "end": 454
+        }
+      }
+    },
+    "7": {
+      "name": "Gold I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 455,
+          "end": 458
+        },
+        "2": {
+          "name": "Division II",
+          "start": 459,
+          "end": 477
+        },
+        "3": {
+          "name": "Division III",
+          "start": 478,
+          "end": 496
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 497,
+          "end": 514
+        }
+      }
+    },
+    "8": {
+      "name": "Gold II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 515,
+          "end": 518
+        },
+        "2": {
+          "name": "Division II",
+          "start": 519,
+          "end": 537
+        },
+        "3": {
+          "name": "Division III",
+          "start": 538,
+          "end": 556
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 557,
+          "end": 574
+        }
+      }
+    },
+    "9": {
+      "name": "Gold III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 575,
+          "end": 578
+        },
+        "2": {
+          "name": "Division II",
+          "start": 579,
+          "end": 597
+        },
+        "3": {
+          "name": "Division III",
+          "start": 598,
+          "end": 616
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 617,
+          "end": 634
+        }
+      }
+    },
+    "10": {
+      "name": "Platinum I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 635,
+          "end": 638
+        },
+        "2": {
+          "name": "Division II",
+          "start": 639,
+          "end": 657
+        },
+        "3": {
+          "name": "Division III",
+          "start": 658,
+          "end": 676
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 677,
+          "end": 694
+        }
+      }
+    },
+    "11": {
+      "name": "Platinum II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 695,
+          "end": 698
+        },
+        "2": {
+          "name": "Division II",
+          "start": 699,
+          "end": 717
+        },
+        "3": {
+          "name": "Division III",
+          "start": 718,
+          "end": 736
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 737,
+          "end": 752
+        }
+      }
+    },
+    "12": {
+      "name": "Platinum III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 755,
+          "end": 758
+        },
+        "2": {
+          "name": "Division II",
+          "start": 759,
+          "end": 777
+        },
+        "3": {
+          "name": "Division III",
+          "start": 778,
+          "end": 796
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 797,
+          "end": 811
+        }
+      }
+    },
+    "13": {
+      "name": "Diamond I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 815,
+          "end": 818
+        },
+        "2": {
+          "name": "Division II",
+          "start": 819,
+          "end": 837
+        },
+        "3": {
+          "name": "Division III",
+          "start": 838,
+          "end": 856
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 857,
+          "end": 872
+        }
+      }
+    },
+    "14": {
+      "name": "Diamond II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 875,
+          "end": 878
+        },
+        "2": {
+          "name": "Division II",
+          "start": 879,
+          "end": 897
+        },
+        "3": {
+          "name": "Division III",
+          "start": 898,
+          "end": 916
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 917,
+          "end": 927
+        }
+      }
+    },
+    "15": {
+      "name": "Diamond III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 935,
+          "end": 938
+        },
+        "2": {
+          "name": "Division II",
+          "start": 939,
+          "end": 957
+        },
+        "3": {
+          "name": "Division III",
+          "start": 958,
+          "end": 976
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 977,
+          "end": 993
+        }
+      }
+    },
+    "16": {
+      "name": "Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 995,
+          "end": 998
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1000,
+          "end": 1013
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1018,
+          "end": 1033
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1037,
+          "end": 1051
+        }
+      }
+    },
+    "17": {
+      "name": "Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1055,
+          "end": 1058
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1060,
+          "end": 1077
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1078,
+          "end": 1094
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1097,
+          "end": 1106
+        }
+      }
+    },
+    "18": {
+      "name": "Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1115,
+          "end": 1118
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1120,
+          "end": 1137
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1138,
+          "end": 1152
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1157,
+          "end": 1174
+        }
+      }
+    },
+    "19": {
+      "name": "Grand Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1175,
+          "end": 1178
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1180,
+          "end": 1194
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1198,
+          "end": 1211
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1217,
+          "end": 1231
+        }
+      }
+    },
+    "20": {
+      "name": "Grand Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1231,
+          "end": 1238
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1240,
+          "end": 1254
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1258,
+          "end": 1275
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1277,
+          "end": 1294
+        }
+      }
+    },
+    "21": {
+      "name": "Grand Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1282,
+          "end": 1299
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1299,
+          "end": 1312
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1318,
+          "end": 1335
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1338,
+          "end": 1352
+        }
+      }
+    },
+    "22": {
+      "name": "Supersonic Legend",
+      "divisions": {
+        "1": {
+          "name": "Division 1",
+          "start": 1343,
+          "end": null
+        }
+      }
+    }
+  },
+  "Doubles": {
+    "1": {
+      "name": "Bronze I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": -100,
+          "end": 94
+        },
+        "2": {
+          "name": "Division II",
+          "start": 130,
+          "end": 130
+        },
+        "3": {
+          "name": "Division III",
+          "start": 140,
+          "end": 153
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 157,
+          "end": 170
+        }
+      }
+    },
+    "2": {
+      "name": "Bronze II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 169,
+          "end": 178
+        },
+        "2": {
+          "name": "Division II",
+          "start": 189,
+          "end": 195
+        },
+        "3": {
+          "name": "Division III",
+          "start": 208,
+          "end": 215
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 223,
+          "end": 229
+        }
+      }
+    },
+    "3": {
+      "name": "Bronze III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 235,
+          "end": 238
+        },
+        "2": {
+          "name": "Division II",
+          "start": 243,
+          "end": 243
+        },
+        "3": {
+          "name": "Division III",
+          "start": 258,
+          "end": 276
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 277,
+          "end": 294
+        }
+      }
+    },
+    "4": {
+      "name": "Silver I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 295,
+          "end": 298
+        },
+        "2": {
+          "name": "Division II",
+          "start": 306,
+          "end": 317
+        },
+        "3": {
+          "name": "Division III",
+          "start": 321,
+          "end": 335
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 337,
+          "end": 352
+        }
+      }
+    },
+    "5": {
+      "name": "Silver II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 344,
+          "end": 358
+        },
+        "2": {
+          "name": "Division II",
+          "start": 363,
+          "end": 376
+        },
+        "3": {
+          "name": "Division III",
+          "start": 378,
+          "end": 395
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 397,
+          "end": 411
+        }
+      }
+    },
+    "6": {
+      "name": "Silver III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 413,
+          "end": 418
+        },
+        "2": {
+          "name": "Division II",
+          "start": 419,
+          "end": 437
+        },
+        "3": {
+          "name": "Division III",
+          "start": 438,
+          "end": 456
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 457,
+          "end": 474
+        }
+      }
+    },
+    "7": {
+      "name": "Gold I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 470,
+          "end": 478
+        },
+        "2": {
+          "name": "Division II",
+          "start": 479,
+          "end": 497
+        },
+        "3": {
+          "name": "Division III",
+          "start": 498,
+          "end": 516
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 517,
+          "end": 534
+        }
+      }
+    },
+    "8": {
+      "name": "Gold II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 535,
+          "end": 538
+        },
+        "2": {
+          "name": "Division II",
+          "start": 539,
+          "end": 557
+        },
+        "3": {
+          "name": "Division III",
+          "start": 558,
+          "end": 576
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 577,
+          "end": 583
+        }
+      }
+    },
+    "9": {
+      "name": "Gold III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 595,
+          "end": 598
+        },
+        "2": {
+          "name": "Division II",
+          "start": 599,
+          "end": 617
+        },
+        "3": {
+          "name": "Division III",
+          "start": 618,
+          "end": 636
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 637,
+          "end": 645
+        }
+      }
+    },
+    "10": {
+      "name": "Platinum I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 655,
+          "end": 658
+        },
+        "2": {
+          "name": "Division II",
+          "start": 659,
+          "end": 677
+        },
+        "3": {
+          "name": "Division III",
+          "start": 678,
+          "end": 696
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 697,
+          "end": 706
+        }
+      }
+    },
+    "11": {
+      "name": "Platinum II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 714,
+          "end": 718
+        },
+        "2": {
+          "name": "Division II",
+          "start": 719,
+          "end": 737
+        },
+        "3": {
+          "name": "Division III",
+          "start": 738,
+          "end": 756
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 757,
+          "end": 763
+        }
+      }
+    },
+    "12": {
+      "name": "Platinum III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 775,
+          "end": 778
+        },
+        "2": {
+          "name": "Division II",
+          "start": 779,
+          "end": 797
+        },
+        "3": {
+          "name": "Division III",
+          "start": 798,
+          "end": 816
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 817,
+          "end": 824
+        }
+      }
+    },
+    "13": {
+      "name": "Diamond I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 835,
+          "end": 843
+        },
+        "2": {
+          "name": "Division II",
+          "start": 844,
+          "end": 867
+        },
+        "3": {
+          "name": "Division III",
+          "start": 868,
+          "end": 891
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 892,
+          "end": 900
+        }
+      }
+    },
+    "14": {
+      "name": "Diamond II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 915,
+          "end": 923
+        },
+        "2": {
+          "name": "Division II",
+          "start": 924,
+          "end": 947
+        },
+        "3": {
+          "name": "Division III",
+          "start": 948,
+          "end": 971
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 972,
+          "end": 980
+        }
+      }
+    },
+    "15": {
+      "name": "Diamond III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 995,
+          "end": 1003
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1004,
+          "end": 1027
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1028,
+          "end": 1051
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1052,
+          "end": 1061
+        }
+      }
+    },
+    "16": {
+      "name": "Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1075,
+          "end": 1093
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1095,
+          "end": 1117
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1128,
+          "end": 1158
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1162,
+          "end": 1180
+        }
+      }
+    },
+    "17": {
+      "name": "Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1195,
+          "end": 1213
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1215,
+          "end": 1236
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1248,
+          "end": 1276
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1282,
+          "end": 1300
+        }
+      }
+    },
+    "18": {
+      "name": "Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1315,
+          "end": 1333
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1335,
+          "end": 1367
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1368,
+          "end": 1395
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1402,
+          "end": 1419
+        }
+      }
+    },
+    "19": {
+      "name": "Grand Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1435,
+          "end": 1458
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1460,
+          "end": 1487
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1498,
+          "end": 1528
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1537,
+          "end": 1554
+        }
+      }
+    },
+    "20": {
+      "name": "Grand Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1575,
+          "end": 1592
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1600,
+          "end": 1625
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1638,
+          "end": 1664
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1677,
+          "end": 1703
+        }
+      }
+    },
+    "21": {
+      "name": "Grand Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1715,
+          "end": 1740
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1745,
+          "end": 1784
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1788,
+          "end": 1828
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1832,
+          "end": 1857
+        }
+      }
+    },
+    "22": {
+      "name": "Supersonic Legend",
+      "divisions": {
+        "1": {
+          "name": "Division 1",
+          "start": 1875,
+          "end": null
+        }
+      }
+    }
+  },
+  "Standard": {
+    "1": {
+      "name": "Bronze I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 97,
+          "end": 103
+        },
+        "2": {
+          "name": "Division II",
+          "start": 129,
+          "end": 137
+        },
+        "3": {
+          "name": "Division III",
+          "start": 155,
+          "end": 156
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 158,
+          "end": 172
+        }
+      }
+    },
+    "2": {
+      "name": "Bronze II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 171,
+          "end": 178
+        },
+        "2": {
+          "name": "Division II",
+          "start": 180,
+          "end": 197
+        },
+        "3": {
+          "name": "Division III",
+          "start": 204,
+          "end": 215
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 217,
+          "end": 234
+        }
+      }
+    },
+    "3": {
+      "name": "Bronze III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 235,
+          "end": 238
+        },
+        "2": {
+          "name": "Division II",
+          "start": 240,
+          "end": 257
+        },
+        "3": {
+          "name": "Division III",
+          "start": 258,
+          "end": 275
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 277,
+          "end": 294
+        }
+      }
+    },
+    "4": {
+      "name": "Silver I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 295,
+          "end": 298
+        },
+        "2": {
+          "name": "Division II",
+          "start": 299,
+          "end": 317
+        },
+        "3": {
+          "name": "Division III",
+          "start": 318,
+          "end": 336
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 337,
+          "end": 354
+        }
+      }
+    },
+    "5": {
+      "name": "Silver II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 355,
+          "end": 358
+        },
+        "2": {
+          "name": "Division II",
+          "start": 359,
+          "end": 377
+        },
+        "3": {
+          "name": "Division III",
+          "start": 378,
+          "end": 396
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 397,
+          "end": 414
+        }
+      }
+    },
+    "6": {
+      "name": "Silver III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 415,
+          "end": 418
+        },
+        "2": {
+          "name": "Division II",
+          "start": 419,
+          "end": 437
+        },
+        "3": {
+          "name": "Division III",
+          "start": 438,
+          "end": 456
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 457,
+          "end": 474
+        }
+      }
+    },
+    "7": {
+      "name": "Gold I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 475,
+          "end": 478
+        },
+        "2": {
+          "name": "Division II",
+          "start": 479,
+          "end": 497
+        },
+        "3": {
+          "name": "Division III",
+          "start": 498,
+          "end": 516
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 517,
+          "end": 534
+        }
+      }
+    },
+    "8": {
+      "name": "Gold II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 535,
+          "end": 538
+        },
+        "2": {
+          "name": "Division II",
+          "start": 539,
+          "end": 557
+        },
+        "3": {
+          "name": "Division III",
+          "start": 558,
+          "end": 576
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 577,
+          "end": 594
+        }
+      }
+    },
+    "9": {
+      "name": "Gold III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 595,
+          "end": 598
+        },
+        "2": {
+          "name": "Division II",
+          "start": 599,
+          "end": 617
+        },
+        "3": {
+          "name": "Division III",
+          "start": 618,
+          "end": 636
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 637,
+          "end": 654
+        }
+      }
+    },
+    "10": {
+      "name": "Platinum I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 655,
+          "end": 658
+        },
+        "2": {
+          "name": "Division II",
+          "start": 659,
+          "end": 677
+        },
+        "3": {
+          "name": "Division III",
+          "start": 678,
+          "end": 696
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 697,
+          "end": 712
+        }
+      }
+    },
+    "11": {
+      "name": "Platinum II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 715,
+          "end": 718
+        },
+        "2": {
+          "name": "Division II",
+          "start": 719,
+          "end": 737
+        },
+        "3": {
+          "name": "Division III",
+          "start": 738,
+          "end": 756
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 757,
+          "end": 764
+        }
+      }
+    },
+    "12": {
+      "name": "Platinum III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 775,
+          "end": 778
+        },
+        "2": {
+          "name": "Division II",
+          "start": 779,
+          "end": 797
+        },
+        "3": {
+          "name": "Division III",
+          "start": 798,
+          "end": 816
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 817,
+          "end": 825
+        }
+      }
+    },
+    "13": {
+      "name": "Diamond I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 835,
+          "end": 843
+        },
+        "2": {
+          "name": "Division II",
+          "start": 844,
+          "end": 867
+        },
+        "3": {
+          "name": "Division III",
+          "start": 868,
+          "end": 891
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 892,
+          "end": 900
+        }
+      }
+    },
+    "14": {
+      "name": "Diamond II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 915,
+          "end": 923
+        },
+        "2": {
+          "name": "Division II",
+          "start": 924,
+          "end": 947
+        },
+        "3": {
+          "name": "Division III",
+          "start": 948,
+          "end": 971
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 972,
+          "end": 980
+        }
+      }
+    },
+    "15": {
+      "name": "Diamond III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 995,
+          "end": 1003
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1005,
+          "end": 1027
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1028,
+          "end": 1050
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1052,
+          "end": 1060
+        }
+      }
+    },
+    "16": {
+      "name": "Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1075,
+          "end": 1093
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1095,
+          "end": 1118
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1128,
+          "end": 1153
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1162,
+          "end": 1180
+        }
+      }
+    },
+    "17": {
+      "name": "Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1195,
+          "end": 1213
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1215,
+          "end": 1244
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1248,
+          "end": 1272
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1282,
+          "end": 1300
+        }
+      }
+    },
+    "18": {
+      "name": "Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1315,
+          "end": 1333
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1335,
+          "end": 1364
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1368,
+          "end": 1399
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1402,
+          "end": 1420
+        }
+      }
+    },
+    "19": {
+      "name": "Grand Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1435,
+          "end": 1458
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1460,
+          "end": 1486
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1498,
+          "end": 1533
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1537,
+          "end": 1560
+        }
+      }
+    },
+    "20": {
+      "name": "Grand Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1575,
+          "end": 1598
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1601,
+          "end": 1637
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1647,
+          "end": 1660
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1677,
+          "end": 1699
+        }
+      }
+    },
+    "21": {
+      "name": "Grand Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1708,
+          "end": 1739
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1744,
+          "end": 1781
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1789,
+          "end": 1824
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1835,
+          "end": 1865
+        }
+      }
+    },
+    "22": {
+      "name": "Supersonic Legend",
+      "divisions": {
+        "1": {
+          "name": "Division 1",
+          "start": 1876,
+          "end": null
+        }
+      }
+    }
+  },
+  "Hoops": {
+    "1": {
+      "name": "Bronze I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 65,
+          "end": 65
+        },
+        "2": {
+          "name": "Division II",
+          "start": 144,
+          "end": 154
+        },
+        "3": {
+          "name": "Division III",
+          "start": 164,
+          "end": 186
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 190,
+          "end": 212
+        }
+      }
+    },
+    "2": {
+      "name": "Bronze II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 216,
+          "end": 218
+        },
+        "2": {
+          "name": "Division II",
+          "start": 222,
+          "end": 236
+        },
+        "3": {
+          "name": "Division III",
+          "start": 241,
+          "end": 255
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 257,
+          "end": 274
+        }
+      }
+    },
+    "3": {
+      "name": "Bronze III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 275,
+          "end": 278
+        },
+        "2": {
+          "name": "Division II",
+          "start": 285,
+          "end": 297
+        },
+        "3": {
+          "name": "Division III",
+          "start": 308,
+          "end": 315
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 320,
+          "end": 334
+        }
+      }
+    },
+    "4": {
+      "name": "Silver I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 325,
+          "end": 329
+        },
+        "2": {
+          "name": "Division II",
+          "start": 336,
+          "end": 347
+        },
+        "3": {
+          "name": "Division III",
+          "start": 348,
+          "end": 361
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 362,
+          "end": 374
+        }
+      }
+    },
+    "5": {
+      "name": "Silver II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 375,
+          "end": 379
+        },
+        "2": {
+          "name": "Division II",
+          "start": 380,
+          "end": 397
+        },
+        "3": {
+          "name": "Division III",
+          "start": 398,
+          "end": 416
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 418,
+          "end": 434
+        }
+      }
+    },
+    "6": {
+      "name": "Silver III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 421,
+          "end": 432
+        },
+        "2": {
+          "name": "Division II",
+          "start": 435,
+          "end": 447
+        },
+        "3": {
+          "name": "Division III",
+          "start": 448,
+          "end": 461
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 462,
+          "end": 474
+        }
+      }
+    },
+    "7": {
+      "name": "Gold I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 475,
+          "end": 479
+        },
+        "2": {
+          "name": "Division II",
+          "start": 479,
+          "end": 497
+        },
+        "3": {
+          "name": "Division III",
+          "start": 498,
+          "end": 516
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 517,
+          "end": 534
+        }
+      }
+    },
+    "8": {
+      "name": "Gold II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 521,
+          "end": 531
+        },
+        "2": {
+          "name": "Division II",
+          "start": 535,
+          "end": 547
+        },
+        "3": {
+          "name": "Division III",
+          "start": 548,
+          "end": 561
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 562,
+          "end": 574
+        }
+      }
+    },
+    "9": {
+      "name": "Gold III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 575,
+          "end": 579
+        },
+        "2": {
+          "name": "Division II",
+          "start": 579,
+          "end": 597
+        },
+        "3": {
+          "name": "Division III",
+          "start": 598,
+          "end": 616
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 617,
+          "end": 634
+        }
+      }
+    },
+    "10": {
+      "name": "Platinum I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 621,
+          "end": 630
+        },
+        "2": {
+          "name": "Division II",
+          "start": 635,
+          "end": 647
+        },
+        "3": {
+          "name": "Division III",
+          "start": 648,
+          "end": 661
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 662,
+          "end": 674
+        }
+      }
+    },
+    "11": {
+      "name": "Platinum II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 675,
+          "end": 679
+        },
+        "2": {
+          "name": "Division II",
+          "start": 679,
+          "end": 697
+        },
+        "3": {
+          "name": "Division III",
+          "start": 698,
+          "end": 716
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 717,
+          "end": 734
+        }
+      }
+    },
+    "12": {
+      "name": "Platinum III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 721,
+          "end": 730
+        },
+        "2": {
+          "name": "Division II",
+          "start": 735,
+          "end": 747
+        },
+        "3": {
+          "name": "Division III",
+          "start": 748,
+          "end": 761
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 762,
+          "end": 774
+        }
+      }
+    },
+    "13": {
+      "name": "Diamond I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 775,
+          "end": 779
+        },
+        "2": {
+          "name": "Division II",
+          "start": 779,
+          "end": 797
+        },
+        "3": {
+          "name": "Division III",
+          "start": 798,
+          "end": 816
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 817,
+          "end": 832
+        }
+      }
+    },
+    "14": {
+      "name": "Diamond II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 821,
+          "end": 830
+        },
+        "2": {
+          "name": "Division II",
+          "start": 835,
+          "end": 847
+        },
+        "3": {
+          "name": "Division III",
+          "start": 848,
+          "end": 861
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 862,
+          "end": 874
+        }
+      }
+    },
+    "15": {
+      "name": "Diamond III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 875,
+          "end": 878
+        },
+        "2": {
+          "name": "Division II",
+          "start": 879,
+          "end": 897
+        },
+        "3": {
+          "name": "Division III",
+          "start": 898,
+          "end": 916
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 917,
+          "end": 928
+        }
+      }
+    },
+    "16": {
+      "name": "Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 921,
+          "end": 930
+        },
+        "2": {
+          "name": "Division II",
+          "start": 935,
+          "end": 947
+        },
+        "3": {
+          "name": "Division III",
+          "start": 948,
+          "end": 961
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 962,
+          "end": 974
+        }
+      }
+    },
+    "17": {
+      "name": "Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 975,
+          "end": 978
+        },
+        "2": {
+          "name": "Division II",
+          "start": 980,
+          "end": 997
+        },
+        "3": {
+          "name": "Division III",
+          "start": 998,
+          "end": 1013
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1017,
+          "end": 1033
+        }
+      }
+    },
+    "18": {
+      "name": "Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1035,
+          "end": 1038
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1040,
+          "end": 1057
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1062,
+          "end": 1075
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1077,
+          "end": 1082
+        }
+      }
+    },
+    "19": {
+      "name": "Grand Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1095,
+          "end": 1098
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1100,
+          "end": 1116
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1119,
+          "end": 1132
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1137,
+          "end": 1154
+        }
+      }
+    },
+    "20": {
+      "name": "Grand Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1146,
+          "end": 1158
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1160,
+          "end": 1160
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1179,
+          "end": 1195
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1197,
+          "end": 1208
+        }
+      }
+    },
+    "21": {
+      "name": "Grand Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1206,
+          "end": 1217
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1220,
+          "end": 1229
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1238,
+          "end": 1255
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1257,
+          "end": 1267
+        }
+      }
+    },
+    "22": {
+      "name": "Supersonic Legend",
+      "divisions": {
+        "1": {
+          "name": "Division 1",
+          "start": 1276,
+          "end": null
+        }
+      }
+    }
+  },
+  "Rumble": {
+    "1": {
+      "name": "Bronze I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 0,
+          "end": 0
+        },
+        "2": {
+          "name": "Division II",
+          "start": 126,
+          "end": 126
+        },
+        "3": {
+          "name": "Division III",
+          "start": 134,
+          "end": 134
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 144,
+          "end": 153
+        }
+      }
+    },
+    "2": {
+      "name": "Bronze II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 156,
+          "end": 157
+        },
+        "2": {
+          "name": "Division II",
+          "start": 169,
+          "end": 177
+        },
+        "3": {
+          "name": "Division III",
+          "start": 179,
+          "end": 195
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 197,
+          "end": 215
+        }
+      }
+    },
+    "3": {
+      "name": "Bronze III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 217,
+          "end": 217
+        },
+        "2": {
+          "name": "Division II",
+          "start": 224,
+          "end": 237
+        },
+        "3": {
+          "name": "Division III",
+          "start": 240,
+          "end": 256
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 257,
+          "end": 274
+        }
+      }
+    },
+    "4": {
+      "name": "Silver I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 275,
+          "end": 278
+        },
+        "2": {
+          "name": "Division II",
+          "start": 280,
+          "end": 297
+        },
+        "3": {
+          "name": "Division III",
+          "start": 299,
+          "end": 315
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 317,
+          "end": 334
+        }
+      }
+    },
+    "5": {
+      "name": "Silver II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 335,
+          "end": 338
+        },
+        "2": {
+          "name": "Division II",
+          "start": 340,
+          "end": 357
+        },
+        "3": {
+          "name": "Division III",
+          "start": 358,
+          "end": 376
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 377,
+          "end": 394
+        }
+      }
+    },
+    "6": {
+      "name": "Silver III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 395,
+          "end": 399
+        },
+        "2": {
+          "name": "Division II",
+          "start": 399,
+          "end": 417
+        },
+        "3": {
+          "name": "Division III",
+          "start": 418,
+          "end": 436
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 438,
+          "end": 454
+        }
+      }
+    },
+    "7": {
+      "name": "Gold I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 455,
+          "end": 459
+        },
+        "2": {
+          "name": "Division II",
+          "start": 459,
+          "end": 477
+        },
+        "3": {
+          "name": "Division III",
+          "start": 478,
+          "end": 496
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 498,
+          "end": 514
+        }
+      }
+    },
+    "8": {
+      "name": "Gold II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 515,
+          "end": 519
+        },
+        "2": {
+          "name": "Division II",
+          "start": 519,
+          "end": 537
+        },
+        "3": {
+          "name": "Division III",
+          "start": 538,
+          "end": 556
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 557,
+          "end": 574
+        }
+      }
+    },
+    "9": {
+      "name": "Gold III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 575,
+          "end": 579
+        },
+        "2": {
+          "name": "Division II",
+          "start": 579,
+          "end": 597
+        },
+        "3": {
+          "name": "Division III",
+          "start": 598,
+          "end": 616
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 617,
+          "end": 634
+        }
+      }
+    },
+    "10": {
+      "name": "Platinum I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 635,
+          "end": 639
+        },
+        "2": {
+          "name": "Division II",
+          "start": 639,
+          "end": 657
+        },
+        "3": {
+          "name": "Division III",
+          "start": 658,
+          "end": 676
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 677,
+          "end": 694
+        }
+      }
+    },
+    "11": {
+      "name": "Platinum II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 695,
+          "end": 699
+        },
+        "2": {
+          "name": "Division II",
+          "start": 699,
+          "end": 717
+        },
+        "3": {
+          "name": "Division III",
+          "start": 718,
+          "end": 736
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 737,
+          "end": 754
+        }
+      }
+    },
+    "12": {
+      "name": "Platinum III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 755,
+          "end": 759
+        },
+        "2": {
+          "name": "Division II",
+          "start": 759,
+          "end": 777
+        },
+        "3": {
+          "name": "Division III",
+          "start": 778,
+          "end": 796
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 797,
+          "end": 813
+        }
+      }
+    },
+    "13": {
+      "name": "Diamond I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 815,
+          "end": 819
+        },
+        "2": {
+          "name": "Division II",
+          "start": 819,
+          "end": 837
+        },
+        "3": {
+          "name": "Division III",
+          "start": 838,
+          "end": 856
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 857,
+          "end": 874
+        }
+      }
+    },
+    "14": {
+      "name": "Diamond II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 875,
+          "end": 879
+        },
+        "2": {
+          "name": "Division II",
+          "start": 879,
+          "end": 897
+        },
+        "3": {
+          "name": "Division III",
+          "start": 898,
+          "end": 916
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 917,
+          "end": 932
+        }
+      }
+    },
+    "15": {
+      "name": "Diamond III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 935,
+          "end": 938
+        },
+        "2": {
+          "name": "Division II",
+          "start": 939,
+          "end": 957
+        },
+        "3": {
+          "name": "Division III",
+          "start": 958,
+          "end": 975
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 977,
+          "end": 992
+        }
+      }
+    },
+    "16": {
+      "name": "Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 995,
+          "end": 998
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1000,
+          "end": 1017
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1019,
+          "end": 1034
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1037,
+          "end": 1053
+        }
+      }
+    },
+    "17": {
+      "name": "Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1055,
+          "end": 1058
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1060,
+          "end": 1072
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1078,
+          "end": 1094
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1097,
+          "end": 1113
+        }
+      }
+    },
+    "18": {
+      "name": "Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1115,
+          "end": 1123
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1126,
+          "end": 1145
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1150,
+          "end": 1170
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1172,
+          "end": 1187
+        }
+      }
+    },
+    "19": {
+      "name": "Grand Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1195,
+          "end": 1203
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1205,
+          "end": 1224
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1228,
+          "end": 1247
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1252,
+          "end": 1265
+        }
+      }
+    },
+    "20": {
+      "name": "Grand Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1275,
+          "end": 1283
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1300,
+          "end": 1300
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1310,
+          "end": 1325
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1332,
+          "end": 1343
+        }
+      }
+    },
+    "21": {
+      "name": "Grand Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1345,
+          "end": 1368
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1370,
+          "end": 1397
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1399,
+          "end": 1425
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1434,
+          "end": 1451
+        }
+      }
+    },
+    "22": {
+      "name": "Supersonic Legend",
+      "divisions": {
+        "1": {
+          "name": "Division 1",
+          "start": 1447,
+          "end": null
+        }
+      }
+    }
+  },
+  "Dropshot": {
+    "1": {
+      "name": "Bronze I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 63,
+          "end": 118
+        },
+        "2": {
+          "name": "Division II",
+          "start": 125,
+          "end": 137
+        },
+        "3": {
+          "name": "Division III",
+          "start": 141,
+          "end": 155
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 158,
+          "end": 174
+        }
+      }
+    },
+    "2": {
+      "name": "Bronze II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 175,
+          "end": 179
+        },
+        "2": {
+          "name": "Division II",
+          "start": 180,
+          "end": 197
+        },
+        "3": {
+          "name": "Division III",
+          "start": 198,
+          "end": 216
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 220,
+          "end": 234
+        }
+      }
+    },
+    "3": {
+      "name": "Bronze III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 235,
+          "end": 239
+        },
+        "2": {
+          "name": "Division II",
+          "start": 239,
+          "end": 257
+        },
+        "3": {
+          "name": "Division III",
+          "start": 258,
+          "end": 276
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 278,
+          "end": 294
+        }
+      }
+    },
+    "4": {
+      "name": "Silver I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 295,
+          "end": 299
+        },
+        "2": {
+          "name": "Division II",
+          "start": 299,
+          "end": 317
+        },
+        "3": {
+          "name": "Division III",
+          "start": 318,
+          "end": 336
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 337,
+          "end": 354
+        }
+      }
+    },
+    "5": {
+      "name": "Silver II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 341,
+          "end": 350
+        },
+        "2": {
+          "name": "Division II",
+          "start": 355,
+          "end": 367
+        },
+        "3": {
+          "name": "Division III",
+          "start": 368,
+          "end": 381
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 382,
+          "end": 394
+        }
+      }
+    },
+    "6": {
+      "name": "Silver III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 395,
+          "end": 399
+        },
+        "2": {
+          "name": "Division II",
+          "start": 399,
+          "end": 417
+        },
+        "3": {
+          "name": "Division III",
+          "start": 418,
+          "end": 436
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 437,
+          "end": 454
+        }
+      }
+    },
+    "7": {
+      "name": "Gold I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 441,
+          "end": 451
+        },
+        "2": {
+          "name": "Division II",
+          "start": 455,
+          "end": 467
+        },
+        "3": {
+          "name": "Division III",
+          "start": 468,
+          "end": 481
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 482,
+          "end": 494
+        }
+      }
+    },
+    "8": {
+      "name": "Gold II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 495,
+          "end": 498
+        },
+        "2": {
+          "name": "Division II",
+          "start": 499,
+          "end": 517
+        },
+        "3": {
+          "name": "Division III",
+          "start": 518,
+          "end": 536
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 537,
+          "end": 554
+        }
+      }
+    },
+    "9": {
+      "name": "Gold III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 541,
+          "end": 551
+        },
+        "2": {
+          "name": "Division II",
+          "start": 555,
+          "end": 567
+        },
+        "3": {
+          "name": "Division III",
+          "start": 568,
+          "end": 581
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 582,
+          "end": 594
+        }
+      }
+    },
+    "10": {
+      "name": "Platinum I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 595,
+          "end": 598
+        },
+        "2": {
+          "name": "Division II",
+          "start": 599,
+          "end": 617
+        },
+        "3": {
+          "name": "Division III",
+          "start": 618,
+          "end": 636
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 637,
+          "end": 652
+        }
+      }
+    },
+    "11": {
+      "name": "Platinum II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 641,
+          "end": 651
+        },
+        "2": {
+          "name": "Division II",
+          "start": 655,
+          "end": 667
+        },
+        "3": {
+          "name": "Division III",
+          "start": 668,
+          "end": 681
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 682,
+          "end": 694
+        }
+      }
+    },
+    "12": {
+      "name": "Platinum III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 695,
+          "end": 698
+        },
+        "2": {
+          "name": "Division II",
+          "start": 699,
+          "end": 717
+        },
+        "3": {
+          "name": "Division III",
+          "start": 718,
+          "end": 736
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 737,
+          "end": 750
+        }
+      }
+    },
+    "13": {
+      "name": "Diamond I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 741,
+          "end": 750
+        },
+        "2": {
+          "name": "Division II",
+          "start": 755,
+          "end": 767
+        },
+        "3": {
+          "name": "Division III",
+          "start": 768,
+          "end": 780
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 782,
+          "end": 793
+        }
+      }
+    },
+    "14": {
+      "name": "Diamond II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 795,
+          "end": 798
+        },
+        "2": {
+          "name": "Division II",
+          "start": 799,
+          "end": 817
+        },
+        "3": {
+          "name": "Division III",
+          "start": 818,
+          "end": 835
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 837,
+          "end": 852
+        }
+      }
+    },
+    "15": {
+      "name": "Diamond III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 842,
+          "end": 852
+        },
+        "2": {
+          "name": "Division II",
+          "start": 855,
+          "end": 866
+        },
+        "3": {
+          "name": "Division III",
+          "start": 868,
+          "end": 880
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 882,
+          "end": 894
+        }
+      }
+    },
+    "16": {
+      "name": "Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 895,
+          "end": 899
+        },
+        "2": {
+          "name": "Division II",
+          "start": 900,
+          "end": 917
+        },
+        "3": {
+          "name": "Division III",
+          "start": 918,
+          "end": 933
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 937,
+          "end": 952
+        }
+      }
+    },
+    "17": {
+      "name": "Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 943,
+          "end": 950
+        },
+        "2": {
+          "name": "Division II",
+          "start": 956,
+          "end": 967
+        },
+        "3": {
+          "name": "Division III",
+          "start": 970,
+          "end": 980
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 982,
+          "end": 993
+        }
+      }
+    },
+    "18": {
+      "name": "Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 995,
+          "end": 998
+        },
+        "2": {
+          "name": "Division II",
+          "start": 999,
+          "end": 1012
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1018,
+          "end": 1036
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1038,
+          "end": 1050
+        }
+      }
+    },
+    "19": {
+      "name": "Grand Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1056,
+          "end": 1056
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1060,
+          "end": 1074
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1079,
+          "end": 1095
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1103,
+          "end": 1114
+        }
+      }
+    },
+    "20": {
+      "name": "Grand Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1105,
+          "end": 1105
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1120,
+          "end": 1120
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1142,
+          "end": 1150
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1158,
+          "end": 1158
+        }
+      }
+    },
+    "21": {
+      "name": "Grand Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1167,
+          "end": 1167
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1182,
+          "end": 1191
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1224,
+          "end": 1224
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1220,
+          "end": 1225
+        }
+      }
+    },
+    "22": {
+      "name": "Supersonic Legend",
+      "divisions": {
+        "1": {
+          "name": "Division 1",
+          "start": 1249,
+          "end": null
+        }
+      }
+    }
+  },
+  "Snow Day": {
+    "1": {
+      "name": "Bronze I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 68,
+          "end": 128
+        },
+        "2": {
+          "name": "Division II",
+          "start": 144,
+          "end": 157
+        },
+        "3": {
+          "name": "Division III",
+          "start": 168,
+          "end": 186
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 196,
+          "end": 214
+        }
+      }
+    },
+    "2": {
+      "name": "Bronze II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 215,
+          "end": 219
+        },
+        "2": {
+          "name": "Division II",
+          "start": 220,
+          "end": 237
+        },
+        "3": {
+          "name": "Division III",
+          "start": 238,
+          "end": 256
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 259,
+          "end": 274
+        }
+      }
+    },
+    "3": {
+      "name": "Bronze III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 275,
+          "end": 279
+        },
+        "2": {
+          "name": "Division II",
+          "start": 279,
+          "end": 297
+        },
+        "3": {
+          "name": "Division III",
+          "start": 298,
+          "end": 316
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 318,
+          "end": 334
+        }
+      }
+    },
+    "4": {
+      "name": "Silver I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 321,
+          "end": 332
+        },
+        "2": {
+          "name": "Division II",
+          "start": 335,
+          "end": 347
+        },
+        "3": {
+          "name": "Division III",
+          "start": 348,
+          "end": 361
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 362,
+          "end": 374
+        }
+      }
+    },
+    "5": {
+      "name": "Silver II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 375,
+          "end": 379
+        },
+        "2": {
+          "name": "Division II",
+          "start": 379,
+          "end": 397
+        },
+        "3": {
+          "name": "Division III",
+          "start": 398,
+          "end": 416
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 417,
+          "end": 434
+        }
+      }
+    },
+    "6": {
+      "name": "Silver III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 421,
+          "end": 432
+        },
+        "2": {
+          "name": "Division II",
+          "start": 435,
+          "end": 447
+        },
+        "3": {
+          "name": "Division III",
+          "start": 448,
+          "end": 461
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 462,
+          "end": 474
+        }
+      }
+    },
+    "7": {
+      "name": "Gold I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 475,
+          "end": 479
+        },
+        "2": {
+          "name": "Division II",
+          "start": 479,
+          "end": 497
+        },
+        "3": {
+          "name": "Division III",
+          "start": 498,
+          "end": 516
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 517,
+          "end": 534
+        }
+      }
+    },
+    "8": {
+      "name": "Gold II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 521,
+          "end": 531
+        },
+        "2": {
+          "name": "Division II",
+          "start": 535,
+          "end": 547
+        },
+        "3": {
+          "name": "Division III",
+          "start": 548,
+          "end": 561
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 562,
+          "end": 574
+        }
+      }
+    },
+    "9": {
+      "name": "Gold III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 575,
+          "end": 579
+        },
+        "2": {
+          "name": "Division II",
+          "start": 579,
+          "end": 597
+        },
+        "3": {
+          "name": "Division III",
+          "start": 598,
+          "end": 616
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 617,
+          "end": 632
+        }
+      }
+    },
+    "10": {
+      "name": "Platinum I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 621,
+          "end": 630
+        },
+        "2": {
+          "name": "Division II",
+          "start": 635,
+          "end": 647
+        },
+        "3": {
+          "name": "Division III",
+          "start": 648,
+          "end": 661
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 662,
+          "end": 674
+        }
+      }
+    },
+    "11": {
+      "name": "Platinum II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 675,
+          "end": 678
+        },
+        "2": {
+          "name": "Division II",
+          "start": 679,
+          "end": 697
+        },
+        "3": {
+          "name": "Division III",
+          "start": 698,
+          "end": 716
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 717,
+          "end": 730
+        }
+      }
+    },
+    "12": {
+      "name": "Platinum III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 721,
+          "end": 731
+        },
+        "2": {
+          "name": "Division II",
+          "start": 735,
+          "end": 747
+        },
+        "3": {
+          "name": "Division III",
+          "start": 748,
+          "end": 761
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 762,
+          "end": 773
+        }
+      }
+    },
+    "13": {
+      "name": "Diamond I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 775,
+          "end": 778
+        },
+        "2": {
+          "name": "Division II",
+          "start": 779,
+          "end": 797
+        },
+        "3": {
+          "name": "Division III",
+          "start": 798,
+          "end": 816
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 817,
+          "end": 833
+        }
+      }
+    },
+    "14": {
+      "name": "Diamond II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 821,
+          "end": 830
+        },
+        "2": {
+          "name": "Division II",
+          "start": 835,
+          "end": 847
+        },
+        "3": {
+          "name": "Division III",
+          "start": 848,
+          "end": 861
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 862,
+          "end": 872
+        }
+      }
+    },
+    "15": {
+      "name": "Diamond III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 875,
+          "end": 878
+        },
+        "2": {
+          "name": "Division II",
+          "start": 880,
+          "end": 897
+        },
+        "3": {
+          "name": "Division III",
+          "start": 898,
+          "end": 915
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 917,
+          "end": 928
+        }
+      }
+    },
+    "16": {
+      "name": "Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 925,
+          "end": 931
+        },
+        "2": {
+          "name": "Division II",
+          "start": 936,
+          "end": 947
+        },
+        "3": {
+          "name": "Division III",
+          "start": 948,
+          "end": 960
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 963,
+          "end": 974
+        }
+      }
+    },
+    "17": {
+      "name": "Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 966,
+          "end": 978
+        },
+        "2": {
+          "name": "Division II",
+          "start": 979,
+          "end": 994
+        },
+        "3": {
+          "name": "Division III",
+          "start": 998,
+          "end": 1015
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1017,
+          "end": 1034
+        }
+      }
+    },
+    "18": {
+      "name": "Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1035,
+          "end": 1038
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1039,
+          "end": 1056
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1059,
+          "end": 1072
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1084,
+          "end": 1094
+        }
+      }
+    },
+    "19": {
+      "name": "Grand Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1097,
+          "end": 1098
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1101,
+          "end": 1115
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1121,
+          "end": 1135
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1141,
+          "end": 1155
+        }
+      }
+    },
+    "20": {
+      "name": "Grand Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1143,
+          "end": 1157
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1160,
+          "end": 1160
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1181,
+          "end": 1181
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1199,
+          "end": 1202
+        }
+      }
+    },
+    "21": {
+      "name": "Grand Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1217,
+          "end": 1217
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1222,
+          "end": 1236
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1238,
+          "end": 1251
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1257,
+          "end": 1264
+        }
+      }
+    },
+    "22": {
+      "name": "Supersonic Legend",
+      "divisions": {
+        "1": {
+          "name": "Division 1",
+          "start": 1285,
+          "end": null
+        }
+      }
+    }
+  },
+  "Tournament": {
+    "1": {
+      "name": "Bronze I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 103,
+          "end": 103
+        },
+        "2": {
+          "name": "Division II",
+          "start": 125,
+          "end": 136
+        },
+        "3": {
+          "name": "Division III",
+          "start": 152,
+          "end": 152
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 157,
+          "end": 159
+        }
+      }
+    },
+    "2": {
+      "name": "Bronze II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 163,
+          "end": 174
+        },
+        "2": {
+          "name": "Division II",
+          "start": 186,
+          "end": 194
+        },
+        "3": {
+          "name": "Division III",
+          "start": 205,
+          "end": 210
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 219,
+          "end": 219
+        }
+      }
+    },
+    "3": {
+      "name": "Bronze III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 226,
+          "end": 235
+        },
+        "2": {
+          "name": "Division II",
+          "start": 241,
+          "end": 255
+        },
+        "3": {
+          "name": "Division III",
+          "start": 259,
+          "end": 275
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 277,
+          "end": 280
+        }
+      }
+    },
+    "4": {
+      "name": "Silver I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 281,
+          "end": 298
+        },
+        "2": {
+          "name": "Division II",
+          "start": 300,
+          "end": 316
+        },
+        "3": {
+          "name": "Division III",
+          "start": 318,
+          "end": 335
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 337,
+          "end": 340
+        }
+      }
+    },
+    "5": {
+      "name": "Silver II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 342,
+          "end": 358
+        },
+        "2": {
+          "name": "Division II",
+          "start": 360,
+          "end": 374
+        },
+        "3": {
+          "name": "Division III",
+          "start": 378,
+          "end": 396
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 397,
+          "end": 400
+        }
+      }
+    },
+    "6": {
+      "name": "Silver III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 401,
+          "end": 418
+        },
+        "2": {
+          "name": "Division II",
+          "start": 420,
+          "end": 435
+        },
+        "3": {
+          "name": "Division III",
+          "start": 439,
+          "end": 456
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 457,
+          "end": 460
+        }
+      }
+    },
+    "7": {
+      "name": "Gold I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 461,
+          "end": 477
+        },
+        "2": {
+          "name": "Division II",
+          "start": 479,
+          "end": 497
+        },
+        "3": {
+          "name": "Division III",
+          "start": 498,
+          "end": 516
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 517,
+          "end": 520
+        }
+      }
+    },
+    "8": {
+      "name": "Gold II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 521,
+          "end": 536
+        },
+        "2": {
+          "name": "Division II",
+          "start": 539,
+          "end": 557
+        },
+        "3": {
+          "name": "Division III",
+          "start": 558,
+          "end": 576
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 577,
+          "end": 580
+        }
+      }
+    },
+    "9": {
+      "name": "Gold III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 582,
+          "end": 596
+        },
+        "2": {
+          "name": "Division II",
+          "start": 599,
+          "end": 616
+        },
+        "3": {
+          "name": "Division III",
+          "start": 618,
+          "end": 636
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 637,
+          "end": 640
+        }
+      }
+    },
+    "10": {
+      "name": "Platinum I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 641,
+          "end": 656
+        },
+        "2": {
+          "name": "Division II",
+          "start": 659,
+          "end": 675
+        },
+        "3": {
+          "name": "Division III",
+          "start": 678,
+          "end": 696
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 697,
+          "end": 700
+        }
+      }
+    },
+    "11": {
+      "name": "Platinum II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 701,
+          "end": 716
+        },
+        "2": {
+          "name": "Division II",
+          "start": 719,
+          "end": 736
+        },
+        "3": {
+          "name": "Division III",
+          "start": 738,
+          "end": 756
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 757,
+          "end": 760
+        }
+      }
+    },
+    "12": {
+      "name": "Platinum III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 761,
+          "end": 776
+        },
+        "2": {
+          "name": "Division II",
+          "start": 779,
+          "end": 796
+        },
+        "3": {
+          "name": "Division III",
+          "start": 798,
+          "end": 816
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 817,
+          "end": 820
+        }
+      }
+    },
+    "13": {
+      "name": "Diamond I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 824,
+          "end": 843
+        },
+        "2": {
+          "name": "Division II",
+          "start": 845,
+          "end": 867
+        },
+        "3": {
+          "name": "Division III",
+          "start": 868,
+          "end": 888
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 892,
+          "end": 900
+        }
+      }
+    },
+    "14": {
+      "name": "Diamond II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 901,
+          "end": 923
+        },
+        "2": {
+          "name": "Division II",
+          "start": 925,
+          "end": 946
+        },
+        "3": {
+          "name": "Division III",
+          "start": 952,
+          "end": 967
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 972,
+          "end": 980
+        }
+      }
+    },
+    "15": {
+      "name": "Diamond III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 981,
+          "end": 1003
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1005,
+          "end": 1027
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1034,
+          "end": 1047
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1052,
+          "end": 1060
+        }
+      }
+    },
+    "16": {
+      "name": "Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1061,
+          "end": 1088
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1097,
+          "end": 1127
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1128,
+          "end": 1160
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1162,
+          "end": 1179
+        }
+      }
+    },
+    "17": {
+      "name": "Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1181,
+          "end": 1207
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1215,
+          "end": 1244
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1255,
+          "end": 1280
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1282,
+          "end": 1300
+        }
+      }
+    },
+    "18": {
+      "name": "Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1301,
+          "end": 1327
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1336,
+          "end": 1367
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1368,
+          "end": 1400
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1402,
+          "end": 1419
+        }
+      }
+    },
+    "19": {
+      "name": "Grand Champion I",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1421,
+          "end": 1458
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1460,
+          "end": 1487
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1498,
+          "end": 1528
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1537,
+          "end": 1559
+        }
+      }
+    },
+    "20": {
+      "name": "Grand Champion II",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1562,
+          "end": 1595
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1600,
+          "end": 1634
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1638,
+          "end": 1672
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1677,
+          "end": 1699
+        }
+      }
+    },
+    "21": {
+      "name": "Grand Champion III",
+      "divisions": {
+        "1": {
+          "name": "Division I",
+          "start": 1701,
+          "end": 1743
+        },
+        "2": {
+          "name": "Division II",
+          "start": 1745,
+          "end": 1786
+        },
+        "3": {
+          "name": "Division III",
+          "start": 1788,
+          "end": 1827
+        },
+        "4": {
+          "name": "Division IV",
+          "start": 1833,
+          "end": 1869
+        }
+      }
+    },
+    "22": {
+      "name": "Supersonic Legend",
+      "divisions": {
+        "1": {
+          "name": "Division 1",
+          "start": 1876,
+          "end": null
+        }
+      }
+    }
+  }
+}

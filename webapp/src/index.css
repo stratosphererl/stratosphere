@@ -119,8 +119,8 @@ body {
   }
 
   .glass-outer {
-    background: rgb(0, 0, 0, 0.6);
-    backdrop-filter: blur(15px);
+    background: rgb(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
     -webkit-background-filter: blur(15px);
     /* shadow */
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -305,7 +305,7 @@ body {
     var(--sky-blue) 0.96017px -0.279415px 0px;
 }
 
-.orange-blue-stroke-1 { /* ~1px border */
+.orange-stroke-1 { /* ~1px border */
   text-shadow: 
     var(--orange) 1px 0px 0px, 
     var(--orange) 0.540302px 0.841471px 0px, 
@@ -378,7 +378,7 @@ body {
 
 .background-settings {
   background-image: url("./assets/images/halftone.png"), url("./assets/images/backgrounds/settings.jpeg");
-  background-position: bottom center;
+  background-position: center center;
 }
 
 .background-stats-general {
