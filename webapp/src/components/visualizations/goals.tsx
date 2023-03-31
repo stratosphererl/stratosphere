@@ -13,8 +13,8 @@ interface Props {
 
     ball_size?: number; // The size of the ball
 
-    x_max?: number; // The maximum value of the x axis (game's net width)
-    y_max?: number; // The maximum value of the y axis (game's net height)
+    x_domain?:[number, number]; // The maximum value of the x axis (game's net width)
+    y_domain?: [number, number]; // The maximum value of the y axis (game's net height)
 
     default_oppacity?: number; // The default opacity of the ball
 
@@ -40,8 +40,8 @@ export default function GoalChart({
 
     ball_size = 80,
 
-    x_max = 1000,
-    y_max = 750,
+    x_domain = [0, 1],
+    y_domain = [0, 1],
 
     default_oppacity = .8,
 
@@ -72,8 +72,10 @@ export default function GoalChart({
        
         const svg = d3.select(ref.current)
             .append("svg")
-                .attr("width", svg_width)
-                .attr("height", svg_height);
+                .attr("viewBox", `0 0 ${svg_width} ${svg_height}`)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                // .attr("width", svg_width)
+                // .attr("height", svg_height);
         const g = svg.append("g");
 
         if (underlayed_image) {
@@ -89,11 +91,11 @@ export default function GoalChart({
         }
 
         const x = d3.scaleLinear()
-            .domain([0, x_max])
+            .domain(x_domain)
             .range([0, width]);
         
         const y = d3.scaleLinear()
-            .domain([0, y_max])
+            .domain(y_domain)
             .range([height, 0]);
 
         const Tooltip = d3.select(ref.current).append("div")
@@ -129,8 +131,8 @@ export default function GoalChart({
                 .html(data_display.map((key) => {
                     return key + ": " + d[key] + postfixes[key];
                 }).join("<br/>"))
-                .style("left", (event.pageX + 10) + "px")
-                .style("top", (event.pageY - data_display.length * 15) + "px");
+                .style("left", (event.layerX + 10) + "px")
+                .style("top", (event.layerY - data_display.length * 15) + "px");
         }
 
         g.selectAll("circles")
@@ -153,6 +155,6 @@ export default function GoalChart({
     }, [ref]);
 
     return (
-        <div ref={ref} />        
+        <div className="w-full" ref={ref} />        
     );
 }

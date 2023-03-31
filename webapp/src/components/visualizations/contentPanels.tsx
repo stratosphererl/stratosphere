@@ -4,6 +4,9 @@ import PlayerBarGraph from "./stacked";
 import ResponseDataWrapper from "../../data/ResponseDataWrapper"
 import GraphLegend from "./legend";
 import Heatmap from "./heatmap";
+import GoalChart from "./goals";
+
+import stadium from "../../assets/std-stadium-stolen-temporarily.svg";
 
 interface Props {
     data: ResponseDataWrapper;
@@ -98,7 +101,8 @@ export function BoostAnalysis({data}: Props) {
         "big_pads": "Big Pads",
         "time_full": "Time Full",
         "time_low": "Time Low",
-        "time_empty": "Time with Empty",
+        "time_empty": "Time Empty",
+        "time_decent": "Time Decent",
         "wasted_small": "Wasted Small",
         "wasted_big": "Wasted Big",
         "boost_used": "Boost Used",
@@ -112,8 +116,8 @@ export function BoostAnalysis({data}: Props) {
     const collected_groups = ["small_pads", "big_pads"];
     const collected_colors = ["var(--sky-blue)", "var(--sky-orange)"];
 
-    const time_groups = ["time_full", "time_low", "time_empty"];
-    const time_colors = ["var(--sky-blue)", "var(--sky-orange)", "white"];
+    const time_groups = ["time_empty", "time_low", "time_decent", "time_full"];
+    const time_colors = ["red", "orange", "yellow", "lime"];
 
     const wasted_groups = ["wasted_big", "wasted_small"];
     const wasted_colors = ["var(--sky-blue)", "var(--sky-orange)"];
@@ -211,10 +215,13 @@ function HeatmapAndTendencies({name, tendencies, positions}: {
     const ratio = mapWidth / mapHeight;
     const heatmapWidth = 300;
 
+    const color_range = ["transparent", "grey", "green", "yellow", "orange", "red"];
+
     return (
-        <div className="w-[80%] m-auto">
-            <h3 className="text-center">{name}</h3>
-            <Heatmap data={positions} x_domain={[-mapWidth / 2, mapWidth / 2]} y_domain={[-mapHeight / 2, mapHeight / 2]} svg_width={heatmapWidth} svg_height={heatmapWidth / ratio} />
+        <div className="w-[80%] m-auto mt-[40px]">
+            <h2 className="text-center">{name}</h2>
+            <Heatmap data={positions} x_domain={[-mapWidth / 2, mapWidth / 2]} y_domain={[-mapHeight / 2, mapHeight / 2]} svg_width={heatmapWidth} svg_height={heatmapWidth / ratio}
+            underlayed_image={stadium} color_range={color_range} />
         </div>
     )
 }
@@ -259,7 +266,7 @@ export function Position({data}: Props) {
                 <TugGraph data={playerBallData} sub_groups={playerNames} svg_width={1500} svg_height={800} outer_padding={0} />
             </div>
             <div>
-                <h2 className="text-center underline">Player Position Heatmaps</h2>
+                <h2 className="text-center underline mb-[-20px]">Player Position Heatmaps</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3">
                     {playerPositions.map((player) => <HeatmapAndTendencies name={player.name} tendencies={player.tendencies} positions={player.positions} />)}
                 </div>
@@ -269,14 +276,26 @@ export function Position({data}: Props) {
 }
 
 export function Ball({data}: Props) {
+    const positionData = data.getBallPositionData();
+    const goalData = data.getGoalData();
+
+    const goalWidth = 1792;
+    const goalHeight = 640;
+    const px_uu_ratio = .1;
+
+    const ballSize = 92.75;
+
     return (<>
         <h1 className="text-center">The Ball</h1>
         <div className="text-center underline space-y-10 pt-10">
-            <div>
+            <div className="w-3/4 m-auto">
                 <h2>Goals Scored</h2>
+                <GoalChart data={goalData} x_domain={[-goalWidth/2, goalWidth/2]} y_domain={[0, goalHeight]} 
+                svg_width={goalWidth * px_uu_ratio} svg_height={goalHeight * px_uu_ratio} ball_size={ballSize * px_uu_ratio}
+                data_display={["name", "velocity"]} />
             </div>
-            <div>
-                <h2>Ball Heatmap</h2>
+            <div className="w-1/2 m-auto">
+                <HeatmapAndTendencies name={positionData.name} tendencies={positionData.tendencies} positions={positionData.positions} />
             </div>
         </div>
     </>)

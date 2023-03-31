@@ -2,7 +2,7 @@ interface ScorebaordEntry {name: string, score: number, goals: number, assists: 
 interface TeamTugEntry {possession: number, goals: number, saves: number, shots: number, assists: number, 
     aerials: number, clears: number, hits: number, demos: number, boost: number}
 interface BoostDataEntry {name: string, small_pads: number, big_pads: number, time_full: number, time_low: number, 
-    time_empty: number, wasted_small: number, wasted_big: number, boost_used: number}
+    time_empty: number, time_decent: number, wasted_small: number, wasted_big: number, boost_used: number}
 interface HitDataEntry {name: string, goals: number, assists: number, saves: number, shots: number, clears: number, demos: number}
 
 export default class ResponseDataWrapper {
@@ -131,6 +131,7 @@ export default class ResponseDataWrapper {
                     time_full: boostStats.timeFullBoost,
                     time_low: boostStats.timeLowBoost,
                     time_empty: boostStats.timeNoBoost,
+                    time_decent: this.data.gameMetadata.length - boostStats.timeFullBoost - boostStats.timeLowBoost - boostStats.timeNoBoost,
                     wasted_small: boostStats.wastedSmall,
                     wasted_big: boostStats.wastedBig,
                     boost_used: boostStats.boostUsage,
@@ -148,6 +149,7 @@ export default class ResponseDataWrapper {
                 time_full: 0,
                 time_low: 0,
                 time_empty: 0,
+                time_decent: 0,
                 wasted_small: 0,
                 wasted_big: 0,
                 boost_used: 0,
@@ -313,5 +315,42 @@ export default class ResponseDataWrapper {
         addPositionData(team2);
 
         return positionData;
+    }
+
+    getBallPositionData() {
+        const name = "Ball Heatmap";
+        const tendencies = this.getFieldPositioning(this.data.gameStats.ballStats.positionalTendencies);
+        const positions: { x: number, y: number }[] = [{ x: 0, y: 0 }];
+
+        // TODO: Push positional data
+
+        const ballData = {
+            name: name,
+            tendencies: tendencies,
+            positions: positions
+        };
+
+        return ballData;
+    }
+
+    private getPlayerFromId(id: string) {
+        return this.data.players.find((player: any) => player.id.id === id);
+    }
+
+    getGoalData() {
+        const goals = this.data.gameMetadata.goals as any[];
+
+        const goalData = goals.map((goal: any) => {
+            // TODO: get actual x, y, and velocity
+
+            return {
+                name: this.getPlayerFromId(goal.playerId.id).name,
+                x: 0,
+                y: 0,
+                velocity: 0,
+            }
+        });
+
+        return goalData;
     }
 }
