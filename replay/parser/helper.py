@@ -3,8 +3,6 @@ import datetime
 import logging
 import os
 
-from schemas.parsed_replay import Season, Rank, Playlist, Map, PlayerRank
-
 __name__ = "parser.helper"
 
 logger = logging.getLogger(__name__)
@@ -46,7 +44,7 @@ SUPPORTED_PLAYLISTS = {
     "tournament": "Tournament",
 }
 
-def date2season(date: datetime.datetime) -> Season:
+def date2season(date: datetime.datetime):
     """
     Converts a date to a season name and id.
 
@@ -99,10 +97,11 @@ def date2season(date: datetime.datetime) -> Season:
     
     if seasonName is None and id == -1:
         logger.warning("Unable to find season for date: %s.", date)
-        
-    return Season(id=id, name=seasonName)
 
-def mmr2rank(mmr : float, playlist : Playlist):
+    return {"name": seasonName, "id": id}
+
+
+def mmr2rank(mmr : float, playlist):
     if isinstance(mmr, str):
         mmr = float(mmr)
     """
@@ -135,14 +134,19 @@ def mmr2rank(mmr : float, playlist : Playlist):
     except Exception as e:
         raise BadFormatException(f"Unable to load ranks data: {e}")
     
-    if not playlist.name in ranks:
-        raise BadFormatException(f"Unable to find supported playlist {playlist.name} in rank data. Supported playlists: {', '.join(ranks.keys())}")
+    if not playlist in ranks:
+        raise BadFormatException(f"Unable to find supported playlist {playlist} in rank data. Supported playlists: {', '.join(ranks.keys())}")
     
-    for rank_id in ranks[playlist.name]:
-        rank = ranks[playlist.name][rank_id]
+    for rank_id in ranks[playlist]:
+        previous_rank = None
+        previous_rank_id = None
+        if rank_id != '1':
+            previous_rank_id = f"{int(rank_id) - 1}"
+            previous_rank = ranks[playlist][previous_rank_id]
+        rank = ranks[playlist][rank_id]
 
         if "divisions" not in rank:
-            raise BadFormatException(f"Unable to find divisions in rank data for playlist {playlist.name} and rank {rank_id}")
+            raise BadFormatException(f"Unable to find divisions in rank data for playlist {playlist} and rank {rank_id}")
         
         divisions = rank["divisions"]
 
@@ -150,7 +154,7 @@ def mmr2rank(mmr : float, playlist : Playlist):
             division = divisions[division_id]
             
             if "start" not in division or "end" not in division:
-                raise BadFormatException(f"Unable to find start or end in division data for playlist {playlist.name}, rank {rank_id} and division {division_id}")
+                raise BadFormatException(f"Unable to find start or end in division data for playlist {playlist}, rank {rank_id} and division {division_id}")
 
     
             # Special case, there is no end range for the highest rank
@@ -162,17 +166,23 @@ def mmr2rank(mmr : float, playlist : Playlist):
             elif divisions[division_id]["start"] <= mmr <= divisions[division_id]["end"]:
 
                 if "name" not in rank or "name" not in division:
-                    raise BadFormatException(f"Unable to find name in rank or division data for playlist {playlist.name}, rank {rank_id} and division {division_id}")
+                    raise BadFormatException(f"Unable to find name in rank or division data for playlist {playlist}, rank {rank_id} and division {division_id}")
 
                 rankName = rank['name']
                 divisionName = division["name"]
                 id = int(rank_id)
                 break
+            # if it doesn't fall nicely into a division bracket, make them a part of the previous rank's last seen division
+            elif previous_rank != None and divisions[division_id]["start"] >= mmr >= previous_rank['divisions'][division_id]['end']:
+                rankName = previous_rank['name']
+                divisionName = previous_rank['divisions'][division_id]["name"]
+                id = int(previous_rank_id)
+                break
     
     return {"id": id, "name": rankName, "division": divisionName}
 
 def filename2map(filename: str):
-    map_result = Map()
+    map_result = {"id": -1, "base_name": None, "variant": None}
 
     try:
         with open(MAP_JSON, "r") as f:
@@ -182,18 +192,18 @@ def filename2map(filename: str):
     
     for map in maps:
         if map['Map File Name'] == filename:
-            map_result.id = map['Map Id']
-            map_result.base_name = map['Map Base Name']
-            map_result.variant = map['Map Variant Name']
+            map_result["id"] = map['Map Id']
+            map_result["base_name"] = map['Map Base Name']
+            map_result["variant"] = map['Map Variant Name']
             break
     
-    if map_result.id == -1:
+    if map_result["id"] == -1:
         logger.warning("Unable to find map for filename: %s.", filename)
     
-    if map_result.base_name is None:
+    if map_result["base_name"] is None:
         logger.warning("Unable to find base name for filename: %s.", filename)
     
-    if map_result.variant is None:
+    if map_result["variant"] is None:
         logger.warning("Unable to find variant for filename: %s.", filename)
 
     return map_result
@@ -235,8 +245,8 @@ def debug2mmr(debug_info, playlist):
             "platform": players[uid]["platform"],
             "pre_mmr": players[uid]["pre"],
             "post_mmr": players[uid]["post"],
-            "post_rank": mmr2rank(float(players[uid]["post"]), Playlist(name=playlist)) if players[uid]["post"] else None,
-            "pre_rank": mmr2rank(float(players[uid]["pre"]), Playlist(name=playlist)) if players[uid]["pre"] else None
+            "post_rank": mmr2rank(float(players[uid]["post"]), playlist) if players[uid]["post"] else None,
+            "pre_rank": mmr2rank(float(players[uid]["pre"]), playlist) if players[uid]["pre"] else None
         }
 
         for uid in players

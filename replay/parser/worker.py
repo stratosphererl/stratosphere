@@ -7,7 +7,6 @@ import logging
 
 from config.database import collection
 from repository.ReplayRepository import ReplayRepository
-from schemas.parsed_replay import DetailedReplay
 import time
 from datetime import datetime
 
@@ -19,42 +18,6 @@ else:
 
 logger = logging.getLogger(__name__)
 repo = ReplayRepository(collection)
-
-def extract_mmr(debug_info):
-    mmr = {
-        "average": None,
-        "players": {},
-    }
-
-    for player in debug_info:
-        if player['user'].startswith("MMR"):
-            player_id = player['user'].split("|")[1]
-            if player_id not in mmr:
-                mmr['players'][player_id] = {}
-            mmr['players'][player_id]['platform'] = player['user'].split("|")[0].split(":")[1]
-            
-            isPre =  True if "PRE" in player['user'] else False
-            mmr_value = float(player['text'].split("|")[0])
-            if isPre:
-                mmr['players'][player_id]['pre'] = mmr_value
-            else:
-                mmr['players'][player_id]['post'] = mmr_value
-    
-    if mmr['players']:
-        acutal_mmr_count = 0
-        mmr["average"] = 0
-        
-        for player in mmr['players']:
-            if 'pre' in mmr['players'][player]:
-                mmr['average'] += mmr['players'][player]['pre']
-                print(mmr['average'])
-                acutal_mmr_count += 1
-            if 'post' in mmr['players'][player]:
-                mmr['average'] += mmr['players'][player]['post']
-                print(mmr['average'])
-                acutal_mmr_count += 1
-                
-        mmr['average'] = mmr['average'] / acutal_mmr_count
 
 def carball_parse(path):
     import carball
@@ -81,8 +44,6 @@ def boxcars_parse(path):
         id = raw_replay['properties']['Id']
         
         return (id, raw_replay)
-
-stages = (boxcars_parse, carball_parse, extract_mmr)
 
 @worker_ready.connect
 def at_start(sender, **k):
@@ -186,8 +147,8 @@ def parse(self, path):
         assert parsed_replay['gameMetadata']['id'] == id
 
         try:
-            detailedReplay = DetailedReplay(**parsed_replay)
-            detailedReplay.update_forward_refs()
+            detailedReplay = parsed_replay
+            detailedReplay['_id'] = id
             repo.add(detailedReplay)
             pass
         except Exception as e:

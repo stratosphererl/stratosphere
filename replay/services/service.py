@@ -1,4 +1,3 @@
-from schemas.parsed_replay import DetailedReplay, ReplayHeader
 from util.result import ServiceResponseError, ServiceResponseSuccess, ServiceResponsePage
 from schemas.forms import ReplayUpdateForm
 
@@ -38,7 +37,7 @@ class ReplayService():
     def get_replay(self, id):
         try:
             return ServiceResponseSuccess(
-                data=[DetailedReplay(**self.repository.get(id))]
+                data=[self.repository.get(id)]
             )
         except Exception as e:
             return ServiceResponseError(error="Replay not found", message=str(e))
@@ -50,7 +49,7 @@ class ReplayService():
             return ServiceResponseError(error="Replays not found", message="Replays not found")
         
         return ServiceResponsePage(
-            data=[ReplayHeader(**replay['gameMetadata']) for replay in replays],
+            data=[replay['gameMetadata'] for replay in replays],
             page=page,
             total=len(replays)
         )
@@ -60,12 +59,11 @@ class ReplayService():
                limit=50, filters = {}):
         try:
             filters = {self.available_filters()[key]: self._field_mapper(self.available_filters()[key], value) for key, value in filters.items()}
-            print(filters)
             replays = list(self.repository.paginate_filter(page, limit, filters))
         except Exception as e:
             return ServiceResponseError(error="Replays not found", message=f"Replays not found: {e}")
         return ServiceResponsePage(
-            data=[ReplayHeader(**replay['gameMetadata']) for replay in replays],
+            data=[replay['gameMetadata'] for replay in replays],
             page=page,
             total=len(replays)
         )
@@ -73,7 +71,7 @@ class ReplayService():
     def add_replay(self, replay):
         try:
             return ServiceResponseSuccess(
-                data=[{"result": self.repository.add(DetailedReplay(**replay))}]
+                data=[{"result": self.repository.add(replay)}]
             )
         except Exception as e:
             return ServiceResponseError(error="Replay not added", message=str(e))
@@ -83,7 +81,7 @@ class ReplayService():
             replay = self.repository.get(id)
             replay['gameMetadata']['name'] = by.name
             return ServiceResponseSuccess(
-                data=[{"result": self.repository.update(id, DetailedReplay(**replay))}]
+                data=[{"result": self.repository.update(id, replay)}]
             )
         except Exception as e:
             return ServiceResponseError(error="Replay not updated", message=str(e))
