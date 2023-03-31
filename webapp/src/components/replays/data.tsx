@@ -91,25 +91,32 @@ export function ButtonColumn(props: {version: number, replayID: string}) {
     if (props.version === 0) {
         return (
             <div className="button-column flex flex-wrap">
-                <a className="data-inverted-primary-btn top-btn flex justify-center" href={`/replay/${props.replayID}`}>Full Data</a>
-                <a className="data-primary-btn mid-btn" onClick={() =>
-                    console.log("2D View button clicked!")}>2D View</a>
-                <a className="data-primary-btn bot-btn" onClick={
-                    () => navigator.clipboard.writeText(`http://127.0.0.1:5173/replay/${props.replayID}`)}>Share</a>
+                <a className="data-inverted-primary-btn top-btn flex justify-center"
+                    href={`/replay/${props.replayID}`}>Full Data</a>
+                <a className="data-primary-btn mid-btn"
+                    onClick={() => console.log("2D View button clicked!")}>2D View</a>
+                <a className="data-primary-btn bot-btn"
+                    onClick={() => toClipboardWithAlert(props.replayID)}>Share</a>
             </div>
         )
     } else if (props.version === 1) {
         return (
             <div className="button-column flex flex-wrap">
-                <a className="data-inverted-primary-btn top-btn flex justify-center" onClick={() =>
-                    console.log("Download button clicked!")}>Download</a>
-                <a className="data-primary-btn mid-btn" onClick={() =>
-                    console.log("2D View button clicked!")}>2D View</a>
-                <a className="data-primary-btn bot-btn" onClick={
-                    () => navigator.clipboard.writeText(`http://127.0.0.1:5173/replay/${props.replayID}`)}>Share</a>
+                <a className="data-inverted-primary-btn top-btn flex justify-center"
+                    onClick={() => console.log("Download button clicked!")}>Download</a>
+                <a className="data-primary-btn mid-btn"
+                    onClick={() => console.log("2D View button clicked!")}>2D View</a>
+                <a className="data-primary-btn bot-btn"
+                    onClick={() => toClipboardWithAlert(props.replayID)}>Share</a>
             </div>
         )
     }
+}
+
+function toClipboardWithAlert(replayID: string) {
+    navigator.clipboard.writeText(`http://127.0.0.1:5173/replay/${replayID}`)
+    alert("Link to this replay has been copied to the clipboard!")
+    return
 }
 
 function convertToTimeString(seconds: number) {
