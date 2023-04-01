@@ -217,7 +217,7 @@ def post_replays(files: List[UploadFile] = File(...), token: str = Depends(get_c
         
         path = f"./files/{filename}"
 
-        task = celery.send_task("parse", args=[path])
+        task = celery.send_task("parse", args=[path, token['username']])
 
         response.append({"filename": file.filename, "task-id": task.id, "status": "Processing"})
     
@@ -261,6 +261,17 @@ def download_replay_by_id(id: str, service = Depends(service)):
                             filename=f"{id}")
     else:
         return HTTPException(status_code=404, detail=f"Unable to download replay. {result.message}")
+
+@router.get("/replays/frames/download/{id}", tags=['Get Methods (Dynamic)'])
+def download_replay_frames_by_id(id: str, service = Depends(service)):
+    result = service.get_replay(id)
+    if isinstance(result, ServiceResponseSuccess):
+        path =f"./parser/files/{id}/{id}_frames.csv.gzip"
+        return FileResponse(path, 
+                            media_type="application/octet-stream",
+                            filename=f"{id}-frames.csv.gzip")
+    else:
+        return HTTPException(status_code=404, detail=f"Unable to download frames. {result.message}")
 
 @router.get("/mmr/{playlist}/{mmr}", tags=['Get Methods (Static)'])
 def get_rank_by_mmr(playlist: str, mmr: int):

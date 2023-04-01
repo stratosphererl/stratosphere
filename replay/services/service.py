@@ -62,6 +62,10 @@ class ReplayService():
             replays = list(self.repository.paginate_filter(page, limit, filters))
         except Exception as e:
             return ServiceResponseError(error="Replays not found", message=f"Replays not found: {e}")
+        
+        if len(replays) == 0:
+            return ServiceResponseError(error="Replays not found", message="Replays not found")
+
         return ServiceResponsePage(
             data=[replay['gameMetadata'] for replay in replays],
             page=page,

@@ -13,16 +13,6 @@ services:
     volumes:
       - ./gql:/gql-server
       - .env:/gql-server/.env
-  # parser:
-  #   build: ./parser
-  #   ports:
-  #     - '5001:5001'
-  #   tmpfs:
-  #     - /tmp:exec,mode=777
-  #   volumes:
-  #     - ./parser:/parser
-  #   depends_on:
-  #     - parserdb
   # ml:
   #   build: ./ml
   #   ports:

@@ -31,9 +31,7 @@ def carball_parse(path):
     analysis_manager = AnalysisManager(game)
     analysis_manager.create_analysis()
 
-    parsed_replay = analysis_manager.get_json_data()
-    
-    return parsed_replay
+    return analysis_manager
 
 
 def boxcars_parse(path):
@@ -59,7 +57,7 @@ def at_start(sender, **k):
         if not os.listdir(f"./files/{folder}"):
             logging.debug(f"Empty folder detected. Removing folder {folder}")
             os.rmdir(f"./files/{folder}")
-        elif len(os.listdir(f"./files/{folder}")) < 3:
+        elif len(os.listdir(f"./files/{folder}")) < 4:
             logging.debug(f"Incomplete replay detected. Removing folder {folder}")
             shutil.rmtree(f"./files/{folder}")
 
@@ -68,7 +66,7 @@ celery = Celery(__name__,
                 broker="redis://redis:6379")
 
 @celery.task(name="parse", bind=True)
-def parse(self, path):
+def parse(self, path, uploader_name):
     start_time = time.time()
 
     id = None
@@ -114,7 +112,8 @@ def parse(self, path):
             json.dump(raw_replay, f)
 
         try:
-            parsed_replay = carball_parse(path)
+            am = carball_parse(path)
+            parsed_replay = am.get_json_data()
         except Exception as e:
             raise Exception(f"Failed to analyze replay: {e}")
         
@@ -128,6 +127,8 @@ def parse(self, path):
             }
         })
         
+        export_frames(am.get_data_frame(), f"./files/{id}/{id}_frames.csv.gzip")
+
         addMap(parsed_replay)
 
         addSeason(parsed_replay)
@@ -135,6 +136,9 @@ def parse(self, path):
         addUploadDate(parsed_replay)
 
         addRanks(parsed_replay, raw_replay)
+
+        # add uploader name
+        parsed_replay['gameMetadata']['uploader'] = uploader_name
         
         with open(f"./files/{id}/{id}_carball.json", "w") as f:
             json.dump(parsed_replay, f)
@@ -179,10 +183,8 @@ def parse(self, path):
 def addUploadDate(replay):
     replay['gameMetadata']['uploadDate'] = str(datetime.now().timestamp())
 
-
 def addMap(replay):
     replay['gameMetadata']['map'] = dict(filename2map(replay['gameMetadata']['map']))
-
 
 def addSeason(replay):
     if replay['gameMetadata']['time'].isdigit():
@@ -193,7 +195,35 @@ def addSeason(replay):
 
 def addRanks(replay, parsedReplay):
     playlist = replay['gameMetadata']['playlist']
-    # weird bug here, sometimes the ranks aren't processed correctly
     ranks = debug2mmr(parsedReplay['debug_info'], playlist)
 
     replay['gameMetadata']['ranks'] = ranks
+
+def export_frames(df, path):
+    unwanted_cols = [
+        'ping', 
+        'ang_vel_x', 
+        'ang_vel_y',
+        'ang_vel_z',
+        'throttle',
+        'steer',
+        'handbrake',
+        'rotation_y',
+        'rotation_z',
+        'jump_active',
+        'double_jump_active',
+        'dodge_active',
+        'ball_cam',
+        'delta',
+        'seconds_remaining',
+        'replicated_seconds_remaining',
+        'ball_has_been_hit',
+        'goal_number',
+        'boost_collect',
+    ]
+
+    for col in df.columns:
+        if col[1] in unwanted_cols:
+            df.drop((col[0], col[1]),  axis=1, inplace=True)
+
+    df.to_csv(path, index=False, compression="gzip")
