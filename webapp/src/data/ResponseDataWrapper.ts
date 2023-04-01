@@ -283,7 +283,8 @@ export default class ResponseDataWrapper {
             name: string,
             tendencies: { defendingHalf: number, attackingHalf: number, 
                 defendingThird: number, neutralThird: number, attackingThird: number },
-            positions: { x: number, y: number }[]
+            positions: { x: number, y: number }[],
+            isOrange: boolean,
         }[][] = [];
 
         const [team1, team2] = this.getTeamsPlayers();
@@ -293,7 +294,8 @@ export default class ResponseDataWrapper {
                 name: string,
                 tendencies: { defendingHalf: number, attackingHalf: number,
                     defendingThird: number, neutralThird: number, attackingThird: number },
-                positions: { x: number, y: number }[]
+                positions: { x: number, y: number }[],
+                isOrange: boolean
             }[] = [];
 
             team.forEach((player: any) => {
@@ -302,10 +304,11 @@ export default class ResponseDataWrapper {
                 const name = player.name;
                 const tendencies = this.getFieldPositioning(positionalTendencies);
                 const positions: { x: number, y: number }[] = [{ x: 0, y: 0 }];
+                const isOrange = player.isOrange as boolean;
 
                 // TODO: Push positional data
 
-                teamData.push({ name: name, tendencies: tendencies, positions: positions })
+                teamData.push({ name: name, tendencies: tendencies, positions: positions, isOrange: isOrange })
             });
 
             positionData.push(teamData);

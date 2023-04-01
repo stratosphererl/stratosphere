@@ -87,7 +87,10 @@ export default function Heatmap({
 
         const foreignBody = foreignObject.append("xhtml:body")
             .style("width", `${width}px`)
-            .style("height", `${height}px`);
+            .style("height", `${height}px`)
+            .style("margin", "0px")
+            .style("padding", "0px")
+            .style("background-color", "transparent");
 
         const canvas = foreignBody.append<"canvas">("canvas")
             .attr("width", width)

@@ -47,11 +47,11 @@ export default function Replay() {
                 <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 mt-4 lg:space-x-4">
                     <div className="glass-inner rounded-2xl w-full lg:w-[20%] pt-6 p-8 mx-auto">
                         <div className="flex flex-col space-y-8">{
-                            GROUPS.map((group) =><div>
+                            GROUPS.map((group) =><div key={`tab-group-${group.groupName}`}>
                                 <h1 className="text-center text-2xl">{group.groupName}</h1>
                                 <div className="flex flex-col space-y-2">{
                                     group.tabs.map((tab) => 
-                                        <Tab as={Fragment} >
+                                        <Tab key={`tab-${tab.tabName}`} as={Fragment} >
                                             {({ selected }) => 
                                             <button className={
                                                 `${selected ? 'font-bold bg-stratosphere-blue' : 'border-stratosphere-blue text-stratosphere-blue'}
@@ -65,7 +65,7 @@ export default function Replay() {
                         </div>
                     </div>
                     <div className="glass-inner rounded-2xl w-full lg:w-[80%] pt-6 p-0 sm:p-8 mx-auto" >
-                        {GROUPS.map((group) => group.tabs.map((tab) => <Tab.Panel>{tab.content}</Tab.Panel>))}
+                        {GROUPS.map((group) => group.tabs.map((tab) => <Tab.Panel key={`tab-content-${tab.tabName}`} >{tab.content}</Tab.Panel>))}
                     </div>
                 </div>
             </Tab.Group>

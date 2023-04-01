@@ -7,6 +7,9 @@ import Heatmap from "./heatmap";
 import GoalChart from "./goals";
 
 import stadium from "../../assets/std-stadium-stolen-temporarily.svg";
+import stadiumUnderlay from "../../assets/stadium.svg";
+import stadiumOverlay from "../../assets/stadium-outline.svg"
+import goalSVG from "../../assets/goal.svg";
 
 interface Props {
     data: ResponseDataWrapper;
@@ -22,27 +25,31 @@ export function Scoreboard({data}: Props) {
             <h1 className="text-center">Scoreboard</h1>
             <div className="pt-8 px-16 flex flex-col space-y-8">
                 {teams.map((team, index) =>
-                    <div>
+                    <div key={`score-table-${index}`}>
                         <div className="text-center font-extrabold text-2xl mb-2">{goals[index]} {index ? "Orange Team" : "Blue Team"}</div>
                         <table className="w-full">
-                            <tr className="text-4xl">
-                                <th className="pb-2">Player</th>
-                                <th className="pb-2">Score</th>
-                                <th className="pb-2">Goals</th>
-                                <th className="pb-2">Assists</th>
-                                <th className="pb-2">Saves</th>
-                                <th className="pb-2">Shots</th>
-                            </tr>
-                            {team.map((player) => 
-                                <tr className="text-center text-xl" style={{backgroundColor: (index ? "var(--sky-orange)" : "var(--sky-blue)"), border: "1px solid", borderColor: "black"}}>
-                                    <td className="py-2">{player.name}</td>
-                                    <td className="py-2">{player.score}</td>
-                                    <td className="py-2">{player.goals}</td>
-                                    <td className="py-2">{player.assists}</td>
-                                    <td className="py-2">{player.saves}</td>
-                                    <td className="py-2">{player.shots}</td>
+                            <thead>
+                                <tr className="text-4xl">
+                                    <th className="pb-2">Player</th>
+                                    <th className="pb-2">Score</th>
+                                    <th className="pb-2">Goals</th>
+                                    <th className="pb-2">Assists</th>
+                                    <th className="pb-2">Saves</th>
+                                    <th className="pb-2">Shots</th>
                                 </tr>
-                            )}
+                            </thead>
+                            <tbody>
+                                {team.map((player) => 
+                                    <tr key={`table-entry-${player.name}`} className="text-center text-xl" style={{backgroundColor: (index ? "var(--sky-orange)" : "var(--sky-blue)"), border: "1px solid", borderColor: "black"}}>
+                                        <td className="py-2">{player.name}</td>
+                                        <td className="py-2">{player.score}</td>
+                                        <td className="py-2">{player.goals}</td>
+                                        <td className="py-2">{player.assists}</td>
+                                        <td className="py-2">{player.saves}</td>
+                                        <td className="py-2">{player.shots}</td>
+                                    </tr>
+                                )}
+                            </tbody>
                         </table>
                     </div>
                 )}
@@ -76,7 +83,7 @@ export function PlayerComparison({data}: Props) {
     }
 
     const label = "name";
-    const groups = ["clears", "shots", "saves", "goals", "assists", "demos"];
+    const groups = ["goals", "assists", "saves", "shots", "clears", "demos"];
     const colors = ["var(--sky-blue)", "var(--sky-orange)", "white", "green", "purple", "red"];
 
 
@@ -203,25 +210,54 @@ export function Possession({data}: Props) {
     </>)
 }
 
-function HeatmapAndTendencies({name, tendencies, positions}: {
-    name: string, 
+function DisplayTendency({tendency, color}: {tendency: number, color: string}) {
+    const percent = tendency * 100
+    return (
+        <div className="text-center text-xs 2xl:text-base" style={{backgroundColor: color, width: percent + "%", border: "solid #777 1px"}}>
+            {percent.toFixed(0)}%
+        </div>
+    )
+}
+
+function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
+    name?: string, 
     tendencies: { defendingHalf: number, attackingHalf: number,
         defendingThird: number, neutralThird: number, attackingThird: number },
-    positions: { x: number, y: number }[]
+    positions: { x: number, y: number }[],
+    isOrange: boolean,
 }) {
-    const mapWidth = 10280 + 900;
-    const mapHeight = 8200;
+    const mapWidth = 2 * (5120 + 880);
+    const mapHeight = 2 * 4096;
 
-    const ratio = mapWidth / mapHeight;
-    const heatmapWidth = 300;
+    const width = 200;
+
+    const uu2px = width / mapWidth;
+    const ball_size = 190;
 
     const color_range = ["transparent", "grey", "green", "yellow", "orange", "red"];
 
+    const totalTime = tendencies.defendingHalf + tendencies.attackingHalf;
+    Object.keys(tendencies).forEach((key) => {
+        (tendencies as any)[key] = (tendencies as any)[key] / totalTime;
+    });
+
     return (
-        <div className="w-[80%] m-auto mt-[40px]">
-            <h2 className="text-center">{name}</h2>
-            <Heatmap data={positions} x_domain={[-mapWidth / 2, mapWidth / 2]} y_domain={[-mapHeight / 2, mapHeight / 2]} svg_width={heatmapWidth} svg_height={heatmapWidth / ratio}
-            underlayed_image={stadium} color_range={color_range} />
+        <div key={`heatmap-${name}`} className="w-[80%] m-auto mt-[40px]">
+            {name ? <h2 className="text-center">{name}</h2> : null}
+            <div className="mb-2 w-[100%] mx-auto">
+                <div className="flex justify-evenly">
+                    <DisplayTendency tendency={isOrange ? tendencies.attackingHalf : tendencies.defendingHalf} color={"var(--sky-blue)"} />
+                    <DisplayTendency tendency={isOrange ? tendencies.defendingHalf : tendencies.attackingHalf} color={"var(--sky-orange)"} />
+                </div>
+                <div className="flex justify-evenly">
+                    <DisplayTendency tendency={isOrange ? tendencies.attackingThird : tendencies.defendingThird} color={"var(--sky-blue)"} />
+                    <DisplayTendency tendency={tendencies.neutralThird} color={"#999"} />
+                    <DisplayTendency tendency={isOrange ? tendencies.defendingThird : tendencies.attackingThird} color={"var(--sky-orange)"} />
+                </div>
+            </div>
+            <Heatmap data={positions} x_domain={[-mapWidth / 2, mapWidth / 2]} y_domain={[-mapHeight / 2, mapHeight / 2]} 
+                svg_width={width} svg_height={mapHeight * uu2px} size={ball_size * uu2px}
+                underlayed_image={stadiumUnderlay} overlayed_image={stadiumOverlay} color_range={color_range} />
         </div>
     )
 }
@@ -260,15 +296,15 @@ export function Position({data}: Props) {
                 <h2 className="text-center underline">Position via Ball</h2>
                 <p className="text-center italic">Time spent behind and in front of the ball. Measured in seconds.</p>
                 <div className="flex justify-between text-[10px] leading-[12px] md:text-lg sm:text-sm font-semibold">
-                    <text>Time Behind Ball</text>
-                    <text className="text-right">Time In Front of Ball</text>
+                    <div>Time Behind Ball</div>
+                    <div className="text-right">Time In Front of Ball</div>
                 </div>
                 <TugGraph data={playerBallData} sub_groups={playerNames} svg_width={1500} svg_height={800} outer_padding={0} />
             </div>
             <div>
                 <h2 className="text-center underline mb-[-20px]">Player Position Heatmaps</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3">
-                    {playerPositions.map((player) => <HeatmapAndTendencies name={player.name} tendencies={player.tendencies} positions={player.positions} />)}
+                    {playerPositions.map((player) => <HeatmapAndTendencies name={player.name} tendencies={player.tendencies} positions={player.positions} isOrange={player.isOrange} />)}
                 </div>
             </div>
         </div>
@@ -279,23 +315,26 @@ export function Ball({data}: Props) {
     const positionData = data.getBallPositionData();
     const goalData = data.getGoalData();
 
-    const goalWidth = 1792;
+    const goalWidth = 2 * 893;
     const goalHeight = 640;
-    const px_uu_ratio = .1;
 
-    const ballSize = 92.75;
+    const width = 300;
+    const uu2px = width / goalWidth
+
+    const ballSize = 190;
 
     return (<>
         <h1 className="text-center">The Ball</h1>
-        <div className="text-center underline space-y-10 pt-10">
+        <div className="text-center space-y-10 pt-10">
             <div className="w-3/4 m-auto">
-                <h2>Goals Scored</h2>
+                <h2 className="underline">Goals Scored</h2>
                 <GoalChart data={goalData} x_domain={[-goalWidth/2, goalWidth/2]} y_domain={[0, goalHeight]} 
-                svg_width={goalWidth * px_uu_ratio} svg_height={goalHeight * px_uu_ratio} ball_size={ballSize * px_uu_ratio}
-                data_display={["name", "velocity"]} />
+                svg_width={width} svg_height={goalHeight * uu2px} ball_size={ballSize * uu2px}
+                data_display={["name", "velocity"]} underlayed_image={goalSVG} />
             </div>
-            <div className="w-1/2 m-auto">
-                <HeatmapAndTendencies name={positionData.name} tendencies={positionData.tendencies} positions={positionData.positions} />
+            <div className="w-3/4 m-auto">
+                <h2 className="underline mb-[-30px]">{positionData.name}</h2>
+                <HeatmapAndTendencies tendencies={positionData.tendencies} positions={positionData.positions} isOrange={false} />
             </div>
         </div>
     </>)

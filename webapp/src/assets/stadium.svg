@@ -1,0 +1,8 @@
+<svg viewBox="-6000 -4096 12000 8192" xmlns="http://www.w3.org/2000/svg">
+    <polyline stroke="#777" stroke-width="40" fill="#18a0fb33"
+        points="0 -4096, -4096 -4096, -5120 -3072, -5120 -893, -6000 -893, -6000 893, -5120 893, -5120 3072, -4096 4096, 0 4096" />
+    <polyline stroke="#777" stroke-width="40" fill="#f87e1b33"
+        points="0 -4096, 4096 -4096, 5120 -3072, 5120 -893, 6000 -893, 6000 893, 5120 893, 5120 3072, 4096 4096, 0 4096" />
+    <polyline stroke="#777" stroke-width="40" fill="none"
+        points="0 -4096, 0 4096" />
+</svg>
