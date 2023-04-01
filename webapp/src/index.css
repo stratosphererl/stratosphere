@@ -182,9 +182,13 @@ body {
   --ocean-blue: #1F7989;
   --chill-blue: #1F79B9;
   --orange: #FF6A00;
-  --sky-orange: #f87e1b;
   --progress-green: #128721;
   --sky-blue: #18A0FB;
+  --sky-orange: #f87e1b;
+  --sky-green: #45fb18;
+  --sky-purple: #d518fb;
+  --sky-yellow: #f7fb18;
+  --sky-red: #fb1818;
   --warning-red: #CC0000;
   --white-transparent: rgba(0,0,0,0.6);
   --white: #FFFFFF;

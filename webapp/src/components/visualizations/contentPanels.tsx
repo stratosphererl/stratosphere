@@ -84,7 +84,7 @@ export function PlayerComparison({data}: Props) {
 
     const label = "name";
     const groups = ["goals", "assists", "saves", "shots", "clears", "demos"];
-    const colors = ["rgb(123,192,247)", "rgb(59,138,217)", "rgb(241,130,38)", "rgb(255,219,105)", "rgb(97,115,123)", "rgb(226,75,38)"];
+    const colors = ["var(--sky-blue)", "var(--sky-orange)", "var(--sky-green)", "var(--sky-purple)", "var(--sky-yellow)", "var(--sky-red)"];
 
 
     return (<>
@@ -118,16 +118,16 @@ export function BoostAnalysis({data}: Props) {
     const label = "name";
 
     const used_groups = ["boost_used"];
-    const used_colors = ["yellow"];
+    const used_colors = ["var(--sky-orange)"];
 
     const collected_groups = ["small_pads", "big_pads"];
-    const collected_colors = ["yellow", "var(--orange)"];
+    const collected_colors = ["var(--sky-orange)", "var(--sky-blue)"];
 
     const time_groups = ["time_empty", "time_low", "time_decent", "time_full"];
-    const time_colors = ["red", "orange", "yellow", "lime"];
+    const time_colors = ["var(--sky-red)", "var(--sky-orange)", "var(--sky-yellow)", "var(--sky-green)"];
 
     const wasted_groups = ["wasted_big", "wasted_small"];
-    const wasted_colors = ["var(--orange)", "yellow"];
+    const wasted_colors = ["var(--sky-blue)", "var(--sky-orange)"];
 
     return (<>
         <h1 className="text-center">Boost Analysis</h1>
@@ -185,7 +185,7 @@ export function Possession({data}: Props) {
         <div className="w-[75%] space-y-10 pt-10 m-auto text-center underline">
             <div>
                 <h2>Possession Times</h2>
-                <PlayerBarGraph data={possessionData} group_label="name" sub_groups={["possession"]} color_scale={["var(--gray-3)"]} 
+                <PlayerBarGraph data={possessionData} group_label="name" sub_groups={["possession"]} color_scale={["var(--sky-green)"]} 
                     sub_group_display_names={{"possession": "Possession Time"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}}
                     svg_width={1500} svg_height={600} axis_font_size={30} />
@@ -193,7 +193,7 @@ export function Possession({data}: Props) {
 
             <div>
                 <h2>Dribbles</h2>
-                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbles"]} color_scale={["var(--gray-3)"]} 
+                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbles"]} color_scale={["var(--sky-green)"]} 
                     sub_group_display_names={{"dribbles": "Dribbles"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}}
                     svg_width={1500} svg_height={600} axis_font_size={30} />
@@ -201,7 +201,7 @@ export function Possession({data}: Props) {
 
             <div>
                 <h2>Dribble Time</h2>
-                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbleTime"]} color_scale={["var(--gray-3)"]}
+                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbleTime"]} color_scale={["var(--sky-green)"]}
                     sub_group_display_names={{"dribbleTime": "Dribble Time"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}} 
                     svg_width={1500} svg_height={600} axis_font_size={30} />
@@ -268,10 +268,10 @@ export function Position({data}: Props) {
     const nameLabel = "name";
     const aerialGroups = ["ground", "low", "high"];
     const aerialDisplayNames: { [key: string]: string } = { "ground": "Ground", "low": "Low", "high": "High" };
-    const aerialColors = ["#5DB875", "#5DAAB8", "#5D6DB8"];
+    const aerialColors = ["var(--sky-orange)", "var(--sky-yellow)", "var(--sky-blue)"];
 
     const [playerBallData, playerNames] = data.getPlayerPositionViaBall() as [[any, any], string[]];
-    const tugColors = ["var(--progress-green)", "var(--warning-red)"] as [string, string];
+    const tugColors = ["var(--sky-green)", "var(--sky-red)"] as [string, string];
 
     const teamPlayerPositions = data.getPlayerPositionData();
     const playerPositions = teamPlayerPositions[0].concat(teamPlayerPositions[1]);
