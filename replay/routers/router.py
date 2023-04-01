@@ -217,7 +217,7 @@ def post_replays(files: List[UploadFile] = File(...), token: str = Depends(get_c
         
         path = f"./files/{filename}"
 
-        task = celery.send_task("parse", args=[path, token['username']])
+        task = celery.send_task("parse", args=[path])
 
         response.append({"filename": file.filename, "task-id": task.id, "status": "Processing"})
     

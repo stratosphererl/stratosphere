@@ -66,7 +66,7 @@ celery = Celery(__name__,
                 broker="redis://redis:6379")
 
 @celery.task(name="parse", bind=True)
-def parse(self, path, uploader_name):
+def parse(self, path):
     start_time = time.time()
 
     id = None
@@ -136,9 +136,6 @@ def parse(self, path, uploader_name):
         addUploadDate(parsed_replay)
 
         addRanks(parsed_replay, raw_replay)
-
-        # add uploader name
-        parsed_replay['gameMetadata']['uploader'] = uploader_name
         
         with open(f"./files/{id}/{id}_carball.json", "w") as f:
             json.dump(parsed_replay, f)
