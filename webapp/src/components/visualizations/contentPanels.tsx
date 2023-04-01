@@ -232,7 +232,7 @@ function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
     const width = 200;
 
     const uu2px = width / mapWidth;
-    const ball_size = 190;
+    const ball_size = 92.75;
 
     const color_range = ["transparent", "grey", "green", "yellow", "orange", "red"];
 
@@ -322,7 +322,7 @@ export function Ball({data}: Props) {
     const width = 300;
     const uu2px = width / goalWidth
 
-    const ballSize = 190;
+    const ballSize = 185.5;
 
     return (<>
         <h1 className="text-center">The Ball</h1>
