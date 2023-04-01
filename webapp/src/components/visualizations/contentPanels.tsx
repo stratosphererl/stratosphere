@@ -606,7 +606,7 @@ export function Ball({ data }: Props) {
             <h1 className="text-center">Scoreboard</h1>
             <div className="pt-8 px-16 flex flex-col space-y-8">
                 {teams.map((team, index) =>
-                    <div>
+                    <div key={`score-table-${index}`}>
                         <div className="text-center font-extrabold text-2xl mb-2">{goals[index]} {index ? "Orange Team" : "Blue Team"}</div>
                         <table className="w-full">
                             <tr className="text-4xl">
@@ -690,14 +690,26 @@ export function Possession({data}: Props) {
     </>)
 }
 
-function HeatmapAndTendencies({name, tendencies, positions}: {
-    name: string, 
+function DisplayTendency({tendency, color}: {tendency: number, color: string}) {
+    const percent = tendency * 100
+    return (
+        <div className="text-center text-xs 2xl:text-base" style={{backgroundColor: color, width: percent + "%", border: "solid #777 1px"}}>
+            {percent.toFixed(0)}%
+        </div>
+    )
+}
+
+function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
+    name?: string, 
     tendencies: { defendingHalf: number, attackingHalf: number,
         defendingThird: number, neutralThird: number, attackingThird: number },
-    positions: { x: number, y: number }[]
+    positions: { x: number, y: number }[],
+    isOrange: boolean,
 }) {
-    const mapWidth = 10280 + 900;
-    const mapHeight = 8200;
+    const mapWidth = 2 * (5120 + 880);
+    const mapHeight = 2 * 4096;
+
+    const width = 200;
 
     const ratio = mapWidth / mapHeight;
     const heatmapWidth = 300;
@@ -744,15 +756,15 @@ export function Position({data}: Props) {
                 <h2 className="text-center underline">Position via Ball</h2>
                 <p className="text-center italic">Time spent behind and in front of the ball. Measured in seconds.</p>
                 <div className="flex justify-between text-[10px] leading-[12px] md:text-lg sm:text-sm font-semibold">
-                    <text>Time Behind Ball</text>
-                    <text className="text-right">Time In Front of Ball</text>
+                    <div>Time Behind Ball</div>
+                    <div className="text-right">Time In Front of Ball</div>
                 </div>
                 <TugGraph data={playerBallData} sub_groups={playerNames} svg_width={1500} svg_height={800} outer_padding={0} />
             </div>
             <div>
                 <h2 className="text-center underline">Player Position Heatmaps</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3">
-                    {playerPositions.map((player) => <HeatmapAndTendencies name={player.name} tendencies={player.tendencies} positions={player.positions} />)}
+                    {playerPositions.map((player) => <HeatmapAndTendencies name={player.name} tendencies={player.tendencies} positions={player.positions} isOrange={player.isOrange} />)}
                 </div>
             </div>
         </div>
