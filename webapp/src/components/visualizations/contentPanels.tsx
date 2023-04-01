@@ -84,7 +84,7 @@ export function PlayerComparison({data}: Props) {
 
     const label = "name";
     const groups = ["goals", "assists", "saves", "shots", "clears", "demos"];
-    const colors = ["var(--sky-blue)", "var(--sky-orange)", "white", "green", "purple", "red"];
+    const colors = ["rgb(123,192,247)", "rgb(59,138,217)", "rgb(241,130,38)", "rgb(255,219,105)", "rgb(97,115,123)", "rgb(226,75,38)"];
 
 
     return (<>
@@ -92,7 +92,7 @@ export function PlayerComparison({data}: Props) {
         <div className="w-full flex justify-between">
             <div className="w-[70%]">
                 <PlayerBarGraph data={playerData} group_label={label} sub_groups={groups} svg_width={1500} svg_height={1000} sub_group_display_names={displayNames}
-                margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={colors} axis_font_size={30} />
+                margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={colors} axis_font_size={30} default_oppacity={.9} />
             </div>
             <div className="w-[30%] flex flex-col justify-center">
                 <GraphLegend colors={colors} keys={groups.map((group) => displayNames[group])} svg_width={500} svg_height={400} />
@@ -118,16 +118,16 @@ export function BoostAnalysis({data}: Props) {
     const label = "name";
 
     const used_groups = ["boost_used"];
-    const used_colors = ["var(--sky-blue)"];
+    const used_colors = ["yellow"];
 
     const collected_groups = ["small_pads", "big_pads"];
-    const collected_colors = ["var(--sky-blue)", "var(--sky-orange)"];
+    const collected_colors = ["yellow", "var(--orange)"];
 
     const time_groups = ["time_empty", "time_low", "time_decent", "time_full"];
     const time_colors = ["red", "orange", "yellow", "lime"];
 
     const wasted_groups = ["wasted_big", "wasted_small"];
-    const wasted_colors = ["var(--sky-blue)", "var(--sky-orange)"];
+    const wasted_colors = ["var(--orange)", "yellow"];
 
     return (<>
         <h1 className="text-center">Boost Analysis</h1>
@@ -158,7 +158,7 @@ export function BoostAnalysis({data}: Props) {
                     margin={{left: 100, right: 100, top: 20, bottom: 50}} color_scale={time_colors} axis_font_size={30} ticks={5} />
                 </div>
                 <div className="w-[30%] flex flex-col justify-center">
-                    <GraphLegend keys={time_groups.map((key) => displayNames[key])} svg_width={1500} svg_height={400} colors={time_colors} />
+                    <GraphLegend keys={time_groups.map((key) => displayNames[key])} svg_width={1500} svg_height={700} colors={time_colors} />
                 </div>
             </div>
 
@@ -185,7 +185,7 @@ export function Possession({data}: Props) {
         <div className="w-[75%] space-y-10 pt-10 m-auto text-center underline">
             <div>
                 <h2>Possession Times</h2>
-                <PlayerBarGraph data={possessionData} group_label="name" sub_groups={["possession"]} color_scale={["var(--sky-blue)"]} 
+                <PlayerBarGraph data={possessionData} group_label="name" sub_groups={["possession"]} color_scale={["var(--gray-3)"]} 
                     sub_group_display_names={{"possession": "Possession Time"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}}
                     svg_width={1500} svg_height={600} axis_font_size={30} />
@@ -193,7 +193,7 @@ export function Possession({data}: Props) {
 
             <div>
                 <h2>Dribbles</h2>
-                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbles"]} color_scale={["var(--sky-blue)"]} 
+                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbles"]} color_scale={["var(--gray-3)"]} 
                     sub_group_display_names={{"dribbles": "Dribbles"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}}
                     svg_width={1500} svg_height={600} axis_font_size={30} />
@@ -201,7 +201,7 @@ export function Possession({data}: Props) {
 
             <div>
                 <h2>Dribble Time</h2>
-                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbleTime"]} color_scale={["var(--sky-blue)"]}
+                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbleTime"]} color_scale={["var(--gray-3)"]}
                     sub_group_display_names={{"dribbleTime": "Dribble Time"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}} 
                     svg_width={1500} svg_height={600} axis_font_size={30} />
@@ -251,7 +251,7 @@ function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
                 </div>
                 <div className="flex justify-evenly">
                     <DisplayTendency tendency={isOrange ? tendencies.attackingThird : tendencies.defendingThird} color={"var(--sky-blue)"} />
-                    <DisplayTendency tendency={tendencies.neutralThird} color={"#999"} />
+                    <DisplayTendency tendency={tendencies.neutralThird} color="#999" />
                     <DisplayTendency tendency={isOrange ? tendencies.defendingThird : tendencies.attackingThird} color={"var(--sky-orange)"} />
                 </div>
             </div>
@@ -268,9 +268,10 @@ export function Position({data}: Props) {
     const nameLabel = "name";
     const aerialGroups = ["ground", "low", "high"];
     const aerialDisplayNames: { [key: string]: string } = { "ground": "Ground", "low": "Low", "high": "High" };
-    const aerialColors = ["var(--sky-blue)", "var(--sky-orange)", "var(--warning-red)"];
+    const aerialColors = ["#5DB875", "#5DAAB8", "#5D6DB8"];
 
     const [playerBallData, playerNames] = data.getPlayerPositionViaBall() as [[any, any], string[]];
+    const tugColors = ["var(--progress-green)", "var(--warning-red)"] as [string, string];
 
     const teamPlayerPositions = data.getPlayerPositionData();
     const playerPositions = teamPlayerPositions[0].concat(teamPlayerPositions[1]);
@@ -299,12 +300,12 @@ export function Position({data}: Props) {
                     <div>Time Behind Ball</div>
                     <div className="text-right">Time In Front of Ball</div>
                 </div>
-                <TugGraph data={playerBallData} sub_groups={playerNames} svg_width={1500} svg_height={800} outer_padding={0} />
+                <TugGraph data={playerBallData} sub_groups={playerNames} svg_width={1500} svg_height={800} outer_padding={0} colors={tugColors} />
             </div>
             <div>
                 <h2 className="text-center underline mb-[-20px]">Player Position Heatmaps</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3">
-                    {playerPositions.map((player) => <HeatmapAndTendencies name={player.name} tendencies={player.tendencies} positions={player.positions} isOrange={player.isOrange} />)}
+                    {playerPositions.map((player) => <HeatmapAndTendencies key={`heatmap-${player.name}`} name={player.name} tendencies={player.tendencies} positions={player.positions} isOrange={player.isOrange} />)}
                 </div>
             </div>
         </div>
