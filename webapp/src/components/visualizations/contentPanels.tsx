@@ -23,34 +23,39 @@ export function Scoreboard({data}: Props) {
     return (
         <>
             <h1 className="text-center">Scoreboard</h1>
-            <div className="pt-8 px-16 flex flex-col space-y-8">
+            <div className="pt-8 px-5 2xl:px-16 flex flex-col space-y-8 text-center">
                 {teams.map((team, index) =>
                     <div key={`score-table-${index}`}>
-                        <div className="text-center font-extrabold text-2xl mb-2">{goals[index]} {index ? "Orange Team" : "Blue Team"}</div>
-                        <table className="w-full">
-                            <thead>
-                                <tr className="text-4xl">
-                                    <th className="pb-2">Player</th>
-                                    <th className="pb-2">Score</th>
-                                    <th className="pb-2">Goals</th>
-                                    <th className="pb-2">Assists</th>
-                                    <th className="pb-2">Saves</th>
-                                    <th className="pb-2">Shots</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {team.map((player) => 
-                                    <tr key={`table-entry-${player.name}`} className="text-center text-xl" style={{backgroundColor: (index ? "var(--sky-orange)" : "var(--sky-blue)"), border: "1px solid", borderColor: "black"}}>
-                                        <td className="py-2">{player.name}</td>
-                                        <td className="py-2">{player.score}</td>
-                                        <td className="py-2">{player.goals}</td>
-                                        <td className="py-2">{player.assists}</td>
-                                        <td className="py-2">{player.saves}</td>
-                                        <td className="py-2">{player.shots}</td>
+                        <div className="font-extrabold text-2xl mb-2">{goals[index]} {index ? "Orange Team" : "Blue Team"}</div>
+                        <div className="w-full overflow-auto">
+                            <table cellPadding="5" className="w-full">
+                                <thead>
+                                    <tr className="text-2xl">
+                                        <th className="pb-2">Player</th>
+                                        <th className="pb-2">Score</th>
+                                        <th className="pb-2">Goals</th>
+                                        <th className="pb-2">Assists</th>
+                                        <th className="pb-2">Saves</th>
+                                        <th className="pb-2">Shots</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {team.map((player) => 
+                                        <tr key={`table-entry-${player.name}`} className="text-xl" 
+                                            style={{backgroundColor: (index ? "var(--sky-orange)" : "var(--sky-blue)"), 
+                                            border: "1px solid", borderColor: "black"}}>
+                                            
+                                            <td className="py-2">{player.name}</td>
+                                            <td className="py-2">{player.score}</td>
+                                            <td className="py-2">{player.goals}</td>
+                                            <td className="py-2">{player.assists}</td>
+                                            <td className="py-2">{player.saves}</td>
+                                            <td className="py-2">{player.shots}</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 )}
             </div>
