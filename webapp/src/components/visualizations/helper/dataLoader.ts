@@ -16,7 +16,7 @@ export const useReplayFrames = (url: string) => {
         response.arrayBuffer().then((buffer) => {
           zip.loadAsync(buffer).then((zip) => {
             zip
-              .file("frames.csv")
+              .file("test.csv")
               .async("string")
               .then((data) => {
                 if (isMounted) {

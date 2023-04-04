@@ -118,10 +118,10 @@ export function BoostAnalysis({data}: Props) {
     const label = "name";
 
     const used_groups = ["boost_used"];
-    const used_colors = ["var(--sky-orange)"];
+    const used_colors = ["var(--sky-blue)"];
 
     const collected_groups = ["small_pads", "big_pads"];
-    const collected_colors = ["var(--sky-orange)", "var(--sky-blue)"];
+    const collected_colors = ["var(--sky-blue)", "var(--sky-orange)"];
 
     const time_groups = ["time_empty", "time_low", "time_decent", "time_full"];
     const time_colors = ["var(--sky-red)", "var(--sky-orange)", "var(--sky-yellow)", "var(--sky-green)"];
@@ -185,7 +185,7 @@ export function Possession({data}: Props) {
         <div className="w-[75%] space-y-10 pt-10 m-auto text-center underline">
             <div>
                 <h2>Possession Times</h2>
-                <PlayerBarGraph data={possessionData} group_label="name" sub_groups={["possession"]} color_scale={["var(--sky-green)"]} 
+                <PlayerBarGraph data={possessionData} group_label="name" sub_groups={["possession"]} color_scale={["var(--sky-blue)"]} 
                     sub_group_display_names={{"possession": "Possession Time"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}}
                     svg_width={1500} svg_height={600} axis_font_size={30} />
@@ -193,7 +193,7 @@ export function Possession({data}: Props) {
 
             <div>
                 <h2>Dribbles</h2>
-                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbles"]} color_scale={["var(--sky-green)"]} 
+                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbles"]} color_scale={["var(--sky-orange)"]} 
                     sub_group_display_names={{"dribbles": "Dribbles"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}}
                     svg_width={1500} svg_height={600} axis_font_size={30} />
@@ -201,7 +201,7 @@ export function Possession({data}: Props) {
 
             <div>
                 <h2>Dribble Time</h2>
-                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbleTime"]} color_scale={["var(--sky-green)"]}
+                <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbleTime"]} color_scale={["var(--sky-orange)"]}
                     sub_group_display_names={{"dribbleTime": "Dribble Time"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}} 
                     svg_width={1500} svg_height={600} axis_font_size={30} />
