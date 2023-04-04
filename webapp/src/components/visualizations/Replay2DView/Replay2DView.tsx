@@ -16,6 +16,7 @@ import { GameTime, Frame } from "./facets";
 
 export default function Replay2DView() {
   const ECS = useECS();
+  const [frames, setFrames] = useState(0);
 
   useAnimationFrame((dt) => ECS.update(dt));
 
