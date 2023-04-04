@@ -25,8 +25,6 @@ export const FrameByFrameSystem = (data: any) => {
   return useSystem((dt) => {
     if (!data) return;
 
-    console.log(data);
-
     const positionFrame = data.data.positions.shift();
     const rotationFrame = data.data.rotations.shift();
 

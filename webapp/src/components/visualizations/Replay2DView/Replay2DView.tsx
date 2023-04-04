@@ -16,7 +16,7 @@ export default function Replay2DView() {
   });
 
   const url =
-    "https://download1072.mediafire.com/p05hu8kxbbugGJADvWJmNs8mnouDM92MEY5mtk_fHQyMF2Io_0fer6KsSMPumEb7ZlkP4EKVriumtQgctXwi5zul8YQG/bjss5bx7e23f49w/frames.csv.zip";
+    "http://127.0.0.1:5004/frames.csv.zip";
   const { data, loading, error } = useReplayFrames(url);
 
   return (

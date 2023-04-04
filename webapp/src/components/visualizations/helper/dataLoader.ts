@@ -11,12 +11,20 @@ export const useReplayFrames = (url: string) => {
   useEffect(() => {
     let isMounted = true;
     const zip = new JSZip();
-    fetch(url)
+    fetch(url
+      // mode: "cors",
+      // credentials: "include",
+      // headers: {
+      //   "Access-Control-Allow-Origin": 'https://fastupload.io',
+      //   "Access-Control-Allow-Credentials": "true",
+      // },
+    )
       .then((response) => {
         response.arrayBuffer().then((buffer) => {
           zip.loadAsync(buffer).then((zip) => {
+            console.log(zip);
             zip
-              .file("frames.csv")
+              .file("test.csv")
               .async("string")
               .then((data) => {
                 if (isMounted) {

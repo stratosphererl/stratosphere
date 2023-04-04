@@ -9,37 +9,33 @@ export const Canvas = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!canvasRef) return;
-    const ctx = canvasRef.getContext("2d");
+    const ctx = canvasRef?.getContext("2d");
     if (!ctx) return;
 
     const rect = canvasRef.getBoundingClientRect();
 
-    canvasRef.width = rect.width * dpi;
-    canvasRef.height = rect.height * dpi;
+    // canvasRef.width = rect.width * dpi;
+    // canvasRef.height = rect.height * dpi;
 
     // make sure the canvas is scaled correctly to the device
-    ctx.scale(dpi, dpi);
+    // ctx.scale(dpi, dpi);
 
     // move the origin to the center of the canvas
-    ctx.translate(canvasRef.width / (2 * dpi), canvasRef.height / (2 * dpi));
+    ctx.translate(canvasRef.width / 2, canvasRef.height / 2);
 
     // important values for scaling drawings correctly
     ctx.scales = {
       xScale:
-        canvasRef.width /
-        devicePixelRatio /
-        (constants.MAP_LIMS.x.min - constants.MAP_LIMS.x.max),
+        1,
       yScale:
-        canvasRef.height /
-        devicePixelRatio /
-        (constants.MAP_LIMS.y.min - constants.MAP_LIMS.y.max),
+        1,
     };
 
     ctx.clear = () => {
       // clears the canvas given origin is at the center
       ctx.clearRect(
-        -canvasRef.width / (2 * dpi),
-        -canvasRef.height / (2 * dpi),
+        -canvasRef.width / (2),
+        -canvasRef.height / (2),
         canvasRef.width,
         canvasRef.height
       );
@@ -47,14 +43,21 @@ export const Canvas = ({ children }: { children: ReactNode }) => {
   }, [canvasRef]);
 
   return (
-    <canvas
-      className="mx-auto"
-      ref={setCavasRef}
-      style={{ width: "500px", height: "500px" }}
-    >
-      <CanvasContext.Provider value={canvasRef}>
-        {children}
-      </CanvasContext.Provider>
-    </canvas>
+    <svg width="50%" viewBox="-4096 -6000 8192 12000">
+      <foreignObject width="100%" height="100%">
+        <body>
+          <canvas
+            className="mx-auto"
+            ref={setCavasRef}
+            width="819.2px"
+            height="1200px"
+            >
+            <CanvasContext.Provider value={canvasRef}>
+              {children}
+            </CanvasContext.Provider>
+          </canvas>
+        </body>
+      </foreignObject>
+    </svg>
   );
 };
