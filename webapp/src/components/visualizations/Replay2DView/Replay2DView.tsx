@@ -1,22 +1,25 @@
 import { useECS, useAnimationFrame, useTimer } from "@react-ecs/core";
 import { Canvas } from "./components/canvas";
-import { CanvasViewSystem, FrameByFrameSystem } from "./systems";
+import { CanvasViewSystem, TransformSystem } from "./systems";
 import { Player } from "./entities/player";
 import { Ball } from "./entities/ball";
 import { Map } from "./entities/field";
 import { useReplayFrames } from "../helper/dataLoader";
 import { useState } from "react";
-import { Transform, Vector3 } from "./facets";
+import { useEffect } from "react";
 
 export default function Replay2DView() {
   const ECS = useECS();
 
-  useAnimationFrame((delta) => {
-    ECS.update(delta);
-  });
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      ECS.update(1);
+    }, 1000 / 5);
 
-  const url =
-    "https://download1072.mediafire.com/p05hu8kxbbugGJADvWJmNs8mnouDM92MEY5mtk_fHQyMF2Io_0fer6KsSMPumEb7ZlkP4EKVriumtQgctXwi5zul8YQG/bjss5bx7e23f49w/frames.csv.zip";
+    return () => clearInterval(intervalId); // clear the interval when the component unmounts
+  }, [ECS]);
+
+  const url = "http://localhost:5004/frames.csv.zip";
   const { data, loading, error } = useReplayFrames(url);
 
   return (
@@ -29,8 +32,14 @@ export default function Replay2DView() {
         <Canvas>
           <ECS.Provider>
             <CanvasViewSystem />
-            <FrameByFrameSystem data={data} />
-            <Player isOrange={true} />
+            <TransformSystem data={data} />
+            <Player isOrange={false} name={0} />
+            <Player isOrange={false} name={1} />
+            <Player isOrange={false} name={2} />
+            <Player isOrange={true} name={3} />
+            <Player isOrange={true} name={4} />
+            <Player isOrange={true} name={5} />
+            <Ball name={6} />
             <Map />
           </ECS.Provider>
         </Canvas>

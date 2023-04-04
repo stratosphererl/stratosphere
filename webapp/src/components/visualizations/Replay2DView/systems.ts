@@ -1,6 +1,10 @@
 import { useSystem, useQuery, useTimer } from "@react-ecs/core";
-import { Drawable, Transform, Vector3 } from "./facets";
+import { Drawable, Transform, Vector3, Name } from "./facets";
 import { useCanvas } from "./hooks/useCanvas";
+import * as constants from "./constants/map";
+import frameData from "../mock_data/frame";
+
+let frame = 0;
 
 export const CanvasViewSystem = () => {
   const query = useQuery((e) => e.hasAny(Drawable, Transform));
@@ -19,22 +23,20 @@ export const CanvasViewSystem = () => {
   });
 };
 
-export const FrameByFrameSystem = (data: any) => {
-  const query = useQuery((e) => e.hasAny(Transform));
+export const TransformSystem = ({ data }) => {
+  const query = useQuery((e) => e.hasAll(Transform, Name));
 
   return useSystem((dt) => {
-    if (!data) return;
+    query.loop([Transform, Name], (e, [transform, name]) => {
+      const game = data[frame++];
 
-    console.log(data);
-
-    const positionFrame = data.data.positions.shift();
-    const rotationFrame = data.data.rotations.shift();
-
-    if (!positionFrame || !rotationFrame) return;
-
-    query.loop([Transform], (e, [transform]) => {
-      transform.position.x = positionFrame[1][0];
-      transform.position.y = positionFrame[1][1];
+      for (const actor of game) {
+        console.log(actor);
+        if (actor.id === name.name) {
+          transform.position.x = actor.position.x;
+          transform.position.y = actor.position.y;
+        }
+      }
     });
   });
 };
