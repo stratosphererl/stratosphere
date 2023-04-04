@@ -4,7 +4,10 @@ import useReplay from "../hooks/useReplay";
 import { Tab } from "@headlessui/react";
 import { Fragment } from "react";
 
-import MainPane from "../components/general/mainPane";
+import ReplayData from "../components/replays/data";
+import replay from "../mock/replay.json"
+
+import MainPane from "../components/general/MainPane/mainPane";
 import {
   Scoreboard,
   TeamComparison,
@@ -72,9 +75,10 @@ export default function Replay() {
 
   return (
     <MainPane className="mx-0 xl:mx-[5%]" title="Replay">
-      <div className="p-4 pt-6 glass-inner rounded-2xl text-center h-[200px] flex flex-col justify-center">
+      <ReplayData data={replay} version={1} classname="" />
+      {/* <div className="p-4 pt-6 glass-inner rounded-2xl text-center h-[200px] flex flex-col justify-center">
         <h1 className="break-words">{params.replayid}</h1>
-      </div>
+      </div> */}
       <Tab.Group>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 mt-4 lg:space-x-4">
           <div className="glass-inner rounded-2xl w-full lg:w-[20%] pt-6 p-8 mx-auto">

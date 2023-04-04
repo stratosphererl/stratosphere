@@ -8,6 +8,10 @@ interface HitDataEntry {name: string, goals: number, assists: number, saves: num
 export default class ResponseDataWrapper {
     constructor(private data: any) {}
 
+    getData() {
+        return this.data;
+    }
+
     getScoreboardData() {
         const teams: [ScorebaordEntry[], ScorebaordEntry[]] = [[],[]];
         this.data.players.forEach((player: any) => {
