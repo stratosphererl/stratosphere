@@ -31,7 +31,6 @@ export const TransformSystem = ({ data }) => {
       const game = data[frame++];
 
       for (const actor of game) {
-        console.log(actor);
         if (actor.id === name.name) {
           transform.position.x = actor.position.x;
           transform.position.y = actor.position.y;
