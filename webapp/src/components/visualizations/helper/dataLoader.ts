@@ -47,73 +47,83 @@ export const useReplayFrames = (url: string) => {
 };
 
 const parseReplayFrameData = (data: any) => {
-  let headers_1 = data[0];
-  let headers_2 = data[1];
+  let actorHeaders = data[0];
+  let attributeHeaders = data[1];
 
-  let positions_idx = [];
-  let rotations_idx = [];
+  const frames = [];
 
-  let positions = [];
-  let rotations = [];
+  // create a map of actor names to indices
+  const actorMap = new Map();
 
-  for (let i = 0; i < headers_2.length; i++) {
-    if (headers_2[i].startsWith("pos_y") || headers_2[i].startsWith("pos_x")) {
-      positions_idx.push(i);
-    } else if (
-      headers_2[i].startsWith("rot_y") ||
-      headers_2[i].startsWith("rot_x")
-    ) {
-      rotations_idx.push(i);
-    }
+  for (let i = 0; i < actorHeaders.length; i++) {
+    actorMap.set(actorHeaders[i], i);
   }
-
-  positions_idx = positions_idx.reduce(function (result, value, index, array) {
-    if (index % 2 === 0) result.push(array.slice(index, index + 2));
-    return result;
-  }, []);
-
-  rotations_idx = rotations_idx.reduce(function (result, value, index, array) {
-    if (index % 2 === 0) result.push(array.slice(index, index + 2));
-    return result;
-  }, []);
-
-  let pos = [];
-  let rot = [];
 
   for (let i = 2; i < data.length; i++) {
-    let row = data[i];
-    let posframe = [];
-    let rotframe = [];
+    const frame = data[i];
 
-    for (let j = 0; j < positions_idx.length; j++) {
-      let x = row[positions_idx[j][0]];
-      let y = row[positions_idx[j][1]];
+    let previousIdx = 0;
 
-      try {
-        posframe.push([parseFloat(x), parseFloat(y)]);
-      } catch (e) {
-        posframe.push([0, 0]);
+    let dataActor = [];
+
+    let actorID = 0;
+
+    for (let actor of actorMap) {
+      let [name, endIdx] = actor;
+
+      const entity = {
+        id: actorID++,
+        name,
+        type: name === "game" ? "game" : name === "ball" ? "ball" : "player",
+      };
+      const actorFrameSlice = frame.slice(previousIdx, ++endIdx);
+      const actorData = actorFrameSlice.map((d: any) =>
+        !isNaN(d)
+          ? Boolean(!Number.isNaN(parseFloat(d)))
+            ? parseFloat(d)
+            : Infinity
+          : d === "FALSE" || d === "TRUE"
+          ? JSON.parse(d.toLowerCase())
+          : d
+      );
+
+      if (name === "ball") {
+        entity["position"] = {
+          x: actorData[0],
+          y: actorData[1],
+        };
+
+        entity["velocity"] = {
+          x: actorData[2],
+          y: actorData[3],
+        };
+      } else if (name === "game") {
+        entity["seconds_remaining"] = actorData[0];
+      } else {
+        entity["position"] = {
+          x: actorData[0],
+          y: actorData[1],
+        };
+
+        entity["velocity"] = {
+          x: actorData[2],
+          y: actorData[3],
+        };
+
+        entity["rotation"] = {
+          y: actorData[4],
+        };
+
+        entity["boost"] = {
+          amount: actorData[5],
+          active: actorData[6],
+        };
       }
+      dataActor.push(entity);
+      previousIdx = endIdx;
     }
-
-    pos.push(posframe);
-
-    for (let j = 0; j < rotations_idx.length; j++) {
-      let x = row[rotations_idx[j][0]];
-      let y = row[rotations_idx[j][1]];
-
-      try {
-        rotframe.push([parseFloat(x), parseFloat(y)]);
-      } catch (e) {
-        rotframe.push([0, 0]);
-      }
-    }
-
-    rot.push(rotframe);
+    frames.push(dataActor);
+    dataActor = [];
   }
-
-  return {
-    positions: pos,
-    rotations: rot,
-  };
+  return frames;
 };

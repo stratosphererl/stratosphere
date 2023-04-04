@@ -8,7 +8,7 @@ export function Map() {
     drawGoal(ctx, false);
     drawHalfwayLine(ctx);
     drawCenterCircle(ctx);
-    // drawBoostPads(ctx);
+    drawBoostPads(ctx);
     drawSide(ctx, true);
     drawSide(ctx, false);
   };

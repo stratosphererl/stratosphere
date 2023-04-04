@@ -40,12 +40,12 @@ export const SMALL_BOOST_PAD_POS = [
 
 export const FIELD_DIM = {
   x: 8192,
-  y: 10240,
+  y: 12250,
   z: 2050,
 };
 
 export const GOAL_DIM = {
-  x: 1786,
+  x: 1800,
   y: 880,
   z: 640,
 };
