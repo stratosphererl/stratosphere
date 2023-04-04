@@ -1,7 +1,7 @@
 import "../../index.css"
 import "./data.css"
 
-export default function ReplayData(props: {data: JSON, version: number}) {
+export default function ReplayData(props: {data: JSON, version: number, classname: string}) {
 
     // Replay title variables
     const replayTitle = props.data.gameMetadata.name
@@ -31,7 +31,7 @@ export default function ReplayData(props: {data: JSON, version: number}) {
         // version == 1 used for calls from replay.tsx
         // version == 0 used for calls from browse.tsx
 
-        <div className="glass-inner round mt-2 flex flex-wrap justify-center replay-data-mobile">
+        <div className={`glass-inner round flex flex-wrap justify-center replay-data-mobile ${props.classname}`}>
             <div className="glass-inner mx-2 flex mt-2 title-box"><b><i>{replayTitle}</i></b></div>
             <div className="score-column flex justify-center">
             { blueScore > orangeScore ?
@@ -91,25 +91,32 @@ export function ButtonColumn(props: {version: number, replayID: string}) {
     if (props.version === 0) {
         return (
             <div className="button-column flex flex-wrap">
-                <a className="data-inverted-primary-btn top-btn flex justify-center" href={`/replay/${props.replayID}`}>Full Data</a>
-                <a className="data-primary-btn mid-btn" onClick={() =>
-                    console.log("2D View button clicked!")}>2D View</a>
-                <a className="data-primary-btn bot-btn" onClick={
-                    () => navigator.clipboard.writeText(`http://127.0.0.1:5173/replay/${props.replayID}`)}>Share</a>
+                <a className="data-inverted-primary-btn top-btn flex justify-center"
+                    href={`/replay/${props.replayID}`}>Full Data</a>
+                <a className="data-primary-btn mid-btn"
+                    onClick={() => console.log("2D View button clicked!")}>2D View</a>
+                <a className="data-primary-btn bot-btn"
+                    onClick={() => toClipboardWithAlert(props.replayID)}>Share</a>
             </div>
         )
     } else if (props.version === 1) {
         return (
             <div className="button-column flex flex-wrap">
-                <a className="data-inverted-primary-btn top-btn flex justify-center" onClick={() =>
-                    console.log("Download button clicked!")}>Download</a>
-                <a className="data-primary-btn mid-btn" onClick={() =>
-                    console.log("2D View button clicked!")}>2D View</a>
-                <a className="data-primary-btn bot-btn" onClick={
-                    () => navigator.clipboard.writeText(`http://127.0.0.1:5173/replay/${props.replayID}`)}>Share</a>
+                <a className="data-inverted-primary-btn top-btn flex justify-center"
+                    onClick={() => console.log("Download button clicked!")}>Download</a>
+                <a className="data-primary-btn mid-btn"
+                    onClick={() => console.log("2D View button clicked!")}>2D View</a>
+                <a className="data-primary-btn bot-btn"
+                    onClick={() => toClipboardWithAlert(props.replayID)}>Share</a>
             </div>
         )
     }
+}
+
+function toClipboardWithAlert(replayID: string) {
+    navigator.clipboard.writeText(`http://127.0.0.1:5173/replay/${replayID}`)
+    alert("Link to this replay has been copied to the clipboard!")
+    return
 }
 
 function convertToTimeString(seconds: number) {

@@ -13,7 +13,6 @@ python-jose = {extras = ["cryptography"], version = "*"}
 python-multipart = "*"
 celery = "==5.2.7"
 redis = "==4.5.1"
-simplejson = "*"
 
 [dev-packages]
 pytest = "*"

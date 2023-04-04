@@ -1,4 +1,4 @@
-import MainPane from "../../components/general/mainPane"
+import MainPane from "../../components/general/MainPane/mainPane"
 import { useContext } from "react"
 import { UserContext } from "../../context/contexts"
 import "./settings.css"

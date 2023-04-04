@@ -47,7 +47,7 @@
 }
 
 .primary-data-column {
-    width: 22%;
+    width: 24%;
     display: flex;
     justify-content: center;
     font-size: 28px;
@@ -55,16 +55,20 @@
     padding: 5px;
     margin: auto;
     text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .secondary-data-column {
-    width: 10%;
+    width: 9.5%;
     display: flex;
     justify-content: center;
     font-size: 28px;
     border-width: 2.5px;
     padding: 5px;
     margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .data-column-title {
@@ -116,7 +120,12 @@
         width: 45%;
     }
     .data-pane {
-        height: 632px;
+        height: auto;
+        padding-bottom: 12px;
+    }
+    .text-data-column {
+        width: 85%;
+        margin: 12px;
     }
 }
 

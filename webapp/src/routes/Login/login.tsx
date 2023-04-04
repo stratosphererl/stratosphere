@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
 
-import MainPane from "../../components/general/mainPane"
+import MainPane from "../../components/general/MainPane/mainPane"
 import LoginButton from "../../components/general/Button/Login/loginButton"
 import { UserContext } from "../../context/contexts"
 import "./login.css"

@@ -1,5 +1,5 @@
 import MainPane
- from "../components/general/mainPane";
+ from "../components/general/MainPane/mainPane";
 export default function Overlay() {
     const bakkesModURL = "https://bakkesmod.com/download.php";
     const discordURL = "https://discord.com/";
