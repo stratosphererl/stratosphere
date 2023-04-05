@@ -1,5 +1,5 @@
 import { roundRect } from "../drawing/roundRect";
-import { Drawable, Transform, Vector3, IsOrange, Name } from "../facets";
+import { Drawable, Transform, Vector3, IsOrange, Name, Frame } from "../facets";
 import { Entity } from "@react-ecs/core";
 
 export function Player({
@@ -24,13 +24,16 @@ export function Player({
     const width = 180;
     const height = 500;
 
+    const x = transform.position.x + width / 2;
+    const y = transform.position.y + height / 2;
+
     ctx.save();
     ctx.beginPath();
     ctx.fillStyle = color;
     roundRect(
       ctx,
-      (transform.position.x + width / 2) * xScale,
-      (transform.position.y + height / 2) * yScale,
+      x * xScale,
+      y * yScale,
       width * Math.abs(xScale),
       height * Math.abs(yScale),
       10
@@ -38,6 +41,8 @@ export function Player({
     ctx.strokeStyle = shadowColor;
     ctx.lineWidth = lineWidth;
     ctx.stroke();
+    ctx.textAlign = "center";
+    ctx.fillText(name.name, x * xScale, (y + 100) * yScale);
     ctx.restore();
   };
 
@@ -45,9 +50,10 @@ export function Player({
     <Entity>
       {children}
       <Drawable draw={draw} />
-      <Transform position={new Vector3(0, 0, 0)} />
-      <Name name={name} />
+      <Transform position={new Vector3(Infinity, Infinity, Infinity)} />
+      <Name name={name.name} id={name.id} />
       {isOrange && <IsOrange />}
+      <Frame />
     </Entity>
   );
 }

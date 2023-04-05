@@ -16,7 +16,7 @@ export const useReplayFrames = (url: string) => {
         response.arrayBuffer().then((buffer) => {
           zip.loadAsync(buffer).then((zip) => {
             zip
-              .file("test.csv")
+              .file("frames.csv")
               .async("string")
               .then((data) => {
                 if (isMounted) {
@@ -91,6 +91,7 @@ const parseReplayFrameData = (data: any) => {
         entity["position"] = {
           x: actorData[0],
           y: actorData[1],
+          z: actorData[2],
         };
 
         entity["velocity"] = {

@@ -33,7 +33,12 @@ export class IsDemolished extends Facet<IsDemolished> {}
 export class IsPlayer extends Facet<IsPlayer> {}
 
 export class Name extends Facet<Name> {
-  name?: number;
+  name?: string;
+  id?: number;
+}
+
+export class Frame extends Facet<Frame> {
+  frame?: number = 0;
 }
 
 export class Drawable extends Facet<Drawable> {
