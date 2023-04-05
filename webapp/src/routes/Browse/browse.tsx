@@ -5,6 +5,7 @@ import DataComponent from "../../components/replays/data"
 import ErrorPage from "../Error/error"
 import ReplayJSON from "../../mock/replay.json"
 import ReplayJSONs from "../../mock/replays.json"
+import "./browse.css"
 
 export default function Browse() {
     const params = useParams();
@@ -32,8 +33,16 @@ export default function Browse() {
 
     return (
         <MainPane title="Browse Replays" className="w-[96%]">
-            <div className="glass-inner rounded-full search-bar-outer h-[48px] flex justify-center items-center mb-3">
-                <input onChange={searchFiltering} type="search" className="glass-inner-light rounded-full search-bar-inner w-full m-2 h-[70%] flex justify-center items-center p-3" placeholder="SEARCH..." />
+            <div className="glass-inner rounded-full h-[48px] flex justify-center items-center mb-3">
+                <input onChange={searchFiltering} type="search" className="glass-inner-light rounded-full w-full m-2 h-[70%] flex justify-center items-center p-3" placeholder="SEARCH..." />
+            </div>
+            <div className="flex flex-nowrap justify-center">
+                <FilterDropdown text="ARENA"/>
+                <FilterDropdown text="DURATION"/>
+                <FilterDropdown text="GAMEMODE"/>
+                <FilterDropdown text="GAMETYPE"/>
+                <FilterDropdown text="RANK"/>
+                <FilterDropdown text="SEASON"/>
             </div>
             <div className="glass-inner round p-2">
                 {
@@ -56,5 +65,13 @@ export default function Browse() {
 export function HorizontalSpacing() {
     return (
         <div style={{height: "0.5rem"}}/>
+    )
+}
+
+export function FilterDropdown(props: {text: string}) {
+    return (
+        <div className="filter-dropdown glass-inner rounded-full flex justify-center items-center">
+            <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">{props.text}</div>
+        </div>
     )
 }
