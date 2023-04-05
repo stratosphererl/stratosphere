@@ -39,18 +39,19 @@ export default function ReplayData(props: {data: JSON, version: number, classnam
                 <div className="orange-stroke-2"><b>{orangeScore} - {blueScore}</b></div>
             }
             </div>
-
+            <VerticalSeparator/>
             <InfoColumn subtitles={["Uploaded","Played","Uploader","Arena"]} info={[uploadDate,playingDate,uploaderUsername,mapName]} titleInfo="small-title">
                 <div><b>{replayID}</b></div>
             </InfoColumn>
-
+            <VerticalSeparator/>
             <InfoColumn subtitles={["Duration","Season","Gamemode","Gametype"]} info={[duration,season,gamemode,gametype]} titleInfo="">
                 <div><b>{avgRank}</b></div>
             </InfoColumn>
-
+            <VerticalSeparator/>
             <TeamColumn name={blueName} teamTextStyle="sky-blue-stroke-1" playerNames={bluePlayers}/>
+            <VerticalSeparator/>
             <TeamColumn name={orangeName} teamTextStyle="orange-stroke-1" playerNames={orangePlayers}/>
-
+            <VerticalSeparator/>
             <ButtonColumn version={props.version} replayID={replayID}/>
         </div>
     );
@@ -111,6 +112,14 @@ export function ButtonColumn(props: {version: number, replayID: string}) {
             </div>
         )
     }
+}
+
+export function VerticalSeparator() {
+    return (
+        <div className="flex items-center">
+            <div className="separator">&nbsp;</div>
+        </div>
+    )
 }
 
 function toClipboardWithAlert(replayID: string) {
