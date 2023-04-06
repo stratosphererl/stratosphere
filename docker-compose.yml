@@ -1,21 +1,21 @@
-version: '3.6'
+version: "3.6"
 services:
   # webapp:
   #   build: ./webapp
   #   ports:
   # #     - '3000:3000'
   gql:
-    build: 
+    build:
       context: ./
       dockerfile: ./gql/Dockerfile
     ports:
-      - '4000:4000'
+      - "4000:4000"
     volumes:
       - ./gql:/gql-server
       - .env:/gql-server/.env
   # parser:
   #   build: ./parser
-  #   ports: 
+  #   ports:
   #     - '5001:5001'
   #   tmpfs:
   #     - /tmp:exec,mode=777
@@ -29,7 +29,7 @@ services:
   #     - '5002:5002'
   replay:
     command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0
-    build: 
+    build:
       context: ./
       dockerfile: ./${REPLAY_SERVICE_NAME}/Dockerfile
     ports:
@@ -54,11 +54,10 @@ services:
       - MONGO_INITDB_DATABASE=${REPLAY_DB_NAME}
     volumes:
       - ./${REPLAY_SERVICE_NAME}/config/db/data:/data/db
-      - ./${REPLAY_SERVICE_NAME}/config/setup/init-mongo.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
   redis:
     image: redis:6.2.10-alpine
   parser:
-    build: 
+    build:
       dockerfile: Dockerfile-worker
       context: ./replay/
     command: celery -A worker worker
@@ -74,7 +73,7 @@ services:
       - replay
   stats:
     command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
-    build: 
+    build:
       context: .
       dockerfile: ./${STATS_SERVICE_NAME}/Dockerfile
     ports:
@@ -101,7 +100,7 @@ services:
       - ./${STATS_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
   user:
     command: uvicorn app:app --reload --port ${USER_SERVICE_PORT} --host 0.0.0.0
-    build: 
+    build:
       context: .
       dockerfile: ./${USER_SERVICE_NAME}/Dockerfile
     ports:

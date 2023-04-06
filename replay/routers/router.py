@@ -189,9 +189,12 @@ def get_replay_status(id: str, service = Depends(service)):
     
     result = celery.AsyncResult(id)
 
+    if result.state == "FAILURE":
+        return HTTPException(status_code=500, detail=result.traceback)
+
     response = {
         "state": str(result.state),
-        "status": result.info if result.state != "FAILURE" else result.traceback
+        "status": result.info 
     }
     
     return Response(content=json.dumps(response), media_type="application/json", status_code=200)
@@ -207,7 +210,7 @@ def get_user_replay(user_id: str, service = Depends(service)):
         return HTTPException(status_code=404, detail=result.message)
 
 @router.post("/replays", tags=['Post Methods'])
-def post_replays(files: List[UploadFile] = File(...), token: str = Depends(get_current_user), service = Depends(service)):
+def post_replays(files: List[UploadFile] = File(...), service = Depends(service)):
     response = []
     for file in files:
         if not str(file.filename).endswith(".replay"):
