@@ -403,7 +403,7 @@ type FileUploadResponse {
 
 type FileUploadStatus {
     replay_id: String!
-    process_time: Float
+    process_time: String
     stage: ProcessStage
 }
 
@@ -418,6 +418,17 @@ type FileUploadTaskResponse {
     status: FileUploadStatus!
 }
 
+type MapExtendedInfo {
+  MapBaseName: String
+  MapFileName: String
+  MapId: Int
+  MapVariantName: String
+  MapRandomWeight: Int
+}
+
+
+
+
 type Mutation {
     uploadReplay(file: Upload!): [FileUploadResponse]
 }
@@ -428,6 +439,8 @@ type Query {
     replays: PageInfo
     getTaskStatus(taskId: String!): FileUploadTaskResponse!
 }
+
+
 `);
 
 const streamToBuffer = async (stream) => {
