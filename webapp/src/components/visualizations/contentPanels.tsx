@@ -331,8 +331,14 @@ export function Position({data}: Props) {
 }
 
 export function Ball({data}: Props) {
-    const positionData = data.getBallPositionData();
-    const goalData = data.getGoalData();
+    const url = "http://localhost:5004/frames.csv.zip";
+    const replayFrames = useReplayFrames(url);
+    
+    if (replayFrames.error)
+        throw replayFrames.error;
+
+    const positionData = data.getBallPositionData(replayFrames.loading ? [] : replayFrames.data);
+    const goalData = data.getGoalData(replayFrames.loading ? [] : replayFrames.data);
 
     const goalWidth = 2 * 893;
     const goalHeight = 640;
@@ -342,7 +348,7 @@ export function Ball({data}: Props) {
 
     const ballSize = 185.5;
 
-    return (<>
+    return replayFrames.loading || !replayFrames.data?.length ? <h1 className="text-center">Loading</h1> : (<>
         <h1 className="text-center">The Ball</h1>
         <div className="text-center space-y-10 pt-10">
             <div className="w-3/4 m-auto">

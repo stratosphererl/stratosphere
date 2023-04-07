@@ -337,12 +337,24 @@ export default class ResponseDataWrapper {
         return positionData;
     }
 
-    getBallPositionData() {
+    getBallPositionData(frames: any[]) {
         const name = "Ball Heatmap";
         const tendencies = this.getFieldPositioning(this.data.gameStats.ballStats.positionalTendencies);
         const positions: { x: number, y: number }[] = [{ x: 0, y: 0 }];
 
         // TODO: Push positional data
+        if (frames.length) {
+            const ballIndex = frames[0].findIndex((entity: any) => entity.name === "ball");
+            let lastPosition: { x: number, y: number } = { x: 10000, y: 10000 };
+            frames.forEach((frame: any) => {
+                const ball = frame[ballIndex];
+                if (typeof ball?.position?.x === "number" && typeof ball?.position?.y === "number"
+                    && (Math.abs(ball.position.x - lastPosition.x) > 0.1 || Math.abs(ball.position.y - lastPosition.y) > 0.1)) {
+                    positions.push({ x: ball.position.y, y: ball.position.x });
+                    lastPosition = { x: ball.position.x, y: ball.position.y };
+                }
+            });
+        }
 
         const ballData = {
             name: name,
@@ -357,17 +369,39 @@ export default class ResponseDataWrapper {
         return this.data.players.find((player: any) => player.id.id === id);
     }
 
-    getGoalData() {
+    getGoalData(frames: any[]) {
         const goals = this.data.gameMetadata.goals as any[];
 
+        console.log(frames)
+
         const goalData = goals.map((goal: any) => {
-            // TODO: get actual x, y, and velocity
+            let frameNumber = goal.frameNumber;
+
+            let x = 0;
+            let y = 0;
+            let velocity = 0;
+
+            if (frames.length) {
+                const ballIndex = frames[0].findIndex((entity: any) => entity.name === "ball");
+                while (!Number.isFinite(frames[frameNumber][ballIndex].velocity.y))
+                    frameNumber--;
+                
+                const ball = frames[frameNumber][ballIndex];
+
+                x = ball.position.x;
+
+                velocity = Math.sqrt(ball.velocity.x ** 2 + ball.velocity.y ** 2) * .03623188;
+            }
+
+            const player = this.getPlayerFromId(goal.playerId.id);
+                
+            // Todo: Check if the player is orange and invert x depending on that (I don't know which way around it is yet)
 
             return {
-                name: this.getPlayerFromId(goal.playerId.id).name,
-                x: 0,
-                y: 0,
-                velocity: 0,
+                name: player.name,
+                x: x,
+                y: y,
+                velocity: velocity,
             }
         });
 
