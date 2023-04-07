@@ -71,7 +71,11 @@ export function HorizontalSpacing() {
 export function FilterDropdown(props: {text: string}) {
     return (
         <div className="filter-dropdown glass-inner rounded-full flex justify-center items-center">
-            <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">{props.text}</div>
+            <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">
+                <select name={props.text} id={props.text}>
+                    <option value="none">{props.text}</option>
+                </select>
+            </div>
         </div>
     )
 }
