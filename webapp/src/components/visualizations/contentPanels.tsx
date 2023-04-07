@@ -216,10 +216,10 @@ export function Possession({data}: Props) {
     </>)
 }
 
-function DisplayTendency({tendency, color}: {tendency: number, color: string}) {
+function DisplayTendency({className, tendency, color}: {className: string, tendency: number, color: string}) {
     const percent = tendency * 100
     return (
-        <div className="text-center text-xs 2xl:text-base" style={{backgroundColor: color, width: percent + "%", border: "solid #777 1px"}}>
+        <div className={`${className} text-center text-xs 2xl:text-base`} style={{backgroundColor: color, border: "solid #777 1px"}}>
             {percent.toFixed(0)}%
         </div>
     )
@@ -252,13 +252,13 @@ function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
             {name ? <h2 className="text-center">{name}</h2> : null}
             <div className="mb-2 w-[100%] mx-auto">
                 <div className="flex justify-evenly">
-                    <DisplayTendency tendency={isOrange ? tendencies.attackingHalf : tendencies.defendingHalf} color={"var(--sky-blue)"} />
-                    <DisplayTendency tendency={isOrange ? tendencies.defendingHalf : tendencies.attackingHalf} color={"var(--sky-orange)"} />
+                    <DisplayTendency className="w-1/2" tendency={isOrange ? tendencies.attackingHalf : tendencies.defendingHalf} color={"var(--sky-blue)"} />
+                    <DisplayTendency className="w-1/2" tendency={isOrange ? tendencies.defendingHalf : tendencies.attackingHalf} color={"var(--sky-orange)"} />
                 </div>
                 <div className="flex justify-evenly">
-                    <DisplayTendency tendency={isOrange ? tendencies.attackingThird : tendencies.defendingThird} color={"var(--sky-blue)"} />
-                    <DisplayTendency tendency={tendencies.neutralThird} color="#999" />
-                    <DisplayTendency tendency={isOrange ? tendencies.defendingThird : tendencies.attackingThird} color={"var(--sky-orange)"} />
+                    <DisplayTendency className="w-1/3" tendency={isOrange ? tendencies.attackingThird : tendencies.defendingThird} color={"var(--sky-blue)"} />
+                    <DisplayTendency className="w-1/3" tendency={tendencies.neutralThird} color="#999" />
+                    <DisplayTendency className="w-1/3" tendency={isOrange ? tendencies.defendingThird : tendencies.attackingThird} color={"var(--sky-orange)"} />
                 </div>
             </div>
             <Heatmap data={positions} x_domain={[-mapWidth / 2, mapWidth / 2]} y_domain={[-mapHeight / 2, mapHeight / 2]} 
