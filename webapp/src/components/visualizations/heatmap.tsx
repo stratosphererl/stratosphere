@@ -113,7 +113,8 @@ export default function Heatmap({
                 const col = Math.floor(x / bucket_size);
                 const row = Math.floor(y / bucket_size);
 
-                buckets[row][col].push([x, y]);
+                if (row >= 0 && row < rows && col >= 0 && col < columns)
+                    buckets[row][col].push([x, y]);
             });
 
             const get_weight = (x: number, y: number) => {
@@ -148,8 +149,8 @@ export default function Heatmap({
             };
 
             var pointer = -1;
-            d3.range(0, height).forEach(y => {
-                d3.range(0, width).forEach(x => {
+            d3.range(0, height).forEach((y: number) => {
+                d3.range(0, width).forEach((x: number) => {
                     const current_color = d3.rgb(color(get_weight(x, y)));
 
                     image.data[++pointer] = current_color.r;

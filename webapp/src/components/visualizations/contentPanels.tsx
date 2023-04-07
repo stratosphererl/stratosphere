@@ -10,6 +10,7 @@ import stadium from "../../assets/std-stadium-stolen-temporarily.svg";
 import stadiumUnderlay from "../../assets/stadium.svg";
 import stadiumOverlay from "../../assets/stadium-outline.svg"
 import goalSVG from "../../assets/goal.svg";
+import { useReplayFrames } from "./helper/dataLoader";
 
 interface Props {
     data: ResponseDataWrapper;
@@ -239,7 +240,7 @@ function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
     const uu2px = width / mapWidth;
     const ball_size = 92.75;
 
-    const color_range = ["transparent", "grey", "green", "yellow", "orange", "red"];
+    const color_range = ["transparent", "#7777", "green", "yellow", "orange", "red"];
 
     const totalTime = tendencies.defendingHalf + tendencies.attackingHalf;
     Object.keys(tendencies).forEach((key) => {
@@ -261,13 +262,19 @@ function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
                 </div>
             </div>
             <Heatmap data={positions} x_domain={[-mapWidth / 2, mapWidth / 2]} y_domain={[-mapHeight / 2, mapHeight / 2]} 
-                svg_width={width} svg_height={mapHeight * uu2px} size={ball_size * uu2px}
-                underlayed_image={stadiumUnderlay} overlayed_image={stadiumOverlay} color_range={color_range} />
+                svg_width={width} svg_height={mapHeight * uu2px} size={ball_size * uu2px * 1.5}
+                underlayed_image={stadiumUnderlay} overlayed_image={stadiumOverlay} color_range={color_range}
+                color_density={75} />
         </div>
     )
 }
 
 export function Position({data}: Props) {
+    const url = "http://localhost:5004/frames.csv.zip";
+    const replayFrames = useReplayFrames(url);
+    if (replayFrames.error)
+        throw replayFrames.error;
+
     const aerialData = data.getAerialPosistionData() as any;
 
     const nameLabel = "name";
@@ -278,7 +285,7 @@ export function Position({data}: Props) {
     const [playerBallData, playerNames] = data.getPlayerPositionViaBall() as [[any, any], string[]];
     const tugColors = ["var(--sky-green)", "var(--sky-red)"] as [string, string];
 
-    const teamPlayerPositions = data.getPlayerPositionData();
+    const teamPlayerPositions = data.getPlayerPositionData(replayFrames.data);
     const playerPositions = teamPlayerPositions[0].concat(teamPlayerPositions[1]);
 
     return (<>
@@ -310,7 +317,13 @@ export function Position({data}: Props) {
             <div>
                 <h2 className="text-center underline mb-[-20px]">Player Position Heatmaps</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3">
-                    {playerPositions.map((player) => <HeatmapAndTendencies key={`heatmap-${player.name}`} name={player.name} tendencies={player.tendencies} positions={player.positions} isOrange={player.isOrange} />)}
+                    {
+                    replayFrames.loading || !replayFrames.data?.length ? <div>Loading...</div> :
+                    playerPositions.map((player) => 
+                        <HeatmapAndTendencies key={`heatmap-${player.name}`} name={player.name} tendencies={player.tendencies} 
+                            positions={player.positions} isOrange={player.isOrange} />
+                    )
+                    }
                 </div>
             </div>
         </div>

@@ -278,7 +278,7 @@ export default class ResponseDataWrapper {
         }
     }
 
-    getPlayerPositionData() {
+    getPlayerPositionData(frameData: any) {
         const positionData: {
             name: string,
             tendencies: { defendingHalf: number, attackingHalf: number, 
@@ -288,6 +288,12 @@ export default class ResponseDataWrapper {
         }[][] = [];
 
         const [team1, team2] = this.getTeamsPlayers();
+
+        const nameToIndex = new Map();
+        if (frameData?.length)
+            frameData[0].forEach((entity: any, index: number) => {
+                nameToIndex.set(entity.name, index);
+            });
 
         const addPositionData = (team: any[]) => {
             const teamData: {
@@ -303,10 +309,21 @@ export default class ResponseDataWrapper {
 
                 const name = player.name;
                 const tendencies = this.getFieldPositioning(positionalTendencies);
-                const positions: { x: number, y: number }[] = [{ x: 0, y: 0 }];
+                const positions: { x: number, y: number }[] = [];
                 const isOrange = player.isOrange as boolean;
 
-                // TODO: Push positional data
+                if (frameData?.length) {
+                    let lastPosition: { x: number, y: number } = { x: 10000, y: 10000 };
+                    frameData.forEach((frame: any) => {
+                        const index = nameToIndex.get(name);
+                        const entity = frame[index];
+                        if (typeof entity?.position?.x === "number" && typeof entity?.position?.y === "number" 
+                            && (Math.abs(entity.position.x - lastPosition.x) > 0.1 || Math.abs(entity.position.y - lastPosition.y) > 0.1)){
+                            positions.push({ x: entity.position.y, y: entity.position.x });
+                            lastPosition = { x: entity.position.x, y: entity.position.y };
+                        }
+                    });
+                }
 
                 teamData.push({ name: name, tendencies: tendencies, positions: positions, isOrange: isOrange })
             });
