@@ -69,13 +69,100 @@ export function HorizontalSpacing() {
 }
 
 export function FilterDropdown(props: {text: string}) {
+    let optionArray = []
+
+    if (props.text === "ARENA") {
+        optionArray = getArenaArray()
+    } else if (props.text === "DURATION") {
+        optionArray = getDurationArray()
+    } else if (props.text === "GAMEMODE") {
+        optionArray = getGamemodeArray()
+    } else if (props.text === "GAMETYPE") {
+        optionArray = getGametypeArray()
+    } else if (props.text === "RANK") {
+        optionArray = getRankArray()
+    } else if (props.text === "SEASON") {
+        optionArray = getSeasonArray()
+    }
+
+    let currOptionNum = -1
+
     return (
         <div className="filter-dropdown glass-inner rounded-full flex justify-center items-center">
             <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">
-                <select name={props.text} id={props.text}>
-                    <option value="none">{props.text}</option>
+                <select name={props.text} id={props.text} className="rounded-full w-[92%]">
+                    <option value={currOptionNum} className="option-text">ALL {props.text}S</option>
+                    {
+                        optionArray.map((optionValue) =>
+                            <option value={currOptionNum++} className="option-text">{optionValue}</option>
+                        )
+                    }
                 </select>
             </div>
         </div>
     )
+}
+
+function getArenaArray() {
+    const arenaArray = [
+        "DFH Stadium", "Mannfield", "Champions Field", "Urban Central", "Beckwith Park", "Utopia Coliseum", "Wasteland",
+        "Neo Tokyo", "AquaDome", "Starbase Arc", "Salty Shores", "Farmstead", "Forbidden Temple", "Neon Fields",
+        "Deadeye Canyon", "Sovereign Heights", "Rivals Arena", "Badlands", "Tokyo Underpass", "ARCTagon", "Throwback Stadium",
+        "Pillars", "Cosmic", "Double Goal", "Underpass", "Utopia Retro", "Octagon", "Dunk House", "The Block", "Core 707"
+    ]
+
+    return arenaArray.sort((a, b) => a.localeCompare(b))
+}
+
+function getDurationArray() {
+    const durationArray = [
+        "0-2 minutes", "2-4 minutes", "4-6 minutes", "6-8 minutes", "8-10 minutes", 
+        "10-12 minutes", "12-14 minutes", "14-16 minutes", "18-20 minutes", "20+ minutes"
+    ]
+
+    return durationArray
+}
+
+function getGamemodeArray() {
+    const gamemodeArray = [
+        "Soccar", "Hoops", "Rumble", "Dropshot", "Snowday", "Rocket Labs", "Dropshot Rumble",
+        "Heatseeker", "Gridiron", "Private", "Season", "Offline", "Local Lobby"
+    ]
+
+    return gamemodeArray.sort((a, b) => a.localeCompare(b))
+}
+
+function getGametypeArray() {
+    const gametypeArray = [
+        "Duels (1v1)", "Doubles (2v2)", "Standard (3v3)", "Solo Standard (3v3)", "Chaos (4v4)"
+    ]
+
+    return gametypeArray
+}
+
+function getRankArray() {
+    const rankArray = [
+        "Unranked",
+        "Bronze I", "Bronze II", "Bronze III",
+        "Silver I", "Silver II", "Silver III",
+        "Gold I", "Gold II", "Gold III",
+        "Platinum I", "Platinum II", "Platinum III",
+        "Diamond I", "Diamond II", "Diamond III",
+        "Champion I", "Champion II", "Champion III",
+        "Grand Champion I", "Grand Champion II", "Grand Champion III",
+        "Supersonic Legend"
+    ]
+
+    return rankArray
+}
+
+function getSeasonArray() {
+    const seasonArray = [
+        "Legacy 1", "Legacy 2", "Legacy 3", "Legacy 4", "Legacy 5", "Legacy 6", "Legacy 7",
+        "Legacy 8", "Legacy 9", "Legacy 10", "Legacy 11", "Legacy 12", "Legacy 13", "Legacy 14",
+        "Free-to-Play 1", "Free-to-Play 2", "Free-to-Play 3", "Free-to-Play 4", "Free-to-Play 5",
+        "Free-to-Play 6", "Free-to-Play 7", "Free-to-Play 8", "Free-to-Play 9", "Free-to-Play 10"
+    ]
+
+    return seasonArray
 }

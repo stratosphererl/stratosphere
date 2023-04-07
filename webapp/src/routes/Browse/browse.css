@@ -6,6 +6,10 @@
     height: 48px;
 }
 
-select {
-    background-color: transparent;
+select:first-child {
+    background-color: rgb(0,0,0,0);
+}
+
+.option-text {
+    color:black;
 }
