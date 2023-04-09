@@ -100,7 +100,7 @@ export function ButtonColumn(props: {version: number, replayID: string}) {
                     onClick={() => toClipboardWithAlert(props.replayID)}>Share</a>
             </div>
         )
-    } else if (props.version === 1) {
+    } else {
         return (
             <div className="button-column flex flex-wrap">
                 <a className="data-inverted-primary-btn top-btn flex justify-center"
@@ -125,6 +125,7 @@ export function VerticalSeparator() {
 function toClipboardWithAlert(replayID: string) {
     navigator.clipboard.writeText(`http://127.0.0.1:5173/replay/${replayID}`)
     alert("Link to this replay has been copied to the clipboard!")
+    console.log("Replay link copied to the clipboard")
     return
 }
 
