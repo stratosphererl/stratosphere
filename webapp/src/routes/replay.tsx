@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import useReplay from "../hooks/useReplay";
 
 import { Tab } from "@headlessui/react";
-import { Fragment } from "react";
+import { useState, Fragment } from "react";
 
 import MainPane from "../components/general/mainPane";
 import {
@@ -20,6 +20,10 @@ import Replay2DView from "../components/visualizations/Replay2DView/Replay2DView
 export default function Replay() {
   const params = useParams();
   const regex = /^[A-Z0-9]{32}$/;
+
+  const [searchParams] = useSearchParams();
+
+  const tabParam = searchParams.get("tab");
 
   const { data, loading, error } = useReplay(params.replayid!);
 
@@ -70,12 +74,22 @@ export default function Replay() {
     },
   ];
 
+  const tabIdxMap = new Map<string, number>();
+  let tabIdx = 0;
+  GROUPS.forEach((group) => {
+    group.tabs.forEach((tab) => {
+      tabIdxMap.set(tab.tabName.replaceAll(" ", "-"), tabIdx++);
+    });
+  });
+
+  const [selectedIndex, setSelectedIndex] = useState(tabIdxMap.get(tabParam!) ?? 0);
+
   return (
     <MainPane className="mx-0 xl:mx-[5%]" title="Replay">
       <div className="p-4 pt-6 glass-inner rounded-2xl text-center h-[200px] flex flex-col justify-center">
         <h1 className="break-words">{params.replayid}</h1>
       </div>
-      <Tab.Group>
+      <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 mt-4 lg:space-x-4">
           <div className="glass-inner rounded-2xl w-full lg:w-[20%] pt-6 p-8 mx-auto">
             <div className="flex flex-col space-y-8">
@@ -84,7 +98,7 @@ export default function Replay() {
                   <h1 className="text-center text-2xl">{group.groupName}</h1>
                   <div className="flex flex-col space-y-2">
                     {group.tabs.map((tab) => (
-                      <Tab key={`tab-${tab.tabName}`} as={Fragment}>
+                      <Tab key={`tab-${tab.tabName}`} as={Fragment}> 
                         {({ selected }) => (
                           <button
                             className={`${
@@ -92,8 +106,8 @@ export default function Replay() {
                                 ? "font-bold bg-stratosphere-blue"
                                 : "border-stratosphere-blue text-stratosphere-blue"
                             }
-                                                border-solid border-2 p-2 xl:mx-5
-                                                rounded-tl-2xl rounded-br-2xl outline-none`}
+                                border-solid border-2 p-2 xl:mx-5
+                                rounded-tl-2xl rounded-br-2xl outline-none`}
                             style={
                               selected
                                 ? { borderColor: "white", color: "white" }
@@ -124,3 +138,4 @@ export default function Replay() {
     </MainPane>
   );
 }
+
