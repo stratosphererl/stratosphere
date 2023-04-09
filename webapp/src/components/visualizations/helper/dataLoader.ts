@@ -91,11 +91,13 @@ const parseReplayFrameData = (data: any) => {
         entity["position"] = {
           x: actorData[0],
           y: actorData[1],
+          z: actorData[2],
         };
 
         entity["velocity"] = {
-          x: actorData[2],
-          y: actorData[3],
+          x: actorData[3],
+          y: actorData[4],
+          z: actorData[5],
         };
       } else if (name === "game") {
         entity["seconds_remaining"] = actorData[0];

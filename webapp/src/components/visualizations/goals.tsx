@@ -1,12 +1,11 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-import ball from "../../assets/ball.png";
-
 interface Props {
     data: any[]; // Data is an array of objects with keys corresponding to the data you want to display and a required "x" and "y" key
     data_display?: string[]; // The keys corresponding to the data you want to display in the tooltip
     postfixes?: {[key: string]: string}; // The postfixes to display after each data_display key in the tooltip
+    display_names?: {[key: string]: string}; // The display name of each data_display key in the tooltip
 
     svg_width?: number; // The total width of the component
     svg_height?: number; // The total height of the component
@@ -34,6 +33,7 @@ export default function GoalChart({
     data,
     data_display = [],
     postfixes = {},
+    display_names = {},
 
     svg_width = 800,
     svg_height = 600,
@@ -60,6 +60,7 @@ export default function GoalChart({
 
     useEffect(() => {
         data_display.forEach((key) => {if (!postfixes[key]) postfixes[key] = "";});
+        data_display.forEach((key) => {if (!display_names[key]) display_names[key] = key;});
 
         d3.selection.prototype.moveToFront = function(this: any) {
             return this.each(function(this: any){
@@ -129,7 +130,7 @@ export default function GoalChart({
             const html = "" + 
             Tooltip
                 .html(data_display.map((key) => {
-                    return key + ": " + d[key] + postfixes[key];
+                    return display_names[key] + ": " + d[key] + postfixes[key];
                 }).join("<br/>"))
                 .style("left", (event.layerX + 10) + "px")
                 .style("top", (event.layerY - data_display.length * 15) + "px");
@@ -139,7 +140,7 @@ export default function GoalChart({
             .data(data)
             .enter()
             .append("svg:image")
-                .attr("xlink:href", ball)
+                .attr("xlink:href", (d) => d.img)
                 .attr("x", (d) => x(d.x) - ball_size / 2)
                 .attr("y", (d) => y(d.y) - ball_size / 2)
                 .attr("width", ball_size)

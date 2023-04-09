@@ -10,6 +10,10 @@ import stadium from "../../assets/std-stadium-stolen-temporarily.svg";
 import stadiumUnderlay from "../../assets/stadium.svg";
 import stadiumOverlay from "../../assets/stadium-outline.svg"
 import goalSVG from "../../assets/goal.svg";
+
+import orangeBall from "../../assets/orangeBall.png";
+import blueBall from "../../assets/blueBall.png";
+
 import { useReplayFrames } from "./helper/dataLoader";
 
 interface Props {
@@ -338,7 +342,9 @@ export function Ball({data}: Props) {
         throw replayFrames.error;
 
     const positionData = data.getBallPositionData(replayFrames.loading ? [] : replayFrames.data);
-    const goalData = data.getGoalData(replayFrames.loading ? [] : replayFrames.data);
+    const goalData = data.getGoalData(replayFrames.loading ? [] : replayFrames.data).map((goal) => 
+        ({...goal, img: goal.isOrange ? orangeBall : blueBall})
+    );
 
     const goalWidth = 2 * 893;
     const goalHeight = 640;
@@ -350,15 +356,16 @@ export function Ball({data}: Props) {
 
     return replayFrames.loading || !replayFrames.data?.length ? <h1 className="text-center">Loading</h1> : (<>
         <h1 className="text-center">The Ball</h1>
-        <div className="text-center space-y-10 pt-10">
+        <div className="space-y-10 pt-10">
             <div className="w-3/4 m-auto">
-                <h2 className="underline">Goals Scored</h2>
+                <h2 className="text-center underline">Goals Scored</h2>
                 <GoalChart data={goalData} x_domain={[-goalWidth/2, goalWidth/2]} y_domain={[0, goalHeight]} 
                 svg_width={width} svg_height={goalHeight * uu2px} ball_size={ballSize * uu2px}
-                data_display={["name", "velocity"]} underlayed_image={goalSVG} />
+                data_display={["name", "velocity"]} underlayed_image={goalSVG} postfixes={{"velocity": " kph"}}
+                display_names={{"name": "Name", "velocity": "Velocity"}} />
             </div>
             <div className="w-3/4 m-auto">
-                <h2 className="underline mb-[-30px]">{positionData.name}</h2>
+                <h2 className="text-center underline mb-[-30px]">{positionData.name}</h2>
                 <HeatmapAndTendencies tendencies={positionData.tendencies} positions={positionData.positions} isOrange={false} />
             </div>
         </div>

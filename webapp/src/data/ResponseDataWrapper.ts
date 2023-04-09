@@ -372,14 +372,12 @@ export default class ResponseDataWrapper {
     getGoalData(frames: any[]) {
         const goals = this.data.gameMetadata.goals as any[];
 
-        console.log(frames)
-
         const goalData = goals.map((goal: any) => {
             let frameNumber = goal.frameNumber;
 
             let x = 0;
             let y = 0;
-            let velocity = 0;
+            let velocity = "";
 
             if (frames.length) {
                 const ballIndex = frames[0].findIndex((entity: any) => entity.name === "ball");
@@ -389,8 +387,9 @@ export default class ResponseDataWrapper {
                 const ball = frames[frameNumber][ballIndex];
 
                 x = ball.position.x;
+                y = ball.position.z;
 
-                velocity = Math.sqrt(ball.velocity.x ** 2 + ball.velocity.y ** 2) * .03623188;
+                velocity = (Math.sqrt(ball.velocity.x ** 2 + ball.velocity.y ** 2 + ball.velocity.z ** 2) / 1000 / 1000 * 60 * 60).toFixed(2);
             }
 
             const player = this.getPlayerFromId(goal.playerId.id);
@@ -399,9 +398,10 @@ export default class ResponseDataWrapper {
 
             return {
                 name: player.name,
-                x: x,
+                x: player.isOrange ? -x : x,
                 y: y,
                 velocity: velocity,
+                isOrange: player.isOrange as boolean
             }
         });
 
