@@ -16,17 +16,14 @@ import { GameTime, Frame } from "./facets";
 
 export default function Replay2DView() {
   const ECS = useECS();
-  const frameInterval = 250;
-  let lastUpdateTime = useRef(performance.now());
-
-  const fixedUpdate = () => {
-    const currentTime = performance.now();
-    const deltaTime = currentTime - lastUpdateTime.current;
 
   useAnimationFrame((dt) => ECS.update(dt));
 
   useAnimationFrame((dt) => ECS.update(dt));
 
+  useAnimationFrame((dt) => ECS.update(dt));
+
+  const url = "http://localhost:16000/frames.csv.zip";
   const url = "http://localhost:16000/frames.csv.zip";
   const { data, loading, error } = useReplayFrames(url);
 
