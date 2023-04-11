@@ -34,6 +34,24 @@ export const CanvasViewSystem = () => {
     );
 
     query.loop([Drawable, Transform], (e, [drawable, transform]) => {
+      if (transform) {
+        transform.position.x = lerp(
+          transform.position.x,
+          transform.nextPosition.x,
+          interpolation_factor
+        );
+        transform.position.y = lerp(
+          transform.position.y,
+          transform.nextPosition.y,
+          interpolation_factor
+        );
+        transform.position.z = lerp(
+          transform.position.z,
+          transform.nextPosition.z,
+          interpolation_factor
+        );
+      }
+
       drawable.draw(ctx, transform);
     });
   });
