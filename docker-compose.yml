@@ -28,106 +28,120 @@ services:
   #   build: ./ml
   #   ports:
   #     - '5002:5002'
-  replay:
-    command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0
-    build: 
+
+  ml:
+    command: uvicorn app:app --reload --port ${ML_SERVICE_PORT} --host 0.0.0.0
+    build:
       context: ./
-      dockerfile: ./${REPLAY_SERVICE_NAME}/Dockerfile
+      dockerfile: ./${ML_SERVICE_NAME}/Dockerfile
     ports:
-      - ${REPLAY_SERVICE_PORT}:${REPLAY_SERVICE_PORT}
-    depends_on:
-      - replaydb
-      - redis
+      - '${ML_SERVICE_PORT}:${ML_SERVICE_PORT}'
     volumes:
-      - ./${REPLAY_SERVICE_NAME}:/app
-      - .env:/app/.env
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
-  replaydb:
-    image: mongo:latest
-    restart: always
-    ports:
-      - ${REPLAY_DB_PORT}:${REPLAY_DB_PORT}
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${REPLAY_DB_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${REPLAY_DB_PASSWORD}
-      - MONGO_INITDB_DATABASE=${REPLAY_DB_NAME}
-    volumes:
-      - ./${REPLAY_SERVICE_NAME}/config/db/data:/data/db
-      - ./${REPLAY_SERVICE_NAME}/config/setup/init-mongo.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
-  redis:
-    image: redis:6.2.10-alpine
-  parser:
-    build: 
-      dockerfile: Dockerfile-worker
-      context: ./replay/
-    command: celery -A worker worker
-    volumes:
-      - .env:/worker/.env
-      - ./${REPLAY_SERVICE_NAME}/parser/files:/worker/files
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
-    depends_on:
-      - redis
-      - replay
-  stats-service:
-    command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
-    build: 
-      context: .
-      dockerfile: ./${STATS_SERVICE_NAME}/Dockerfile
-    ports:
-      - ${STATS_SERVICE_PORT}:${STATS_SERVICE_PORT}
-    depends_on:
-      - stats-service-db
-    volumes:
-      - ./${STATS_SERVICE_NAME}:/app
+      - ./${ML_SERVICE_NAME}/ml-service:/app
       - .env:/app/.env
     environment:
       - WATCHFILES_FORCE_POLLING=true
-  stats-service-db:
-    image: amd64/postgres:alpine
-    restart: always
-    ports:
-      - ${STATS_DB_PORT}:5432
-    environment:
-      - POSTGRES_USER=${STATS_DB_USER}
-      - POSTGRES_PASSWORD=${STATS_DB_PASSWORD}
-      - POSTGRES_DB=${STATS_DB_NAME}
-    volumes:
-      - ./${STATS_SERVICE_NAME}/config:/var/lib/postgres/data
-      - ./${STATS_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
-  user-service:
-    command: uvicorn app:app --reload --port ${USER_SERVICE_PORT} --host 0.0.0.0
-    build: 
-      context: .
-      dockerfile: ./${USER_SERVICE_NAME}/Dockerfile
-    ports:
-      - ${USER_SERVICE_PORT}:${USER_SERVICE_PORT}
-    depends_on:
-      - userdb
-    volumes:
-      - ./${USER_SERVICE_NAME}:/app
-      - .env:/app/.env
-    environment:
-      - WATCHFILES_FORCE_POLLING=true
-  userdb:
-    image: amd64/postgres:alpine
-    restart: always
-    ports:
-      - ${USER_DB_PORT}:5432
-    environment:
-      - POSTGRES_USER=${USER_DB_USER}
-      - POSTGRES_PASSWORD=${USER_DB_PASSWORD}
-      - POSTGRES_DB=${USER_DB_HOST}
-    volumes:
-      - ./${USER_SERVICE_NAME}/config:/var/lib/postgres/data
-      - ./${USER_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
-volumes:
-  userdb:
-    driver: local
-  stats-service-db:
-  volumes:
-  replaydb:
-    driver: local
+
+#   replay:
+#     command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0
+#     build: 
+#       context: ./
+#       dockerfile: ./${REPLAY_SERVICE_NAME}/Dockerfile
+#     ports:
+#       - ${REPLAY_SERVICE_PORT}:${REPLAY_SERVICE_PORT}
+#     depends_on:
+#       - replaydb
+#       - redis
+#     volumes:
+#       - ./${REPLAY_SERVICE_NAME}:/app
+#       - .env:/app/.env
+#     environment:
+#       - CELERY_BROKER_URL=redis://redis:6379/0
+#       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+#   replaydb:
+#     image: mongo:latest
+#     restart: always
+#     ports:
+#       - ${REPLAY_DB_PORT}:${REPLAY_DB_PORT}
+#     environment:
+#       - MONGO_INITDB_ROOT_USERNAME=${REPLAY_DB_USER}
+#       - MONGO_INITDB_ROOT_PASSWORD=${REPLAY_DB_PASSWORD}
+#       - MONGO_INITDB_DATABASE=${REPLAY_DB_NAME}
+#     volumes:
+#       - ./${REPLAY_SERVICE_NAME}/config/db/data:/data/db
+#       - ./${REPLAY_SERVICE_NAME}/config/setup/init-mongo.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
+#   redis:
+#     image: redis:6.2.10-alpine
+#   parser:
+#     build: 
+#       dockerfile: Dockerfile-worker
+#       context: ./replay/
+#     command: celery -A worker worker
+#     volumes:
+#       - .env:/worker/.env
+#       - ./${REPLAY_SERVICE_NAME}/parser/files:/worker/files
+#     environment:
+#       - CELERY_BROKER_URL=redis://redis:6379/0
+#       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+#     depends_on:
+#       - redis
+#       - replay
+#   stats-service:
+#     command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
+#     build: 
+#       context: .
+#       dockerfile: ./${STATS_SERVICE_NAME}/Dockerfile
+#     ports:
+#       - ${STATS_SERVICE_PORT}:${STATS_SERVICE_PORT}
+#     depends_on:
+#       - stats-service-db
+#     volumes:
+#       - ./${STATS_SERVICE_NAME}:/app
+#       - .env:/app/.env
+#     environment:
+#       - WATCHFILES_FORCE_POLLING=true
+#   stats-service-db:
+#     image: amd64/postgres:alpine
+#     restart: always
+#     ports:
+#       - ${STATS_DB_PORT}:5432
+#     environment:
+#       - POSTGRES_USER=${STATS_DB_USER}
+#       - POSTGRES_PASSWORD=${STATS_DB_PASSWORD}
+#       - POSTGRES_DB=${STATS_DB_NAME}
+#     volumes:
+#       - ./${STATS_SERVICE_NAME}/config:/var/lib/postgres/data
+#       - ./${STATS_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
+#   user-service:
+#     command: uvicorn app:app --reload --port ${USER_SERVICE_PORT} --host 0.0.0.0
+#     build: 
+#       context: .
+#       dockerfile: ./${USER_SERVICE_NAME}/Dockerfile
+#     ports:
+#       - ${USER_SERVICE_PORT}:${USER_SERVICE_PORT}
+#     depends_on:
+#       - userdb
+#     volumes:
+#       - ./${USER_SERVICE_NAME}:/app
+#       - .env:/app/.env
+#     environment:
+#       - WATCHFILES_FORCE_POLLING=true
+#   userdb:
+#     image: amd64/postgres:alpine
+#     restart: always
+#     ports:
+#       - ${USER_DB_PORT}:5432
+#     environment:
+#       - POSTGRES_USER=${USER_DB_USER}
+#       - POSTGRES_PASSWORD=${USER_DB_PASSWORD}
+#       - POSTGRES_DB=${USER_DB_HOST}
+#     volumes:
+#       - ./${USER_SERVICE_NAME}/config:/var/lib/postgres/data
+#       - ./${USER_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
+# volumes:
+#   userdb:
+#     driver: local
+#   stats-service-db:
+#   volumes:
+#   replaydb:
+#     driver: local
