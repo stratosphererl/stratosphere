@@ -1,6 +1,7 @@
 import { Drawable, Transform, Vector3, Name } from "../facets";
 import { Entity } from "@react-ecs/core";
 import * as constants from "../constants/map";
+import { Fragment } from "react";
 
 export function Ball({ name, id }: { name: string; id: number }) {
   const draw = (ctx: CanvasRenderingContext2D, transform: Transform) => {
@@ -36,6 +37,7 @@ export function Ball({ name, id }: { name: string; id: number }) {
       <Transform position={new Vector3(Infinity, Infinity, Infinity)} />
       <Drawable draw={draw} />
       <Name name={name.name} id={name.id} />
+      <Fragment />
     </Entity>
   );
 }

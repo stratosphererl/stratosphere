@@ -5,9 +5,11 @@ export class Vector3 {
 }
 
 export class Transform extends Facet<Transform> {
-  position?: Vector3;
+  position: Vector3 = new Vector3(Infinity, Infinity, Infinity);
+  nextPosition: Vector3 = new Vector3(Infinity, Infinity, Infinity);
   velocity?: Vector3;
-  rotation?: Vector3;
+  rotation?: Vector3 = new Vector3(Infinity, Infinity, Infinity);
+  nextPosition: Vector3 = new Vector3(Infinity, Infinity, Infinity);
 }
 
 export class GameTime extends Facet<GameTime> {
@@ -38,7 +40,7 @@ export class Name extends Facet<Name> {
 }
 
 export class Frame extends Facet<Frame> {
-  frame?: number = 0;
+  lastUpdated?: number = 0;
 }
 
 export class Drawable extends Facet<Drawable> {

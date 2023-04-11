@@ -1,5 +1,5 @@
 import { Entity } from "@react-ecs/core";
-import { Drawable, Transform } from "../facets";
+import { Drawable, Transform, Frame } from "../facets";
 import * as constants from "../constants/map";
 
 export function Map() {
@@ -153,6 +153,7 @@ export function Map() {
   return (
     <Entity>
       <Drawable draw={draw} />
+      <Frame />
     </Entity>
   );
 }

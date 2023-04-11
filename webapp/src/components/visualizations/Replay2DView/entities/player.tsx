@@ -50,7 +50,7 @@ export function Player({
     <Entity>
       {children}
       <Drawable draw={draw} />
-      <Transform position={new Vector3(Infinity, Infinity, Infinity)} />
+      <Transform />
       <Name name={name.name} id={name.id} />
       {isOrange && <IsOrange />}
       <Frame />
