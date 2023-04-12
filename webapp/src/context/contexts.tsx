@@ -59,3 +59,24 @@ export const ThemeProvider = ({ children }) => {
         </ThemeContext.Provider>
     )
 }
+
+// ARENA CONTEXT for Browse pages
+
+export const ArenaContext = createContext({
+    arena: "ANY",
+    reviseArena: (arenaNum: string) => {}
+})
+
+export const ArenaProvider = ({ children }) => {
+    const [arena, setArena] = React.useState("ANY")
+
+    const reviseArena = (arenaName: string) => {
+        setArena(arenaName)
+    }
+
+    return (
+        <ArenaContext.Provider value={{arena, reviseArena}}>
+            {children}
+        </ArenaContext.Provider>
+    )
+}
