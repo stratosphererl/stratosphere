@@ -7,7 +7,10 @@ import { useTimer } from "./hooks/useTimer";
 
 let frame = 0;
 
-const interpolation_factor = 0.1;
+const interpolation_factor = 1 / 20;
+
+let timeSinceLastFrame = 0;
+const timeBetweenFrames = 1;
 
 function cubicFactor(
   y0: number,
@@ -43,26 +46,31 @@ export const CanvasViewSystem = () => {
 
     ctx.clear();
 
+    timeSinceLastFrame += dt;
+    const interpolationPercent = timeSinceLastFrame / timeBetweenFrames;
+
     query.loop([Drawable, Transform], (e, [drawable, transform]) => {
+      const drawTransform = {position: new Vector3(10000, 10000, 10000)};
+
       if (transform) {
-        transform.position.x = lerp(
+        drawTransform.position.x = lerp(
           transform.position.x,
           transform.nextPosition.x,
-          interpolation_factor
+          interpolationPercent
         );
-        transform.position.y = lerp(
+        drawTransform.position.y = lerp(
           transform.position.y,
           transform.nextPosition.y,
-          interpolation_factor
+          interpolationPercent
         );
-        transform.position.z = lerp(
+        drawTransform.position.z = lerp(
           transform.position.z,
           transform.nextPosition.z,
-          interpolation_factor
+          interpolationPercent
         );
       }
 
-      drawable.draw(ctx, transform);
+      drawable.draw(ctx, drawTransform);
     });
   });
 };
@@ -71,7 +79,7 @@ export const TransformSystem = ({ data }) => {
   const query = useQuery((e) => e.hasAll(Transform, Name));
 
   return useTimer(
-    1 / 3,
+    timeBetweenFrames,
     () => {
       query.loop([Transform, Name], (e, [transform, name]) => {
         if (frame < data.length) {
@@ -85,8 +93,6 @@ export const TransformSystem = ({ data }) => {
           }
         }
       });
-    },
-    () => {
       query.loop([Transform, Name], (e, [transform, name]) => {
         if (frame < data.length) {
           const gameNext = data[frame + 1];
@@ -99,6 +105,20 @@ export const TransformSystem = ({ data }) => {
           }
         }
       });
+    },
+    () => {
+      // query.loop([Transform, Name], (e, [transform, name]) => {
+      //   if (frame < data.length) {
+      //     const gameNext = data[frame + 1];
+      //     for (let i = 0; i < gameNext.length; i++) {
+      //       if (gameNext[i].id === name.id) {
+      //         transform.nextPosition.x = gameNext[i].position.x;
+      //         transform.nextPosition.y = gameNext[i].position.y;
+      //         transform.nextPosition.z = gameNext[i].position.z;
+      //       }
+      //     }
+      //   }
+      // });
     }
   );
 };
@@ -106,9 +126,10 @@ export const TransformSystem = ({ data }) => {
 export const GameTimeSystem = ({ data }) => {
   const query = useQuery((e) => e.has(GameTime));
 
-  return useTimer(1 / 3, () => {
+  return useTimer(timeBetweenFrames, () => {
     query.loop([GameTime], (e, [gameTime]) => {
       const currFrame = data[frame++][7];
+      timeSinceLastFrame = 0;
       gameTime.time = currFrame["seconds_remaining"];
     });
   });

@@ -9,7 +9,6 @@ export class Transform extends Facet<Transform> {
   nextPosition: Vector3 = new Vector3(Infinity, Infinity, Infinity);
   velocity?: Vector3;
   rotation?: Vector3 = new Vector3(Infinity, Infinity, Infinity);
-  nextPosition: Vector3 = new Vector3(Infinity, Infinity, Infinity);
 }
 
 export class GameTime extends Facet<GameTime> {
