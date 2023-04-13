@@ -60,11 +60,13 @@ export const ThemeProvider = ({ children }) => {
     )
 }
 
-// ARENA CONTEXT for Browse pages
+// CONTEXTS FOR BROWSE PAGES
+
+// Arena Context
 
 export const ArenaContext = createContext({
     arena: "ANY",
-    reviseArena: (arenaNum: string) => {}
+    reviseArena: (arenaName: string) => {}
 })
 
 export const ArenaProvider = ({ children }) => {
@@ -78,5 +80,47 @@ export const ArenaProvider = ({ children }) => {
         <ArenaContext.Provider value={{arena, reviseArena}}>
             {children}
         </ArenaContext.Provider>
+    )
+}
+
+// Duration Context
+
+export const DurationContext = createContext({
+    duration: "ANY",
+    reviseDuration: (durationName: string) => {}
+})
+
+export const DurationProvider = ({ children }) => {
+    const [duration, setDuration] = React.useState("ANY")
+
+    const reviseDuration = (durationName: string) => {
+        setDuration(durationName)
+    }
+
+    return (
+        <DurationContext.Provider value={{duration, reviseDuration}}>
+            {children}
+        </DurationContext.Provider>
+    )
+}
+
+// Gamemode Context
+
+export const GamemodeContext = createContext({
+    gamemode: "ANY",
+    reviseGamemode: (gamemodeName: string) => {}
+})
+
+export const GamemodeProvider = ({ children }) => {
+    const [gamemode, setGamemode] = React.useState("ANY")
+
+    const reviseGamemode = (gamemodeName: string) => {
+        setGamemode(gamemodeName)
+    }
+
+    return (
+        <GamemodeContext.Provider value={{gamemode, reviseGamemode}}>
+            {children}
+        </GamemodeContext.Provider>
     )
 }
