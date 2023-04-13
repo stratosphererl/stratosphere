@@ -11,7 +11,6 @@ export const useTimer = (
     time.current += dt;
     if (variableCallback) variableCallback();
     if (time.current > interval) {
-      console.log(time.current);
       time.current = 0;
       fixedCallback();
     }
