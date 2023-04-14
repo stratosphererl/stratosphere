@@ -1,4 +1,4 @@
-version: '3.6'
+version: "3.6"
 services:
   # webapp:
   #   build: ./webapp
@@ -16,7 +16,7 @@ services:
   #     - NODE_ENV=development
   # parser:
   #   build: ./parser
-  #   ports: 
+  #   ports:
   #     - '5001:5001'
   #   tmpfs:
   #     - /tmp:exec,mode=777
@@ -29,8 +29,8 @@ services:
   #   ports:
   #     - '5002:5002'
   replay:
-    command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0
-    build: 
+    command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0 --reload-exclude *.wt
+    build:
       context: ./
       dockerfile: ./${REPLAY_SERVICE_NAME}/Dockerfile
     ports:
@@ -59,7 +59,7 @@ services:
   redis:
     image: redis:6.2.10-alpine
   parser:
-    build: 
+    build:
       dockerfile: Dockerfile-worker
       context: ./replay/
     command: celery -A worker worker
@@ -74,7 +74,7 @@ services:
       - replay
   stats-service:
     command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
-    build: 
+    build:
       context: .
       dockerfile: ./${STATS_SERVICE_NAME}/Dockerfile
     ports:
@@ -100,7 +100,7 @@ services:
       - ./${STATS_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
   user-service:
     command: uvicorn app:app --reload --port ${USER_SERVICE_PORT} --host 0.0.0.0
-    build: 
+    build:
       context: .
       dockerfile: ./${USER_SERVICE_NAME}/Dockerfile
     ports:
