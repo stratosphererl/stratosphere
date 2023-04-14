@@ -124,3 +124,66 @@ export const GamemodeProvider = ({ children }) => {
         </GamemodeContext.Provider>
     )
 }
+
+// Gametype Context
+
+export const GametypeContext = createContext({
+    gametype: "ANY",
+    reviseGametype: (gametypeName: string) => {}
+})
+
+export const GametypeProvider = ({ children }) => {
+    const [gametype, setGametype] = React.useState("ANY")
+
+    const reviseGametype = (gametypeName: string) => {
+        setGametype(gametypeName)
+    }
+
+    return (
+        <GametypeContext.Provider value={{gametype, reviseGametype}}>
+            {children}
+        </GametypeContext.Provider>
+    )
+}
+
+// Rank Context
+
+export const RankContext = createContext({
+    rank: "ANY",
+    reviseRank: (rankName: string) => {}
+})
+
+export const RankProvider = ({ children }) => {
+    const [rank, setRank] = React.useState("ANY")
+
+    const reviseRank = (rankName: string) => {
+        setRank(rankName)
+    }
+
+    return (
+        <RankContext.Provider value={{rank, reviseRank}}>
+            {children}
+        </RankContext.Provider>
+    )
+}
+
+// Season Context
+
+export const SeasonContext = createContext({
+    season: "ANY",
+    reviseSeason: (seasonName: string) => {}
+})
+
+export const SeasonProvider = ({ children }) => {
+    const [season, setSeason] = React.useState("ANY")
+
+    const reviseSeason = (seasonName: string) => {
+        setSeason(seasonName)
+    }
+
+    return (
+        <SeasonContext.Provider value={{season, reviseSeason}}>
+            {children}
+        </SeasonContext.Provider>
+    )
+}

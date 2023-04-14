@@ -7,7 +7,7 @@ import ReplayJSON from "../../mock/replay.json"
 import ReplayJSONs from "../../mock/replays.json"
 import "./browse.css"
 
-import { ArenaContext, DurationContext, GamemodeContext } from "../../context/contexts"
+import { ArenaContext, DurationContext, GamemodeContext, GametypeContext, RankContext, SeasonContext } from "../../context/contexts"
 
 export default function Browse() {
     const params = useParams();
@@ -35,9 +35,9 @@ export default function Browse() {
 
     return (
         <MainPane title="Browse Replays" className="w-[96%]">
-            {useContext(ArenaContext).arena}
+            {/* {useContext(ArenaContext).arena}
             {useContext(DurationContext).duration}
-            {useContext(GamemodeContext).gamemode}
+            {useContext(GamemodeContext).gamemode} */}
             <div className="glass-inner rounded-full h-[48px] flex justify-center items-center mb-3">
                 <input onChange={searchFiltering} type="search" className="glass-inner-light rounded-full w-full m-2 h-[70%] flex justify-center items-center p-3" placeholder="SEARCH..." />
             </div>
@@ -92,10 +92,16 @@ export function FilterDropdown(props: {text: string}) {
         contextMethod = useContext(GamemodeContext).reviseGamemode
     } else if (props.text === "GAMETYPE") {
         optionArray = getGametypeArray()
+        contextValue = useContext(GametypeContext).gametype
+        contextMethod = useContext(GametypeContext).reviseGametype
     } else if (props.text === "RANK") {
         optionArray = getRankArray()
+        contextValue = useContext(RankContext).rank
+        contextMethod = useContext(RankContext).reviseRank
     } else if (props.text === "SEASON") {
         optionArray = getSeasonArray()
+        contextValue = useContext(SeasonContext).season
+        contextMethod = useContext(SeasonContext).reviseSeason
     } else {
         return (<div>ABC</div>) // Add throw error here
     }
@@ -106,7 +112,7 @@ export function FilterDropdown(props: {text: string}) {
 
     return (
         <div className="filter-dropdown glass-inner rounded-full flex justify-center items-center">
-            {contextValue}
+            {/* {contextValue} */}
             <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">
                 <select name={props.text} id={props.text} className="rounded-full w-[92%]" onChange={handleChange}>
                     <option value="ANY" className="option-text">ANY {props.text}</option>
