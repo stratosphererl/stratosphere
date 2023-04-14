@@ -28,7 +28,7 @@ services:
   #   ports:
   #     - '5002:5002'
   replay:
-    command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0
+    command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0 --reload-exclude *.wt
     build:
       context: ./
       dockerfile: ./${REPLAY_SERVICE_NAME}/Dockerfile
