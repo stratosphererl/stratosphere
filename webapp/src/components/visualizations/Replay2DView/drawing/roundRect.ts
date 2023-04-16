@@ -4,12 +4,19 @@ export const roundRect = (
   y0: number,
   width: number,
   height: number,
-  r: number
+  r: number,
+  rotation: number = 0 // default rotation is 0
 ): void => {
   let w = width;
   let h = height;
   if (r > w / 2) r = w / 2;
   if (r > h / 2) r = h / 2;
+  const cx = x0 + w / 2; // center x
+  const cy = y0 + h / 2; // center y
+  ctx.save();
+  ctx.translate(cx, cy); // translate to the center point
+  ctx.rotate(rotation); // rotate by the specified angle
+  ctx.translate(-cx, -cy); // translate back to the original position
   ctx.beginPath();
   ctx.moveTo(x0 + r, y0);
   ctx.lineTo(x0 + w - r, y0);
@@ -22,4 +29,5 @@ export const roundRect = (
   ctx.quadraticCurveTo(x0, y0, x0 + r, y0);
   ctx.closePath();
   ctx.fill();
+  ctx.restore();
 };

@@ -36,7 +36,8 @@ export function Player({
       y * yScale,
       width * Math.abs(xScale),
       height * Math.abs(yScale),
-      10
+      10,
+      0
     );
     ctx.strokeStyle = shadowColor;
     ctx.lineWidth = lineWidth;
