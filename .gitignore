@@ -398,3 +398,4 @@ cython_debug/
 
 /replay/config/db
 /replay/parser/files
+ml/training/replays/*
