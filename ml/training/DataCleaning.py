@@ -48,7 +48,16 @@ def formatFrames(am: AnalysisManager) -> pd.DataFrame:
         for column in player_columns:
             df_copy.insert(len(df_copy.columns), (new_player_name, column), [None] * len(df_copy))
 
+    new_blue_players = [f"blue_player_{idx}" for idx, _ in enumerate(blue_players)]
+    new_orange_players = [f"orange_player_{idx}" for idx, _ in enumerate(orange_players)]
+
     player_names = blue_players + orange_players
+    new_player_names = new_blue_players + new_orange_players
+
+    for old_player, new_player in zip(player_names, new_player_names):
+        df_copy = df_copy.rename(columns={old_player: new_player})
+
+    player_names, blue_players, orange_players = new_player_names, new_blue_players, new_orange_players
 
     # Helper function to drop multi-indexed columns
     from typing import Union, List
@@ -62,7 +71,7 @@ def formatFrames(am: AnalysisManager) -> pd.DataFrame:
         for actor in actors:
             for column in columns:
                 if (actor, column) in new_df.columns:
-                    new_df.drop((actor, column), axis=1, inplace=True)
+                    new_df = new_df.drop((actor, column), axis=1)
         return new_df
 
     # Drop unused columns
