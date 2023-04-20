@@ -4,28 +4,30 @@ import "./data.css"
 export default function ReplayData(props: {data: JSON, version: number, classname: string}) {
 
     // Replay title variables
-    const replayTitle = props.data.gameMetadata.name
+    const replayTitle = props.data.name
 
     // Replay score variables
-    const blueScore = props.data.teams[0].score
-    const orangeScore = props.data.teams[1].score
+    const blueScore = props.data.score.team0Score
+    const orangeScore = props.data.score.team1Score
 
     // Replay variables for first column
-    const replayID = props.data.gameMetadata.id
-    const uploadDate = (new Date(props.data.gameMetadata.uploadDate)).toUTCString().substring(5,22)
-    const playingDate = (new Date(props.data.gameMetadata.time * 1000)).toUTCString().substring(5,22)
+    const replayID = props.data.id
+    const uploadDate = (new Date(props.data.uploadDate)).toUTCString().substring(5,22)
+    const playingDate = (new Date(props.data.time * 1000)).toUTCString().substring(5,22)
     const uploaderUsername = "--PLACEHOLDER--"
-    const mapName = props.data.gameMetadata.map.base_name
+    const mapName = props.data.map.base_name
 
     // Replay variables for second column
-    const avgRank = Math.round(getAverageRank(props.data.gameMetadata.ranks))
-    const duration = convertToTimeString(props.data.gameMetadata.length)
-    const season = props.data.gameMetadata.season.name.replace("Season","")
+    // const avgRank = Math.round(getAverageRank(props.data.ranks)) // WAITING
+    const duration = convertToTimeString(props.data.length)
+    const season = props.data.season.name.replace("Season","")
     const gamemode = "--PLACEHOLDER--"
-    const gametype = props.data.gameMetadata.playlist
+    const gametype = props.data.playlist
 
     // Replay players
-    const [blueName, orangeName, bluePlayers, orangePlayers] = getPlayers(props.data.players)
+
+    // Waiting on Chris to get player info into replay headers
+    // const [blueName, orangeName, bluePlayers, orangePlayers] = getPlayers(props.data.players) TODO:
     
     return (
         // version == 1 used for calls from replay.tsx
@@ -45,12 +47,15 @@ export default function ReplayData(props: {data: JSON, version: number, classnam
             </InfoColumn>
             <VerticalSeparator/>
             <InfoColumn subtitles={["Duration","Season","Gamemode","Gametype"]} info={[duration,season,gamemode,gametype]} titleInfo="">
-                <div><b>{avgRank}</b></div>
+                {/* <div><b>{avgRank}</b></div> */}
+                <div><b>AVG RANK MOCK</b></div>
             </InfoColumn>
             <VerticalSeparator/>
-            <TeamColumn name={blueName} teamTextStyle="sky-blue-stroke-1" playerNames={bluePlayers}/>
+            {/* <TeamColumn name={blueName} teamTextStyle="sky-blue-stroke-1" playerNames={bluePlayers}/> */} 
+            <TeamColumn name="BLUE" teamTextStyle="sky-blue-stroke-1" playerNames={[]}/>
             <VerticalSeparator/>
-            <TeamColumn name={orangeName} teamTextStyle="orange-stroke-1" playerNames={orangePlayers}/>
+            {/* <TeamColumn name={orangeName} teamTextStyle="orange-stroke-1" playerNames={orangePlayers}/> */}
+            <TeamColumn name="ORANGE" teamTextStyle="orange-stroke-1" playerNames={[]}/>
             <VerticalSeparator/>
             <ButtonColumn version={props.version} replayID={replayID}/>
         </div>
