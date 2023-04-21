@@ -93,7 +93,7 @@ export default function Browse() {
         return (
             <div className="filter-dropdown glass-inner rounded-full flex justify-center items-center">
                 <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">
-                    <select name={props.text} id={props.text} className="rounded-full w-[92%]" onChange={handleChange}>
+                    <select name={props.text} id={props.text} defaultValue={contextValue} className="rounded-full w-[92%]" onChange={handleChange}>
                         <option value="ANY" className="option-text">ANY {props.text}</option>
                         {
                             optionArray.map((optionValue) =>
