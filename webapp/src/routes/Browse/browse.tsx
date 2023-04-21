@@ -3,11 +3,10 @@ import { useState, useContext } from 'react';
 import MainPane from "../../components/general/MainPane/mainPane"
 import DataComponent from "../../components/replays/data"
 import ErrorPage from "../Error/error"
-import ReplayJSON from "../../mock/replay.json"
-import ReplayJSONs from "../../mock/replays.json"
+import ReplayJSONs from "../../mock/uploaded_replays.json" // "../../mock/replays.json"
 import "./browse.css"
 
-import { ArenaContext, DurationContext, GamemodeContext, GametypeContext, RankContext, SeasonContext } from "../../context/contexts"
+import { SearchContext, ArenaContext, DurationContext, GamemodeContext, GametypeContext, RankContext, SeasonContext } from "../../context/contexts"
 
 export default function Browse() {
     const params = useParams();
@@ -21,14 +20,94 @@ export default function Browse() {
     // Setting up search feature with state
     const [replaysAfterFiltering, setReplaysAfterFiltering] = useState(replayArray);
 
-    const searchFiltering = (event: any) => {
-        if (event.target.value === "") {
-            setReplaysAfterFiltering(replayArray)
+    let searchTerm = ""
+    const setSearchTerm = (event: any) => {
+        searchTerm = event.target.value
+        searchFiltering()
+    }
+
+    let arenaTerm = ""
+    const setArenaTerm = (newArena: string) => {
+        arenaTerm = newArena
+    }
+
+    const searchFiltering = () => {
+        let filteredArray = replayArray
+
+        filteredArray = filteredArray.filter((replay: any) =>
+            (replay.name.toLowerCase()).includes(searchTerm.toLowerCase())
+        )
+        setReplaysAfterFiltering(filteredArray)
+    }
+
+    // const searchFiltering = (event: any) => {
+    //     let arrayAfterFilter = replaysAfterFiltering
+
+    //     arrayAfterFilter = replaysAfterFiltering.filter((replay: any) =>
+    //         (replay.name.toLowerCase()).includes(event.target.value.toLowerCase())
+    //     )
+        
+    //     setReplaysAfterFiltering(arrayAfterFilter)
+    // }
+
+    // const arenaFiltering = (event: any) => {
+    //     let arrayAfterFilter = replaysAfterFiltering
+
+    //     arrayAfterFilter = 
+    // }
+
+    function FilterDropdown(props: {text: string}) {
+        let optionArray = []
+        let contextValue = null
+        let contextMethod = (input: string) => {}
+    
+        if (props.text === "ARENA") {
+            optionArray = getArenaArray()
+            contextValue = useContext(ArenaContext).arena
+            contextMethod = useContext(ArenaContext).reviseArena
+        } else if (props.text === "DURATION") {
+            optionArray = getDurationArray()
+            contextValue = useContext(DurationContext).duration
+            contextMethod = useContext(DurationContext).reviseDuration
+        } else if (props.text === "GAMEMODE") {
+            optionArray = getGamemodeArray()
+            contextValue = useContext(GamemodeContext).gamemode
+            contextMethod = useContext(GamemodeContext).reviseGamemode
+        } else if (props.text === "GAMETYPE") {
+            optionArray = getGametypeArray()
+            contextValue = useContext(GametypeContext).gametype
+            contextMethod = useContext(GametypeContext).reviseGametype
+        } else if (props.text === "RANK") {
+            optionArray = getRankArray()
+            contextValue = useContext(RankContext).rank
+            contextMethod = useContext(RankContext).reviseRank
+        } else if (props.text === "SEASON") {
+            optionArray = getSeasonArray()
+            contextValue = useContext(SeasonContext).season
+            contextMethod = useContext(SeasonContext).reviseSeason
         } else {
-            setReplaysAfterFiltering(replayArray.filter((replay: any) =>
-                (replay.gameMetadata.name.toLowerCase()).includes(event.target.value.toLowerCase())
-            ))
+            return (<div>ABC</div>) // Add throw error here
         }
+    
+        function handleChange(event: any) {
+
+            contextMethod(event.target.value)
+        }
+    
+        return (
+            <div className="filter-dropdown glass-inner rounded-full flex justify-center items-center">
+                <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">
+                    <select name={props.text} id={props.text} className="rounded-full w-[92%]" onChange={handleChange}>
+                        <option value="ANY" className="option-text">ANY {props.text}</option>
+                        {
+                            optionArray.map((optionValue) =>
+                                <option value={optionValue} className="option-text">{optionValue}</option>
+                            )
+                        }
+                    </select>
+                </div>
+            </div>
+        )
     }
 
     // TODO: Implement filtering out of replays NOT uploaded by a user when on browse/1
@@ -37,9 +116,12 @@ export default function Browse() {
         <MainPane title="Browse Replays" className="w-[96%]">
             {/* {useContext(ArenaContext).arena}
             {useContext(DurationContext).duration}
-            {useContext(GamemodeContext).gamemode} */}
+            {useContext(GamemodeContext).gamemode}
+            {useContext(GametypeContext).gametype}
+            {useContext(RankContext).rank}
+            {useContext(SeasonContext).season} */}
             <div className="glass-inner rounded-full h-[48px] flex justify-center items-center mb-3">
-                <input onChange={searchFiltering} type="search" className="glass-inner-light rounded-full w-full m-2 h-[70%] flex justify-center items-center p-3" placeholder="SEARCH..." />
+                <input onChange={setSearchTerm} type="search" className="glass-inner-light rounded-full w-full m-2 h-[70%] flex justify-center items-center p-3" placeholder="SEARCH..." />
             </div>
             <div className="flex flex-nowrap justify-center">
                 <FilterDropdown text="ARENA"/>
@@ -73,59 +155,58 @@ export function HorizontalSpacing() {
     )
 }
 
-export function FilterDropdown(props: {text: string}) {
-    let optionArray = []
-    let contextValue = null
-    let contextMethod = (input: string) => {}
+// export function FilterDropdown(props: {text: string}) {
+//     let optionArray = []
+//     let contextValue = null
+//     let contextMethod = (input: string) => {}
 
-    if (props.text === "ARENA") {
-        optionArray = getArenaArray()
-        contextValue = useContext(ArenaContext).arena
-        contextMethod = useContext(ArenaContext).reviseArena
-    } else if (props.text === "DURATION") {
-        optionArray = getDurationArray()
-        contextValue = useContext(DurationContext).duration
-        contextMethod = useContext(DurationContext).reviseDuration
-    } else if (props.text === "GAMEMODE") {
-        optionArray = getGamemodeArray()
-        contextValue = useContext(GamemodeContext).gamemode
-        contextMethod = useContext(GamemodeContext).reviseGamemode
-    } else if (props.text === "GAMETYPE") {
-        optionArray = getGametypeArray()
-        contextValue = useContext(GametypeContext).gametype
-        contextMethod = useContext(GametypeContext).reviseGametype
-    } else if (props.text === "RANK") {
-        optionArray = getRankArray()
-        contextValue = useContext(RankContext).rank
-        contextMethod = useContext(RankContext).reviseRank
-    } else if (props.text === "SEASON") {
-        optionArray = getSeasonArray()
-        contextValue = useContext(SeasonContext).season
-        contextMethod = useContext(SeasonContext).reviseSeason
-    } else {
-        return (<div>ABC</div>) // Add throw error here
-    }
+//     if (props.text === "ARENA") {
+//         optionArray = getArenaArray()
+//         contextValue = useContext(ArenaContext).arena
+//         contextMethod = useContext(ArenaContext).reviseArena
+//     } else if (props.text === "DURATION") {
+//         optionArray = getDurationArray()
+//         contextValue = useContext(DurationContext).duration
+//         contextMethod = useContext(DurationContext).reviseDuration
+//     } else if (props.text === "GAMEMODE") {
+//         optionArray = getGamemodeArray()
+//         contextValue = useContext(GamemodeContext).gamemode
+//         contextMethod = useContext(GamemodeContext).reviseGamemode
+//     } else if (props.text === "GAMETYPE") {
+//         optionArray = getGametypeArray()
+//         contextValue = useContext(GametypeContext).gametype
+//         contextMethod = useContext(GametypeContext).reviseGametype
+//     } else if (props.text === "RANK") {
+//         optionArray = getRankArray()
+//         contextValue = useContext(RankContext).rank
+//         contextMethod = useContext(RankContext).reviseRank
+//     } else if (props.text === "SEASON") {
+//         optionArray = getSeasonArray()
+//         contextValue = useContext(SeasonContext).season
+//         contextMethod = useContext(SeasonContext).reviseSeason
+//     } else {
+//         return (<div>ABC</div>) // Add throw error here
+//     }
 
-    function handleChange(event: any) {
-        contextMethod(event.target.value)
-    }
+//     function handleChange(event: any) {
+//         contextMethod(event.target.value)
+//     }
 
-    return (
-        <div className="filter-dropdown glass-inner rounded-full flex justify-center items-center">
-            {/* {contextValue} */}
-            <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">
-                <select name={props.text} id={props.text} className="rounded-full w-[92%]" onChange={handleChange}>
-                    <option value="ANY" className="option-text">ANY {props.text}</option>
-                    {
-                        optionArray.map((optionValue) =>
-                            <option value={optionValue} className="option-text">{optionValue}</option>
-                        )
-                    }
-                </select>
-            </div>
-        </div>
-    )
-}
+//     return (
+//         <div className="filter-dropdown glass-inner rounded-full flex justify-center items-center">
+//             <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">
+//                 <select name={props.text} id={props.text} className="rounded-full w-[92%]" onChange={handleChange}>
+//                     <option value="ANY" className="option-text">ANY {props.text}</option>
+//                     {
+//                         optionArray.map((optionValue) =>
+//                             <option value={optionValue} className="option-text">{optionValue}</option>
+//                         )
+//                     }
+//                 </select>
+//             </div>
+//         </div>
+//     )
+// }
 
 function getArenaArray() {
     const arenaArray = [

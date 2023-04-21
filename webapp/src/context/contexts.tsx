@@ -62,6 +62,27 @@ export const ThemeProvider = ({ children }) => {
 
 // CONTEXTS FOR BROWSE PAGES
 
+// Search Context
+
+export const SearchContext = createContext({
+    search: "",
+    reviseSearch: (newSearch: string) => {}
+})
+
+export const SearchProvider = ({ children }) => {
+    const [search, setSearch] = React.useState("")
+
+    const reviseSearch = (newSearch: string) => {
+        setSearch(newSearch)
+    }
+
+    return (
+        <SearchContext.Provider value={{search, reviseSearch}}>
+            {children}
+        </SearchContext.Provider>
+    )
+}
+
 // Arena Context
 
 export const ArenaContext = createContext({

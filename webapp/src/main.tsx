@@ -20,7 +20,7 @@ import ReplayJSON from "./mock/replay.json"
 
 import Wrapper from "./components/general/wrapper"
 
-import { UserProvider } from "./context/contexts"
+import { UserProvider, SearchProvider } from "./context/contexts"
 import { ArenaProvider, DurationProvider, GamemodeProvider, GametypeProvider, RankProvider, SeasonProvider } from "./context/contexts"
 
 const client = new ApolloClient(
@@ -105,6 +105,7 @@ const router = createBrowserRouter([
 export function RouterWithContextsProvider() {
   return (
     <UserProvider>
+    <SearchProvider>
     <ArenaProvider>
     <DurationProvider>
     <GamemodeProvider>
@@ -118,6 +119,7 @@ export function RouterWithContextsProvider() {
     </GamemodeProvider>
     </DurationProvider>
     </ArenaProvider>
+    </SearchProvider>
     </UserProvider>
   )
 }
