@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import MainPane from "../../components/general/MainPane/mainPane"
 import DataComponent from "../../components/replays/data"
 import ErrorPage from "../Error/error"
@@ -20,25 +20,48 @@ export default function Browse() {
     // Setting up search feature with state
     const [replaysAfterFiltering, setReplaysAfterFiltering] = useState(replayArray);
 
-    let searchTerm = ""
-    const setSearchTerm = (event: any) => {
-        searchTerm = event.target.value
-        searchFiltering()
-    }
+    const searchContext = useContext(SearchContext)
+    const setSearchTerm = (event: any) => { searchContext.reviseSearch(event.target.value) }
 
-    let arenaTerm = ""
-    const setArenaTerm = (newArena: string) => {
-        arenaTerm = newArena
-    }
+    const arenaContext = useContext(ArenaContext)
+    const setArenaTerm = (event: any) => { arenaContext.reviseArena(event.target.value) }
 
-    const searchFiltering = () => {
+    useEffect(() => {
         let filteredArray = replayArray
 
+        console.log(searchContext.search)
+        console.log(arenaContext.arena)
+
         filteredArray = filteredArray.filter((replay: any) =>
-            (replay.name.toLowerCase()).includes(searchTerm.toLowerCase())
+            (replay.name.toLowerCase()).includes(searchContext.search.toLowerCase())
         )
+
+        if (arenaContext.arena !== "ANY") {
+            filteredArray = filteredArray.filter((replay: any) =>
+                (replay.map.base_name).includes(arenaContext.arena)
+            )
+        }
+
         setReplaysAfterFiltering(filteredArray)
-    }
+        
+    }, [searchContext, arenaContext]);
+
+    // const searchFiltering = () => {
+    //     console.log(searchTerm)
+    //     console.log(arenaTerm)
+
+    //     let filteredArray = replayArray
+
+    //     filteredArray = filteredArray.filter((replay: any) =>
+    //         (replay.name.toLowerCase()).includes(searchTerm.toLowerCase())
+    //     )
+
+    //     filteredArray = filteredArray.filter((replay:any) =>
+    //         (replay.map.base_name).includes(arenaTerm)
+    //     )
+
+    //     setReplaysAfterFiltering(filteredArray)
+    // }
 
     // const searchFiltering = (event: any) => {
     //     let arrayAfterFilter = replaysAfterFiltering
@@ -90,8 +113,9 @@ export default function Browse() {
         }
     
         function handleChange(event: any) {
-
-            contextMethod(event.target.value)
+            if (props.text === "ARENA") {
+                setArenaTerm(event)
+            }
         }
     
         return (
