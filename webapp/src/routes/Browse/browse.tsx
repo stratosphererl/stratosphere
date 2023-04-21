@@ -6,7 +6,15 @@ import ErrorPage from "../Error/error"
 import ReplayJSONs from "../../mock/uploaded_replays.json" // "../../mock/replays.json"
 import "./browse.css"
 
-import { SearchContext, ArenaContext, DurationContext, GamemodeContext, GametypeContext, RankContext, SeasonContext } from "../../context/contexts"
+import {
+    SearchContext,
+    ArenaContext,
+    DurationContext,
+    GamemodeContext,
+    GametypeContext,
+    RankContext,
+    SeasonContext
+} from "../../context/contexts"
 
 export default function Browse() {
     const params = useParams();
@@ -29,9 +37,6 @@ export default function Browse() {
     useEffect(() => {
         let filteredArray = replayArray
 
-        console.log(searchContext.search)
-        console.log(arenaContext.arena)
-
         filteredArray = filteredArray.filter((replay: any) =>
             (replay.name.toLowerCase()).includes(searchContext.search.toLowerCase())
         )
@@ -45,39 +50,6 @@ export default function Browse() {
         setReplaysAfterFiltering(filteredArray)
         
     }, [searchContext, arenaContext]);
-
-    // const searchFiltering = () => {
-    //     console.log(searchTerm)
-    //     console.log(arenaTerm)
-
-    //     let filteredArray = replayArray
-
-    //     filteredArray = filteredArray.filter((replay: any) =>
-    //         (replay.name.toLowerCase()).includes(searchTerm.toLowerCase())
-    //     )
-
-    //     filteredArray = filteredArray.filter((replay:any) =>
-    //         (replay.map.base_name).includes(arenaTerm)
-    //     )
-
-    //     setReplaysAfterFiltering(filteredArray)
-    // }
-
-    // const searchFiltering = (event: any) => {
-    //     let arrayAfterFilter = replaysAfterFiltering
-
-    //     arrayAfterFilter = replaysAfterFiltering.filter((replay: any) =>
-    //         (replay.name.toLowerCase()).includes(event.target.value.toLowerCase())
-    //     )
-        
-    //     setReplaysAfterFiltering(arrayAfterFilter)
-    // }
-
-    // const arenaFiltering = (event: any) => {
-    //     let arrayAfterFilter = replaysAfterFiltering
-
-    //     arrayAfterFilter = 
-    // }
 
     function FilterDropdown(props: {text: string}) {
         let optionArray = []
@@ -138,12 +110,6 @@ export default function Browse() {
 
     return (
         <MainPane title="Browse Replays" className="w-[96%]">
-            {/* {useContext(ArenaContext).arena}
-            {useContext(DurationContext).duration}
-            {useContext(GamemodeContext).gamemode}
-            {useContext(GametypeContext).gametype}
-            {useContext(RankContext).rank}
-            {useContext(SeasonContext).season} */}
             <div className="glass-inner rounded-full h-[48px] flex justify-center items-center mb-3">
                 <input onChange={setSearchTerm} type="search" className="glass-inner-light rounded-full w-full m-2 h-[70%] flex justify-center items-center p-3" placeholder="SEARCH..." />
             </div>
@@ -178,59 +144,6 @@ export function HorizontalSpacing() {
         <div style={{height: "0.5rem"}}/>
     )
 }
-
-// export function FilterDropdown(props: {text: string}) {
-//     let optionArray = []
-//     let contextValue = null
-//     let contextMethod = (input: string) => {}
-
-//     if (props.text === "ARENA") {
-//         optionArray = getArenaArray()
-//         contextValue = useContext(ArenaContext).arena
-//         contextMethod = useContext(ArenaContext).reviseArena
-//     } else if (props.text === "DURATION") {
-//         optionArray = getDurationArray()
-//         contextValue = useContext(DurationContext).duration
-//         contextMethod = useContext(DurationContext).reviseDuration
-//     } else if (props.text === "GAMEMODE") {
-//         optionArray = getGamemodeArray()
-//         contextValue = useContext(GamemodeContext).gamemode
-//         contextMethod = useContext(GamemodeContext).reviseGamemode
-//     } else if (props.text === "GAMETYPE") {
-//         optionArray = getGametypeArray()
-//         contextValue = useContext(GametypeContext).gametype
-//         contextMethod = useContext(GametypeContext).reviseGametype
-//     } else if (props.text === "RANK") {
-//         optionArray = getRankArray()
-//         contextValue = useContext(RankContext).rank
-//         contextMethod = useContext(RankContext).reviseRank
-//     } else if (props.text === "SEASON") {
-//         optionArray = getSeasonArray()
-//         contextValue = useContext(SeasonContext).season
-//         contextMethod = useContext(SeasonContext).reviseSeason
-//     } else {
-//         return (<div>ABC</div>) // Add throw error here
-//     }
-
-//     function handleChange(event: any) {
-//         contextMethod(event.target.value)
-//     }
-
-//     return (
-//         <div className="filter-dropdown glass-inner rounded-full flex justify-center items-center">
-//             <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">
-//                 <select name={props.text} id={props.text} className="rounded-full w-[92%]" onChange={handleChange}>
-//                     <option value="ANY" className="option-text">ANY {props.text}</option>
-//                     {
-//                         optionArray.map((optionValue) =>
-//                             <option value={optionValue} className="option-text">{optionValue}</option>
-//                         )
-//                     }
-//                 </select>
-//             </div>
-//         </div>
-//     )
-// }
 
 function getArenaArray() {
     const arenaArray = [
