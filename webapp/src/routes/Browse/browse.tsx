@@ -34,8 +34,11 @@ export default function Browse() {
     const arenaContext = useContext(ArenaContext)
     const setArenaTerm = (event: any) => { arenaContext.reviseArena(event.target.value) }
 
+    const durationContext = useContext(DurationContext)
+    const setDurationTerm = (event: any) => { durationContext.reviseDuration(event.target.value) }
+
     const seasonContext = useContext(SeasonContext)
-    const setSeasonTerm = (event: any) => { seasonContext.reviseSeason(event.target.value)}
+    const setSeasonTerm = (event: any) => { seasonContext.reviseSeason(event.target.value) }
 
     useEffect(() => {
         let filteredArray = replayArray
@@ -50,6 +53,54 @@ export default function Browse() {
             )
         }
 
+        if (durationContext.duration !== "ANY") {
+            let minDuration = null
+            let maxDuration = null
+
+            const durationSetting = durationContext.duration
+
+            if (durationSetting.startsWith("0-2")) {
+                minDuration = 0
+                maxDuration = 120
+            } else if (durationSetting.startsWith("2-4")) {
+                minDuration = 120
+                maxDuration = 240
+            } else if (durationSetting.startsWith("4-6")) {
+                minDuration = 240
+                maxDuration = 360
+            } else if (durationSetting.startsWith("6-8")) {
+                minDuration = 360
+                maxDuration = 480
+            } else if (durationSetting.startsWith("8-10")) {
+                minDuration = 480
+                maxDuration = 600
+            } else if (durationSetting.startsWith("10-12")) {
+                minDuration = 600
+                maxDuration = 720
+            } else if (durationSetting.startsWith("12-14")) {
+                minDuration = 720
+                maxDuration = 840
+            } else if (durationSetting.startsWith("14-16")) {
+                minDuration = 840
+                maxDuration = 960
+            } else if (durationSetting.startsWith("18-20")) {
+                minDuration = 960
+                maxDuration = 1080
+            } else if (durationSetting.startsWith("20")) {
+                minDuration = 1080
+            }
+
+            filteredArray = filteredArray.filter((replay: any) =>
+                (replay.length >= minDuration)
+            )
+
+            if (maxDuration !== null) {
+                filteredArray = filteredArray.filter((replay: any) =>
+                    (replay.length < maxDuration)
+                )
+            }
+        }
+
         if (seasonContext.season !== "ANY") {
             filteredArray = filteredArray.filter((replay: any) =>
                 (replay.season.name.replace("Season ", "")).includes(seasonContext.season)
@@ -58,7 +109,7 @@ export default function Browse() {
 
         setReplaysAfterFiltering(filteredArray)
         
-    }, [searchContext, arenaContext, seasonContext]);
+    }, [searchContext, arenaContext, durationContext, seasonContext]);
 
     function FilterDropdown(props: {text: string}) {
         let optionArray = []
@@ -89,6 +140,8 @@ export default function Browse() {
         function handleChange(event: any) {
             if (props.text === "ARENA") {
                 setArenaTerm(event)
+            } else if (props.text === "DURATION") {
+                setDurationTerm(event)
             } else if (props.text === "SEASON") {
                 setSeasonTerm(event)
             }
