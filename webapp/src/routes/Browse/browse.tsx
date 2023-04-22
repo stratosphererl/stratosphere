@@ -34,6 +34,9 @@ export default function Browse() {
     const arenaContext = useContext(ArenaContext)
     const setArenaTerm = (event: any) => { arenaContext.reviseArena(event.target.value) }
 
+    const seasonContext = useContext(SeasonContext)
+    const setSeasonTerm = (event: any) => { seasonContext.reviseSeason(event.target.value)}
+
     useEffect(() => {
         let filteredArray = replayArray
 
@@ -47,39 +50,38 @@ export default function Browse() {
             )
         }
 
+        if (seasonContext.season !== "ANY") {
+            filteredArray = filteredArray.filter((replay: any) =>
+                (replay.season.name.replace("Season ", "")).includes(seasonContext.season)
+            )
+        }
+
         setReplaysAfterFiltering(filteredArray)
         
-    }, [searchContext, arenaContext]);
+    }, [searchContext, arenaContext, seasonContext]);
 
     function FilterDropdown(props: {text: string}) {
         let optionArray = []
         let contextValue = null
-        let contextMethod = (input: string) => {}
     
         if (props.text === "ARENA") {
             optionArray = getArenaArray()
             contextValue = useContext(ArenaContext).arena
-            contextMethod = useContext(ArenaContext).reviseArena
         } else if (props.text === "DURATION") {
             optionArray = getDurationArray()
             contextValue = useContext(DurationContext).duration
-            contextMethod = useContext(DurationContext).reviseDuration
         } else if (props.text === "GAMEMODE") {
             optionArray = getGamemodeArray()
             contextValue = useContext(GamemodeContext).gamemode
-            contextMethod = useContext(GamemodeContext).reviseGamemode
         } else if (props.text === "GAMETYPE") {
             optionArray = getGametypeArray()
             contextValue = useContext(GametypeContext).gametype
-            contextMethod = useContext(GametypeContext).reviseGametype
         } else if (props.text === "RANK") {
             optionArray = getRankArray()
             contextValue = useContext(RankContext).rank
-            contextMethod = useContext(RankContext).reviseRank
         } else if (props.text === "SEASON") {
             optionArray = getSeasonArray()
             contextValue = useContext(SeasonContext).season
-            contextMethod = useContext(SeasonContext).reviseSeason
         } else {
             return (<div>ABC</div>) // Add throw error here
         }
@@ -87,6 +89,8 @@ export default function Browse() {
         function handleChange(event: any) {
             if (props.text === "ARENA") {
                 setArenaTerm(event)
+            } else if (props.text === "SEASON") {
+                setSeasonTerm(event)
             }
         }
     
