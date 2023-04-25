@@ -16,6 +16,10 @@ class ReplayRepository(RepositoryABC, MongoRepository):
         return cursor
 
     def add(self, entity):
+        if "gameHeader" in entity:
+            entity["_id"] = entity["gameHeader"]["id"]
+        else:
+            raise Exception("Replay header not found")
         cursor = self.collection.insert_one(entity)
         return cursor.inserted_id
 
@@ -24,6 +28,7 @@ class ReplayRepository(RepositoryABC, MongoRepository):
         if not existing_document:
             raise Exception("Replay not found")
         
+        update_result = self.collection.update_one({"_id": id}, {"$set": entity})
         update_result = self.collection.update_one({"_id": id}, {"$set": entity})
         if update_result.modified_count != 1:
             raise Exception("Replay update failed")
@@ -52,4 +57,8 @@ class ReplayRepository(RepositoryABC, MongoRepository):
         skip = page * per_page
         cursor = self.collection.find(filters).skip(skip).limit(per_page)
         
+        return cursor
+
+    def aggregate(self, pipeline):
+        cursor = self.collection.aggregate(pipeline)
         return cursor
