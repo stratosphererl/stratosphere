@@ -1,5 +1,4 @@
 from util.RepositoryABC import RepositoryABC, MongoRepository
-from schemas.parsed_replay import DetailedReplay
 
 class ReplayRepository(RepositoryABC, MongoRepository):
     def __init__(self, collection):
@@ -16,8 +15,12 @@ class ReplayRepository(RepositoryABC, MongoRepository):
         cursor = self.collection.find()
         return cursor
 
-    def add(self, entity : DetailedReplay):
-        cursor = self.collection.insert_one(entity.dict(by_alias=True))
+    def add(self, entity):
+        if "gameHeader" in entity:
+            entity["_id"] = entity["gameHeader"]["id"]
+        else:
+            raise Exception("Replay header not found")
+        cursor = self.collection.insert_one(entity)
         return cursor.inserted_id
 
     def update(self, id, entity):
@@ -25,7 +28,7 @@ class ReplayRepository(RepositoryABC, MongoRepository):
         if not existing_document:
             raise Exception("Replay not found")
         
-        update_result = self.collection.update_one({"_id": id}, {"$set": entity.dict(by_alias=True)})
+        update_result = self.collection.update_one({"_id": id}, {"$set": entity})
         if update_result.modified_count != 1:
             raise Exception("Replay update failed")
         
@@ -53,4 +56,8 @@ class ReplayRepository(RepositoryABC, MongoRepository):
         skip = page * per_page
         cursor = self.collection.find(filters).skip(skip).limit(per_page)
         
+        return cursor
+
+    def aggregate(self, pipeline):
+        cursor = self.collection.aggregate(pipeline)
         return cursor
