@@ -310,7 +310,7 @@ class StratosphereParser:
         player_ranks = debug2ranks(self.decompiled_replay['debug_info'], playlist=playlist)
 
         for player in game.players:
-            if hasattr(player, 'online_id') and player.online_id in player_ranks:
+            if player.online_id in player_ranks:
                 rank_info = player_ranks[player.online_id]
                 player.rank = {
                     'mmr': rank_info['mmr'],
