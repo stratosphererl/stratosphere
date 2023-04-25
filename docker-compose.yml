@@ -3,6 +3,7 @@ services:
   # webapp:
   #   build: ./webapp
   #   ports:
+  # #     - '3000:3000'
   gql:
     build:
       context: ./
@@ -12,10 +13,12 @@ services:
     volumes:
       - ./gql:/gql-server
       - .env:/gql-server/.env
-  #     - NODE_ENV=development
   # parser:
+  #   build: ./parser
   #   ports:
-  #   ports:
+  #     - '5001:5001'
+  #   tmpfs:
+  #     - /tmp:exec,mode=777
   #     - '5001:5001'
   #   tmpfs:
   #     - /tmp:exec,mode=777
@@ -26,6 +29,7 @@ services:
   # ml:
   #   build: ./ml
   #   ports:
+  #     - '5002:5002'
   replay:
     command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0 --reload-exclude parser/files
     build:
@@ -43,6 +47,7 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
   replaydb:
+    image: mongo
     image: mongo
     restart: always
     ports:
@@ -68,11 +73,11 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - DOCKER_DEFAULT_PLATFORM=linux/amd64
-      - DOCKER_DEFAULT_PLATFORM=linux/amd64
     depends_on:
       - redis
       - replay
   stats:
+    command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
     build:
       context: .
       dockerfile: ./${STATS_SERVICE_NAME}/Dockerfile
@@ -87,6 +92,7 @@ services:
       - DOCKER_DEFAULT_PLATFORM=linux/amd64
       - DOCKER_DEFAULT_PLATFORM=linux/amd64
       - WATCHFILES_FORCE_POLLING=true
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
   stats-service-db:
     image: amd64/postgres:alpine
     restart: always
@@ -98,7 +104,9 @@ services:
       - POSTGRES_DB=${STATS_DB_NAME}
     volumes:
       - ./${STATS_SERVICE_NAME}/config:/var/lib/postgres/data
+      - ./${STATS_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
   user:
+    command: uvicorn app:app --reload --port ${USER_SERVICE_PORT} --host 0.0.0.0
     build:
       context: .
       dockerfile: ./${USER_SERVICE_NAME}/Dockerfile
