@@ -423,7 +423,7 @@ enum MMRPlaylistOptions {
   Hoops,
   Rumble,
   Dropshot,
-  Snow Day,
+  SnowDay,
   Tournament
 }
 
@@ -503,6 +503,24 @@ input UpdateReplayForm {
   name: String!
 }
 
+input DeleteReplayForm {
+  id: String!
+}
+
+input Search {
+  page: Int = 0
+  limit: Int = 30
+  name: String
+  map: String
+  gameMode: String
+  gameType: String
+  region: String
+  season: String
+  duration: String
+  rank: String
+  player: String
+}
+
 type Query {
     getReplay(id: String!): Replay
     getReplays: PageInfo
@@ -515,11 +533,15 @@ type Query {
     getSeasonCount: [SeasonCountResult]
     getRegionCount: [RegionCountResult]
     getPlatformCount: [PlatformCountResult]
+    searchReplays(input: Search!): PageInfo
+    getReplayFileURL(id: String!): String
+    getReplayFramesFileURL(id: String!): String
 }
 
 type Mutation {
     uploadReplay(file: Upload!): [FileUploadResponse]
     updateReplay(input: UpdateReplayForm!): Boolean
+    deleteReplay(input: DeleteReplayForm!): Boolean
 }
 `);
 
@@ -598,33 +620,45 @@ const replayResolvers = {
 
       return true;
     },
+    deleteReplay: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/${args.input.id}`;
+      const res = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AUTH_TOKEN}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new ApolloError("Unable to delete replay", res.status);
+      }
+
+      return true;
+    },
   },
   Query: {
-    getReplay: async (parent, args) => {
-      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/${args.id}`;
-      const res = await fetch(url);
-      const json = await res.json();
+    searchReplays: async (parent, args) => {
+      let url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/search?`;
+      for (const [key, value] of Object.entries(args.input)) {
+        if (value) {
+          url += `${key}=${value}&`;
+        }
+      }
+      const res = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!res.ok) {
-        throw new ApolloError(json.detail, res.status);
+        throw new ApolloError("Unable to search replays", res.status);
       }
+
+      const json = await res.json();
 
       return json;
-    },
-    getReplays: async (parent, args) => {
-      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/`;
-      const res = await fetch(url);
-      const json = await res.json();
-
-      if (!res.ok) {
-        throw new ApolloError(json.detail, res.status);
-      }
-
-      return {
-        page: json.page,
-        total: json.total,
-        data: json.data,
-      };
     },
     getReplaysCount: async (parent, args) => {
       const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/count`;
@@ -635,15 +669,16 @@ const replayResolvers = {
         throw new ApolloError(json.detail, res.status);
       }
 
-      console.log(json);
-
       return {
         count: json.data[0].count,
       };
     },
     getMMRFromPlaylist: async (parent, args) => {
+      if (args.input.playlist === "SnowDay") {
+        args.input.playlist = "Snow Day";
+      }
       const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/mmr/${args.input.playlist}/${args.input.mmr}`;
-      const res = await fetch(url);
+      const res = await fetch(encodeURI(url));
       const json = await res.json();
 
       if (!res.ok) {
@@ -730,6 +765,22 @@ const replayResolvers = {
       }
 
       return json[0].result;
+    },
+    getReplayFileURL: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/download/${args.id}`;
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new ApolloError("Unable to get replay file", res.status);
+      }
+      return res.url;
+    },
+    getReplayFramesFileURL: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/download/frames/${args.id}`;
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new ApolloError("Unable to get replay frames file", res.status);
+      }
+      return res.url;
     },
   },
 };
