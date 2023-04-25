@@ -23,10 +23,6 @@ import Replay2DView from "../components/visualizations/Replay2DView/Replay2DView
 export default function Replay() {
   const params = useParams();
   const regex = /^[A-Z0-9]{32}$/;
-  const params = useParams();
-  const regex = /^[A-Z0-9]{32}$/;
-
-  const { data, loading, error } = useReplay(params.replayid!);
   const { data, loading, error } = useReplay(params.replayid!);
 
   if (error || !regex.test(params.replayid!)) {
