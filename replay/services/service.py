@@ -167,7 +167,7 @@ class ReplayService():
             {
                 "$group": {
                     "_id": "$currentDate",
-                    "regions": { "$push": { "region": "$_id", "count": "$count" } },
+                    "seasons": { "$push": { "season": "$_id", "count": "$count" } },
                 },
             },
         ]

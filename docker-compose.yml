@@ -5,16 +5,29 @@ services:
   #   build: ./webapp
   #   ports:
   # #     - '3000:3000'
-  # gql:
-  #   build: ./gql
+  gql:
+    build:
+      context: ./
+      dockerfile: ./gql/Dockerfile
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./gql:/gql-server
+      - .env:/gql-server/.env
+  # parser:
+  #   build: ./parser
   #   ports:
-  #     - '4000:4000'
-  #     - '9229:9229'
+  #     - '5001:5001'
+  #   tmpfs:
+  #     - /tmp:exec,mode=777
   #   volumes:
-  #     - .:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   environment:
-  #     - NODE_ENV=development
+  #     - ./parser:/parser
+  #   depends_on:
+  #     - parserdb
+  # ml:
+  #   build: ./ml
+  #   ports:
+  #     - '5002:5002'
   replay:
     command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0 --reload-exclude parser/files
     build:
@@ -32,7 +45,7 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
   replaydb:
-    image: mongo:4.4.18
+    image: mongo
     restart: always
     ports:
       - ${REPLAY_DB_PORT}:${REPLAY_DB_PORT}
@@ -58,9 +71,11 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - DOCKER_DEFAULT_PLATFORM=linux/amd64
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
     depends_on:
       - redis
       - replay
+  stats:
   stats:
     command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
     build:
@@ -77,6 +92,7 @@ services:
     environment:
       - WATCHFILES_FORCE_POLLING=true
       - DOCKER_DEFAULT_PLATFORM=linux/amd64
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
   stats-service-db:
     image: amd64/postgres:alpine
     restart: always
@@ -89,6 +105,7 @@ services:
     volumes:
       - ./${STATS_SERVICE_NAME}/config:/var/lib/postgres/data
       - ./${STATS_SERVICE_NAME}/config/setup/:/docker-entrypoint-initdb.d/
+  user:
   user:
     command: uvicorn app:app --reload --port ${USER_SERVICE_PORT} --host 0.0.0.0
     build:

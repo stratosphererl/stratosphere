@@ -120,7 +120,7 @@ def search_replays(page: int = 0,
                    service: ReplayService = Depends(service)):
     
     if limit > 100:
-        return HTTPException(status_code=400, detail="Limit cannot be greater than 100")
+        raise HTTPException(status_code=400, detail="Limit cannot be greater than 100")
 
     filters = {}
     
@@ -141,7 +141,7 @@ def search_replays(page: int = 0,
             parse_duration = parse_operators(duration)
             filters["duration"] = parse_duration
         except Exception as e:
-            return HTTPException(status_code=400, detail=f"Bad format received for duration: {e}")
+            raise HTTPException(status_code=400, detail=f"Bad format received for duration: {e}")
     if rank:
         filters["rank"] = rank
     if player:
@@ -153,7 +153,7 @@ def search_replays(page: int = 0,
     if isinstance(result, ServiceResponsePage):
         return Response(content=result.json(), media_type="application/json", status_code=200)
     elif isinstance(result, ServiceResponseError):
-        return HTTPException(status_code=404, detail=result.message)
+        raise HTTPException(status_code=404, detail=result.message)
     
 
 @router.get("/replays/count", tags=['Get Methods (Dynamic)'])
@@ -170,25 +170,28 @@ def get_replay_by_id(id: str, service = Depends(service)):
         del data['_id']
         return JSONResponse(data, media_type="application/json", status_code=200)
     else:
-        return HTTPException(status_code=404, detail=result.message)
+        raise HTTPException(status_code=404, detail=result.message)
 
 @router.get("/replays/status/{id}", tags=['Get Methods (Dynamic)'])
 def get_replay_status(id: str, service = Depends(service)):
     if id is None:
-        return HTTPException(status_code=400, detail="Replay id is required")
+        raise HTTPException(status_code=400, detail="Replay id is required")
     
     result = celery.AsyncResult(id)
 
+    if result.state == "FAILURE":
+        raise HTTPException(status_code=500, detail=result.traceback)
+
     response = {
         "state": str(result.state),
-        "status": result.info if result.state != "FAILURE" else result.traceback
+        "status": result.info 
     }
     
     return Response(content=json.dumps(response), media_type="application/json", status_code=200)
 
 
 @router.post("/replays", tags=['Post Methods'])
-def post_replays(files: List[UploadFile] = File(...), token: str = Depends(get_current_user), service = Depends(service)):
+def post_replays(files: List[UploadFile] = File(...), service = Depends(service)):
     response = []
     for file in files:
         if not str(file.filename).endswith(".replay"):
@@ -219,22 +222,22 @@ def delete_replay_by_id(id: str, token: str = Depends(get_current_user), service
             print(f"Couldn't delete replay in data store: {e}")
         return Response(media_type="application/json", status_code=204)
     else:
-        return HTTPException(status_code=404, detail=result.message)
+        raise HTTPException(status_code=404, detail=result.message)
 
 @router.put("/replays/{id}", tags=["Put Methods"])
 def update_replay_by_id(form: ReplayUpdateForm, id: str, token: str = Depends(get_current_user), service = Depends(service)):
     if not isinstance(form, ReplayUpdateForm):
-        return HTTPException(status_code=400, detail="Invalid request body")
+        raise HTTPException(status_code=400, detail="Invalid request body")
     
     if not form.name:
-        return HTTPException(status_code=400, detail="Name is required")
+        raise HTTPException(status_code=400, detail="Name is required")
     
     result = service.update_replay(id, form)
 
     if isinstance(result, ServiceResponseSuccess):
         return Response(media_type="application/json", status_code=204)
     else:
-        return HTTPException(status_code=404, detail=result.message)
+        raise HTTPException(status_code=404, detail=result.message)
 
 @router.get("/replays/download/{id}", tags=['Get Methods (Dynamic)'])
 def download_replay_by_id(id: str, service = Depends(service)):
@@ -244,19 +247,18 @@ def download_replay_by_id(id: str, service = Depends(service)):
                             media_type="application/octet-stream",
                             filename=f"{id}")
     else:
-        return HTTPException(status_code=404, detail=f"Replay {id} not found. {result.message}")
-
+        raise HTTPException(status_code=404, detail=f"Replay {id} not found. {result.message}")
 @router.get("/replays/download/frames/{id}", tags=['Get Methods (Dynamic)'])
 def download_replay_frames_by_id(id: str, service = Depends(service)):
     result = service.get_replay(id)
     if isinstance(result, ServiceResponseSuccess):
         if not os.path.exists(f"./parser/files/{id}/{id}_frames.csv.zip"):
-            return HTTPException(status_code=404, detail=f"Frames unavailable for replay {id}")
+            raise HTTPException(status_code=404, detail=f"Frames unavailable for replay {id}")
         return FileResponse(f"./parser/files/{id}/{id}_frames.csv.zip", 
                             media_type="application/zip",
                             filename=f"{id}")
     else:
-        return HTTPException(status_code=404, detail=f"Replay {id} not found. {result.message}")
+        raise HTTPException(status_code=404, detail=f"Replay {id} not found. {result.message}")
 
 @router.get("/mmr/{playlist}/{mmr}", tags=['Get Methods (Static)'])
 def get_rank_by_mmr(playlist: str, mmr: int):
@@ -265,7 +267,7 @@ def get_rank_by_mmr(playlist: str, mmr: int):
         result = mmr2rank(mmr, playlist.capitalize())
         result = mmr2rank(mmr, playlist.capitalize())
     except Exception as e:
-        return HTTPException(status_code=400, detail=f"Invalid playlist or mmr. {e}")
+        raise HTTPException(status_code=400, detail=f"Invalid playlist or mmr. {e}")
     
     return Response(content=json.dumps(result), media_type="application/json", status_code=200)
 
@@ -297,7 +299,7 @@ def get_platform_stats(service = Depends(service)):
 # def get_maps():
 #     fp = "./resource/map.json"
 #     if not os.path.exists(fp):
-#         return HTTPException(status_code=404, detail="Unable to find map data")
+#         raise HTTPException(status_code=404, detail="Unable to find map data")
 #     else:
 #         with open(fp, "r") as f:
 #             return FileResponse(fp, media_type="application/json", status_code=200)
@@ -306,25 +308,19 @@ def get_platform_stats(service = Depends(service)):
 # def get_ranks():
 #     fp = "./resource/rank.json"
 #     if not os.path.exists(fp):
-#         return HTTPException(status_code=404, detail="Unable to find rank data")
-#     else:
-#         with open(fp, "r") as f:
-#             return FileResponse(fp, media_type="application/json", status_code=200)
+#         raise HTTPException(status_code=404, detail="Unable to find rank data")
 
 # @router.get("/replays/seasons", tags=['Get Methods (Static)'])
 # def get_seasons():
 #     fp = "./resource/season.json"
 #     if not os.path.exists(fp):
-#         return HTTPException(status_code=404, detail="Unable to find season data")
-#     else:
-#         with open(fp, "r") as f:
-#             return FileResponse(fp, media_type="application/json", status_code=200)
+#         raise HTTPException(status_code=404, detail="Unable to find season data")
 
 # @router.get("/replays/playlist", tags=['Get Methods (Static)'])
 # def get_playlist():
 #     fp = "./resource/playlist.json"
 #     if not os.path.exists(fp):
-#         return HTTPException(status_code=404, detail="Unable to find playlist data")
+#         raise HTTPException(status_code=404, detail="Unable to find playlist data")
 #     else:
 #         with open(fp, "r") as f:
 #             return FileResponse(fp, media_type="application/json", status_code=200)
