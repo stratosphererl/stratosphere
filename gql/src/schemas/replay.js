@@ -6,8 +6,8 @@ const {
   AUTH_TOKEN,
 } = require("../config/datasources");
 const { GraphQLUpload } = require("graphql-upload");
-const { finished } = require("stream/promises");
 const FormData = require("form-data");
+const { ApolloError } = require("apollo-server");
 
 const replayDef = gql(`
 
@@ -19,29 +19,29 @@ scalar Upload
     encoding: String!
   }
 
+type ParseMeta {
+  version: Int
+  analysisFail: Boolean
+}
+
 type Mutators {
   ballType: String
   gameMutatorIndex: Int
 }
 
-type Members {
-  id: String
-}
-
-type LeaderId {
-  id: String
-}
-
-type Parties {
-  members: [Members]
-  leaderId: LeaderId
+type FiftyFifties {
+  startingFrame: Int
+  endingFrame: Int
+  isNeutral: Boolean
+  players: [PlayersFull]
+  hits: [Int]
 }
 
 type CarryStats {
   averageZDistance: Float
-  averageXyDistance: String
+  averageXyDistance: Float
   averageBallZVelocity: Float
-  varianceXyDistance: String
+  varianceXyDistance: Float
   varianceZDistance: Float
   varianceBallZVelocity: Float
   averageCarrySpeed: Float
@@ -52,28 +52,18 @@ type PlayerId {
   id: String
 }
 
-type BallCarries {
-  startFrameNumber: Int
-  endFrameNumber: Int
-  hasFlick: Boolean
-  carryTime: Float
-  straightLineDistance: Float
-  carryStats: CarryStats
-  playerId: PlayerId
-}
-
 type FirstTouchPlayer {
   id: String
 }
 
 type StartPosition {
-  posX: Int
+  posX: Float
   posY: Float
   posZ: Float
 }
 
 type PlayerPosition {
-  posX: Int
+  posX: Float
   posY: Float
   posZ: Float
 }
@@ -85,7 +75,7 @@ type Player {
 type Touch {
   kickoffGoal: Float
   firstTouchPlayer: FirstTouchPlayer
-  players: [Players]
+  players: [PlayersFull]
 }
 
 type KickoffStats {
@@ -131,17 +121,20 @@ type BallData {
 type Hits {
   frameNumber: Int
   collisionDistance: Float
+  dribble: Boolean
   distance: Float
   distanceToGoal: Float
   nextHitFrameNumber: Int
   goalNumber: Int
   isKickoff: Boolean
+  pressure: Int
   ballData: BallData
   playerId: PlayerId
 }
 
 type GameStats {
   neutralPossessionTime: Float
+  fiftyFifties: [FiftyFifties]
   ballCarries: [BallCarries]
   kickoffStats: [KickoffStats]
   kickoffs: [Kickoffs]
@@ -149,17 +142,8 @@ type GameStats {
   hits: [Hits]
 }
 
-type CenterOfMass {
-  averageDistanceFromCenter: Float
-  averageMaxDistanceFromCenter: Float
-  timeClumped: Float
-  timeBoondocks: Float
-  positionalTendencies: PositionalTendencies
-}
-
 type HitCounts {
   totalHits: Int
-  totalPasses: Int
   totalSaves: Int
   totalShots: Int
   totalDribbles: Int
@@ -187,36 +171,35 @@ type Teams {
   playerIds: [PlayerIds]
 }
 
-type PartyLeader {
-  id: String
+type BallCarries {
+  totalCarries: Int
+  longestCarry: Float
+  furthestCarry: Float
+  totalCarryTime: Float
+  averageCarryTime: Float
+  fastestCarrySpeed: Float
+  totalCarryDistance: Float
+  carryStats: CarryStats
 }
 
 type AverageCounts {
-  pass: Float
-  passed: Float
+  pass: Int
+  passed: Int
   dribble: Float
   dribbleContinuation: Float
   shot: Float
   goal: Float
   assist: Int
   assisted: Int
-  save: Int
-  aerial: Int
+  save: Float
+  aerial: Float
 }
 
 type PerPossessionStats {
   averageDuration: Float
-  averageHits: Int
+  averageHits: Float
   count: Int
   averageCounts: AverageCounts
-}
-
-type RelativePositioning {
-  timeInFrontOfCenterOfMass: Float
-  timeBehindCenterOfMass: Float
-  timeMostForwardPlayer: Float
-  timeMostBackPlayer: Float
-  timeBetweenPlayers: Float
 }
 
 type Speed {
@@ -236,7 +219,6 @@ type Controller {
 type Averages {
   averageSpeed: Float
   averageHitDistance: Float
-  averageDistanceFromCenter: Float
 }
 
 type Distance {
@@ -245,8 +227,6 @@ type Distance {
   timeClosestToBall: Float
   timeFurthestFromBall: Float
   timeCloseToBall: Float
-  timeClosestToTeamCenter: Float
-  timeFurthestFromTeamCenter: Float
 }
 
 type Boost {
@@ -266,8 +246,8 @@ type Boost {
 
 type Stats {
   kickoffStats: KickoffStats
+  ballCarries: BallCarries
   perPossessionStats: PerPossessionStats
-  relativePositioning: RelativePositioning
   speed: Speed
   controller: Controller
   hitCounts: HitCounts
@@ -290,6 +270,8 @@ type Loadout {
   topper: Int
   antenna: Int
   engineAudio: Int
+  boostPaint: Int
+  goalExplosionPaint: Int
   primaryColor: Int
   accentColor: Int
   primaryFinish: Int
@@ -302,7 +284,7 @@ type CameraSettings {
   height: Int
   transitionSpeed: Float
   pitch: Int
-  swivelSpeed: Float
+  swivelSpeed: Int
   fieldOfView: Int
   distance: Int
 }
@@ -311,7 +293,7 @@ type Id {
   id: String
 }
 
-type Players {
+type PlayersFull{
   name: String
   titleId: Int
   score: Int
@@ -323,75 +305,87 @@ type Players {
   isBot: Boolean
   timeInGame: Float
   firstFrameInGame: Int
-  partyLeader: PartyLeader
   stats: Stats
   loadout: Loadout
   cameraSettings: CameraSettings
   id: Id
 }
 
-type Season {
+type PlayersHeader {
   name: String
-  id: Int
-}
-
-type PrimaryPlayer {
-  id: String
+  online_id: String
+  is_orange: Boolean
+  score: Int
+  assists: Int
+  saves: Int
+  shots: Int
+  is_bot: Boolean
+  platform: String
+  rank: Rank
 }
 
 type Goals {
-  frameNumber: Int
-  playerId: PlayerId
+  player_name: String
+  player_team: Int
+  frame_number: Int
 }
 
-type Score {
-  team0Score: Int
-  team1Score: Int
+type Rank {
+  mmr: String
+  id: Int
+  title: String
+  division: String
+}
+
+type Season {
+  id: Int
+  name: String
 }
 
 type Map {
   id: Int
-  base_name: String
+  name: String
   variant: String
 }
 
-type GameMetadata {
+type GameHeader {
   id: String
   name: String
-  version: Int
-  time: String
-  frames: Int
+  uploadDate: Float
   length: Float
-  gameServerId: String
-  serverName: String
-  matchGuid: String
+  overtime: Int
+  region: String
+  ranked: Boolean
+  time: Int
   teamSize: Int
-  playlist: String
-  uploadDate: String
-  ranks: String
-  uploader: String
-  season: Season
-  primaryPlayer: PrimaryPlayer
+  matchType: String
+  gameMode: String
+  gameType: String
+  frames: Int
+  primaryPlayerId: String
+  version: Int
+  demos: [String]
   goals: [Goals]
-  score: Score
+  teams: [Teams]
+  players: [PlayersHeader]
+  season: Season
   map: Map
 }
 
 type Replay {
-  _id: String
   version: Int
+  parseMeta: ParseMeta
   mutators: Mutators
-  parties: [Parties]
   gameStats: GameStats
   teams: [Teams]
-  players: [Players]
-  gameMetadata: GameMetadata
+  players: [PlayersFull]
+  gameHeader: GameHeader
 }
 
 type PageInfo {
     page: Int
     total: Int
-    data: [GameMetadata]
+    data: [GameHeader]
 }
 
 
@@ -418,29 +412,115 @@ type FileUploadTaskResponse {
     status: FileUploadStatus!
 }
 
-type MapExtendedInfo {
-  MapBaseName: String
-  MapFileName: String
-  MapId: Int
-  MapVariantName: String
-  MapRandomWeight: Int
+type ReplaysCount {
+  count: Int
+}
+
+enum MMRPlaylistOptions {
+  Duel,
+  Doubles,
+  Standard,
+  Hoops,
+  Rumble,
+  Dropshot,
+  Snow Day,
+  Tournament
 }
 
 
+input MMRFromPlaylistForm {
+  playlist: MMRPlaylistOptions!
+  mmr: Int!
+}
 
+type MMRFromPlaylistResponse {
+  id: Int
+  name: String
+  division: String
+}
+
+type Options {
+  gameTypes: [String]
+  regions: [String]
+  gameModes: [String]
+  ranks: [String]
+  seasons: [String]
+  maps: [String]
+}
+
+type DurationCount {
+  duration: Int
+  count: Int
+}
+
+type RankCount {
+  rank: String
+  count: Int
+}
+
+type SeasonCount {
+  season: String
+  count: Int
+}
+
+type RegionCount {
+  region: String
+  count: Int
+}
+
+type platformCount {
+  platform: String
+  count: Int
+}
+
+type DurationCountResult {
+  _id: String
+  durations: [DurationCount]
+}
+
+type RankCountResult {
+  _id: String
+  ranks: [RankCount]
+}
+
+type SeasonCountResult {
+  _id: String
+  seasons: [SeasonCount]
+}
+
+type RegionCountResult {
+  _id: String
+  regions: [RegionCount]
+}
+
+type PlatformCountResult {
+  _id: String
+  platforms: [platformCount]
+}
+
+input UpdateReplayForm {
+  id: String!
+  name: String!
+}
+
+type Query {
+    getReplay(id: String!): Replay
+    getReplays: PageInfo
+    getReplaysCount: ReplaysCount
+    getTaskStatus(taskId: String!): FileUploadTaskResponse!
+    getMMRFromPlaylist(input: MMRFromPlaylistForm!): MMRFromPlaylistResponse
+    getOptions: Options
+    getDurationCount: [DurationCountResult]
+    getRankCount: [RankCountResult]
+    getSeasonCount: [SeasonCountResult]
+    getRegionCount: [RegionCountResult]
+    getPlatformCount: [PlatformCountResult]
+}
 
 type Mutation {
     uploadReplay(file: Upload!): [FileUploadResponse]
+    updateReplay(input: UpdateReplayForm!): Boolean
 }
-
-
-type Query {
-    replay(id: String!): Replay
-    replays: PageInfo
-    getTaskStatus(taskId: String!): FileUploadTaskResponse!
-}
-
-
 `);
 
 const streamToBuffer = async (stream) => {
@@ -501,35 +581,87 @@ const replayResolvers = {
 
       return mappedResponse;
     },
+    updateReplay: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/${args.input.id}`;
+      const res = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AUTH_TOKEN}`,
+        },
+        body: JSON.stringify({ name: args.input.name }),
+      });
+
+      if (!res.ok) {
+        throw new ApolloError("Unable to update replay", res.status);
+      }
+
+      return true;
+    },
   },
   Query: {
-    replay: async (parent, args) => {
-      return fetch(
-        `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/${args.id}`
-      ).then((res) => {
-        if (!res.ok) {
-          res.json().then((json) => {
-            throw new Error(json.detail);
-          });
-        } else {
-          return json;
-        }
-      });
+    getReplay: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/${args.id}`;
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new ApolloError(json.detail, res.status);
+      }
+
+      return json;
     },
-    replays: async (parent, args) => {
-      return fetch(
-        `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/`
-      ).then((res) => {
-        if (!res.ok) {
-          res.json().then((json) => {
-            throw new Error(json.detail);
-          });
-        } else {
-          return res.json().then((json) => {
-            return json;
-          });
-        }
-      });
+    getReplays: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/`;
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new ApolloError(json.detail, res.status);
+      }
+
+      return {
+        page: json.page,
+        total: json.total,
+        data: json.data,
+      };
+    },
+    getReplaysCount: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/count`;
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new ApolloError(json.detail, res.status);
+      }
+
+      console.log(json);
+
+      return {
+        count: json.data[0].count,
+      };
+    },
+    getMMRFromPlaylist: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/mmr/${args.input.playlist}/${args.input.mmr}`;
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new ApolloError(json.detail, res.status);
+      }
+
+      return json;
+    },
+    getOptions: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/options`;
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new ApolloError(json.detail, res.status);
+      }
+
+      return json["options"];
     },
     getTaskStatus: async (parent, args) => {
       const response = await fetch(
@@ -543,6 +675,61 @@ const replayResolvers = {
       }
 
       return json;
+    },
+    getDurationCount: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/stats/duration`;
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new ApolloError(json.detail, res.status);
+      }
+
+      return json[0].result;
+    },
+    getRankCount: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/stats/rank`;
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new ApolloError(json.detail, res.status);
+      }
+
+      return json[0].result;
+    },
+    getSeasonCount: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/stats/season`;
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new ApolloError(json.detail, res.status);
+      }
+
+      return json[0].result;
+    },
+    getRegionCount: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/stats/region`;
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new ApolloError(json.detail, res.status);
+      }
+
+      return json[0].result;
+    },
+    getPlatformCount: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/stats/platform`;
+      const res = await fetch(url);
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new ApolloError(json.detail, res.status);
+      }
+
+      return json[0].result;
     },
   },
 };
