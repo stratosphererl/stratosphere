@@ -248,7 +248,6 @@ def download_replay_by_id(id: str, service = Depends(service)):
                             filename=f"{id}")
     else:
         raise HTTPException(status_code=404, detail=f"Replay {id} not found. {result.message}")
-
 @router.get("/replays/download/frames/{id}", tags=['Get Methods (Dynamic)'])
 def download_replay_frames_by_id(id: str, service = Depends(service)):
     result = service.get_replay(id)
@@ -309,18 +308,12 @@ def get_platform_stats(service = Depends(service)):
 #     fp = "./resource/rank.json"
 #     if not os.path.exists(fp):
 #         raise HTTPException(status_code=404, detail="Unable to find rank data")
-#     else:
-#         with open(fp, "r") as f:
-#             return FileResponse(fp, media_type="application/json", status_code=200)
 
 # @router.get("/replays/seasons", tags=['Get Methods (Static)'])
 # def get_seasons():
 #     fp = "./resource/season.json"
 #     if not os.path.exists(fp):
 #         raise HTTPException(status_code=404, detail="Unable to find season data")
-#     else:
-#         with open(fp, "r") as f:
-#             return FileResponse(fp, media_type="application/json", status_code=200)
 
 # @router.get("/replays/playlist", tags=['Get Methods (Static)'])
 # def get_playlist():
