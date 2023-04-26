@@ -1,6 +1,9 @@
 import os
 import pandas as pd
 
+print("Starting training...")
+print("This may take a while...")
+
 datasets_directory = os.path.join(os.getcwd(), 'datasets')
 
 def clean(df: pd.DataFrame) -> pd.DataFrame:
@@ -73,7 +76,7 @@ for csv_file in os.listdir(datasets_directory):
 
     y = clean_df[("target", "winner")]
 
-    def train_model(X: pd.DataFrame, y: pd.DataFrame, model_postfix: Union(str, None)=None) -> None:
+    def train_model(X: pd.DataFrame, y: pd.DataFrame, model_postfix: Union[str, None]=None) -> None:
         start = time()
 
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -83,8 +86,7 @@ for csv_file in os.listdir(datasets_directory):
             ('svc', SVC(decision_function_shape='ovo', probability=True))
         ])
 
-        sample_weight = (1 - X_train[("game", "seconds_remaining")]) * (X_train[("game", "goal_differential")] != 0) * .95 + .05
-        model.fit(X_train, y_train, svc__sample_weight=sample_weight)
+        model.fit(X_train, y_train)
 
         y_pred_prob = model.predict_proba(X_test)
         y_pred = y_pred_prob.argmax(axis=1)
@@ -98,12 +100,14 @@ for csv_file in os.listdir(datasets_directory):
         if model_postfix is not None:
             model_name = f"{model_type}_{model_postfix}"
 
-        print(f"{model_name} model trained in {time() - start} seconds")
+        minutes = round((time() - start) / 60, 3)
+        print(f"\n{model_name} model trained in {minutes} minutes")
         print(f"{model_name} model accuracy: {accuracy}")
 
         import joblib
         model_filename = f"{model_name}_model.pkl"
         joblib.dump(model, os.path.join(os.getcwd(), "models", model_filename))
+        print(f"{model_name} model saved to {model_filename}")
 
     train_model(
         clean_df[[("game", "seconds_remaining"), ("game", "is_overtime"), ("game", "goal_differential")]],
