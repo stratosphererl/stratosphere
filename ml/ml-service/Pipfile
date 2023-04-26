@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+python-multipart = "*"
+# boxcars-py = {path = "./whl/boxcars_py-0.1.15-cp38-none-win_amd64.whl", sys_platform = "== 'win32'"}
+boxcars-py = {path = "./whl/boxcars_py-0.1.15-cp38-cp38-manylinux1_x86_64.whl", sys_platform = "== 'linux'"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"
+

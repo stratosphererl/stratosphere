@@ -1,12 +1,12 @@
-FROM python:3.10
+FROM python:3.8.5-alpine
 
 WORKDIR /app
 
-COPY ./ml-service/Pipfile ./ml-service/Pipfile.lock ./
+COPY ./ml/ml-service/Pipfile ./ml/ml-service/Pipfile.lock ./ml/ml-service/whl ./
 
 RUN pip install pipenv && \
     pipenv install --system --deploy --ignore-pipfile
 
-COPY ./ml-service ./
+COPY ./ml/ml-service ./
 
 CMD python3 app.py
