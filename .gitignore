@@ -7,6 +7,12 @@ replay/config/db
 replay/parser/config/db
 replay/parser/files
 
+
+### replay service ###
+replay/config/db
+replay/parser/config/db
+replay/parser/files
+
 ### macOS ###
 # General
 .DS_Store

@@ -5,20 +5,17 @@ services:
   #   ports:
   # #     - '3000:3000'
   gql:
-    build:
-      context: ./
-      dockerfile: ./gql/Dockerfile
+    build: ./gql
     ports:
-      - "4000:4000"
+      - '4000:4000'
+      - '9229:9229'
     volumes:
-      - ./gql:/gql-server
-      - .env:/gql-server/.env
-  # ml:
-  #   build: ./ml
-  #   ports:
-  #     - '5002:5002'
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
   replay:
-    command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0
+    command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0 --reload-exclude parser/files
     build:
       context: ./
       dockerfile: ./${REPLAY_SERVICE_NAME}/Dockerfile
@@ -34,7 +31,7 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
   replaydb:
-    image: mongo:4.4.18
+    image: mongo:latest
     restart: always
     ports:
       - ${REPLAY_DB_PORT}:${REPLAY_DB_PORT}
@@ -43,7 +40,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${REPLAY_DB_PASSWORD}
       - MONGO_INITDB_DATABASE=${REPLAY_DB_NAME}
     volumes:
-      - ./${REPLAY_SERVICE_NAME}/config/db/data:/data/db
+      - replay-data:/data/db
       - ./${REPLAY_SERVICE_NAME}/config/setup/init-mongo.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
   redis:
     image: redis:6.2.10-alpine
@@ -58,11 +55,10 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - DOCKER_DEFAULT_PLATFORM=linux/amd64
     depends_on:
       - redis
       - replay
-  stats:
+  stats-service:
     command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
     build:
       context: .
@@ -122,3 +118,5 @@ volumes:
   volumes:
   replaydb:
     driver: local
+  replay-data:
+  parser-store:

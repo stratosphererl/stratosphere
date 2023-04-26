@@ -3,7 +3,7 @@ protobuf==3.6.1
 pandas==1.0.3
 xlrd==1.1.0
 # boxcars-py==0.1.15
-redis==4.5.1
+redis==4.5.4
 celery==5.2.7
 carball==0.7.5
 pymongo==4.3.3
