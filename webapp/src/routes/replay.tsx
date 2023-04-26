@@ -4,7 +4,7 @@ import useReplay from "../hooks/useReplay";
 import { Tab } from "@headlessui/react";
 import { useState, Fragment } from "react";
 
-import MainPane from "../components/general/mainPane";
+import MainPane from "../components/general/MainPane/mainPane";
 import {
   Scoreboard,
   TeamComparison,
