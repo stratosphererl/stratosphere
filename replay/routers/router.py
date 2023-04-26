@@ -245,7 +245,7 @@ def download_replay_by_id(id: str, service = Depends(service)):
     if isinstance(result, ServiceResponseSuccess):
         return FileResponse(f"./parser/files/{id}/{id}.replay", 
                             media_type="application/octet-stream",
-                            filename=f"{id}")
+                            filename=f"{id}.replay")
     else:
         raise HTTPException(status_code=404, detail=f"Replay {id} not found. {result.message}")
 @router.get("/replays/download/frames/{id}", tags=['Get Methods (Dynamic)'])
@@ -256,7 +256,7 @@ def download_replay_frames_by_id(id: str, service = Depends(service)):
             raise HTTPException(status_code=404, detail=f"Frames unavailable for replay {id}")
         return FileResponse(f"./parser/files/{id}/{id}_frames.csv.zip", 
                             media_type="application/zip",
-                            filename=f"{id}")
+                            filename=f"{id}_frames.csv.zip")
     else:
         raise HTTPException(status_code=404, detail=f"Replay {id} not found. {result.message}")
 

@@ -523,7 +523,6 @@ input Search {
 
 type Query {
     getReplay(id: String!): Replay
-    getReplays: PageInfo
     getReplaysCount: ReplaysCount
     getTaskStatus(taskId: String!): FileUploadTaskResponse!
     getMMRFromPlaylist(input: MMRFromPlaylistForm!): MMRFromPlaylistResponse
@@ -772,6 +771,11 @@ const replayResolvers = {
       if (!res.ok) {
         throw new ApolloError("Unable to get replay file", res.status);
       }
+
+      if (res.url.includes("replay")) {
+        return res.url.replace("replay", "localhost");
+      }
+
       return res.url;
     },
     getReplayFramesFileURL: async (parent, args) => {
@@ -780,6 +784,11 @@ const replayResolvers = {
       if (!res.ok) {
         throw new ApolloError("Unable to get replay frames file", res.status);
       }
+
+      if (res.url.includes("replay")) {
+        return res.url.replace("replay", "localhost");
+      }
+
       return res.url;
     },
   },
