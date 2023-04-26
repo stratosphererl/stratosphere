@@ -62,8 +62,10 @@ export default function Heatmap({
 
         const svg = d3.select(ref.current)
             .append("svg")
-                .attr("width", svg_width)
-                .attr("height", svg_height); 
+                .attr("viewBox", `0 0 ${svg_width} ${svg_height}`)
+                .attr("preserveAspectRatio", "xMidYMid meet");
+                // .attr("width", svg_width)
+                // .attr("height", svg_height); 
 
         const g = svg.append("g");
 
@@ -85,7 +87,10 @@ export default function Heatmap({
 
         const foreignBody = foreignObject.append("xhtml:body")
             .style("width", `${width}px`)
-            .style("height", `${height}px`);
+            .style("height", `${height}px`)
+            .style("margin", "0px")
+            .style("padding", "0px")
+            .style("background-color", "transparent");
 
         const canvas = foreignBody.append<"canvas">("canvas")
             .attr("width", width)
@@ -108,7 +113,8 @@ export default function Heatmap({
                 const col = Math.floor(x / bucket_size);
                 const row = Math.floor(y / bucket_size);
 
-                buckets[row][col].push([x, y]);
+                if (row >= 0 && row < rows && col >= 0 && col < columns)
+                    buckets[row][col].push([x, y]);
             });
 
             const get_weight = (x: number, y: number) => {
@@ -143,8 +149,8 @@ export default function Heatmap({
             };
 
             var pointer = -1;
-            d3.range(0, height).forEach(y => {
-                d3.range(0, width).forEach(x => {
+            d3.range(0, height).forEach((y: number) => {
+                d3.range(0, width).forEach((x: number) => {
                     const current_color = d3.rgb(color(get_weight(x, y)));
 
                     image.data[++pointer] = current_color.r;
@@ -160,6 +166,6 @@ export default function Heatmap({
     }, [ref]);
 
     return (
-        <div ref={ref} />
+        <div className="w-full" ref={ref} />
     )
 }

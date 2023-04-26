@@ -1,20 +1,19 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
 
-import ball from "../../assets/ball.png";
-
 interface Props {
     data: any[]; // Data is an array of objects with keys corresponding to the data you want to display and a required "x" and "y" key
     data_display?: string[]; // The keys corresponding to the data you want to display in the tooltip
     postfixes?: {[key: string]: string}; // The postfixes to display after each data_display key in the tooltip
+    display_names?: {[key: string]: string}; // The display name of each data_display key in the tooltip
 
     svg_width?: number; // The total width of the component
     svg_height?: number; // The total height of the component
 
     ball_size?: number; // The size of the ball
 
-    x_max?: number; // The maximum value of the x axis (game's net width)
-    y_max?: number; // The maximum value of the y axis (game's net height)
+    x_domain?:[number, number]; // The maximum value of the x axis (game's net width)
+    y_domain?: [number, number]; // The maximum value of the y axis (game's net height)
 
     default_oppacity?: number; // The default opacity of the ball
 
@@ -34,14 +33,15 @@ export default function GoalChart({
     data,
     data_display = [],
     postfixes = {},
+    display_names = {},
 
     svg_width = 800,
     svg_height = 600,
 
     ball_size = 80,
 
-    x_max = 1000,
-    y_max = 750,
+    x_domain = [0, 1],
+    y_domain = [0, 1],
 
     default_oppacity = .8,
 
@@ -60,6 +60,7 @@ export default function GoalChart({
 
     useEffect(() => {
         data_display.forEach((key) => {if (!postfixes[key]) postfixes[key] = "";});
+        data_display.forEach((key) => {if (!display_names[key]) display_names[key] = key;});
 
         d3.selection.prototype.moveToFront = function(this: any) {
             return this.each(function(this: any){
@@ -72,8 +73,10 @@ export default function GoalChart({
        
         const svg = d3.select(ref.current)
             .append("svg")
-                .attr("width", svg_width)
-                .attr("height", svg_height);
+                .attr("viewBox", `0 0 ${svg_width} ${svg_height}`)
+                .attr("preserveAspectRatio", "xMidYMid meet")
+                // .attr("width", svg_width)
+                // .attr("height", svg_height);
         const g = svg.append("g");
 
         if (underlayed_image) {
@@ -89,11 +92,11 @@ export default function GoalChart({
         }
 
         const x = d3.scaleLinear()
-            .domain([0, x_max])
+            .domain(x_domain)
             .range([0, width]);
         
         const y = d3.scaleLinear()
-            .domain([0, y_max])
+            .domain(y_domain)
             .range([height, 0]);
 
         const Tooltip = d3.select(ref.current).append("div")
@@ -127,17 +130,17 @@ export default function GoalChart({
             const html = "" + 
             Tooltip
                 .html(data_display.map((key) => {
-                    return key + ": " + d[key] + postfixes[key];
+                    return display_names[key] + ": " + d[key] + postfixes[key];
                 }).join("<br/>"))
-                .style("left", (event.pageX + 10) + "px")
-                .style("top", (event.pageY - data_display.length * 15) + "px");
+                .style("left", (event.layerX + 10) + "px")
+                .style("top", (event.layerY - data_display.length * 15) + "px");
         }
 
         g.selectAll("circles")
             .data(data)
             .enter()
             .append("svg:image")
-                .attr("xlink:href", ball)
+                .attr("xlink:href", (d) => d.img)
                 .attr("x", (d) => x(d.x) - ball_size / 2)
                 .attr("y", (d) => y(d.y) - ball_size / 2)
                 .attr("width", ball_size)
@@ -153,6 +156,6 @@ export default function GoalChart({
     }, [ref]);
 
     return (
-        <div ref={ref} />        
+        <div className="w-full" ref={ref} />        
     );
 }
