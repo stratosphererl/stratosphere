@@ -5,15 +5,28 @@ services:
   #   ports:
   # #     - '3000:3000'
   gql:
-    build: ./gql
+    build:
+      context: ./
+      dockerfile: ./gql/Dockerfile
     ports:
-      - '4000:4000'
-      - '9229:9229'
+      - "4000:4000"
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    environment:
-      - NODE_ENV=development
+      - ./gql:/gql-server
+      - .env:/gql-server/.env
+  # parser:
+  #   build: ./parser
+  #   ports:
+  #     - '5001:5001'
+  #   tmpfs:
+  #     - /tmp:exec,mode=777
+  #   volumes:
+  #     - ./parser:/parser
+  #   depends_on:
+  #     - parserdb
+  # ml:
+  #   build: ./ml
+  #   ports:
+  #     - '5002:5002'
   replay:
     command: uvicorn app:app --reload --port ${REPLAY_SERVICE_PORT} --host 0.0.0.0 --reload-exclude parser/files
     build:
@@ -31,7 +44,7 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
   replaydb:
-    image: mongo:latest
+    image: mongo
     restart: always
     ports:
       - ${REPLAY_DB_PORT}:${REPLAY_DB_PORT}
@@ -55,10 +68,11 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
     depends_on:
       - redis
       - replay
-  stats-service:
+  stats:
     command: uvicorn app:app --reload --port ${STATS_SERVICE_PORT} --host 0.0.0.0
     build:
       context: .
