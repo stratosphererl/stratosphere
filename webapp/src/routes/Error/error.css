@@ -1,0 +1,32 @@
+.error {
+    background-color: #da012d;
+    border: 1px solid #960018;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #310000;
+    margin: 50px auto;
+    max-width: 500px;
+    padding: 20px;
+    text-align: center;
+  }
+  
+.error h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+.error p {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  
+.error-image {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    margin-bottom: 0.5rem;
+}
+  
+  
+  
+  
