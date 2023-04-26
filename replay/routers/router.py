@@ -6,7 +6,6 @@ from typing import Optional, List
 import os, json
 from parser.worker import celery
 from parser.helper import mmr2rank
-import simplejson as sjson
 
 from services.service import ReplayService
 from util.result import ServiceResponseSuccess, ServiceResponseError, ServiceResponsePage
@@ -14,7 +13,6 @@ from config.database import collection
 from repository.ReplayRepository import ReplayRepository
 from config.envs import *
 from schemas.forms import ReplayUpdateForm
-from schemas.parsed_replay import Playlist
 
 import shutil
 import uuid
@@ -176,8 +174,7 @@ def get_replay_by_id(id: str, service = Depends(service)):
 
     
     if isinstance(result, ServiceResponseSuccess):
-        # figure me father, for I have sinned
-        data = sjson.loads(sjson.dumps(sjson.loads(result.data[0].json()), ignore_nan=True))
+        data = result.data[0]
         return JSONResponse(data, media_type="application/json", status_code=200)
     else:
         return HTTPException(status_code=404, detail=result.message)
@@ -265,11 +262,22 @@ def download_replay_by_id(id: str, service = Depends(service)):
     else:
         return HTTPException(status_code=404, detail=f"Unable to download replay. {result.message}")
 
+@router.get("/replays/frames/download/{id}", tags=['Get Methods (Dynamic)'])
+def download_replay_frames_by_id(id: str, service = Depends(service)):
+    result = service.get_replay(id)
+    if isinstance(result, ServiceResponseSuccess):
+        path =f"./parser/files/{id}/{id}_frames.csv.gzip"
+        return FileResponse(path, 
+                            media_type="application/octet-stream",
+                            filename=f"{id}-frames.csv.gzip")
+    else:
+        return HTTPException(status_code=404, detail=f"Unable to download frames. {result.message}")
+
 @router.get("/mmr/{playlist}/{mmr}", tags=['Get Methods (Static)'])
 def get_rank_by_mmr(playlist: str, mmr: int):
     try:
         
-        result = mmr2rank(mmr, Playlist(name=playlist.capitalize()))
+        result = mmr2rank(mmr, playlist.capitalize())
     except Exception as e:
         return HTTPException(status_code=400, detail=f"Invalid playlist or mmr. {e}")
     

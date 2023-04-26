@@ -1,4 +1,4 @@
-import MainPane from "../components/general/mainPane";
+import MainPane from "../components/general/MainPane/mainPane";
 
 export default function About() {  
     const discordURL = "https://discord.com/";

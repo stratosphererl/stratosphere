@@ -13,7 +13,7 @@ min_platform_num, max_platform_num = StatsClass().get_valid_range("users_by_plat
 ### Public GET routes ###
 
 @router.get("/replays/all")
-def get_replay_count_all(var1 = Depends(StatsClass)):
+def get_replay_count_all():
     return StatsClass().get_replay_count_all()
 
 @router.get("/replays/arena")

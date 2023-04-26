@@ -1,4 +1,4 @@
-import MainPane from "../components/general/mainPane";
+import MainPane from "../components/general/MainPane/mainPane";
 import DropZone from "../components/dropzone";
 import LoadingBar from "../components/general/LoadingBar/loadingbar";
 

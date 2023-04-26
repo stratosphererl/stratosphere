@@ -7,9 +7,10 @@ import {
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import { createRoot } from "react-dom/client";
 
 import AboutPage from "./routes/about";
-import BrowsePage from "./routes/browse";
+import BrowsePage from "./routes/Browse/browse";
 import HomePage from "./routes/Home/home";
 import LoginPage from "./routes/Login/login";
 import OverlayPage from "./routes/overlay";
@@ -24,7 +25,15 @@ import ReplayJSON from "./mock/replay.json";
 
 import Wrapper from "./components/general/wrapper";
 
-import { UserProvider } from "./context/contexts";
+import { UserProvider, SearchProvider } from "./context/contexts";
+import {
+  ArenaProvider,
+  DurationProvider,
+  GamemodeProvider,
+  GametypeProvider,
+  RankProvider,
+  SeasonProvider,
+} from "./context/contexts";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000",
@@ -157,12 +166,32 @@ const router = createBrowserRouter([
   },
 ]);
 
+export function RouterWithContextsProvider() {
+  return (
+    <UserProvider>
+    <SearchProvider>
+    <ArenaProvider>
+    <DurationProvider>
+    <GamemodeProvider>
+    <GametypeProvider>
+    <RankProvider>
+    <SeasonProvider>
+      <RouterProvider router={router}/>
+    </SeasonProvider>
+    </RankProvider>
+    </GametypeProvider>
+    </GamemodeProvider>
+    </DurationProvider>
+    </ArenaProvider>
+    </SearchProvider>
+    </UserProvider>
+  );
+}
+
 ReactDOM.render(
   <ApolloProvider client={client}>
     <React.StrictMode>
-      <UserProvider>
-        <RouterProvider router={router} />
-      </UserProvider>
+      <RouterWithContextsProvider />
     </React.StrictMode>
   </ApolloProvider>,
   document.getElementById("root")

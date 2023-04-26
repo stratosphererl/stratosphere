@@ -59,3 +59,152 @@ export const ThemeProvider = ({ children }) => {
         </ThemeContext.Provider>
     )
 }
+
+// CONTEXTS FOR BROWSE PAGES
+
+// Search Context
+
+export const SearchContext = createContext({
+    search: "",
+    reviseSearch: (newSearch: string) => {}
+})
+
+export const SearchProvider = ({ children }) => {
+    const [search, setSearch] = React.useState("")
+
+    const reviseSearch = (newSearch: string) => {
+        setSearch(newSearch)
+    }
+
+    return (
+        <SearchContext.Provider value={{search, reviseSearch}}>
+            {children}
+        </SearchContext.Provider>
+    )
+}
+
+// Arena Context
+
+export const ArenaContext = createContext({
+    arena: "ANY",
+    reviseArena: (arenaName: string) => {}
+})
+
+export const ArenaProvider = ({ children }) => {
+    const [arena, setArena] = React.useState("ANY")
+
+    const reviseArena = (arenaName: string) => {
+        setArena(arenaName)
+    }
+
+    return (
+        <ArenaContext.Provider value={{arena, reviseArena}}>
+            {children}
+        </ArenaContext.Provider>
+    )
+}
+
+// Duration Context
+
+export const DurationContext = createContext({
+    duration: "ANY",
+    reviseDuration: (durationName: string) => {}
+})
+
+export const DurationProvider = ({ children }) => {
+    const [duration, setDuration] = React.useState("ANY")
+
+    const reviseDuration = (durationName: string) => {
+        setDuration(durationName)
+    }
+
+    return (
+        <DurationContext.Provider value={{duration, reviseDuration}}>
+            {children}
+        </DurationContext.Provider>
+    )
+}
+
+// Gamemode Context
+
+export const GamemodeContext = createContext({
+    gamemode: "ANY",
+    reviseGamemode: (gamemodeName: string) => {}
+})
+
+export const GamemodeProvider = ({ children }) => {
+    const [gamemode, setGamemode] = React.useState("ANY")
+
+    const reviseGamemode = (gamemodeName: string) => {
+        setGamemode(gamemodeName)
+    }
+
+    return (
+        <GamemodeContext.Provider value={{gamemode, reviseGamemode}}>
+            {children}
+        </GamemodeContext.Provider>
+    )
+}
+
+// Gametype Context
+
+export const GametypeContext = createContext({
+    gametype: "ANY",
+    reviseGametype: (gametypeName: string) => {}
+})
+
+export const GametypeProvider = ({ children }) => {
+    const [gametype, setGametype] = React.useState("ANY")
+
+    const reviseGametype = (gametypeName: string) => {
+        setGametype(gametypeName)
+    }
+
+    return (
+        <GametypeContext.Provider value={{gametype, reviseGametype}}>
+            {children}
+        </GametypeContext.Provider>
+    )
+}
+
+// Rank Context
+
+export const RankContext = createContext({
+    rank: "ANY",
+    reviseRank: (rankName: string) => {}
+})
+
+export const RankProvider = ({ children }) => {
+    const [rank, setRank] = React.useState("ANY")
+
+    const reviseRank = (rankName: string) => {
+        setRank(rankName)
+    }
+
+    return (
+        <RankContext.Provider value={{rank, reviseRank}}>
+            {children}
+        </RankContext.Provider>
+    )
+}
+
+// Season Context
+
+export const SeasonContext = createContext({
+    season: "ANY",
+    reviseSeason: (seasonName: string) => {}
+})
+
+export const SeasonProvider = ({ children }) => {
+    const [season, setSeason] = React.useState("ANY")
+
+    const reviseSeason = (seasonName: string) => {
+        setSeason(seasonName)
+    }
+
+    return (
+        <SeasonContext.Provider value={{season, reviseSeason}}>
+            {children}
+        </SeasonContext.Provider>
+    )
+}
