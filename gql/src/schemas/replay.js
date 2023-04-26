@@ -561,6 +561,9 @@ const streamToBuffer = async (stream) => {
 };
 
 async function uploadFile(formData) {
+  console.log(
+    `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays`
+  );
   const response = await fetch(
     `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays`,
     {
