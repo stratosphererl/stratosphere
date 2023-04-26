@@ -6,6 +6,7 @@ const {
 } = require("apollo-server-core");
 const { typeDefs, resolvers } = require("./schemas/schema");
 const { GQL_SERVICE_PORT } = require("./config/datasources");
+const cors = require("cors");
 
 async function startServer() {
   const server = new ApolloServer({
@@ -21,6 +22,8 @@ async function startServer() {
   const app = express();
 
   app.use(graphqlUploadExpress());
+
+  app.use(cors());
 
   server.applyMiddleware({ app });
 
