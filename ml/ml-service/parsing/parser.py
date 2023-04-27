@@ -7,8 +7,7 @@ from fastapi import UploadFile
 def boxcars_parse(file: UploadFile):
     return parse_replay(file.file.read())
 
-def carball_parse(file: UploadFile):
-    _json = boxcars_parse(file)
+def carball_parse(_json: any):
     game = Game()
     game.initialize(loaded_json=_json)
     analysis = AnalysisManager(game)
