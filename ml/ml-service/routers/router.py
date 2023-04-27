@@ -1,6 +1,10 @@
 from fastapi import APIRouter, status, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 
+from parsing.parser import carball_parse
+
+from time import time
+
 router = APIRouter()
 
 @router.get("/")
@@ -13,5 +17,8 @@ async def predict(file: UploadFile = File(..., description="Replay file to be an
     if not file.filename.endswith(".replay"):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Uploaded file is not a .replay file.")
 
-    return JSONResponse(status_code=status.HTTP_200_OK, content={"message": "Hello World"})
+    start = time()   
+    replay = carball_parse(file)
+
+    return JSONResponse(status_code=status.HTTP_200_OK, content={"time_to_parse": time() - start})
 
