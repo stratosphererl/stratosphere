@@ -353,7 +353,7 @@ type GameHeader {
   name: String
   uploadDate: Float
   length: Float
-  overtime: Int
+  overtime: Float
   region: String
   ranked: Boolean
   time: Int
