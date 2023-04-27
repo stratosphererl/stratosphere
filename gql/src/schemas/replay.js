@@ -407,7 +407,7 @@ type ProcessStage {
     total: Int!
 }
 
-type FileUploadTaskResponse {
+type FileUploadTaskResponseProgress {
     state: String!
     status: FileUploadStatus!
 }
@@ -524,7 +524,7 @@ input Search {
 type Query {
     getReplay(id: String!): Replay
     getReplaysCount: ReplaysCount
-    getTaskStatus(taskId: String!): FileUploadTaskResponse!
+    getTaskStatus(taskId: String!): FileUploadTaskResponseProgress
     getMMRFromPlaylist(input: MMRFromPlaylistForm!): MMRFromPlaylistResponse
     getOptions: Options
     getDurationCount: [DurationCountResult]
@@ -707,7 +707,7 @@ const replayResolvers = {
 
       const json = await response.json();
 
-      if (json.status_code) {
+      if (!response.ok) {
         throw new Error(json.detail);
       }
 

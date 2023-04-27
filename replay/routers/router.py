@@ -179,24 +179,11 @@ def get_replay_status(id: str, service = Depends(service)):
     
     result = celery.AsyncResult(id)
 
-    try:
-        if result.status == "FAILURE":
-            raise HTTPException(status_code=409, detail="lol")
-    except Exception as e:
-        format = {
-            "state": "FAILURE",
-            "status": {
-                "stage": {
-                    "total": 4,
-                    "current": 0,
-                    "name": f"{e}"
-                }
-            },
-            "replay_id": "-1",
-            "process_time": "-1"
-        }
-        print(format)
-        raise HTTPException(status_code=500, detail=format)
+    if result.status == "FAILURE":
+        if "Replay already exists" in result.traceback:
+            raise HTTPException(status_code=409, detail="Replay already exists")
+        else:
+            raise HTTPException(status_code=500, detail=result.traceback)
 
     response = {
         "state": str(result.state),
@@ -204,7 +191,6 @@ def get_replay_status(id: str, service = Depends(service)):
     }
     
     return Response(content=json.dumps(response), media_type="application/json", status_code=200)
-
 
 @router.post("/replays", tags=['Post Methods'])
 def post_replays(files: List[UploadFile] = File(...), service = Depends(service)):

@@ -113,7 +113,7 @@ def save_replay_to_fs(id, path):
     shutil.copy(path, f"./files/{id}/{id}.replay")
     os.remove(path)
 
-@celery.task(name="parse", bind=True, eager_propagates=True)
+@celery.task(name="parse", bind=True)
 def parse2(self, path):
     s_time = time.time()
     id = None

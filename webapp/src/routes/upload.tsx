@@ -48,12 +48,15 @@ export default function Upload() {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const [getStatus, { data }] = useLazyQuery(GET_UPLOAD_STATUS, {
-    pollInterval: POLL_EVERY,
-  });
+  const [getStatus, { data, error, stopPolling }] = useLazyQuery(
+    GET_UPLOAD_STATUS,
+    {
+      pollInterval: POLL_EVERY,
+    }
+  );
   const [startUpload, upload] = useMutation(UPLOAD_REPLAY, {
     onCompleted: () => {
-      console.log(upload.data.uploadReplay[0].taskId)
+      console.log(upload.data.uploadReplay[0].taskId);
       getStatus({ variables: { taskId: upload.data.uploadReplay[0].taskId } });
     },
   });
@@ -61,33 +64,37 @@ export default function Upload() {
   const loggedIn = user.id !== "0";
 
   const completeProgress = () => {
+    stopPolling();
     setFile(undefined);
     setUploading(false);
     navigate("/replay/FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-    navigate(0);
     progress.set(0);
   };
 
   useEffect(() => {
     if (!data) return;
-    if(data.getTaskStatus.state === "SUCCESS") {
-      status.set("Your replay is just about ready! Sit tight for the final touches.")
+    if (error) {
+      status.set(error.message);
       setTimeout(() => {
-        completeProgress();
-        navigate("/replay/" + data.getTaskStatus.status.replay_id);
+        setFile(undefined);
+        setUploading(false);
+        progress.set(0);
+        stopPolling();
       }, 1000);
-    } else if (data.getTaskStatus.state === "FAILURE") {
-      status.set("Something went wrong. Please try again later.")
+    }
+    if (data.getTaskStatus.state === "SUCCESS") {
+      status.set(
+        "Your replay is just about ready! Sit tight for the final touches."
+      );
       setTimeout(() => {
         completeProgress();
       }, 1000);
     }
-
     progress.set(data.getTaskStatus.status.stage.current * 25);
-    const statusMessage = statusList[Math.floor(Math.random() * statusList.length)];
+    const statusMessage =
+      statusList[Math.floor(Math.random() * statusList.length)];
     status.set(statusMessage);
-
-    }, [data]);
+  }, [data]);
 
   const startProgress = () => {
     setUploading(true);
