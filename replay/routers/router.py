@@ -179,8 +179,24 @@ def get_replay_status(id: str, service = Depends(service)):
     
     result = celery.AsyncResult(id)
 
-    if result.state == "FAILURE":
-        raise HTTPException(status_code=409, detail=result.traceback)
+    try:
+        if result.status == "FAILURE":
+            raise HTTPException(status_code=409, detail="lol")
+    except Exception as e:
+        format = {
+            "state": "FAILURE",
+            "status": {
+                "stage": {
+                    "total": 4,
+                    "current": 0,
+                    "name": f"{e}"
+                }
+            },
+            "replay_id": "-1",
+            "process_time": "-1"
+        }
+        print(format)
+        raise HTTPException(status_code=500, detail=format)
 
     response = {
         "state": str(result.state),

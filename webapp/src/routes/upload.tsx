@@ -38,7 +38,7 @@ const GET_UPLOAD_STATUS = gql`
 
 export default function Upload() {
   const videoURL = "https://www.youtube.com/embed/b99rO8kHCX4";
-  const POLL_EVERY = 100;
+  const POLL_EVERY = 3000;
 
   const [file, setFile] = useState<File>();
   const [uploading, setUploading] = useState(false);
@@ -53,55 +53,46 @@ export default function Upload() {
   });
   const [startUpload, upload] = useMutation(UPLOAD_REPLAY, {
     onCompleted: () => {
+      console.log(upload.data.uploadReplay[0].taskId)
       getStatus({ variables: { taskId: upload.data.uploadReplay[0].taskId } });
     },
   });
 
   const loggedIn = user.id !== "0";
 
-  // simulate upload
+  const completeProgress = () => {
+    setFile(undefined);
+    setUploading(false);
+    navigate("/replay/FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+    navigate(0);
+    progress.set(0);
+  };
+
   useEffect(() => {
-    if (!uploading) return;
+    if (!data) return;
+    if(data.getTaskStatus.state === "SUCCESS") {
+      status.set("Your replay is just about ready! Sit tight for the final touches.")
+      setTimeout(() => {
+        completeProgress();
+        navigate("/replay/" + data.getTaskStatus.status.replay_id);
+      }, 1000);
+    } else if (data.getTaskStatus.state === "FAILURE") {
+      status.set("Something went wrong. Please try again later.")
+      setTimeout(() => {
+        completeProgress();
+      }, 1000);
+    }
 
-    const id = setInterval(() => {
-      const incrementBy = [3, 5, 8, 13, 21, 34];
-      const chosenIncrement =
-        incrementBy[Math.floor(Math.random() * incrementBy.length)];
+    progress.set(data.getTaskStatus.status.stage.current * 25);
+    const statusMessage = statusList[Math.floor(Math.random() * statusList.length)];
+    status.set(statusMessage);
 
-      progress.set((prev) => {
-        // still uploading...
-        if (prev + chosenIncrement < 100) {
-          const statusMessage =
-            statusList[Math.floor(Math.random() * statusList.length)];
-          status.set(statusMessage);
-          return prev + chosenIncrement;
-        } else {
-          // done uploading...
-          clearInterval(id);
-          // wait for catchup
-          status.set(
-            "Your replay is just about ready! Sit tight for the final touches."
-          );
-          setTimeout(completeProgress, 1500);
-          return 100;
-        }
-      });
-    }, 2000);
-  }, [uploading]);
+    }, [data]);
 
   const startProgress = () => {
     setUploading(true);
     startUpload({ variables: { file: file } });
     progress.set(0);
-  };
-
-  const completeProgress = () => {
-    setFile(undefined);
-    // navigate("/replay/FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-    // navigate(0);
-    progress.set(0);
-    setUploading(false);
-    setFile(undefined);
   };
 
   return (
@@ -126,9 +117,6 @@ export default function Upload() {
         </div>
       ) : (
         <div>
-          <div>
-            {data ? JSON.stringify(data.getTaskStatus.status) : "No data"}
-          </div>
           <DropZone file={file} setFile={setFile} />
           <div className="flex justify-center mt-10">
             {uploading ? (
