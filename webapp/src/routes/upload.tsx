@@ -80,6 +80,7 @@ export default function Upload() {
     completeProgress();
     progress.set(0);
     navigate(`/replay/${data.getTaskStatus.status.replay_id}`);
+    navigate(0);
   };
 
   const startProgress = () => {
