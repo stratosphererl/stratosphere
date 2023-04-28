@@ -5,6 +5,8 @@ from parsing.parser import boxcars_parse, carball_parse
 from preprocessing.FormatFrames import formatFrames
 from preprocessing.CleanFrames import clean
 
+from helper.helper import getModel
+
 from time import time
 
 from logging import log, ERROR
@@ -53,9 +55,27 @@ async def predict(file: UploadFile = File(..., description="Replay file to be an
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Failed to clean replay file.") from e
     time_to_clean = time() - start
 
+    try:
+        model = getModel(df)
+    except Exception as e:
+        log(ERROR, e)
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Failed to get model.") from e
+    
+    start = time()
+    # try:
+    predictions = model.predict_proba(df)
+    # except Exception as e:
+    #     log(ERROR, e)
+    #     raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Failed to get predictions.") from e
+    time_to_predict = time() - start
+
     return JSONResponse(status_code=status.HTTP_200_OK, content={
         "time_to_parse": time_to_parse, 
         "time_to_analyze": time_to_analyze, 
         "time_to_format": time_to_format, 
-        "time_to_clean": time_to_clean})
+        "time_to_clean": time_to_clean,
+        "time_to_predict": time_to_predict,
+        "model_name": model.model_name,
+        "keys": ["blue", "orange"],
+        "predictions": predictions.tolist()})
 
