@@ -7,6 +7,12 @@ replay/config/db
 replay/parser/config/db
 replay/parser/files
 
+
+### replay service ###
+replay/config/db
+replay/parser/config/db
+replay/parser/files
+
 ### macOS ###
 # General
 .DS_Store
@@ -398,6 +404,6 @@ cython_debug/
 
 /replay/config/db
 /replay/parser/files
-ml/training/replays/*
 ml/training/datasets/*
 ml/training/models/*
+ml/training/replays/*

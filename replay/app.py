@@ -2,8 +2,20 @@ from routers import router
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 from typing import Any
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 def custom():
     if app.openapi_schema:

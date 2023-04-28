@@ -1,0 +1,318 @@
+@import "../../index.css";
+
+.home-chill-blue-stroke-4 { /* Puts ~4px chill blue border around text */
+    font-family: 'Montserrat';
+    font-style: italic;
+    font-weight: 700;
+    text-shadow:
+      var(--chill-blue) 4.0px 0.0px 0px,
+      var(--chill-blue) 3.5px 0.5px 0px,
+      var(--chill-blue) 3.0px 1.0px 0px,
+      var(--chill-blue) 2.5px 1.5px 0px,
+      var(--chill-blue) 2.0px 2.0px 0px,
+      var(--chill-blue) 1.5px 2.5px 0px,
+      var(--chill-blue) 1.0px 3.0px 0px,
+      var(--chill-blue) 0.5px 3.5px 0px,
+      var(--chill-blue) 0.0px 4.0px 0px,
+      var(--chill-blue) -4.0px 0.0px 0px,
+      var(--chill-blue) -3.5px 0.5px 0px,
+      var(--chill-blue) -3.0px 1.0px 0px,
+      var(--chill-blue) -2.5px 1.5px 0px,
+      var(--chill-blue) -2.0px 2.0px 0px,
+      var(--chill-blue) -1.5px 2.5px 0px,
+      var(--chill-blue) -1.0px 3.0px 0px,
+      var(--chill-blue) -0.5px 3.5px 0px,
+      var(--chill-blue) -0.0px 4.0px 0px,
+      var(--chill-blue) -4.0px -0.0px 0px,
+      var(--chill-blue) -3.5px -0.5px 0px,
+      var(--chill-blue) -3.0px -1.0px 0px,
+      var(--chill-blue) -2.5px -1.5px 0px,
+      var(--chill-blue) -2.0px -2.0px 0px,
+      var(--chill-blue) -1.5px -2.5px 0px,
+      var(--chill-blue) -1.0px -3.0px 0px,
+      var(--chill-blue) -0.5px -3.5px 0px,
+      var(--chill-blue) -0.0px -4.0px 0px,
+      var(--chill-blue) 4.0px -0.0px 0px,
+      var(--chill-blue) 3.5px -0.5px 0px,
+      var(--chill-blue) 3.0px -1.0px 0px,
+      var(--chill-blue) 2.5px -1.5px 0px,
+      var(--chill-blue) 2.0px -2.0px 0px,
+      var(--chill-blue) 1.5px -2.5px 0px,
+      var(--chill-blue) 1.0px -3.0px 0px,
+      var(--chill-blue) 0.5px -3.5px 0px,
+      var(--chill-blue) 0.0px -4.0px 0px,
+      0px 0px 40px #000000;
+  }
+  
+  .home-black-stroke-4 { /* ~4px border */
+    font-family: 'Montserrat';
+    font-style: italic;
+    font-weight: 700;
+    text-shadow:
+      var(--black) 4.0px 0.0px 0px,
+      var(--black) 3.5px 0.5px 0px,
+      var(--black) 3.0px 1.0px 0px,
+      var(--black) 2.5px 1.5px 0px,
+      var(--black) 2.0px 2.0px 0px,
+      var(--black) 1.5px 2.5px 0px,
+      var(--black) 1.0px 3.0px 0px,
+      var(--black) 0.5px 3.5px 0px,
+      var(--black) 0.0px 4.0px 0px,
+      var(--black) -4.0px 0.0px 0px,
+      var(--black) -3.5px 0.5px 0px,
+      var(--black) -3.0px 1.0px 0px,
+      var(--black) -2.5px 1.5px 0px,
+      var(--black) -2.0px 2.0px 0px,
+      var(--black) -1.5px 2.5px 0px,
+      var(--black) -1.0px 3.0px 0px,
+      var(--black) -0.5px 3.5px 0px,
+      var(--black) -0.0px 4.0px 0px,
+      var(--black) -4.0px -0.0px 0px,
+      var(--black) -3.5px -0.5px 0px,
+      var(--black) -3.0px -1.0px 0px,
+      var(--black) -2.5px -1.5px 0px,
+      var(--black) -2.0px -2.0px 0px,
+      var(--black) -1.5px -2.5px 0px,
+      var(--black) -1.0px -3.0px 0px,
+      var(--black) -0.5px -3.5px 0px,
+      var(--black) -0.0px -4.0px 0px,
+      var(--black) 4.0px -0.0px 0px,
+      var(--black) 3.5px -0.5px 0px,
+      var(--black) 3.0px -1.0px 0px,
+      var(--black) 2.5px -1.5px 0px,
+      var(--black) 2.0px -2.0px 0px,
+      var(--black) 1.5px -2.5px 0px,
+      var(--black) 1.0px -3.0px 0px,
+      var(--black) 0.5px -3.5px 0px,
+      var(--black) 0.0px -4.0px 0px,
+      0px 0px 20px #000000;
+  }
+  
+  .home-text-ice-blue {
+    /* margin-left: 12px;
+    margin-right: 12px; */
+    color: var(--ice-blue);
+  }
+
+  .home-login-button {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--chill-blue);
+    background: var(--white);
+    font-weight: 600;
+    border: solid var(--chill-blue);
+    border-width: 4px;
+    font-size: 1.5rem;
+    padding: 1.2rem 3rem;
+    margin-top: -12px;
+    margin-bottom: 24px;
+    cursor: pointer;
+    width: 300px;
+    height: 72px;
+    /* transform: matrix(1, 0, -0.18, 0.98, 0, 0); */
+    transform: skewX(-10deg);
+  }
+
+  @media (max-width: 850px) {
+    .home-login-button {
+      margin-bottom: 16px;
+    }
+  }
+
+
+  .home-lower-button {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--chill-blue);
+    background: var(--white);
+    font-weight: 600;
+    border: solid var(--chill-blue);
+    border-width: 4px;
+    font-size: 1.5rem;
+    padding: 1rem 3rem;
+    cursor: pointer;
+    width: 95%;
+    height: 64px;
+    transform: skewX(-10deg);
+  }
+
+  @media (max-width: 830px) {
+    .home-lower-button {
+      font-size: 1.3rem;
+    }
+  }
+
+  @media (max-width: 752px) {
+    .home-lower-button {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .home-lower-button {
+      font-size: 0.9rem;
+    }
+  }
+
+  .vertical-text {
+    transform: skewX(10deg);
+  }
+
+  .central-align {
+    align-items: center;
+  }
+
+  .logo-dims {
+    width: 164px;
+    height: 197px;
+    margin-right: 24px;
+  }
+
+  .top-margin-72 {
+    margin-top: 72px;
+  }
+
+  .bottom-margin-24 {
+    margin-bottom: 24px;
+  }
+
+  .font-96 {
+    font-size: 96px;
+  }
+
+  .font-36 {
+    font-size: 36px;
+  }
+
+  .text-logo {
+    max-height: 218px;
+  }
+
+  @media (max-width: 850px) {
+    .text-logo {
+      /* Tablet styles */
+      flex-direction: column;
+      align-items: center;
+      max-height: none;
+      max-width: 600px;
+      display: flex;
+    }
+  }
+
+  @media (max-width: 637px) {
+    .text-logo {
+      margin-top: 1rem;
+      max-width: 400px;
+    }
+  }
+
+.strat-text {
+  font-size: 96px;
+}
+
+@media (max-width: 850px) {
+  .strat-text {
+    margin-top: 64px;
+    margin-bottom: 28px;
+  }
+  .logo-dims {
+    margin-right: 0px;
+  }
+}
+
+@media (max-width: 685px) {
+  .strat-text {
+    font-size: 48px;
+  }
+}
+
+.home-main {
+  /* height: 800px; */
+  background: var(--gray-2);
+}
+
+.home-background-transition {
+  margin-top: -128px;
+}
+
+@media (max-width: 990px) {
+  .home-background-transition {
+    margin-top: -64px;
+  }
+}
+
+.home-image {
+  border-width: 5px;
+  border-radius: 16px;
+  border-color: white;
+  width: 40%;
+  /* height: 1%; */
+  object-fit: cover;
+}
+
+@media (max-width: 1177px) {
+  .home-image {
+    border-width: 0px;
+    border-radius: 0px;
+    width: 0%;
+    margin-left: -4px;
+  }
+}
+
+@media (max-width: 392px) {
+  .home-image {
+    height: 130%;
+  }
+}
+
+.home-text-box {
+  width: 60%;
+  text-align: center;
+}
+
+@media (max-width: 1177px) {
+  .home-text-box {
+    width: 95%;
+  }
+}
+
+.home-body-text {
+  font-family: "montserrat";
+  font-size: 28px;
+  line-height: 1.2;
+  word-spacing: 0px;
+}
+
+@media (max-width: 665px) {
+  .home-body-text {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 470px) {
+  .home-body-text {
+    font-size: 20px;
+  }
+}
+
+.home-subtitle {
+  font-size: 48px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 665px) {
+  .home-subtitle {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-subtitle {
+    font-size: 30px;
+  }
+}
+
+.margin-spacing {
+  height: 2rem;
+  background: var(--gray-2);
+}

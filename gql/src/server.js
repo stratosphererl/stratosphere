@@ -1,30 +1,34 @@
-const { ApolloServer } = require('apollo-server');
-const typeDefs = require('./schema');
-const resolvers = require('./resolvers');
+const express = require("express");
+const { ApolloServer } = require("apollo-server-express");
+const { graphqlUploadExpress } = require("graphql-upload");
+const {
+  ApolloServerPluginLandingPageLocalDefault,
+} = require("apollo-server-core");
+const { typeDefs, resolvers } = require("./schemas/schema");
+const { GQL_SERVICE_PORT } = require("./config/datasources");
+const cors = require("cors");
 
-const PORT = 4000
-
-// const knex = require('knex')({
-//     client: 'pg',
-//     connection: {
-//       host : 'localhost',
-//       port : 5432,
-//       user : 'postgres',
-//       password : 'mynewpassword',
-//       database : 'stratosphere'
-//     }
-// });
-
-const server = new ApolloServer({
+async function startServer() {
+  const server = new ApolloServer({
+    csrfPrevention: true,
+    cache: "bounded",
     typeDefs,
     resolvers,
-    csrfPrevention: true,
-    cache: 'bounded',
-    // context: ({ req, res }) => {
-    //     return { req, res, knex };
-    // }
-})
+    plugins: [ApolloServerPluginLandingPageLocalDefault()],
+  });
 
-server.listen(PORT).then(({ url }) => {
-    console.log(`🚀  Server ready at ${url}`);
-});
+  await server.start();
+
+  const app = express();
+
+  app.use(graphqlUploadExpress());
+
+  app.use(cors());
+
+  server.applyMiddleware({ app });
+
+  await new Promise((r) => app.listen({ port: GQL_SERVICE_PORT }, r));
+
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+}
+startServer();

@@ -1,0 +1,48 @@
+.divider {
+    position: relative;
+    text-align: center;
+}
+.divider::before, .divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 150px;
+    height: 1px;
+    background-color: #fff
+}
+
+.divider::before {
+    right: 0;
+    margin-right: 25px;
+}
+
+.divider::after {
+    left: 0;
+    margin-left: 25px;
+}
+
+main.login {
+    max-width: 800px !important;;
+    margin-left: 2rem !important;
+
+}
+
+@media (max-width: 1440px) {
+    main.login {
+        max-width: 600px !important;;
+    }
+}
+
+/* Tablet */
+@media (max-width: 850px) {
+    main.login  {
+        max-width: 500px !important;;
+        margin: 0 auto !important;
+    }
+}
+
+@media (max-width: 637px) {
+    main.login {
+        width: 95% !important;
+    }
+}
