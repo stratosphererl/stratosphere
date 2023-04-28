@@ -2,32 +2,30 @@ import "../../index.css"
 import "./data.css"
 
 export default function ReplayData(props: {data: JSON, version: number, classname: string}) {
-
+    console.log(props.data)
     // Replay title variables
     const replayTitle = props.data.name
 
     // Replay score variables
-    const blueScore = props.data.score.team0Score
-    const orangeScore = props.data.score.team1Score
+    const blueScore = props.data.teams[0].score
+    const orangeScore = props.data.teams[1].score
 
     // Replay variables for first column
     const replayID = props.data.id
-    const uploadDate = (new Date(props.data.uploadDate)).toUTCString().substring(5,22)
+    const uploadDate = (new Date(props.data.uploadDate * 1000)).toUTCString().substring(5,22)
     const playingDate = (new Date(props.data.time * 1000)).toUTCString().substring(5,22)
-    const uploaderUsername = "--PLACEHOLDER--"
-    const mapName = props.data.map.base_name
+    const uploaderUsername = getRandomUploader() // Currently mocked
+    const mapName = props.data.map.name
 
     // Replay variables for second column
-    // const avgRank = Math.round(getAverageRank(props.data.ranks)) // WAITING
+    const avgRank = calculateAvgRank(props.data.players)
     const duration = convertToTimeString(props.data.length)
     const season = props.data.season.name.replace("Season","")
-    const gamemode = "--PLACEHOLDER--"
-    const gametype = props.data.playlist
+    const gamemode = props.data.gameMode
+    const gametype = props.data.gameType
 
     // Replay players
-
-    // Waiting on Chris to get player info into replay headers
-    // const [blueName, orangeName, bluePlayers, orangePlayers] = getPlayers(props.data.players) TODO:
+    const [blueName, orangeName, bluePlayers, orangePlayers] = getPlayers(props.data.players)
     
     return (
         // version == 1 used for calls from replay.tsx
@@ -47,15 +45,12 @@ export default function ReplayData(props: {data: JSON, version: number, classnam
             </InfoColumn>
             <VerticalSeparator/>
             <InfoColumn subtitles={["Duration","Season","Gamemode","Gametype"]} info={[duration,season,gamemode,gametype]} titleInfo="">
-                {/* <div><b>{avgRank}</b></div> */}
-                <div><b>AVG RANK MOCK</b></div>
+                <div><b>{avgRank}</b></div>
             </InfoColumn>
             <VerticalSeparator/>
-            {/* <TeamColumn name={blueName} teamTextStyle="sky-blue-stroke-1" playerNames={bluePlayers}/> */} 
-            <TeamColumn name="BLUE" teamTextStyle="sky-blue-stroke-1" playerNames={[]}/>
+            <TeamColumn name={blueName} teamTextStyle="sky-blue-stroke-1" playerNames={bluePlayers}/> 
             <VerticalSeparator/>
-            {/* <TeamColumn name={orangeName} teamTextStyle="orange-stroke-1" playerNames={orangePlayers}/> */}
-            <TeamColumn name="ORANGE" teamTextStyle="orange-stroke-1" playerNames={[]}/>
+            <TeamColumn name={orangeName} teamTextStyle="orange-stroke-1" playerNames={orangePlayers}/>
             <VerticalSeparator/>
             <ButtonColumn version={props.version} replayID={replayID}/>
         </div>
@@ -162,7 +157,7 @@ function getPlayers(players: JSON[]) {
     let orangePlayers = []
 
     players.map((info) =>
-        info.isOrange === 0 ?
+        info.is_orange === false ?
         bluePlayers.push(info.name) :
         orangePlayers.push(info.name)
     )
@@ -184,4 +179,33 @@ function reformatPlayerList(playerList: string[]) {
     }
 
     return playerList
+}
+
+function calculateAvgRank(playerList: Array<JSON>) {
+    let aggregateRank = 0.0
+    let numRankedPlayers = 0
+
+    {
+        playerList.map((player) =>
+            player.rank ?
+            aggregateRank += parseFloat(player.rank.mmr) :
+            <div></div>
+        )
+        playerList.map((player) =>
+            player.rank ?
+            numRankedPlayers += 1 :
+            <div></div>
+        )
+    }
+
+    if (aggregateRank || numRankedPlayers) {
+        return Math.round(aggregateRank / numRankedPlayers * 100) / 100
+    } else {
+        return 0.0
+    }
+}
+
+function getRandomUploader() {
+    const uploaders = ["Novarchite","Chicken935","Oakerinos"]
+    return uploaders[Math.floor(Math.random() * uploaders.length)];
 }
