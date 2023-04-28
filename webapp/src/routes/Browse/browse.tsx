@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useState, useContext, useEffect } from 'react';
+import { gql, useQuery } from '@apollo/client';
 import MainPane from "../../components/general/MainPane/mainPane"
 import DataComponent from "../../components/replays/data"
 import ErrorPage from "../Error/error"
@@ -23,6 +24,31 @@ export default function Browse() {
         return <ErrorPage message = "Version parameter must be 0 or 1"/>;
     }
 
+    const FILTER_OPTIONS_QUERY = gql`
+        query GetOptions {
+            getOptions {
+            seasons
+            ranks
+            maps
+            gameTypes
+            gameModes
+            }
+        }      
+    `
+
+    function getOptions() {
+        const { loading, error, data } = useQuery(FILTER_OPTIONS_QUERY)
+        return data
+    }
+
+    const optionsList = getOptions()
+
+   const arenaOptions = optionsList && optionsList.getOptions.maps
+   const gamemodeOptions = optionsList && optionsList.getOptions.gameModes
+   const gametypeOptions = optionsList && optionsList.getOptions.gameTypes
+   const rankOptions = optionsList && optionsList.getOptions.ranks
+   const seasonOptions = optionsList && optionsList.getOptions.seasons
+
     const replayArray = ReplayJSONs.data
 
     // Setting up search feature with state
@@ -37,102 +63,127 @@ export default function Browse() {
     const durationContext = useContext(DurationContext)
     const setDurationTerm = (event: any) => { durationContext.reviseDuration(event.target.value) }
 
+    const gamemodeContext = useContext(GamemodeContext)
+    const setGamemodeTerm = (event: any) => { gamemodeContext.reviseGamemode(event.target.value) }
+
+    const gametypeContext = useContext(GametypeContext)
+    const setGametypeTerm = (event: any) => { gametypeContext.reviseGametype(event.target.value) }
+
+    const rankContext = useContext (RankContext)
+    const setRankTerm = (event: any) => { rankContext.reviseRank(event.target.value) }
+
     const seasonContext = useContext(SeasonContext)
     const setSeasonTerm = (event: any) => { seasonContext.reviseSeason(event.target.value) }
 
+    const SEARCH_REPLAYS_QUERY = gql`
+        query Query($input: Search!) {
+            searchReplays(input: $input) {
+            data {
+                gameMode
+                gameType
+                map {
+                    name
+                }
+                id
+                length
+                name
+                players {
+                    name
+                    is_orange
+                    rank {
+                        mmr
+                        title
+                    }
+                }
+                season {
+                    name
+                }
+                uploadDate
+                matchType
+                ranked
+                teams {
+                    score
+                    isOrange
+                }
+                time
+            }
+            page
+            total
+            }
+        }
+    `
+
+    // const [name, setName] = useState<String | null>(null)
+    // const [map, setMap] = useState<String | null>("ABC")
+    // const [duration, setDuration] = useState<String | null>(null)
+    // const [gamemode, setGamemode] = useState<String | null>(null)
+    // const [gametype, setGametype] = useState<String | null>(null)
+    // const [rank, setRank] = useState<String | null>(null)
+    // const [season, setSeason] = useState<String | null>(null)
+
+    // "duration": null,
+    // "gameMode": null,
+    // "gameType": null,
+    // "map": null,
+    // "name": name,
+    // "rank": null,
+    // "season": null
+
+    let SEARCH_REPLAYS_INPUT = {
+        "input": {
+            "name": searchContext.search,
+            "map": arenaContext.arena === "ANY" ? null : arenaContext.arena,
+            "duration": durationContext.duration === "ANY" ? null : durationContext.duration,
+            "gameMode": gamemodeContext.gamemode === "ANY" ? null : gamemodeContext.gamemode,
+            "gameType": gametypeContext.gametype === "ANY" ? null : gametypeContext.gametype,
+            "rank": rankContext.rank === "ANY" ? null : rankContext.rank,
+            "season": seasonContext.season === "ANY" ? null : seasonContext.season
+        }
+    }
+
     useEffect(() => {
-        let filteredArray = replayArray
-
-        filteredArray = filteredArray.filter((replay: any) =>
-            (replay.name.toLowerCase()).includes(searchContext.search.toLowerCase())
-        )
-
-        if (arenaContext.arena !== "ANY") {
-            filteredArray = filteredArray.filter((replay: any) =>
-                (replay.map.base_name).includes(arenaContext.arena)
-            )
-        }
-
-        if (durationContext.duration !== "ANY") {
-            let minDuration = null
-            let maxDuration = null
-
-            const durationSetting = durationContext.duration
-
-            if (durationSetting.startsWith("0-2")) {
-                minDuration = 0
-                maxDuration = 120
-            } else if (durationSetting.startsWith("2-4")) {
-                minDuration = 120
-                maxDuration = 240
-            } else if (durationSetting.startsWith("4-6")) {
-                minDuration = 240
-                maxDuration = 360
-            } else if (durationSetting.startsWith("6-8")) {
-                minDuration = 360
-                maxDuration = 480
-            } else if (durationSetting.startsWith("8-10")) {
-                minDuration = 480
-                maxDuration = 600
-            } else if (durationSetting.startsWith("10-12")) {
-                minDuration = 600
-                maxDuration = 720
-            } else if (durationSetting.startsWith("12-14")) {
-                minDuration = 720
-                maxDuration = 840
-            } else if (durationSetting.startsWith("14-16")) {
-                minDuration = 840
-                maxDuration = 960
-            } else if (durationSetting.startsWith("18-20")) {
-                minDuration = 960
-                maxDuration = 1080
-            } else if (durationSetting.startsWith("20")) {
-                minDuration = 1080
-            }
-
-            filteredArray = filteredArray.filter((replay: any) =>
-                (replay.length >= minDuration)
-            )
-
-            if (maxDuration !== null) {
-                filteredArray = filteredArray.filter((replay: any) =>
-                    (replay.length < maxDuration)
-                )
+        SEARCH_REPLAYS_INPUT = {
+            "input": {
+                "name": searchContext.search,
+                "map": arenaContext.arena,
+                "duration": durationContext.duration,
+                "gameMode": gamemodeContext.gamemode,
+                "gameType": gametypeContext.gametype,
+                "rank": rankContext.rank,
+                "season": seasonContext.season
             }
         }
+    }, [searchContext, arenaContext, durationContext, gamemodeContext, gametypeContext, rankContext, seasonContext]);
 
-        if (seasonContext.season !== "ANY") {
-            filteredArray = filteredArray.filter((replay: any) =>
-                (replay.season.name.replace("Season ", "")).includes(seasonContext.season)
-            )
-        }
+    const { loading, error, data } = useQuery(SEARCH_REPLAYS_QUERY, {variables: SEARCH_REPLAYS_INPUT})
 
-        setReplaysAfterFiltering(filteredArray)
-        
-    }, [searchContext, arenaContext, durationContext, seasonContext]);
+    let replayList = data && data.searchReplays.data;
+
+    console.log(replayList)
 
     function FilterDropdown(props: {text: string}) {
         let optionArray = []
-        let contextValue = null
+        let visibleFilterValue = null
+        let stateMethod: Function
     
         if (props.text === "ARENA") {
-            optionArray = getArenaArray()
-            contextValue = useContext(ArenaContext).arena
+            if (arenaOptions) { optionArray = arenaOptions }
+            visibleFilterValue = useContext(ArenaContext).arena
         } else if (props.text === "DURATION") {
             optionArray = getDurationArray()
-            contextValue = useContext(DurationContext).duration
+            visibleFilterValue = useContext(DurationContext).duration
         } else if (props.text === "GAMEMODE") {
-            optionArray = getGamemodeArray()
-            contextValue = useContext(GamemodeContext).gamemode
+            if (gamemodeOptions) { optionArray = gamemodeOptions }
+            visibleFilterValue = useContext(GamemodeContext).gamemode
         } else if (props.text === "GAMETYPE") {
-            optionArray = getGametypeArray()
-            contextValue = useContext(GametypeContext).gametype
+            if (gametypeOptions) { optionArray = gametypeOptions }
+            visibleFilterValue = useContext(GametypeContext).gametype
         } else if (props.text === "RANK") {
-            optionArray = getRankArray()
-            contextValue = useContext(RankContext).rank
+            optionArray = getRankArray() // WAITING ON FIX
+            visibleFilterValue = useContext(RankContext).rank
         } else if (props.text === "SEASON") {
-            optionArray = getSeasonArray()
-            contextValue = useContext(SeasonContext).season
+            if (seasonOptions) { optionArray = seasonOptions }
+            visibleFilterValue = useContext(SeasonContext).season
         } else {
             return (<div>ABC</div>) // Add throw error here
         }
@@ -142,6 +193,12 @@ export default function Browse() {
                 setArenaTerm(event)
             } else if (props.text === "DURATION") {
                 setDurationTerm(event)
+            } else if (props.text === "GAMEMODE") {
+                setGamemodeTerm(event)
+            } else if (props.text === "GAMETYPE") {
+                setGametypeTerm(event)
+            } else if (props.text === "RANK") {
+                setRankTerm(event)
             } else if (props.text === "SEASON") {
                 setSeasonTerm(event)
             }
@@ -150,11 +207,11 @@ export default function Browse() {
         return (
             <div className="filter-dropdown glass-inner rounded-full flex justify-center items-center">
                 <div className="glass-inner-light rounded-full w-[94%] m-2 h-[70%] flex justify-center items-center">
-                    <select name={props.text} id={props.text} defaultValue={contextValue} className="rounded-full w-[92%]" onChange={handleChange}>
+                    <select name={props.text} id={props.text} defaultValue={visibleFilterValue} className="rounded-full w-[92%]" onChange={handleChange}>
                         <option value="ANY" className="option-text">ANY {props.text}</option>
                         {
                             optionArray.map((optionValue) =>
-                                <option value={optionValue} className="option-text">{optionValue}</option>
+                                <option key={optionValue} value={optionValue} className="option-text">{optionValue}</option>
                             )
                         }
                     </select>
@@ -170,6 +227,7 @@ export default function Browse() {
             <div className="glass-inner rounded-full h-[48px] flex justify-center items-center mb-3">
                 <input onChange={setSearchTerm} type="search" className="glass-inner-light rounded-full w-full m-2 h-[70%] flex justify-center items-center p-3" placeholder="SEARCH..." />
             </div>
+            {arenaContext.arena}
             <div className="flex flex-nowrap justify-center">
                 <FilterDropdown text="ARENA"/>
                 <FilterDropdown text="DURATION"/>
@@ -181,7 +239,7 @@ export default function Browse() {
             <div className="glass-inner round p-2">
                 {
                     replaysAfterFiltering.map((replay, index) =>
-                        <div>
+                        <div key={index}>
                             <DataComponent data={replay} version={0} classname="rounded-lg"/>
                             {
                                 index + 1 === replaysAfterFiltering.length ?
