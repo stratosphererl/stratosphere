@@ -23,6 +23,7 @@ async function startServer() {
 
   app.use(graphqlUploadExpress());
   app.use(cors());
+  
   server.applyMiddleware({ app });
 
   await new Promise((r) => app.listen({ port: GQL_SERVICE_PORT }, r));
