@@ -113,22 +113,6 @@ export default function Browse() {
         }
     `
 
-    // const [name, setName] = useState<String | null>(null)
-    // const [map, setMap] = useState<String | null>("ABC")
-    // const [duration, setDuration] = useState<String | null>(null)
-    // const [gamemode, setGamemode] = useState<String | null>(null)
-    // const [gametype, setGametype] = useState<String | null>(null)
-    // const [rank, setRank] = useState<String | null>(null)
-    // const [season, setSeason] = useState<String | null>(null)
-
-    // "duration": null,
-    // "gameMode": null,
-    // "gameType": null,
-    // "map": null,
-    // "name": name,
-    // "rank": null,
-    // "season": null
-
     let SEARCH_REPLAYS_INPUT = {
         "input": {
             "name": searchContext.search,
@@ -227,7 +211,6 @@ export default function Browse() {
             <div className="glass-inner rounded-full h-[48px] flex justify-center items-center mb-3">
                 <input onChange={setSearchTerm} type="search" className="glass-inner-light rounded-full w-full m-2 h-[70%] flex justify-center items-center p-3" placeholder="SEARCH..." />
             </div>
-            {arenaContext.arena}
             <div className="flex flex-nowrap justify-center">
                 <FilterDropdown text="ARENA"/>
                 <FilterDropdown text="DURATION"/>
@@ -237,8 +220,8 @@ export default function Browse() {
                 <FilterDropdown text="SEASON"/>
             </div>
             <div className="glass-inner round p-2">
-                {
-                    replaysAfterFiltering.map((replay, index) =>
+                {   replayList ?
+                    replayList.map((replay, index) =>
                         <div key={index}>
                             <DataComponent data={replay} version={0} classname="rounded-lg"/>
                             {
@@ -247,7 +230,8 @@ export default function Browse() {
                                 <HorizontalSpacing/>
                             }
                         </div>
-                    )
+                    ) :
+                    <div></div>
                 }
             </div>
         </MainPane>
