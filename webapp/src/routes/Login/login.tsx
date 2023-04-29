@@ -1,21 +1,56 @@
 import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { useMutation, gql } from "@apollo/client";
 
 import MainPane from "../../components/general/MainPane/mainPane"
 import LoginButton from "../../components/general/Button/Login/loginButton"
 import { UserContext } from "../../context/contexts"
+import {getRandomInt, generatePlatform, generateName} from "../../tools/randomNames";
 import "./login.css"
+
+const CREATE_USER = gql`
+mutation Mutation($createUserId: Int!, $platform: String!, $username: String!) {
+  createUser(id: $createUserId, platform: $platform, username: $username) {
+    date_created
+    id
+    losses
+    number_of_replays
+    total_assists
+    platform
+    total_goals
+    total_saves
+    total_shots
+    username
+    wins
+  }
+}
+`;
 
 export default function Login() {
     const {user, reviseUser} = useContext(UserContext)
     const navigate = useNavigate();
 
+    const [createUser, {data, error}] = useMutation(CREATE_USER, {onCompleted: () => {
+        console.log(data);
+        // reviseUser(data.createUser);
+        // navigate("/browse/1");
+    }});
+
     const disclaimerParagraphClasses = "leading-normal mt-5"
 
+    const generateMockUser = () => {
+        return {
+            createUserId: getRandomInt(0, 1000000),
+            username: generateName(),
+            platform: generatePlatform(),
+        }
+    }
+
     const logIn = () => {
-        reviseUser("test");
-        navigate("/browse/1");
-        navigate(0);
+        createUser({variables: generateMockUser()});
+        // reviseUser("test");
+        // navigate("/browse/1");
+        // navigate(0);
     }
 
     return (
