@@ -121,43 +121,39 @@ def parse2(self, path):
     # initialize parser
     sp = StratosphereParser(path)
 
+    self.update_state(state="PROGRESS", meta=generate_task_meta(id, "PARSE", 1))
+    sp.get_decompile()
+    sp.get_game()
+    
+    id = sp.game.id
+
     try:
-        self.update_state(state="PROGRESS", meta=generate_task_meta(id, "PARSE", 1))
-        sp.get_decompile()
-        sp.get_game()
+        replay_exists_db = bool(repo.get(id))
+    except:
+        replay_exists_db = False
+
+
+    if os.path.exists(f"./files/{id}") and replay_exists_db:
+        raise Exception("Replay already exists")
+
+    try:
+        self.update_state(state="PROGRESS", meta=generate_task_meta(id, "ANALYZE", 2))
+        sp.perform_analysis()
+    except Exception as e:
+        raise Exception(f"Failed to analyze replay: {pretty_format_exception(e)}")
+
+    self.update_state(state="PROGRESS", meta=generate_task_meta(id, "STITCH", 3))
+    sp.amend_game(sp.game)
+
+    try:
+        json = sp.get_json_data()
+        persist_data(id, callbacks=[lambda: save_replay_to_fs(id, path), lambda: save_frames_if_exists(sp.am)])
+        repo.add(json)
         
-        id = sp.game.id
+        e_time = time.time()
+        execution_time = e_time - s_time
 
-        try:
-            replay_exists_db = bool(repo.get(id))
-        except:
-            replay_exists_db = False
-
-        if os.path.exists(f"./files/{id}") and replay_exists_db:
-            raise Exception("Replay already exists")
-
-        try:
-            self.update_state(state="PROGRESS", meta=generate_task_meta(id, "ANALYZE", 2))
-            sp.perform_analysis()
-        except Exception as e:
-            print(f"Failed to analyze replay: {pretty_format_exception(e)}")
-
-        self.update_state(state="PROGRESS", meta=generate_task_meta(id, "STITCH", 3))
-        sp.amend_game(sp.game)
-
-        try:
-            json = sp.get_json_data()
-            persist_data(id, callbacks=[lambda: save_replay_to_fs(id, path), lambda: save_frames_if_exists(sp.am)])
-            repo.add(json)
-           
-            e_time = time.time()
-            execution_time = e_time - s_time
-
-            self.update_state(state="SUCCESS", meta=generate_task_meta(id, "SAVE", 4, process_time=f"{execution_time:.3f}s"))
-            
-        except Exception as e:
-            print(f"Failed to save replay to database: {pretty_format_exception(e)}")
-            raise(e)
+        self.update_state(state="SUCCESS", meta=generate_task_meta(id, "SAVE", 4, process_time=f"{execution_time:.3f}s"))
         
     except Exception as e:
-        raise Exception(f"Failed to parse replay: {pretty_format_exception(e)}")
+        raise Exception(f"Failed to save replay to database: {pretty_format_exception(e)}")

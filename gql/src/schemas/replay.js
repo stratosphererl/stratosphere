@@ -407,7 +407,7 @@ type ProcessStage {
     total: Int!
 }
 
-type FileUploadTaskResponse {
+type FileUploadTaskResponseProgress {
     state: String!
     status: FileUploadStatus!
 }
@@ -524,8 +524,8 @@ input Search {
 type Query {
     getReplay(id: String!): Replay
     getReplaysCount: ReplaysCount
-    getTaskStatus(taskId: String!): FileUploadTaskResponse!
-    getMMRFromPlaylist(input: MMRFromPlaylistForm!): MMRFromPlaylistResponse
+    getTaskStatus(taskId: String!): FileUploadTaskResponseProgress
+    getRankFromPlaylistAndMMR(input: MMRFromPlaylistForm!): MMRFromPlaylistResponse
     getOptions: Options
     getDurationCount: [DurationCountResult]
     getRankCount: [RankCountResult]
@@ -561,6 +561,9 @@ const streamToBuffer = async (stream) => {
 };
 
 async function uploadFile(formData) {
+  console.log(
+    `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays`
+  );
   const response = await fetch(
     `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays`,
     {
@@ -672,7 +675,7 @@ const replayResolvers = {
         count: json.data[0].count,
       };
     },
-    getMMRFromPlaylist: async (parent, args) => {
+    getRankFromPlaylistAndMMR: async (parent, args) => {
       if (args.input.playlist === "SnowDay") {
         args.input.playlist = "Snow Day";
       }
@@ -704,7 +707,7 @@ const replayResolvers = {
 
       const json = await response.json();
 
-      if (json.status_code) {
+      if (!response.ok) {
         throw new Error(json.detail);
       }
 
