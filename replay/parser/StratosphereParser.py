@@ -314,9 +314,9 @@ class StratosphereParser:
                 rank_info = player_ranks[player.online_id]
                 player.rank = {
                     'mmr': rank_info['mmr'],
-                    'id': rank_info['rank']['id'],
-                    'title': rank_info['rank']['name'],
-                    'division': rank_info['rank']['division']
+                    'id': rank_info['rank']['id'] if rank_info['mmr'] else None,
+                    'title': rank_info['rank']['name'] if rank_info['mmr'] else None,
+                    'division': rank_info['rank']['division'] if rank_info['mmr'] else None
                 }
             else:
                 player.rank = None
