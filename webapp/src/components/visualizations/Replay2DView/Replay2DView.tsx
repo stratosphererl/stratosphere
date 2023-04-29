@@ -6,8 +6,9 @@ import { Ball } from "./entities/ball";
 import { Map } from "./entities/field";
 import { useReplayFrames } from "../helper/dataLoader";
 import { useEffect, useState } from "react";
+import ResponseDataWrapper from "../../../data/ResponseDataWrapper";
 
-export default function Replay2DView() {
+export default function Replay2DView({ analyzedReplay }: { analyzedReplay: ResponseDataWrapper }) {
   const ECS = useECS();
   const [frames, setFrames] = useState(0);
 
@@ -19,8 +20,10 @@ export default function Replay2DView() {
     return () => clearInterval(intervalId); // clear the interval when the component unmounts
   }, [ECS, frames]);
 
-  const url = "http://localhost:5004/frames.csv.zip";
-  const { data, loading, error } = useReplayFrames(url);
+  const framesURL = analyzedReplay.getFramesLink();
+  const { data, loading, error } = useReplayFrames(framesURL);
+
+  const [team1, team2] = analyzedReplay.getTeamsPlayers();
 
   return (
     <div className="flex justify-center items-center">
@@ -33,13 +36,13 @@ export default function Replay2DView() {
           <ECS.Provider>
             <CanvasViewSystem />
             <TransformSystem data={data} />
-            <Player isOrange={false} name={0} />
-            <Player isOrange={true} name={1} />
-            <Player isOrange={false} name={2} />
-            <Player isOrange={true} name={3} />
-            <Player isOrange={true} name={4} />
-            <Player isOrange={false} name={5} />
-            <Ball name={6} />
+            {team1.map((player) => (
+              <Player isOrange={false} name={data[0].findIndex((entity: any) => entity.name === player.name)} />
+            ))}
+            {team2.map((player) => (
+              <Player isOrange={true} name={data[0].findIndex((entity: any) => entity.name === player.name)} />
+            ))}
+            <Ball name={data[0].findIndex((entity: any) => entity.name === "ball")} />
             <Map />
           </ECS.Provider>
         </Canvas>

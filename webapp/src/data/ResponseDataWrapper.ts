@@ -72,7 +72,7 @@ export default class ResponseDataWrapper {
         return [teams, keys, key_names]
     }
 
-    private getTeamsPlayers() {
+    getTeamsPlayers(): [any[], any[]] {
         const team1 = this.data.players.filter((player: any) => player.isOrange == 0) as any[];
         const team2 = this.data.players.filter((player: any) => player.isOrange == 1) as any[];
 

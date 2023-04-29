@@ -54,7 +54,7 @@ export default function Replay() {
       tabs: [
         {
           tabName: "2D Replay",
-          content: <Replay2DView />,
+          content: <Replay2DView analyzedReplay={data} />,
         },
       ],
     },
