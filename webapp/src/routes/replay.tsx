@@ -16,11 +16,19 @@ import {
 } from "../components/visualizations/contentPanels";
 
 import Replay2DView from "../components/visualizations/Replay2DView/Replay2DView";
+import usePrediction from "../hooks/usePrediction";
 
 export default function Replay() {
   const params = useParams();
   const [searchParams] = useSearchParams();
   const { data, loading, error } = useReplay(params.replayid!);
+  const { 
+    data: predictionData, 
+    loading: predictionLoading, 
+    error: predictionError 
+  } = usePrediction(params.replayid!);
+
+  console.log(predictionData, predictionLoading, predictionError)
   
   const regex = /^[A-Z0-9]{32}$/;
 

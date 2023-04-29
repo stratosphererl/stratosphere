@@ -1,7 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 
 import ResponseDataWrapper from "../data/ResponseDataWrapper";
-import response from "../data/mock/response.json";
 
 const GET_REPLAY = gql`
     query Query($getReplayId: String!) {
