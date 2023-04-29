@@ -262,8 +262,13 @@ def GET_MAPS():
 
         for map in maps_json:
             MAPS.add(map['Map Base Name'])
-    
-    return list(MAPS)
+
+    MAPS = list(MAPS)
+    MAPS.sort()
+
+    return MAPS
+
+
 
 def GET_SEASONS():
     SEASONS = []
@@ -282,7 +287,8 @@ def GET_RANKS():
 
         for rank_id in ranks_json['Duel']:
             for _ in ranks_json['Duel'][f"{rank_id}"]:
-                RANKS.append(ranks_json['Duel'][f"{rank_id}"]['name'])
+                if ranks_json['Duel'][f"{rank_id}"]['name'] not in RANKS:
+                    RANKS.append(ranks_json['Duel'][f"{rank_id}"]['name'])
 
     return RANKS
 
