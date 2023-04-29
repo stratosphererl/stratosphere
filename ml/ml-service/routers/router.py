@@ -78,4 +78,3 @@ async def predict(file: UploadFile = File(..., description="Replay file to be an
         "model_name": model.model_name,
         "keys": ["blue", "orange"],
         "predictions": predictions.tolist()})
-
