@@ -561,9 +561,6 @@ const streamToBuffer = async (stream) => {
 };
 
 async function uploadFile(formData) {
-  console.log(
-    `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays`
-  );
   const response = await fetch(
     `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays`,
     {
@@ -640,6 +637,25 @@ const replayResolvers = {
     },
   },
   Query: {
+    getReplay: async (parent, args) => {
+      const url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/${args.id}`;
+      const res = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        const json = await res.json();
+        const detail = json ? json.detail : "Unable to get replay";
+        throw new ApolloError(detail, res.status);
+      }
+
+      const json = await res.json();
+
+      return json;
+    },
     searchReplays: async (parent, args) => {
       let url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/search?`;
       for (const [key, value] of Object.entries(args.input)) {
