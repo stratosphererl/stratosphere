@@ -1,12 +1,16 @@
 interface ScorebaordEntry {name: string, score: number, goals: number, assists: number, saves: number, shots: number}
 interface TeamTugEntry {possession: number, goals: number, saves: number, shots: number, assists: number, 
-    aerials: number, clears: number, hits: number, demos: number, boost: number}
+    aerials: number, clears: number, hits: number, boost: number}
 interface BoostDataEntry {name: string, small_pads: number, big_pads: number, time_full: number, time_low: number, 
     time_empty: number, time_decent: number, wasted_small: number, wasted_big: number, boost_used: number}
-interface HitDataEntry {name: string, goals: number, assists: number, saves: number, shots: number, clears: number, demos: number}
+interface HitDataEntry {name: string, goals: number, assists: number, saves: number, shots: number, clears: number} 
 
 export default class ResponseDataWrapper {
-    constructor(private data: any) {}
+    constructor(private data: any, private frames_link: string) {}
+
+    getFramesLink() {
+        return this.frames_link;
+    }
 
     getScoreboardData() {
         const teams: [ScorebaordEntry[], ScorebaordEntry[]] = [[],[]];
@@ -39,7 +43,6 @@ export default class ResponseDataWrapper {
             aerials: team.stats.hitCounts.totalAerials as number,
             clears: team.stats.hitCounts.totalClears as number,
             hits: team.stats.hitCounts.totalHits as number,
-            demos: players.map((player: any) => player.stats.demoStats?.numDemosInflicted ?? 0).reduce((a: number, b: number) => a + b, 0) as number,
             boost: players.map((player: any) => player.stats.boost.boostUsage).reduce((a: number, b: number) => a + b, 0) as number,
         };
 
@@ -56,7 +59,6 @@ export default class ResponseDataWrapper {
             aerials: "Aerial Hits",
             clears: "Clears",
             hits: "Hits",
-            demos: "Demos",
             boost: "Boost Used"
         }
 
@@ -91,7 +93,6 @@ export default class ResponseDataWrapper {
                     saves: player.saves,
                     shots: player.shots,
                     clears: player.stats.hitCounts.totalClears,
-                    demos: player.stats.demoStats?.numDemosInflicted ?? 0,
                 });
             });
         }
@@ -106,7 +107,6 @@ export default class ResponseDataWrapper {
                 saves: 0,
                 shots: 0,
                 clears: 0,
-                demos: 0,
             });
         }
 

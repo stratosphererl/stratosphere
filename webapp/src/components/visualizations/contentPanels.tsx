@@ -51,11 +51,11 @@ export function Scoreboard({data}: Props) {
                                             border: "1px solid", borderColor: "black"}}>
                                             
                                             <td className="py-2">{player.name}</td>
-                                            <td className="py-2">{player.score}</td>
-                                            <td className="py-2">{player.goals}</td>
-                                            <td className="py-2">{player.assists}</td>
-                                            <td className="py-2">{player.saves}</td>
-                                            <td className="py-2">{player.shots}</td>
+                                            <td className="py-2">{player.score ?? 0}</td>
+                                            <td className="py-2">{player.goals ?? 0}</td>
+                                            <td className="py-2">{player.assists ?? 0}</td>
+                                            <td className="py-2">{player.saves ?? 0}</td>
+                                            <td className="py-2">{player.shots ?? 0}</td>
                                         </tr>
                                     )}
                                 </tbody>
@@ -89,12 +89,11 @@ export function PlayerComparison({data}: Props) {
         "saves": "Saves",
         "shots": "Shots",
         "clears": "Clears",
-        "demos": "Demos",
     }
 
     const label = "name";
-    const groups = ["goals", "assists", "saves", "shots", "clears", "demos"];
-    const colors = ["var(--sky-blue)", "var(--sky-orange)", "var(--sky-green)", "var(--sky-purple)", "var(--sky-yellow)", "var(--sky-red)"];
+    const groups = ["goals", "assists", "saves", "shots", "clears"];
+    const colors = ["var(--sky-blue)", "var(--sky-orange)", "var(--sky-green)", "var(--sky-purple)", "var(--sky-yellow)"];
 
 
     return (<>
@@ -274,7 +273,7 @@ function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
 }
 
 export function Position({data}: Props) {
-    const url = "http://localhost:5004/frames.csv.zip";
+    const url = data.getFramesLink();
     const replayFrames = useReplayFrames(url);
     if (replayFrames.error)
         throw replayFrames.error;
@@ -335,7 +334,7 @@ export function Position({data}: Props) {
 }
 
 export function Ball({data}: Props) {
-    const url = "http://localhost:5004/frames.csv.zip";
+    const url = data.getFramesLink();
     const replayFrames = useReplayFrames(url);
     
     if (replayFrames.error)

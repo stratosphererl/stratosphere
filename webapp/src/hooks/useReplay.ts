@@ -94,18 +94,27 @@ const GET_REPLAY = gql`
     }
 `;
 
+const GET_FRAMES_URL = gql`
+    query Query($getReplayFramesFileUrlId: String!) {
+        getReplayFramesFileURL(id: $getReplayFramesFileUrlId)
+    }
+`
+
 export default function useReplay(replayid: string) {
     const { data, loading, error } = useQuery(GET_REPLAY, {
         variables: { getReplayId: replayid },
     });
+    const { data: framesData, loading: framesLoading, error: framesError } = useQuery(GET_FRAMES_URL, {
+        variables: { getReplayFramesFileUrlId: replayid },
+    });
 
-    const dataWrapper = new ResponseDataWrapper(data?.getReplay);
+    const dataWrapper = new ResponseDataWrapper(data?.getReplay, framesData?.getReplayFramesFileURL);
 
     console.log(dataWrapper)
 
     return {
         data: dataWrapper,
-        loading: loading,
-        error: error,
+        loading: loading || framesLoading,
+        error: error || framesError,
     }
 }
