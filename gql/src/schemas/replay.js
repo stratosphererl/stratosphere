@@ -525,7 +525,7 @@ type Query {
     getReplay(id: String!): Replay
     getReplaysCount: ReplaysCount
     getTaskStatus(taskId: String!): FileUploadTaskResponseProgress
-    getMMRFromPlaylist(input: MMRFromPlaylistForm!): MMRFromPlaylistResponse
+    getRankFromPlaylistAndMMR(input: MMRFromPlaylistForm!): MMRFromPlaylistResponse
     getOptions: Options
     getDurationCount: [DurationCountResult]
     getRankCount: [RankCountResult]
@@ -675,7 +675,7 @@ const replayResolvers = {
         count: json.data[0].count,
       };
     },
-    getMMRFromPlaylist: async (parent, args) => {
+    getRankFromPlaylistAndMMR: async (parent, args) => {
       if (args.input.playlist === "SnowDay") {
         args.input.playlist = "Snow Day";
       }
