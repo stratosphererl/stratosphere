@@ -9,7 +9,7 @@ const { GraphQLUpload } = require("graphql-upload");
 const FormData = require("form-data");
 const { ApolloError } = require("apollo-server");
 
-const replayDef = gql(`
+const replayDef = gql`
 
 scalar Upload
 
@@ -100,8 +100,8 @@ type PositionalTendencies {
   timeInDefendingThird: Float
   timeInNeutralThird: Float
   timeInAttackingThird: Float
-  timeBehindBall: Int
-  timeInFrontBall: Int
+  timeBehindBall: Float
+  timeInFrontBall: Float
   timeNearWall: Float
   timeInCorner: Float
   timeOnWall: Float
@@ -542,7 +542,7 @@ type Mutation {
     updateReplay(input: UpdateReplayForm!): Boolean
     deleteReplay(input: DeleteReplayForm!): Boolean
 }
-`);
+`;
 
 const streamToBuffer = async (stream) => {
   return new Promise((resolve, reject) => {

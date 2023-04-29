@@ -131,7 +131,7 @@ export default class ResponseDataWrapper {
                     time_full: boostStats.timeFullBoost,
                     time_low: boostStats.timeLowBoost,
                     time_empty: boostStats.timeNoBoost,
-                    time_decent: this.data.gameMetadata.length - boostStats.timeFullBoost - boostStats.timeLowBoost - boostStats.timeNoBoost,
+                    time_decent: this.data.gameHeader.length - boostStats.timeFullBoost - boostStats.timeLowBoost - boostStats.timeNoBoost,
                     wasted_small: boostStats.wastedSmall,
                     wasted_big: boostStats.wastedBig,
                     boost_used: boostStats.boostUsage,
@@ -365,12 +365,12 @@ export default class ResponseDataWrapper {
         return ballData;
     }
 
-    private getPlayerFromId(id: string) {
-        return this.data.players.find((player: any) => player.id.id === id);
+    private getPlayerFromName(name: string) {
+        return this.data.players.find((player: any) => player.name == name);
     }
 
     getGoalData(frames: any[]) {
-        const goals = this.data.gameMetadata.goals as any[];
+        const goals = this.data.gameHeader.goals as any[];
 
         const goalData = goals.map((goal: any) => {
             let frameNumber = goal.frameNumber;
@@ -392,7 +392,7 @@ export default class ResponseDataWrapper {
                 velocity = (Math.sqrt(ball.velocity.x ** 2 + ball.velocity.y ** 2 + ball.velocity.z ** 2) / 1000 / 1000 * 60 * 60).toFixed(2);
             }
 
-            const player = this.getPlayerFromId(goal.playerId.id);
+            const player = this.getPlayerFromName(goal.player_name);
                 
             // Todo: Check if the player is orange and invert x depending on that (I don't know which way around it is yet)
 
