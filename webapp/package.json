@@ -13,6 +13,8 @@
     "@apollo/client": "^3.7.1",
     "@headlessui/react": "^1.7.4",
     "@react-ecs/core": "^0.0.3",
+    "apollo-upload-client": "^17.0.0",
+    "cors": "^2.8.5",
     "d3": "^7.8.4",
     "graphql": "^16.6.0",
     "jszip": "^3.10.1",

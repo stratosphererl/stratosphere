@@ -407,7 +407,7 @@ type ProcessStage {
     total: Int!
 }
 
-type FileUploadTaskResponse {
+type FileUploadTaskResponseProgress {
     state: String!
     status: FileUploadStatus!
 }
@@ -524,7 +524,7 @@ input Search {
 type Query {
     getReplay(id: String!): Replay
     getReplaysCount: ReplaysCount
-    getTaskStatus(taskId: String!): FileUploadTaskResponse!
+    getTaskStatus(taskId: String!): FileUploadTaskResponseProgress
     getMMRFromPlaylist(input: MMRFromPlaylistForm!): MMRFromPlaylistResponse
     getOptions: Options
     getDurationCount: [DurationCountResult]
@@ -561,6 +561,9 @@ const streamToBuffer = async (stream) => {
 };
 
 async function uploadFile(formData) {
+  console.log(
+    `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays`
+  );
   const response = await fetch(
     `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays`,
     {
@@ -704,7 +707,7 @@ const replayResolvers = {
 
       const json = await response.json();
 
-      if (json.status_code) {
+      if (!response.ok) {
         throw new Error(json.detail);
       }
 

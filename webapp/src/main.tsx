@@ -1,4 +1,5 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { createUploadLink } from "apollo-upload-client";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,7 +8,6 @@ import {
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { createRoot } from "react-dom/client";
 
 import AboutPage from "./routes/about";
 import BrowsePage from "./routes/Browse/browse";
@@ -36,8 +36,11 @@ import {
 } from "./context/contexts";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000",
   cache: new InMemoryCache(),
+  link: createUploadLink({
+    headers: { "Apollo-Require-Preflight": "true" },
+    uri: "http://localhost:4000/graphql",
+  }),
 });
 
 function ErrorBoundary() {
@@ -169,21 +172,21 @@ const router = createBrowserRouter([
 export function RouterWithContextsProvider() {
   return (
     <UserProvider>
-    <SearchProvider>
-    <ArenaProvider>
-    <DurationProvider>
-    <GamemodeProvider>
-    <GametypeProvider>
-    <RankProvider>
-    <SeasonProvider>
-      <RouterProvider router={router}/>
-    </SeasonProvider>
-    </RankProvider>
-    </GametypeProvider>
-    </GamemodeProvider>
-    </DurationProvider>
-    </ArenaProvider>
-    </SearchProvider>
+      <SearchProvider>
+        <ArenaProvider>
+          <DurationProvider>
+            <GamemodeProvider>
+              <GametypeProvider>
+                <RankProvider>
+                  <SeasonProvider>
+                    <RouterProvider router={router} />
+                  </SeasonProvider>
+                </RankProvider>
+              </GametypeProvider>
+            </GamemodeProvider>
+          </DurationProvider>
+        </ArenaProvider>
+      </SearchProvider>
     </UserProvider>
   );
 }
