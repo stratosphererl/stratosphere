@@ -163,7 +163,7 @@ export default function Browse() {
             if (gametypeOptions) { optionArray = gametypeOptions }
             visibleFilterValue = useContext(GametypeContext).gametype
         } else if (props.text === "RANK") {
-            optionArray = getRankArray() // WAITING ON FIX
+            if (rankOptions) { optionArray = rankOptions }
             visibleFilterValue = useContext(RankContext).rank
         } else if (props.text === "SEASON") {
             if (seasonOptions) { optionArray = seasonOptions }

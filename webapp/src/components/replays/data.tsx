@@ -1,5 +1,6 @@
 import "../../index.css"
 import "./data.css"
+import { gql, useQuery } from '@apollo/client';
 
 export default function ReplayData(props: {data: JSON, version: number, classname: string}) {
     console.log(props.data)
@@ -18,7 +19,7 @@ export default function ReplayData(props: {data: JSON, version: number, classnam
     const mapName = props.data.map.name
 
     // Replay variables for second column
-    const avgRank = calculateAvgRank(props.data.players)
+    const avgRank = calculateAvgRank(props.data.players, props.data.gameType)
     const duration = convertToTimeString(props.data.length)
     const season = props.data.season.name.replace("Season","")
     const gamemode = props.data.gameMode
@@ -181,14 +182,14 @@ function reformatPlayerList(playerList: string[]) {
     return playerList
 }
 
-function calculateAvgRank(playerList: Array<JSON>) {
-    let aggregateRank = 0.0
+function calculateAvgRank(playerList: Array<JSON>, playlist: string) {
+    let aggregateMMR = 0.0
     let numRankedPlayers = 0
 
     {
         playerList.map((player) =>
             player.rank ?
-            aggregateRank += parseFloat(player.rank.mmr) :
+            aggregateMMR += parseFloat(player.rank.mmr) :
             <div></div>
         )
         playerList.map((player) =>
@@ -198,14 +199,79 @@ function calculateAvgRank(playerList: Array<JSON>) {
         )
     }
 
-    if (aggregateRank || numRankedPlayers) {
-        return Math.round(aggregateRank / numRankedPlayers * 100) / 100
+    if (aggregateMMR || numRankedPlayers) {
+        aggregateMMR = Math.round(aggregateMMR / numRankedPlayers)
     } else {
-        return 0.0
+        const rankImage = <img src={`../../src/assets/ranks/0.png`} style={{width: "24px"}} className="mr-2" />
+
+        return (
+            <div className="flex flex-nowrap">
+                {rankImage}
+                <div>UNRANKED</div>
+            </div>
+        )
     }
+
+    const RANK_QUERY = gql`
+        query Query($input: MMRFromPlaylistForm!) {
+            getRankFromPlaylistAndMMR(input: $input) {
+                name
+            }
+        }    
+    `
+
+    const QUERY_INPUT = {
+        "input": {
+            "mmr": aggregateMMR,
+            "playlist": "Standard"
+        },
+    }
+
+    const { loading, error, data } = useQuery(RANK_QUERY, { variables: QUERY_INPUT } )
+    
+    const ranknameLowercase = data && data.getRankFromPlaylistAndMMR.name
+    const ranknameUppercase = data && data.getRankFromPlaylistAndMMR.name.toUpperCase()
+    const rankImage = convertRanknameToImage(ranknameLowercase)
+
+    return (
+        <div className="flex flex-nowrap">
+            {rankImage}
+            <div>{ranknameUppercase}</div>
+        </div>
+    )
 }
 
 function getRandomUploader() {
     const uploaders = ["Novarchite","Chicken935","Oakerinos"]
     return uploaders[Math.floor(Math.random() * uploaders.length)];
+}
+
+function convertRanknameToImage(rankname: string) {
+    const conversionJSON = {
+        "Unranked": 0,
+        "Bronze I": 1,
+        "Bronze II": 2,
+        "Bronze III": 3,
+        "Silver I": 4,
+        "Silver II": 5,
+        "Silver III": 6,
+        "Gold I": 7,
+        "Gold II": 8,
+        "Gold III": 9,
+        "Platinum I": 10,
+        "Platinum II": 11,
+        "Platinum III": 12,
+        "Diamond I": 13,
+        "Diamond II": 14,
+        "Diamond III": 15,
+        "Champion I": 16,
+        "Champion II": 17,
+        "Champion III": 18,
+        "Grand Champion I": 19,
+        "Grand Champion II": 20,
+        "Grand Champion III": 21,
+        "Supersonic Legend": 22,
+    }
+
+    return <img src={`../../src/assets/ranks/${conversionJSON[rankname]}.png`} style={{width: "24px"}} className="mr-2" />
 }
