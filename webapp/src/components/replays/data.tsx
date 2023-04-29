@@ -3,7 +3,6 @@ import "./data.css"
 import { gql, useQuery } from '@apollo/client';
 
 export default function ReplayData(props: {data: JSON, version: number, classname: string}) {
-    console.log(props.data)
     // Replay title variables
     const replayTitle = props.data.name
 
@@ -81,8 +80,8 @@ export function TeamColumn(props: {name: string, teamTextStyle: string, playerNa
             {
                 props.playerNames.map((playerName) =>
                     playerName !== "" ?
-                    <div className={`${fullWidthCentered}`}>{playerName}</div> :
-                    <div className={`${fullWidthCentered}`}>&nbsp;</div>
+                    <div key={playerName} className={`${fullWidthCentered}`}>{playerName}</div> :
+                    <div key={playerName} className={`${fullWidthCentered}`}>&nbsp;</div>
                 )
             }
         </div>
@@ -141,16 +140,6 @@ function convertToTimeString(seconds: number) {
     }
 }
 
-function getAverageRank(rankings: JSON[]) {
-    let sum = 0
-    let players = 0
-
-    rankings.map((info) => sum = sum + info.pre_mmr)
-    rankings.map((info) => players = players + 1)
-
-    return sum / players
-}
-
 function getPlayers(players: JSON[]) {
     let returnList = []
 
@@ -183,23 +172,31 @@ function reformatPlayerList(playerList: string[]) {
 }
 
 function calculateAvgRank(playerList: Array<JSON>, playlist: string) {
+    console.log(playlist)
     let aggregateMMR = 0.0
     let numRankedPlayers = 0
 
     {
         playerList.map((player) =>
             player.rank ?
-            aggregateMMR += parseFloat(player.rank.mmr) :
-            <div></div>
+                player.rank.mmr ?
+                aggregateMMR += parseFloat(player.rank.mmr) :
+                console.log("Non-number value skipped") :
+            console.log("Non-ranked value skipped")
         )
         playerList.map((player) =>
             player.rank ?
-            numRankedPlayers += 1 :
-            <div></div>
+                player.rank.mmr ?
+                numRankedPlayers += 1 :
+                console.log("non-number value skipped") :
+            console.log("Non-ranked value skipped")
         )
     }
 
-    if (aggregateMMR || numRankedPlayers) {
+    console.log(aggregateMMR)
+    console.log(numRankedPlayers)
+
+    if (aggregateMMR != 0.0 || numRankedPlayers != 0) {
         aggregateMMR = Math.round(aggregateMMR / numRankedPlayers)
     } else {
         const rankImage = <img src={`../../src/assets/ranks/0.png`} style={{width: "24px"}} className="mr-2" />

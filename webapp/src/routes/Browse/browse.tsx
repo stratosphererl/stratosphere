@@ -143,8 +143,6 @@ export default function Browse() {
 
     let replayList = data && data.searchReplays.data;
 
-    console.log(replayList)
-
     function FilterDropdown(props: {text: string}) {
         let optionArray = []
         let visibleFilterValue = null
