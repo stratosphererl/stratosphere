@@ -80,7 +80,7 @@ class StratosphereParser:
         return AnalysisManager(self.game)
         
     
-    def perform_analysis(self, full=True):
+    def perform_analysis(self, full=False):
         am = None
         if self.game:
             am = self.init_analysis()
@@ -308,9 +308,9 @@ class StratosphereParser:
         if not self.game.ranked: return
         playlist = self.game.game_type if game.gamemode == 'Soccar' else game.gamemode
         player_ranks = debug2ranks(self.decompiled_replay['debug_info'], playlist=playlist)
-
+        
         for player in game.players:
-            if player.online_id in player_ranks:
+            if  player_ranks and player.online_id in player_ranks:
                 rank_info = player_ranks[player.online_id]
                 player.rank = {
                     'mmr': rank_info['mmr'],
@@ -387,7 +387,7 @@ class ParsingHelper:
 
         :param df: DataFrame to slice
         :param level1by: First level index to select, default to all
-        :param level2by: Second level index to select, default to ['pos_x', 'pos_y', rot_y 'vel_x', 'vel_y', 'boost', 'boost_active', 'delta', 'is_overtime']
+        :param level2by: Second level index to select, default to ['pos_x', 'pos_y', rot_y 'vel_x', 'vel_y', 'boost', 'boost_active', 'is_overtime']
         :return: Sliced DataFrame
         """
         level1by = level1by if len(level1by) != 0 else slice(None) 
@@ -404,7 +404,7 @@ class ParsingHelper:
         """
         regular_data = ParsingHelper.slice_frames(df)
         extra_data = ParsingHelper.slice_frames(df, level1by=['ball'], level2by=['pos_z'])
-        merged = regular_data.join(extra_data)
+        merged = regular_data.join(extra_data).sort_index(axis=1)
 
         filename = fp.split('/')[-1]
 
