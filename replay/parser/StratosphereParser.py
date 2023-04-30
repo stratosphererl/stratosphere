@@ -80,7 +80,7 @@ class StratosphereParser:
         return AnalysisManager(self.game)
         
     
-    def perform_analysis(self, full=False):
+    def perform_analysis(self, full=True):
         am = None
         if self.game:
             am = self.init_analysis()
