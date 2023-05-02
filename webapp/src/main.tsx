@@ -5,25 +5,23 @@ import {
   RouterProvider,
   useRouteError,
 } from "react-router-dom";
-import React from "react";
+import React, {Suspense, lazy} from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
-import AboutPage from "./routes/about";
-import BrowsePage from "./routes/Browse/browse";
-import HomePage from "./routes/Home/home";
-import LoginPage from "./routes/Login/login";
-import OverlayPage from "./routes/overlay";
-import RedirectPage from "./routes/redirect";
-import ReplayPage from "./routes/replay";
-import SettingsPage from "./routes/Settings/settings";
-import StatsPage from "./routes/Statistics/statistics";
-import UploadPage from "./routes/upload";
-import ErrorPage from "./routes/Error/error";
-import DataPage from "./components/replays/data";
-import ReplayJSON from "./mock/replay.json";
+const AboutPage = lazy(() => import("./routes/about"));
+const BrowsePage = lazy(() => import("./routes/Browse/browse"));
+const HomePage = lazy(() => import("./routes/Home/home"));
+const LoginPage = lazy(() => import("./routes/Login/login"));
+const OverlayPage = lazy(() => import("./routes/overlay"));
+const ReplayPage = lazy(() => import("./routes/replay"));
+const SettingsPage = lazy(() => import("./routes/Settings/settings"));
+const StatsPage = lazy(() => import("./routes/Statistics/statistics"));
+const UploadPage = lazy(() => import("./routes/upload"));
+const Wrapper = lazy(() => import("./components/general/wrapper"));
 
-import Wrapper from "./components/general/wrapper";
+import RedirectPage from "./routes/redirect";
+import ErrorPage from "./routes/Error/error";
 
 import { UserProvider, SearchProvider } from "./context/contexts";
 import {
@@ -62,9 +60,11 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: (
-      <Wrapper background="background-about" callPage="">
-        <AboutPage />
-      </Wrapper>
+      <Suspense fallback={<h1></h1>}>
+        <Wrapper background="background-about" callPage="">
+          <AboutPage />
+        </Wrapper>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
   },
@@ -72,18 +72,22 @@ const router = createBrowserRouter([
     // browse.tsx
     path: "/browse/:version",
     element: (
-      <Wrapper background="background-browse" callPage="">
-        <BrowsePage />
-      </Wrapper>
+      <Suspense fallback={<h1></h1>}>
+        <Wrapper background="background-browse" callPage="">
+          <BrowsePage />
+        </Wrapper>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
   },
   {
     path: "/error",
     element: (
-      <Wrapper background="" callPage="">
-        {<ErrorBoundary />}
-      </Wrapper>
+      <Suspense fallback={<h1></h1>}>
+        <Wrapper background="" callPage="">
+          {<ErrorBoundary />}
+        </Wrapper>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
   },
@@ -91,9 +95,11 @@ const router = createBrowserRouter([
     // home.tsx
     path: "/home",
     element: (
-      <Wrapper background="background-home" callPage="Home">
-        <HomePage />
-      </Wrapper>
+      <Suspense fallback={<h1></h1>}>
+        <Wrapper background="background-home" callPage="Home">
+          <HomePage />
+        </Wrapper>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
   },
@@ -101,9 +107,11 @@ const router = createBrowserRouter([
     // login.tsx
     path: "/login",
     element: (
-      <Wrapper background="background-login" callPage="">
-        <LoginPage />
-      </Wrapper>
+      <Suspense fallback={<h1></h1>}>
+        <Wrapper background="background-login" callPage="">
+          <LoginPage />
+        </Wrapper>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
   },
@@ -111,9 +119,11 @@ const router = createBrowserRouter([
     // overlay.tsx
     path: "/overlay",
     element: (
-      <Wrapper background="background-overlay" callPage="">
-        <OverlayPage />
-      </Wrapper>
+      <Suspense fallback={<h1></h1>}>
+        <Wrapper background="background-overlay" callPage="">
+          <OverlayPage />
+        </Wrapper>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
   },
@@ -121,9 +131,11 @@ const router = createBrowserRouter([
     // replay.tsx
     path: "/replay/:replayid",
     element: (
-      <Wrapper background="background-replay" callPage="">
-        <ReplayPage />
-      </Wrapper>
+      <Suspense fallback={<h1></h1>}>
+        <Wrapper background="background-replay" callPage="">
+          <ReplayPage />
+        </Wrapper>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
   },
@@ -131,9 +143,11 @@ const router = createBrowserRouter([
     // settings.tsx
     path: "/settings",
     element: (
-      <Wrapper background="background-settings" callPage="">
-        <SettingsPage />
-      </Wrapper>
+      <Suspense fallback={<h1></h1>}>
+        <Wrapper background="background-settings" callPage="">
+          <SettingsPage />
+        </Wrapper>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
   },
@@ -141,9 +155,11 @@ const router = createBrowserRouter([
     // statistics.tsx
     path: "/stats/:version",
     element: (
-      <Wrapper background="background-stats" callPage="">
-        <StatsPage />
-      </Wrapper>
+      <Suspense fallback={<h1></h1>}>
+        <Wrapper background="background-stats" callPage="">
+          <StatsPage />
+        </Wrapper>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
   },
@@ -151,19 +167,11 @@ const router = createBrowserRouter([
     // upload.tsx
     path: "/upload",
     element: (
-      <Wrapper background="background-upload" callPage="">
-        <UploadPage />
-      </Wrapper>
-    ),
-    errorElement: <ErrorBoundary />,
-  },
-  {
-    path: "/data",
-    element: (
-      <Wrapper background="background-white" callPage="">
-        <DataPage data={ReplayJSON} version={0} />
-        <DataPage data={ReplayJSON} version={1} />
-      </Wrapper>
+      <Suspense fallback={<h1></h1>}>
+        <Wrapper background="background-upload" callPage="">
+          <UploadPage />
+        </Wrapper>
+      </Suspense>
     ),
     errorElement: <ErrorBoundary />,
   },

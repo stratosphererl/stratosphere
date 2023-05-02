@@ -1,18 +1,20 @@
-footer { /* Why doesn't calling this work? */
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-height: 267px;
+footer {
+  /* Why doesn't calling this work? */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-height: 267px;
+  margin-top: auto;
 }
 
 /* Tablet */
 @media (max-width: 850px) {
-footer {
+  footer {
     /* Tablet styles */
     flex-direction: column;
     align-items: center;
     max-height: none;
-}
+  }
 }
 
 /* Mobile styles */
@@ -25,86 +27,88 @@ footer {
 }
 
 .horizontal-footer-bar {
-    display: flex;
-    height: 5px;
-    width: 95vw;
-    background: white;
+  display: flex;
+  height: 5px;
+  width: 95vw;
+  background: white;
 }
 
 .vertical-footer-bar {
-    display: flex;
-    width: 2px;
-    height: 48px;
-    background: white;
+  display: flex;
+  width: 2px;
+  height: 48px;
+  background: white;
 }
 
 @media (max-width: 480px) {
-    .vertical-footer-bar {
-        height: 36px;
-    }
+  .vertical-footer-bar {
+    height: 36px;
+  }
 }
 
 .upper-margin {
-    margin-top: 48px;
+  margin-top: 48px;
 }
 
 .footer-icon-margin {
-    margin-top: 0px;
-    margin-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 @media (max-width: 850px) {
-    .footer-icon-margin {
-        margin-top: 12px;
-        margin-bottom: 12px;
-    }
+  .footer-icon-margin {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
 }
 
 .footer-icon {
-    width: 48px;
-    height: 48px;
-    margin-right: 24px;
+  width: 48px;
+  height: 48px;
+  margin-right: 24px;
 }
 
 .footer-icon-last {
-    width: 48px;
-    height: 48px;
-    margin-right: 0px;
+  width: 48px;
+  height: 48px;
+  margin-right: 0px;
 }
 
 @media (max-width: 480px) {
-    .footer-icon {
-        width: 36px;
-        height: 36px;
-        margin-right: 18px;
-    }
-    .footer-icon-last {
-        width: 36px;
-        height:36px;
-    }
+  .footer-icon {
+    width: 36px;
+    height: 36px;
+    margin-right: 18px;
+  }
+  .footer-icon-last {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 .bar-padding {
-    margin-right: 24px;
+  margin-right: 24px;
 }
 
-.show-pointer { cursor: pointer; }
+.show-pointer {
+  cursor: pointer;
+}
 
 footer a {
-    color: none;
-    border-bottom: none;
+  color: none;
+  border-bottom: none;
 }
 
 .copyright-margin {
-    margin-top: 0px;
+  margin-top: 0px;
 }
 
-@media (max-width:850px) {
-    .copyright-margin {
-        margin-top: 12px;
-    }
+@media (max-width: 850px) {
+  .copyright-margin {
+    margin-top: 12px;
+  }
 }
 
 .gray-background {
-    background: var(--gray-2);
+  background: var(--gray-2);
 }
