@@ -1,44 +1,45 @@
-import { useContext } from "react"
+import { useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { UserContext } from "../../context/contexts"
+import { UserContext } from "../../context/contexts";
 
-import StratosphereLogo from "../../assets/logo/500.png"
-import BackgroundTransition from "../../assets/images/home-transition.png"
+import StratosphereLogo from "../../assets/logo/500.png";
+import BackgroundTransition from "../../assets/images/home-transition.png";
 
-import HomeImage1 from "../../assets/images/home1.png"
-import HomeImage2 from "../../assets/images/home2.png"
-import HomeImage3 from "../../assets/images/home3.png"
+import HomeImage1 from "../../assets/images/home1.png";
+import HomeImage2 from "../../assets/images/home2.png";
+import HomeImage3 from "../../assets/images/home3.png";
 
-import ".//home.css"
+import ".//home.css";
 
 export default function Home() {
+  const user = useContext(UserContext);
 
-  const user = useContext(UserContext)
-
-  const userValue = user.user
-  const setUserValue = user.reviseUser
+  const userValue = user.user;
+  const setUserValue = user.reviseUser;
 
   if (userValue.id !== "0") {
-    return (<Navigate to="/browse/1"/>)
+    return <Navigate to="/browse/1" />;
   } else {
     return (
       <div className="mt-24">
         <div className="m-auto flex items-center justify-center mb-[48px] text-logo">
-          <img src={StratosphereLogo} className="logo-dims"/>
-          <div className="home-chill-blue-stroke-4 strat-text">Stratosphere</div>
+          <img src={StratosphereLogo} className="logo-dims" />
+          <div className="home-chill-blue-stroke-4 strat-text">
+            Stratosphere
+          </div>
         </div>
         <div className="flex justify-center">
           <div className="flex flex-wrap items-center">
             <h2 className="w-full flex justify-center home-black-stroke-4 font-36 bottom-margin-24 flex-wrap text-center md:text-center">
               <div>Rocket League's</div>
-              <InTextColoring text="coolest"/>
+              <InTextColoring text="coolest" />
               <div>match analytics platform</div>
             </h2>
             <h2 className="w-screen flex justify-center home-black-stroke-4 font-36 flex-wrap text-center md:text-center">
               <div>Supported by</div>
-              <InTextColoring text="intuitive design"/>
+              <InTextColoring text="intuitive design" />
               <div>and</div>
-              <InTextColoring text="machine learning"/>
+              <InTextColoring text="machine learning" />
             </h2>
           </div>
         </div>
@@ -49,7 +50,10 @@ export default function Home() {
             </button>
           </a>
         </footer> */}
-        <img src={BackgroundTransition} className="home-background-transition"></img>
+        <img
+          src={BackgroundTransition}
+          className="home-background-transition"
+        ></img>
 
         {/* Block 1: Want to Improve?*/}
         <HomePresentationBlock
@@ -59,83 +63,100 @@ export default function Home() {
           text={
             <p className="home-body-text -mb-1">
               Send your replay to our
-              <InTextColoring text="backend services"/>
+              <InTextColoring text="backend services" />
               in order to receive
-              <InTextColoring text="simple data"/>
+              <InTextColoring text="simple data" />
               about your play and that of your opponents,
-              <InTextColoring text="aggregated match statistics"/>
+              <InTextColoring text="aggregated match statistics" />
               for you to parse through, and
-              <InTextColoring text="unique analytics"/>
+              <InTextColoring text="unique analytics" />
               gathered via
-              <InTextColoring text="machine learning"/>
+              <InTextColoring text="machine learning" />
             </p>
-          }/>
+          }
+        />
 
         <div className="margin-spacing bg-black"></div>
 
         {/* Block 2: See Your Opponents? */}
-        <HomePresentationBlock 
-          img = {HomeImage2}
-          title = "SEE YOUR OPPONENTS?"
-          name = "Browse other replays"
+        <HomePresentationBlock
+          img={HomeImage2}
+          title="SEE YOUR OPPONENTS?"
+          name="Browse other replays"
           text={
             <p className="home-body-text -mb-1">
               Browse through the over
-              <InTextColoring text="1000 replays"/>
+              <InTextColoring text="1000 replays" />
               that
-              <InTextColoring text="100s of users"/>
+              <InTextColoring text="100s of users" />
               and counting have uploaded to our platform to get a feel for the
-              <InTextColoring text="type of skills"/>
+              <InTextColoring text="type of skills" />
               and
-              <InTextColoring text="tactics"/>
+              <InTextColoring text="tactics" />
               which players of
-              <InTextColoring text="any rank"/>
+              <InTextColoring text="any rank" />
               posses and consider how to
-              <InTextColoring text="counter"/>
-              them 
+              <InTextColoring text="counter" />
+              them
             </p>
-          }/>
+          }
+        />
 
-          <div className="margin-spacing bg-black"></div>
+        <div className="margin-spacing bg-black"></div>
 
-          {/* Block 3: Have Data In-Game? */}
-          <HomePresentationBlock
-          img = {HomeImage3}
-          title = "HAVE DATA IN-GAME?"
+        {/* Block 3: Have Data In-Game? */}
+        <HomePresentationBlock
+          img={HomeImage3}
+          title="HAVE DATA IN-GAME?"
           name="Download our overlay"
-          text = {
+          className="pb-8"
+          text={
             <p className="home-body-text -mb-1">
-              <InTextColoring text="In addition"/>
+              <InTextColoring text="In addition" />
               to seeing our analytics online, you can
-              <InTextColoring text="view them while in-game!"/>
-              Learn more about your play, as you play, in a comprehensive manner and
-              <InTextColoring text="automatically upload replays"/>
+              <InTextColoring text="view them while in-game!" />
+              Learn more about your play, as you play, in a comprehensive manner
+              and
+              <InTextColoring text="automatically upload replays" />
               to our site for
-              <InTextColoring text="further analysis"/>
+              <InTextColoring text="further analysis" />
             </p>
-          }/>
+          }
+        />
       </div>
     );
   }
 }
 
-export function HomePresentationBlock (props: {img: string, title: string, name: string, text: JSX.Element}) {
+export function HomePresentationBlock(props: {
+  img: string;
+  title: string;
+  name: string;
+  text: JSX.Element;
+  className?: string;
+}) {
   return (
     <div className="home-main">
-      <div className="flex flex-nowrap justify-center">
-        <img src={props.img} className="ml-8 home-image"/>
+      <div className={`flex flex-nowrap justify-center ${props.className}`}>
+        <img src={props.img} className="ml-8 home-image" />
         <div className="mx-8 home-text-box my-auto">
-          <h1 className="chill-blue-stroke-2 italic home-subtitle">{props.title}</h1>
+          <h1 className="chill-blue-stroke-2 italic home-subtitle">
+            {props.title}
+          </h1>
           {props.text}
-          <a href="/upload" className="home-lower-button mt-6"><div className="vertical-text">{props.name}</div></a>
+          <a href="/upload" className="home-lower-button mt-6">
+            <div className="vertical-text">{props.name}</div>
+          </a>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export function InTextColoring(props: {text: string}) {
+export function InTextColoring(props: { text: string }) {
   return (
-    <i><span className="home-text-ice-blue">&nbsp;{props.text}&nbsp;</span></i>
-  )
+    <i>
+      <span className="home-text-ice-blue">&nbsp;{props.text}&nbsp;</span>
+    </i>
+  );
 }

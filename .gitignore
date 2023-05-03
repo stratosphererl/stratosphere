@@ -407,3 +407,7 @@ cython_debug/
 ml/training/datasets/*
 ml/training/models/*
 ml/training/replays/*
+
+# rollup
+webapp/metastats/sunburst.stratosphere.html
+webapp/metastats/treemap.stratosphere.html
