@@ -3,7 +3,7 @@ const fetch = require("node-fetch");
 const {
   USER_SERVICE_URL,
   USER_SERVICE_PORT,
-  GQL_AUTH_TOKEN,
+  AUTH_TOKEN,
 } = require("../config/datasources");
 
 const userDef = gql`
@@ -44,9 +44,7 @@ const userResolvers = {
         `http://${USER_SERVICE_URL}:${USER_SERVICE_PORT}/api/v1/users/${args.id}`
       ).then((res) => {
         if (!res.ok) {
-          return res.json().then((data) => {
-            throw new Error(data.detail);
-          });
+          throw new Error(res.statusText);
         }
         return res.json();
       });
@@ -61,9 +59,7 @@ const userResolvers = {
       ).then((res) => {
         console.log(res);
         if (!res.ok) {
-          return res.json().then((data) => {
-            throw new Error(data.detail);
-          });
+          throw new Error(res.statusText);
         }
         return res.json();
       });
@@ -77,7 +73,7 @@ const userResolvers = {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${GQL_AUTH_TOKEN}`,
+            Authorization: `Bearer ${AUTH_TOKEN}`,
             accept: "application/json",
           },
           body: JSON.stringify({
@@ -88,10 +84,7 @@ const userResolvers = {
         }
       ).then((res) => {
         if (!res.ok) {
-          console.log(res);
-          return res.json().then((data) => {
-            throw new Error(data.detail);
-          });
+          throw new Error(res.statusText);
         }
         return res.json();
       });
@@ -103,16 +96,13 @@ const userResolvers = {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${GQL_AUTH_TOKEN}`,
+            Authorization: `Bearer ${AUTH_TOKEN}`,
             accept: "application/json",
           },
         }
       ).then((res) => {
         if (!res.ok) {
-          console.log(res);
-          return res.json().then((data) => {
-            throw new Error(data.detail);
-          });
+          throw new Error(res.statusText);
         }
         return res.json();
       });

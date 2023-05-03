@@ -658,9 +658,11 @@ const replayResolvers = {
     },
     searchReplays: async (parent, args) => {
       let url = `http://${REPLAY_SERVICE_URL}:${REPLAY_SERVICE_PORT}/api/v1/replays/search?`;
+      let operators = "";
       for (const [key, value] of Object.entries(args.input)) {
         if (value) {
-          url += `${key}=${value}&`;
+          const encoded = `${key}=${value}`.replace("&", "%26");
+          url += `${encoded}&`;
         }
       }
       const res = await fetch(url, {

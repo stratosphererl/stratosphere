@@ -1,5 +1,4 @@
 from celery import Celery
-import json 
 import shutil
 import os
 from celery.signals import worker_ready, worker_shutdown
@@ -14,12 +13,8 @@ import traceback
 
 # worker container has no parser module so we need to import from the correct location
 if os.getenv("PARSER"):
-    from helper import date2season, filename2map, debug2ranks, mmr2rank
-    from parsing import carball_parse, boxcars_parse
     from StratosphereParser import StratosphereParser, ParsingHelper
 else:
-    from parser.helper import date2season, filename2map, debug2ranks, mmr2rank
-    from parser.parsing import carball_parse, boxcars_parse
     from parser.StratosphereParser import StratosphereParser, ParsingHelper
     
 
