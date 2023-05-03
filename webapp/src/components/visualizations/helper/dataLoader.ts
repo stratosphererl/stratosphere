@@ -3,21 +3,25 @@ import { usePapaParse } from "react-papaparse";
 import { useEffect, useState } from "react";
 
 export const useReplayFrames = (url: string) => {
-  const [data, setData] = useState<any>({ positions: [], rotations: [] });
+  const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const { readString } = usePapaParse();
 
   useEffect(() => {
+    setLoading(true);
+    setError(null);
+    setData(null);
+
     let isMounted = true;
     const zip = new JSZip();
     fetch(url)
       .then((response) => {
         response.arrayBuffer().then((buffer) => {
           zip.loadAsync(buffer).then((zip) => {
-            zip
-              .file(Object.keys(zip.files)[0])
-              .async("string")
+            const zip_object = zip.file(Object.keys(zip.files)[0]);
+            if (!zip_object) throw new Error("No file found in zip");
+            zip_object.async("string")
               .then((data) => {
                 if (isMounted) {
                   readString(data, {
@@ -25,10 +29,21 @@ export const useReplayFrames = (url: string) => {
                       setData(parseReplayFrameData(results.data));
                       setLoading(false);
                     },
+                    worker: true
                   });
+                }
+              }).catch((err) => {
+                if (isMounted) {
+                  setError(err);
+                  setLoading(false);
                 }
               });
           });
+        }).catch((err) => {
+          if (isMounted) {
+            setError(err);
+            setLoading(false);
+          }
         });
       })
       .catch((err) => {
@@ -71,7 +86,7 @@ const parseReplayFrameData = (data: any) => {
     for (let actor of actorMap) {
       let [name, endIdx] = actor;
 
-      const entity = {
+      const entity: any = {
         id: actorID++,
         name,
         type: name === "game" ? "game" : name === "ball" ? "ball" : "player",
@@ -103,13 +118,13 @@ const parseReplayFrameData = (data: any) => {
         entity["seconds_remaining"] = actorData[0];
       } else {
         entity["position"] = {
-          x: actorData[0],
-          y: actorData[1],
+          x: actorData[2],
+          y: actorData[3],
         };
 
         entity["velocity"] = {
-          x: actorData[2],
-          y: actorData[3],
+          x: actorData[4],
+          y: actorData[5],
         };
 
         entity["rotation"] = {
@@ -117,8 +132,8 @@ const parseReplayFrameData = (data: any) => {
         };
 
         entity["boost"] = {
-          amount: actorData[5],
-          active: actorData[6],
+          amount: actorData[0],
+          active: actorData[1],
         };
       }
       dataActor.push(entity);

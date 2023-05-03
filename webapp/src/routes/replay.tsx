@@ -28,7 +28,6 @@ export default function Replay() {
   //   error: predictionError 
   // } = usePrediction(params.replayid!);
   const predictions = usePrediction(params.replayid!);
-  console.log(predictions.data, predictions.loading, predictions.error)
   
   const regex = /^[A-Z0-9]{32}$/;
 

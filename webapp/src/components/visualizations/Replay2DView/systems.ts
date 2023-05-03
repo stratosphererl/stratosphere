@@ -18,12 +18,12 @@ export const CanvasViewSystem = () => {
     ctx.clear();
 
     query.loop([Drawable, Transform], (e, [drawable, transform]) => {
-      drawable.draw(ctx, transform);
+      drawable.draw(ctx, transform as Transform);
     });
   });
 };
 
-export const TransformSystem = ({ data, onUpdate }) => {
+export const TransformSystem = ({ data, onUpdate }: { data: any, onUpdate: (frame: number) => void}) => {
   const query = useQuery((e) => e.hasAll(Transform, Name));
 
   return useSystem((dt) => {

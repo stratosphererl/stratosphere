@@ -76,7 +76,7 @@ export default function Replay2DView({ analyzedReplay, predictions }:
     <div className="flex justify-center items-center">
       <div className="flex">
         <PredictionBar predictions={predictions} frame={frame} />
-        {loading ? (
+        {loading || !data ? (
           <div>Loading...</div>
         ) : error ? (
           <div>Error: {error}</div>

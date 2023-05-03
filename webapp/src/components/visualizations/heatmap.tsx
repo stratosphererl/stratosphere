@@ -42,6 +42,9 @@ export default function Heatmap({
     const height = svg_height;
 
     useEffect(() => {
+
+        console.log(data);
+
         const destroy = () => {
             d3.select(ref.current).selectAll("*").remove();
         };
@@ -163,7 +166,7 @@ export default function Heatmap({
         }
 
         return destroy;
-    }, [ref]);
+    }, [ref, data]);
 
     return (
         <div className="w-full" ref={ref} />

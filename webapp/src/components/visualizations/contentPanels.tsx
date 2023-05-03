@@ -252,7 +252,7 @@ function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
 
     return (
         <div key={`heatmap-${name}`} className="w-[80%] m-auto mt-[40px]">
-            {name ? <h2 className="text-center">{name}</h2> : null}
+            {name ? <h2 className="text-center" style={{color: isOrange ? "var(--sky-orange)" : "var(--sky-blue)"}}>{name}</h2> : null}
             <div className="mb-2 w-[100%] mx-auto">
                 <div className="flex justify-evenly">
                     <DisplayTendency className="w-1/2" tendency={isOrange ? tendencies.attackingHalf : tendencies.defendingHalf} color={"var(--sky-blue)"} />
@@ -323,8 +323,8 @@ export function Position({data}: Props) {
                     {
                     replayFrames.loading || !replayFrames.data?.length ? <div>Loading...</div> :
                     playerPositions.map((player) => 
-                        <HeatmapAndTendencies key={`heatmap-${player.name}`} name={player.name} tendencies={player.tendencies} 
-                            positions={player.positions} isOrange={player.isOrange} />
+                        player.positions ? <HeatmapAndTendencies key={`heatmap-${player.name}`} name={player.name} tendencies={player.tendencies} 
+                            positions={player.positions} isOrange={player.isOrange} /> : <></>
                     )
                     }
                 </div>

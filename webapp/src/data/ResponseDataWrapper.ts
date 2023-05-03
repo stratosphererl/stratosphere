@@ -289,6 +289,9 @@ export default class ResponseDataWrapper {
 
         const [team1, team2] = this.getTeamsPlayers();
 
+        console.log(team1, team2);
+        console.log(frameData);
+
         const nameToIndex = new Map();
         if (frameData?.length)
             frameData[0].forEach((entity: any, index: number) => {
@@ -311,12 +314,13 @@ export default class ResponseDataWrapper {
                 const tendencies = this.getFieldPositioning(positionalTendencies);
                 const positions: { x: number, y: number }[] = [];
                 const isOrange = player.isOrange as boolean;
+                const index = nameToIndex.get(name);
 
                 if (frameData?.length) {
                     let lastPosition: { x: number, y: number } = { x: 10000, y: 10000 };
                     frameData.forEach((frame: any) => {
-                        const index = nameToIndex.get(name);
                         const entity = frame[index];
+                        console.log(name, index, entity);
                         if (typeof entity?.position?.x === "number" && typeof entity?.position?.y === "number" 
                             && (Math.abs(entity.position.x - lastPosition.x) > 0.1 || Math.abs(entity.position.y - lastPosition.y) > 0.1)){
                             positions.push({ x: entity.position.y, y: entity.position.x });
@@ -324,6 +328,7 @@ export default class ResponseDataWrapper {
                         }
                     });
                 }
+
 
                 teamData.push({ name: name, tendencies: tendencies, positions: positions, isOrange: isOrange })
             });
@@ -373,13 +378,13 @@ export default class ResponseDataWrapper {
         const goals = this.data.gameHeader.goals as any[];
 
         const goalData = goals.map((goal: any) => {
-            let frameNumber = goal.frameNumber;
+            let frameNumber = goal.frame_number;
 
             let x = 0;
             let y = 0;
             let velocity = "";
 
-            if (frames.length) {
+            if (frames?.length) {
                 const ballIndex = frames[0].findIndex((entity: any) => entity.name === "ball");
                 while (!Number.isFinite(frames[frameNumber][ballIndex].velocity.y))
                     frameNumber--;

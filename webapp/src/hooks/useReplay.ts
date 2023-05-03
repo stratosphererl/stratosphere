@@ -109,8 +109,6 @@ export default function useReplay(replayid: string) {
 
     const dataWrapper = new ResponseDataWrapper(data?.getReplay, framesData?.getReplayFramesFileURL);
 
-    console.log(dataWrapper)
-
     return {
         data: dataWrapper,
         loading: loading || framesLoading,
