@@ -23,13 +23,13 @@ export const CanvasViewSystem = () => {
   });
 };
 
-export const TransformSystem = ({ data }) => {
+export const TransformSystem = ({ data, onUpdate }) => {
   const query = useQuery((e) => e.hasAll(Transform, Name));
 
   return useSystem((dt) => {
+    const game = data[frame++];
+    onUpdate(frame);
     query.loop([Transform, Name], (e, [transform, name]) => {
-      const game = data[frame++];
-
       for (const actor of game) {
         if (actor.id === name.name) {
           transform.position.x = actor.position.x;

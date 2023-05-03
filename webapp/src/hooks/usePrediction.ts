@@ -25,6 +25,7 @@ function useReplayFile(url: string, filename = "replay") {
     useEffect(() => {
         setLoading(true);
         setError(null);
+        setData(null);
 
         fetch(url)
             .then((response) => {
@@ -52,6 +53,9 @@ function useReplayFile(url: string, filename = "replay") {
 }
 
 export default function usePrediction(replayid: string) {
+    const [error, setError] = useState<Error | null>(null);
+    const [loading, setLoading] = useState(true);
+
     const { data: link, loading: linkLoading, error: linkError } = useQuery(
         GET_REPLAY_DOWNLOAD_LINK, {
             variables: {
@@ -69,14 +73,22 @@ export default function usePrediction(replayid: string) {
     }] = useMutation(GET_REPLAY_PREDICTION);
 
     useEffect(() => {
+        setLoading(true);
+        setError(null);
+
         if (file) {
-            predict({ variables: { file: file } });
+            predict({ variables: { file: file } }).then(() => {
+                setLoading(false);
+            }).catch((err) => {
+                setError(err);
+                setLoading(false);
+            });
         }
     }, [file, predict]);
 
     return {
         data: predictionData,
-        loading: linkLoading || fileLoading || predictionLoading,
-        error: linkError || fileError || predictionError
+        loading: linkLoading || fileLoading || predictionLoading || loading,
+        error: linkError || fileError || predictionError || error
     };
 }

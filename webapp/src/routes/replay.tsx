@@ -22,13 +22,13 @@ export default function Replay() {
   const params = useParams();
   const [searchParams] = useSearchParams();
   const { data, loading, error } = useReplay(params.replayid!);
-  const { 
-    data: predictionData, 
-    loading: predictionLoading, 
-    error: predictionError 
-  } = usePrediction(params.replayid!);
-
-  console.log(predictionData, predictionLoading, predictionError)
+  // const { 
+  //   data: predictionData, 
+  //   loading: predictionLoading, 
+  //   error: predictionError 
+  // } = usePrediction(params.replayid!);
+  const predictions = usePrediction(params.replayid!);
+  console.log(predictions.data, predictions.loading, predictions.error)
   
   const regex = /^[A-Z0-9]{32}$/;
 
@@ -62,7 +62,7 @@ export default function Replay() {
       tabs: [
         {
           tabName: "2D Replay",
-          content: <Replay2DView analyzedReplay={data} />,
+          content: <Replay2DView analyzedReplay={data} predictions={predictions} />,
         },
       ],
     },
