@@ -208,3 +208,24 @@ export const SeasonProvider = ({ children }) => {
         </SeasonContext.Provider>
     )
 }
+
+// Query Context (stores duration query value)
+
+export const QueryContext = createContext({
+    value: "ANY",
+    reviseValue: (value: string) => {}
+})
+
+export const QueryProvider = ({ children }) => {
+    const [value, setValue] = React.useState("ANY")
+
+    const reviseValue = (value: string) => {
+        setValue(value)
+    }
+
+    return (
+        <QueryContext.Provider value={{value, reviseValue}}>
+            {children}
+        </QueryContext.Provider>
+    )
+}

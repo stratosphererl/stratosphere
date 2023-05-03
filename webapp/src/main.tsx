@@ -23,7 +23,7 @@ const Wrapper = lazy(() => import("./components/general/wrapper"));
 import RedirectPage from "./routes/redirect";
 import ErrorPage from "./routes/Error/error";
 
-import { UserProvider, SearchProvider } from "./context/contexts";
+import { UserProvider, SearchProvider, ValueProvider } from "./context/contexts";
 import {
   ArenaProvider,
   DurationProvider,
@@ -31,6 +31,7 @@ import {
   GametypeProvider,
   RankProvider,
   SeasonProvider,
+  QueryProvider
 } from "./context/contexts";
 
 const client = new ApolloClient({
@@ -188,7 +189,9 @@ export function RouterWithContextsProvider() {
               <GametypeProvider>
                 <RankProvider>
                   <SeasonProvider>
-                    <RouterProvider router={router} />
+                    <QueryProvider>
+                      <RouterProvider router={router} />
+                    </QueryProvider>
                   </SeasonProvider>
                 </RankProvider>
               </GametypeProvider>

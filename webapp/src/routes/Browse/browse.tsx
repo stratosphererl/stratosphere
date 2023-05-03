@@ -14,7 +14,8 @@ import {
     GamemodeContext,
     GametypeContext,
     RankContext,
-    SeasonContext
+    SeasonContext,
+    QueryContext
 } from "../../context/contexts"
 
 export default function Browse() {
@@ -43,11 +44,11 @@ export default function Browse() {
 
     const optionsList = getOptions()
 
-   const arenaOptions = optionsList && optionsList.getOptions.maps
-   const gamemodeOptions = optionsList && optionsList.getOptions.gameModes
-   const gametypeOptions = optionsList && optionsList.getOptions.gameTypes
-   const rankOptions = optionsList && optionsList.getOptions.ranks
-   const seasonOptions = optionsList && optionsList.getOptions.seasons
+    const arenaOptions = optionsList && optionsList.getOptions.maps
+    const gamemodeOptions = optionsList && optionsList.getOptions.gameModes
+    const gametypeOptions = optionsList && optionsList.getOptions.gameTypes
+    const rankOptions = optionsList && optionsList.getOptions.ranks
+    const seasonOptions = optionsList && optionsList.getOptions.seasons
 
     const replayArray = ReplayJSONs.data
 
@@ -74,6 +75,39 @@ export default function Browse() {
 
     const seasonContext = useContext(SeasonContext)
     const setSeasonTerm = (event: any) => { seasonContext.reviseSeason(event.target.value) }
+
+    const queryContext = useContext(QueryContext)
+    const setValueTerm = (event: any) => { 
+        const value = event.target.value
+
+        if (value.startsWith("ANY")) {
+            queryContext.reviseValue("ANY")
+        } else if (value.startsWith("0-2")) {
+            queryContext.reviseValue("~lte~120")
+        } else if (value.startsWith("2-4")) {
+            queryContext.reviseValue("~gte~120&~lte~240")
+        } else if (value.startsWith("4-6")) {
+            queryContext.reviseValue("~gte~240&~lte~360")
+        } else if (value.startsWith("6-8")) {
+            queryContext.reviseValue("~gte~360&~lte~480")
+        } else if (value.startsWith("8-10")) {
+            queryContext.reviseValue("~gte~480&~lte~600")
+        } else if (value.startsWith("10-12")) {
+            queryContext.reviseValue("~gte~600&~lte~720")
+        } else if (value.startsWith("12-14")) {
+            queryContext.reviseValue("~gte~720&~lte~840")
+        } else if (value.startsWith("14-16")) {
+            queryContext.reviseValue("~gte~840&~lte~960")
+        } else if (value.startsWith("16-18")) {
+            queryContext.reviseValue("~gte~960&~lte~1080")
+        } else if (value.startsWith("18-20")) {
+            queryContext.reviseValue("~gte~1080&~lte~1200")
+        } else {
+            queryContext.reviseValue("~gte~1200")
+        }
+
+        console.log("Within setValueTerm: " + queryContext.value)
+    }
 
     const SEARCH_REPLAYS_QUERY = gql`
         query Query($input: Search!) {
@@ -117,7 +151,7 @@ export default function Browse() {
         "input": {
             "name": searchContext.search,
             "map": arenaContext.arena === "ANY" ? null : arenaContext.arena,
-            "duration": durationContext.duration === "ANY" ? null : durationContext.duration,
+            "duration": queryContext.value === "ANY" ? null : queryContext.value,
             "gameMode": gamemodeContext.gamemode === "ANY" ? null : gamemodeContext.gamemode,
             "gameType": gametypeContext.gametype === "ANY" ? null : gametypeContext.gametype,
             "rank": rankContext.rank === "ANY" ? null : rankContext.rank,
@@ -126,18 +160,20 @@ export default function Browse() {
     }
 
     useEffect(() => {
+        console.log("Within useEffect: " + queryContext.value)
+
         SEARCH_REPLAYS_INPUT = {
             "input": {
                 "name": searchContext.search,
                 "map": arenaContext.arena,
-                "duration": durationContext.duration,
+                "duration": queryContext.value,
                 "gameMode": gamemodeContext.gamemode,
                 "gameType": gametypeContext.gametype,
                 "rank": rankContext.rank,
                 "season": seasonContext.season
             }
         }
-    }, [searchContext, arenaContext, durationContext, gamemodeContext, gametypeContext, rankContext, seasonContext]);
+    }, [searchContext, arenaContext, gamemodeContext, gametypeContext, rankContext, seasonContext, queryContext]);
 
     const { loading, error, data } = useQuery(SEARCH_REPLAYS_QUERY, {variables: SEARCH_REPLAYS_INPUT})
 
@@ -175,6 +211,7 @@ export default function Browse() {
                 setArenaTerm(event)
             } else if (props.text === "DURATION") {
                 setDurationTerm(event)
+                setValueTerm(event)
             } else if (props.text === "GAMEMODE") {
                 setGamemodeTerm(event)
             } else if (props.text === "GAMETYPE") {
