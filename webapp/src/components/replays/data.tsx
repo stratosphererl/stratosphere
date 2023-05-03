@@ -72,6 +72,7 @@ export function InfoColumn(props: {subtitles: string[], info: string[], children
 
 export function TeamColumn(props: {name: string, teamTextStyle: string, playerNames: string[]}) {
     const fullWidthCentered = "w-full flex justify-center"
+    let counter = 0
     
     return (
         <div className="team-column flex flex-wrap justify-center">
@@ -80,8 +81,8 @@ export function TeamColumn(props: {name: string, teamTextStyle: string, playerNa
             {
                 props.playerNames.map((playerName) =>
                     playerName !== "" ?
-                    <div key={playerName} className={`${fullWidthCentered}`}>{playerName}</div> :
-                    <div key={playerName} className={`${fullWidthCentered}`}>&nbsp;</div>
+                    <div key={playerName + counter++} className={`${fullWidthCentered}`}>{playerName}</div> :
+                    <div key={playerName + counter++} className={`${fullWidthCentered}`}>&nbsp;</div>
                 )
             }
         </div>
