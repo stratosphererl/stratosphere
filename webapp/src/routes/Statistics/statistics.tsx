@@ -4,6 +4,7 @@ import { useContext } from "react"
 import { UserContext } from "../../context/contexts"
 import MainPane from "../../components/general/MainPane/mainPane"
 import "./statistics.css"
+import PieChart from "../../components/visualizations/pie"
 
 export default function Statistics() {
     const params = useParams();
@@ -16,10 +17,56 @@ export default function Statistics() {
         gql`query Query { usersCount { count } }`, {}, "numUsers"
     )
 
-    const steamPlayers = "..."
-    const epicPlayers = "..."
-    const xboxPlayers = "..."
-    const psnPlayers = "..."
+    const PLATFORM_QUERY = gql`query Query { getPlatformCount { platforms { count platform } } }`
+    const { loading, error, data } = useQuery(PLATFORM_QUERY)
+
+    const platformData = data && data.getPlatformCount[0].platforms
+
+    let steamPlayers = null
+    let epicPlayers = null
+    let xboxPlayers = null
+    let psnPlayers = null
+    let pieChartData = null
+
+    if (platformData) {
+        for (let i = 0; i < platformData.length; i++) {
+            const currPlatform = platformData[i].platform
+            if (currPlatform === "steam") {
+                steamPlayers = platformData[i].count
+            } else if (currPlatform === "epic") {
+                epicPlayers = platformData[i].count
+            } else if (currPlatform === "xbox") {
+                xboxPlayers = platformData[i].count
+            } else if (currPlatform === "playstation") {
+                psnPlayers = platformData[i].count
+            }
+        }
+    
+
+        pieChartData = [
+            {
+                name: "Steam",
+                value: steamPlayers,
+                color: "#202742"
+            },
+            {
+                name: "Epic",
+                value: epicPlayers,
+                color: "#2B292A"
+            },
+            {
+                name: "Xbox",
+                value: xboxPlayers,
+                color: "#107C10"
+            },
+            {
+                name: "PSN",
+                value: psnPlayers,
+                color: "#006FCD"
+            }
+        ]
+    }
+    
 
     const replaysDataString = getData(
         gql`query Query($userId: Int!) { user(id: $userId) { wins losses number_of_replays } }`, {userId: currUserId}, "replays"
@@ -45,17 +92,28 @@ export default function Statistics() {
         throw new Error("Version parameter must be 0 or 1");
     }
 
-    if (params.version === "0") {
+    console.log(pieChartData)
+    if (params.version === "0" && pieChartData) {
         return (
             <MainPane title="Population Stats" className="statistics">
                 <div className="glass-inner round data-pane flex flex-nowrap justify-center items-center">
-                    <div className="title-column"><b><i>UNIQUE PLAYERS</i></b></div>
+                    <div className="title-column"><b><i>UNIQUE ACCOUNTS</i></b></div>
                     <VerticalBar rightMargin={false}/>
-                    <DataColumn title="ON STRATOSPHERE" data={numUsers} class={1}/>
+                    <DataColumn title="STRATOSPHERE" data={numUsers} class={1}/>
                     <VerticalBar rightMargin={false}/>
-                    <div className="chart-column">
+                    {/* <div className="chart-column">
                         <div className="pie-chart-mock flex justify-center items-center">placeholder</div>
-                    </div>
+                    </div> */}
+                    <PieChart className="w-1/12 p-2" data={pieChartData} disableOpacity={true}/>
+                    {/* {
+                        true ?
+                        <PieChart data={pieChartData}/> :
+                        <PieChart data={[{
+                            name: "Epic",
+                            value: 4,
+                            color: "FFFFFF"
+                        }]}/>
+                    } */}
                     <VerticalBar rightMargin={false}/>
                     <DataColumn title="STEAM" data={steamPlayers} class={2}/>
                     <VerticalBar rightMargin={false}/>
@@ -155,10 +213,10 @@ function getNumUsers() {
 
     if (loading || error) {
         if (loading) {
-            console.log(loading)
+            // console.log(loading)
         }
         if (error) {
-            console.log(error)
+            // console.log(error)
         }
         return null
     } else {
@@ -180,10 +238,10 @@ function getReplayDataString() {
     
     if (loading || error) {
         if (loading) {
-            console.log(loading)
+            // console.log(loading)
         }
         if (error) {
-            console.log(error)
+            // console.log(error)
         }
         return null
     } else {
@@ -202,10 +260,10 @@ function getData(queryString, variables, stringType) {
     
     if (loading || error) {
         if (loading) {
-            console.log(loading)
+            // console.log(loading)
         }
         if (error) {
-            console.log(error)
+            // console.log(error)
         }
         return null
     } else {
