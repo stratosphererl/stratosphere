@@ -172,7 +172,6 @@ function reformatPlayerList(playerList: string[]) {
 }
 
 function calculateAvgRank(playerList: Array<JSON>, playlist: string) {
-    console.log(playlist)
     let aggregateMMR = 0.0
     let numRankedPlayers = 0
 
@@ -181,20 +180,17 @@ function calculateAvgRank(playerList: Array<JSON>, playlist: string) {
             player.rank ?
                 player.rank.mmr ?
                 aggregateMMR += parseFloat(player.rank.mmr) :
-                console.log("Non-number value skipped") :
-            console.log("Non-ranked value skipped")
+                <div></div>:
+            <div></div>
         )
         playerList.map((player) =>
             player.rank ?
                 player.rank.mmr ?
                 numRankedPlayers += 1 :
-                console.log("non-number value skipped") :
-            console.log("Non-ranked value skipped")
+                <div></div>> :
+            <div></div>>
         )
     }
-
-    console.log(aggregateMMR)
-    console.log(numRankedPlayers)
 
     if (aggregateMMR != 0.0 || numRankedPlayers != 0) {
         aggregateMMR = Math.round(aggregateMMR / numRankedPlayers)
