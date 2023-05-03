@@ -5,6 +5,7 @@ import { UserContext } from "../../context/contexts"
 import MainPane from "../../components/general/MainPane/mainPane"
 import "./statistics.css"
 import PieChart from "../../components/visualizations/pie"
+import PlayerBarGraph from "../../components/visualizations/stacked"
 
 export default function Statistics() {
     const params = useParams();
@@ -14,8 +15,12 @@ export default function Statistics() {
     const currUserId = userValue.id
 
     const numUsers = getData(
-        gql`query Query { usersCount { count } }`, {}, "numUsers"
+        gql`query Query { users { id } }`, {}, "numUsers"
     )
+
+    // const NUM_USERS_QUERY = gql`query Query { users { id } }`
+    
+
 
     const PLATFORM_QUERY = gql`query Query { getPlatformCount { platforms { count platform } } }`
     const { loading, error, data } = useQuery(PLATFORM_QUERY)
@@ -97,23 +102,11 @@ export default function Statistics() {
         return (
             <MainPane title="Population Stats" className="statistics">
                 <div className="glass-inner round data-pane flex flex-nowrap justify-center items-center">
-                    <div className="title-column"><b><i>UNIQUE ACCOUNTS</i></b></div>
+                    <div className="title-column"><b><i>UNIQUE PLAYERS</i></b></div>
                     <VerticalBar rightMargin={false}/>
                     <DataColumn title="STRATOSPHERE" data={numUsers} class={1}/>
                     <VerticalBar rightMargin={false}/>
-                    {/* <div className="chart-column">
-                        <div className="pie-chart-mock flex justify-center items-center">placeholder</div>
-                    </div> */}
                     <PieChart className="w-1/12 p-2" data={pieChartData} disableOpacity={true}/>
-                    {/* {
-                        true ?
-                        <PieChart data={pieChartData}/> :
-                        <PieChart data={[{
-                            name: "Epic",
-                            value: 4,
-                            color: "FFFFFF"
-                        }]}/>
-                    } */}
                     <VerticalBar rightMargin={false}/>
                     <DataColumn title="STEAM" data={steamPlayers} class={2}/>
                     <VerticalBar rightMargin={false}/>
@@ -154,15 +147,68 @@ export default function Statistics() {
     }
 }
 
+// const data = [
+//     {
+//       season: "Season 1",
+//       count: 24
+//     },
+//     {
+//       season: "Season 2",
+//       count: 13
+//     }
+//   ]
+  
+//   const group_label = "season"
+//   const sub_groups = ["count"]
+
+
+// const { loading, error, data } useQuery(REPLAY_DURATIONS_QUERY)
+
 export function GraphPane(props: {paneTitle: string}) {
-    return (
-        <div className="glass-inner round data-pane flex flex-nowrap justify-center items-center">
-            <div className="title-column"><b><i>{props.paneTitle}</i></b></div>
-            <VerticalBar rightMargin={false}/>
-            <div className="graph-column">--GRAPH PLACEHOLDER--</div>
-            <VerticalBar rightMargin={true}/>
-        </div>
-    )
+    const REPLAY_DURATIONS_QUERY = gql`
+        query Query {
+            getDurationCount {
+                durations {
+                    count
+                    duration
+                }
+            }
+        }
+    `
+
+    const { loading, error, data } = useQuery(REPLAY_DURATIONS_QUERY)
+
+    if (loading) {
+        console.log(loading)
+        return null
+    } else if (error) {
+        console.log(error)
+        return null
+    } else {
+        const graphData = data && data.getDurationCount[0].durations
+        const groupLabel = data && "duration"
+        const subGroups = data && ["count"]
+
+        // for (let i = 0; i < graphData.length; i++) {
+        //     graphData[i].duration = graphData[i].duration + " sec"
+        // }
+
+        console.log(graphData)
+
+        return (
+            <div className="glass-inner round data-pane flex flex-nowrap justify-center items-center">
+                <div className="title-column"><b><i>{props.paneTitle}</i></b></div>
+                <VerticalBar rightMargin={false}/>
+
+                {/* <div className="graph-column">--GRAPH PLACEHOLDER--</div> */}
+                <div className="pl-2 pt-2 pb-2 pr-1" style={{width: "480px"}}>
+                    <PlayerBarGraph data={graphData} group_label={groupLabel} sub_groups={subGroups} svg_width={1300}/>
+                </div>
+
+                <VerticalBar rightMargin={true}/>
+            </div>
+        )
+    }
 }
 
 export function DataColumn(props: {title: string, data: number, class: number}) {
@@ -268,7 +314,7 @@ function getData(queryString, variables, stringType) {
         return null
     } else {
         if (stringType === "numUsers") {
-            return data.usersCount.count
+            return data.users.length
         }
         if (stringType === "replays") {
             return <div>{data.user.number_of_replays} total<br/>({data.user.wins} wins)</div>
