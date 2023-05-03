@@ -180,15 +180,15 @@ function calculateAvgRank(playerList: Array<JSON>, playlist: string) {
             player.rank ?
                 player.rank.mmr ?
                 aggregateMMR += parseFloat(player.rank.mmr) :
-                <div></div>:
-            <div></div>
+                null :
+                null
         )
         playerList.map((player) =>
             player.rank ?
                 player.rank.mmr ?
                 numRankedPlayers += 1 :
-                <div></div>> :
-            <div></div>>
+                null :
+                null
         )
     }
 
