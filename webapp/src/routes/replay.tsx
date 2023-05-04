@@ -41,10 +41,10 @@ export default function Replay() {
       tabs: [
         { tabName: "Scoreboard", content: <Scoreboard data={data} /> },
         { tabName: "Team Comparison", content: <TeamComparison data={data} /> },
-        {
-          tabName: "Player Comparison",
-          content: <PlayerComparison data={data} />,
-        },
+        // {
+        //   tabName: "Player Comparison",
+        //   content: <PlayerComparison data={data} />,
+        // },
       ],
     },
     {
