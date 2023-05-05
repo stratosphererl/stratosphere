@@ -1,33 +1,31 @@
 import "../../index.css"
 import "./data.css"
+import { gql, useQuery } from '@apollo/client';
 
 export default function ReplayData(props: {data: JSON, version: number, classname: string}) {
-
     // Replay title variables
     const replayTitle = props.data.name
 
     // Replay score variables
-    const blueScore = props.data.score.team0Score
-    const orangeScore = props.data.score.team1Score
+    const blueScore = props.data.teams[0].score
+    const orangeScore = props.data.teams[1].score
 
     // Replay variables for first column
     const replayID = props.data.id
-    const uploadDate = (new Date(props.data.uploadDate)).toUTCString().substring(5,22)
+    const uploadDate = (new Date(props.data.uploadDate * 1000)).toUTCString().substring(5,22)
     const playingDate = (new Date(props.data.time * 1000)).toUTCString().substring(5,22)
-    const uploaderUsername = "--PLACEHOLDER--"
-    const mapName = props.data.map.base_name
+    const uploaderUsername = getRandomUploader() // Currently mocked
+    const mapName = props.data.map.name
 
     // Replay variables for second column
-    // const avgRank = Math.round(getAverageRank(props.data.ranks)) // WAITING
+    const avgRank = calculateAvgRank(props.data.players, props.data.gameType)
     const duration = convertToTimeString(props.data.length)
     const season = props.data.season.name.replace("Season","")
-    const gamemode = "--PLACEHOLDER--"
-    const gametype = props.data.playlist
+    const gamemode = props.data.gameMode
+    const gametype = props.data.gameType
 
     // Replay players
-
-    // Waiting on Chris to get player info into replay headers
-    // const [blueName, orangeName, bluePlayers, orangePlayers] = getPlayers(props.data.players) TODO:
+    const [blueName, orangeName, bluePlayers, orangePlayers] = getPlayers(props.data.players)
     
     return (
         // version == 1 used for calls from replay.tsx
@@ -47,15 +45,12 @@ export default function ReplayData(props: {data: JSON, version: number, classnam
             </InfoColumn>
             <VerticalSeparator/>
             <InfoColumn subtitles={["Duration","Season","Gamemode","Gametype"]} info={[duration,season,gamemode,gametype]} titleInfo="">
-                {/* <div><b>{avgRank}</b></div> */}
-                <div><b>AVG RANK MOCK</b></div>
+                <div><b>{avgRank}</b></div>
             </InfoColumn>
             <VerticalSeparator/>
-            {/* <TeamColumn name={blueName} teamTextStyle="sky-blue-stroke-1" playerNames={bluePlayers}/> */} 
-            <TeamColumn name="BLUE" teamTextStyle="sky-blue-stroke-1" playerNames={[]}/>
+            <TeamColumn name={blueName} teamTextStyle="sky-blue-stroke-1" playerNames={bluePlayers}/> 
             <VerticalSeparator/>
-            {/* <TeamColumn name={orangeName} teamTextStyle="orange-stroke-1" playerNames={orangePlayers}/> */}
-            <TeamColumn name="ORANGE" teamTextStyle="orange-stroke-1" playerNames={[]}/>
+            <TeamColumn name={orangeName} teamTextStyle="orange-stroke-1" playerNames={orangePlayers}/>
             <VerticalSeparator/>
             <ButtonColumn version={props.version} replayID={replayID}/>
         </div>
@@ -77,6 +72,7 @@ export function InfoColumn(props: {subtitles: string[], info: string[], children
 
 export function TeamColumn(props: {name: string, teamTextStyle: string, playerNames: string[]}) {
     const fullWidthCentered = "w-full flex justify-center"
+    let counter = 0
     
     return (
         <div className="team-column flex flex-wrap justify-center">
@@ -85,8 +81,8 @@ export function TeamColumn(props: {name: string, teamTextStyle: string, playerNa
             {
                 props.playerNames.map((playerName) =>
                     playerName !== "" ?
-                    <div className={`${fullWidthCentered}`}>{playerName}</div> :
-                    <div className={`${fullWidthCentered}`}>&nbsp;</div>
+                    <div key={playerName + counter++} className={`${fullWidthCentered}`}>{playerName}</div> :
+                    <div key={playerName + counter++} className={`${fullWidthCentered}`}>&nbsp;</div>
                 )
             }
         </div>
@@ -145,16 +141,6 @@ function convertToTimeString(seconds: number) {
     }
 }
 
-function getAverageRank(rankings: JSON[]) {
-    let sum = 0
-    let players = 0
-
-    rankings.map((info) => sum = sum + info.pre_mmr)
-    rankings.map((info) => players = players + 1)
-
-    return sum / players
-}
-
 function getPlayers(players: JSON[]) {
     let returnList = []
 
@@ -162,7 +148,7 @@ function getPlayers(players: JSON[]) {
     let orangePlayers = []
 
     players.map((info) =>
-        info.isOrange === 0 ?
+        info.is_orange === false ?
         bluePlayers.push(info.name) :
         orangePlayers.push(info.name)
     )
@@ -184,4 +170,102 @@ function reformatPlayerList(playerList: string[]) {
     }
 
     return playerList
+}
+
+function calculateAvgRank(playerList: Array<JSON>, playlist: string) {
+    let aggregateMMR = 0.0
+    let numRankedPlayers = 0
+
+    {
+        playerList.map((player) =>
+            player.rank ?
+                player.rank.mmr ?
+                aggregateMMR += parseFloat(player.rank.mmr) :
+                null :
+                null
+        )
+        playerList.map((player) =>
+            player.rank ?
+                player.rank.mmr ?
+                numRankedPlayers += 1 :
+                null :
+                null
+        )
+    }
+
+    if (aggregateMMR != 0.0 || numRankedPlayers != 0) {
+        aggregateMMR = Math.round(aggregateMMR / numRankedPlayers)
+    } else {
+        const rankImage = <img src={`../../src/assets/ranks/0.png`} style={{width: "24px"}} className="mr-2" />
+
+        return (
+            <div className="flex flex-nowrap">
+                {rankImage}
+                <div>UNRANKED</div>
+            </div>
+        )
+    }
+
+    const RANK_QUERY = gql`
+        query Query($input: MMRFromPlaylistForm!) {
+            getRankFromPlaylistAndMMR(input: $input) {
+                name
+            }
+        }    
+    `
+
+    const QUERY_INPUT = {
+        "input": {
+            "mmr": aggregateMMR,
+            "playlist": "Standard"
+        },
+    }
+
+    const { loading, error, data } = useQuery(RANK_QUERY, { variables: QUERY_INPUT } )
+    
+    const ranknameLowercase = data && data.getRankFromPlaylistAndMMR.name
+    const ranknameUppercase = data && data.getRankFromPlaylistAndMMR.name.toUpperCase()
+    const rankImage = convertRanknameToImage(ranknameLowercase)
+
+    return (
+        <div className="flex flex-nowrap">
+            {rankImage}
+            <div>{ranknameUppercase}</div>
+        </div>
+    )
+}
+
+function getRandomUploader() {
+    const uploaders = ["Novarchite","Chicken935","Oakerinos"]
+    return uploaders[Math.floor(Math.random() * uploaders.length)];
+}
+
+function convertRanknameToImage(rankname: string) {
+    const conversionJSON = {
+        "Unranked": 0,
+        "Bronze I": 1,
+        "Bronze II": 2,
+        "Bronze III": 3,
+        "Silver I": 4,
+        "Silver II": 5,
+        "Silver III": 6,
+        "Gold I": 7,
+        "Gold II": 8,
+        "Gold III": 9,
+        "Platinum I": 10,
+        "Platinum II": 11,
+        "Platinum III": 12,
+        "Diamond I": 13,
+        "Diamond II": 14,
+        "Diamond III": 15,
+        "Champion I": 16,
+        "Champion II": 17,
+        "Champion III": 18,
+        "Grand Champion I": 19,
+        "Grand Champion II": 20,
+        "Grand Champion III": 21,
+        "Supersonic Legend": 22,
+    }
+
+    return <img src={`../../src/assets/ranks/${conversionJSON[rankname]}.png`} style={{width: "24px"}} className="mr-2" />
 }

@@ -4,6 +4,8 @@ import { useContext } from "react"
 import { UserContext } from "../../context/contexts"
 import MainPane from "../../components/general/MainPane/mainPane"
 import "./statistics.css"
+import PieChart from "../../components/visualizations/pie"
+import PlayerBarGraph from "../../components/visualizations/stacked"
 
 export default function Statistics() {
     const params = useParams();
@@ -13,13 +15,63 @@ export default function Statistics() {
     const currUserId = userValue.id
 
     const numUsers = getData(
-        gql`query Query { usersCount { count } }`, {}, "numUsers"
+        gql`query Query { users { id } }`, {}, "numUsers"
     )
 
-    const steamPlayers = "..."
-    const epicPlayers = "..."
-    const xboxPlayers = "..."
-    const psnPlayers = "..."
+    // const NUM_USERS_QUERY = gql`query Query { users { id } }`
+    
+
+
+    const PLATFORM_QUERY = gql`query Query { getPlatformCount { platforms { count platform } } }`
+    const { loading, error, data } = useQuery(PLATFORM_QUERY)
+
+    const platformData = data && data.getPlatformCount[0].platforms
+
+    let steamPlayers = null
+    let epicPlayers = null
+    let xboxPlayers = null
+    let psnPlayers = null
+    let pieChartData = null
+
+    if (platformData) {
+        for (let i = 0; i < platformData.length; i++) {
+            const currPlatform = platformData[i].platform
+            if (currPlatform === "steam") {
+                steamPlayers = platformData[i].count
+            } else if (currPlatform === "epic") {
+                epicPlayers = platformData[i].count
+            } else if (currPlatform === "xbox") {
+                xboxPlayers = platformData[i].count
+            } else if (currPlatform === "playstation") {
+                psnPlayers = platformData[i].count
+            }
+        }
+    
+
+        pieChartData = [
+            {
+                name: "Steam",
+                value: steamPlayers,
+                color: "#202742"
+            },
+            {
+                name: "Epic",
+                value: epicPlayers,
+                color: "#2B292A"
+            },
+            {
+                name: "Xbox",
+                value: xboxPlayers,
+                color: "#107C10"
+            },
+            {
+                name: "PSN",
+                value: psnPlayers,
+                color: "#006FCD"
+            }
+        ]
+    }
+    
 
     const replaysDataString = getData(
         gql`query Query($userId: Int!) { user(id: $userId) { wins losses number_of_replays } }`, {userId: currUserId}, "replays"
@@ -45,17 +97,16 @@ export default function Statistics() {
         throw new Error("Version parameter must be 0 or 1");
     }
 
-    if (params.version === "0") {
+    console.log(pieChartData)
+    if (params.version === "0" && pieChartData) {
         return (
             <MainPane title="Population Stats" className="statistics">
                 <div className="glass-inner round data-pane flex flex-nowrap justify-center items-center">
                     <div className="title-column"><b><i>UNIQUE PLAYERS</i></b></div>
                     <VerticalBar rightMargin={false}/>
-                    <DataColumn title="ON STRATOSPHERE" data={numUsers} class={1}/>
+                    <DataColumn title="STRATOSPHERE" data={numUsers} class={1}/>
                     <VerticalBar rightMargin={false}/>
-                    <div className="chart-column">
-                        <div className="pie-chart-mock flex justify-center items-center">placeholder</div>
-                    </div>
+                    <PieChart className="w-1/12 p-2" data={pieChartData} disableOpacity={true}/>
                     <VerticalBar rightMargin={false}/>
                     <DataColumn title="STEAM" data={steamPlayers} class={2}/>
                     <VerticalBar rightMargin={false}/>
@@ -96,15 +147,68 @@ export default function Statistics() {
     }
 }
 
+// const data = [
+//     {
+//       season: "Season 1",
+//       count: 24
+//     },
+//     {
+//       season: "Season 2",
+//       count: 13
+//     }
+//   ]
+  
+//   const group_label = "season"
+//   const sub_groups = ["count"]
+
+
+// const { loading, error, data } useQuery(REPLAY_DURATIONS_QUERY)
+
 export function GraphPane(props: {paneTitle: string}) {
-    return (
-        <div className="glass-inner round data-pane flex flex-nowrap justify-center items-center">
-            <div className="title-column"><b><i>{props.paneTitle}</i></b></div>
-            <VerticalBar rightMargin={false}/>
-            <div className="graph-column">--GRAPH PLACEHOLDER--</div>
-            <VerticalBar rightMargin={true}/>
-        </div>
-    )
+    const REPLAY_DURATIONS_QUERY = gql`
+        query Query {
+            getDurationCount {
+                durations {
+                    count
+                    duration
+                }
+            }
+        }
+    `
+
+    const { loading, error, data } = useQuery(REPLAY_DURATIONS_QUERY)
+
+    if (loading) {
+        console.log(loading)
+        return null
+    } else if (error) {
+        console.log(error)
+        return null
+    } else {
+        const graphData = data && data.getDurationCount[0].durations
+        const groupLabel = data && "duration"
+        const subGroups = data && ["count"]
+
+        // for (let i = 0; i < graphData.length; i++) {
+        //     graphData[i].duration = graphData[i].duration + " sec"
+        // }
+
+        console.log(graphData)
+
+        return (
+            <div className="glass-inner round data-pane flex flex-nowrap justify-center items-center">
+                <div className="title-column"><b><i>{props.paneTitle}</i></b></div>
+                <VerticalBar rightMargin={false}/>
+
+                {/* <div className="graph-column">--GRAPH PLACEHOLDER--</div> */}
+                <div className="pl-2 pt-2 pb-2 pr-1" style={{width: "480px"}}>
+                    <PlayerBarGraph data={graphData} group_label={groupLabel} sub_groups={subGroups} svg_width={1300}/>
+                </div>
+
+                <VerticalBar rightMargin={true}/>
+            </div>
+        )
+    }
 }
 
 export function DataColumn(props: {title: string, data: number, class: number}) {
@@ -155,10 +259,10 @@ function getNumUsers() {
 
     if (loading || error) {
         if (loading) {
-            console.log(loading)
+            // console.log(loading)
         }
         if (error) {
-            console.log(error)
+            // console.log(error)
         }
         return null
     } else {
@@ -180,10 +284,10 @@ function getReplayDataString() {
     
     if (loading || error) {
         if (loading) {
-            console.log(loading)
+            // console.log(loading)
         }
         if (error) {
-            console.log(error)
+            // console.log(error)
         }
         return null
     } else {
@@ -202,15 +306,15 @@ function getData(queryString, variables, stringType) {
     
     if (loading || error) {
         if (loading) {
-            console.log(loading)
+            // console.log(loading)
         }
         if (error) {
-            console.log(error)
+            // console.log(error)
         }
         return null
     } else {
         if (stringType === "numUsers") {
-            return data.usersCount.count
+            return data.users.length
         }
         if (stringType === "replays") {
             return <div>{data.user.number_of_replays} total<br/>({data.user.wins} wins)</div>

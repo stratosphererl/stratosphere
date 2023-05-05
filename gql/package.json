@@ -16,7 +16,7 @@
     "graphql": "^16.6.0",
     "graphql-upload": "^13.0.0",
     "node-fetch": "2",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.22"
   },
   "scripts": {
     "start": "nodemon ./src/server.js"
