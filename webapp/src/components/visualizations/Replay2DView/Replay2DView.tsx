@@ -62,7 +62,7 @@ export default function Replay2DView({ analyzedReplay, predictions }:
   useEffect(() => {
     const intervalId = setInterval(() => {
       ECS.update(1);
-    }, 150);
+    }, 33);
 
     return () => clearInterval(intervalId); // clear the interval when the component unmounts
   }, [ECS, frames]);
