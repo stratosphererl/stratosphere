@@ -28,6 +28,7 @@ export function Scoreboard({data}: Props) {
     return (
         <>
             <h1 className="text-center">Scoreboard</h1>
+            <p className="text-center italic">Recreation of the in-game scoreboard.</p>
             <div className="pt-8 px-5 2xl:px-16 flex flex-col space-y-8 text-center">
                 {teams.map((team, index) =>
                     <div key={`score-table-${index}`}>
@@ -51,11 +52,11 @@ export function Scoreboard({data}: Props) {
                                             border: "1px solid", borderColor: "black"}}>
                                             
                                             <td className="py-2">{player.name}</td>
-                                            <td className="py-2">{player.score}</td>
-                                            <td className="py-2">{player.goals}</td>
-                                            <td className="py-2">{player.assists}</td>
-                                            <td className="py-2">{player.saves}</td>
-                                            <td className="py-2">{player.shots}</td>
+                                            <td className="py-2">{player.score ?? 0}</td>
+                                            <td className="py-2">{player.goals ?? 0}</td>
+                                            <td className="py-2">{player.assists ?? 0}</td>
+                                            <td className="py-2">{player.saves ?? 0}</td>
+                                            <td className="py-2">{player.shots ?? 0}</td>
                                         </tr>
                                     )}
                                 </tbody>
@@ -74,6 +75,8 @@ export function TeamComparison({data}: Props) {
 
     return (<>
         <h1 className="text-center">Team Comparison</h1>
+        <p className="text-center italic">Player stats aggregated by team.</p>
+        <p className="text-center italic">Blue team on the left, orange on the right.</p>
         <div className="w-full flex justify-center">
             <TugGraph data={teamComparisonData} sub_groups={teamComparisonGroups} sub_group_names={teamComparisonGroupNames} svg_width={1500} svg_height={800} 
             colors={["var(--sky-blue)", "var(--sky-orange)"]} />
@@ -89,12 +92,11 @@ export function PlayerComparison({data}: Props) {
         "saves": "Saves",
         "shots": "Shots",
         "clears": "Clears",
-        "demos": "Demos",
     }
 
     const label = "name";
-    const groups = ["goals", "assists", "saves", "shots", "clears", "demos"];
-    const colors = ["var(--sky-blue)", "var(--sky-orange)", "var(--sky-green)", "var(--sky-purple)", "var(--sky-yellow)", "var(--sky-red)"];
+    const groups = ["goals", "assists", "saves", "shots", "clears"];
+    const colors = ["var(--sky-blue)", "var(--sky-orange)", "var(--sky-green)", "var(--sky-purple)", "var(--sky-yellow)"];
 
 
     return (<>
@@ -143,6 +145,7 @@ export function BoostAnalysis({data}: Props) {
         <h1 className="text-center">Boost Analysis</h1>
         <div className="w-full flex flex-col justify-center">
             <h2 className="text-center mt-5 underline">Boost Used</h2>
+            <p className="text-center italic">Total amount of boost used throughout the game.</p>
             <div className="w-full flex justify-between">
                 <div className="w-[70%]">
                     <PlayerBarGraph data={boostData} group_label={label} sub_groups={used_groups} svg_width={1500} svg_height={600} sub_group_display_names={displayNames}
@@ -151,6 +154,7 @@ export function BoostAnalysis({data}: Props) {
             </div>
 
             <h2 className="text-center mt-5 underline">Boost Collected</h2>
+            <p className="text-center italic">Number of each type of boost pad collected.</p>
             <div className="w-full flex justify-between">
                 <div className="w-[70%]">
                     <PlayerBarGraph data={boostData} group_label={label} sub_groups={collected_groups} svg_width={1500} svg_height={600} sub_group_display_names={displayNames}
@@ -162,6 +166,8 @@ export function BoostAnalysis({data}: Props) {
             </div>
 
             <h2 className="text-center mt-10 underline">Time with Boost Levels</h2>
+            <p className="text-center italic">Time with different amounts of boost measured in seconds.</p>
+            <p className="text-center italic">Low boost is {"<"}25 boost. Decent boost is {">"}25 boost without being full.</p>
             <div className="w-full flex justify-between">
                 <div className="w-[70%]">
                     <PlayerBarGraph data={boostData} group_label={label} sub_groups={time_groups} svg_width={1500} svg_height={600} sub_group_display_names={displayNames}
@@ -173,6 +179,7 @@ export function BoostAnalysis({data}: Props) {
             </div>
 
             <h2 className="text-center mt-10 underline">Boost Wasted</h2>
+            <p className="text-center italic">Amount of boost wasted by collecting over 100 boost. Split by pad type.</p>
             <div className="w-full flex justify-between">
                 <div className="w-[70%]">
                     <PlayerBarGraph data={boostData} group_label={label} sub_groups={wasted_groups} svg_width={1500} svg_height={600} sub_group_display_names={displayNames}
@@ -192,9 +199,10 @@ export function Possession({data}: Props) {
 
     return (<>
         <h1 className="text-center">Possession</h1>
-        <div className="w-[75%] space-y-10 pt-10 m-auto text-center underline">
+        <div className="w-[75%] space-y-10 pt-10 m-auto text-center">
             <div>
-                <h2>Possession Times</h2>
+                <h2 className="underline">Possession Times</h2>
+                <p className="italic">Amount of time that each player had the last touch. Measured in seconds.</p>
                 <PlayerBarGraph data={possessionData} group_label="name" sub_groups={["possession"]} color_scale={["var(--sky-green)"]} 
                     sub_group_display_names={{"possession": "Possession Time"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}}
@@ -202,7 +210,8 @@ export function Possession({data}: Props) {
             </div>
 
             <div>
-                <h2>Dribbles</h2>
+                <h2 className="underline">Dribbles</h2>
+                <p className="italic">Number of dribble performed.</p>
                 <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbles"]} color_scale={["var(--sky-green)"]} 
                     sub_group_display_names={{"dribbles": "Dribbles"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}}
@@ -210,7 +219,8 @@ export function Possession({data}: Props) {
             </div>
 
             <div>
-                <h2>Dribble Time</h2>
+                <h2 className="underline">Dribble Time</h2>
+                <p className="italic">Total amount of time spent dribbling. Measured in seconds.</p>
                 <PlayerBarGraph data={dribbleData} group_label="name" sub_groups={["dribbleTime"]} color_scale={["var(--sky-green)"]}
                     sub_group_display_names={{"dribbleTime": "Dribble Time"}}
                     margin={{left: 100, right: 100, top: 20, bottom: 50}} 
@@ -229,17 +239,16 @@ function DisplayTendency({className, tendency, color}: {className: string, tende
     )
 }
 
-function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
+function HeatmapAndTendencies({name, tendencies, positions, isOrange, width=200}: {
     name?: string, 
     tendencies: { defendingHalf: number, attackingHalf: number,
         defendingThird: number, neutralThird: number, attackingThird: number },
     positions: { x: number, y: number }[],
     isOrange: boolean,
+    width?: number
 }) {
     const mapWidth = 2 * (5120 + 880);
     const mapHeight = 2 * 4096;
-
-    const width = 200;
 
     const uu2px = width / mapWidth;
     const ball_size = 92.75;
@@ -253,7 +262,7 @@ function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
 
     return (
         <div key={`heatmap-${name}`} className="w-[80%] m-auto mt-[40px]">
-            {name ? <h2 className="text-center">{name}</h2> : null}
+            {name ? <h2 className="text-center" style={{color: isOrange ? "var(--sky-orange)" : "var(--sky-blue)"}}>{name}</h2> : null}
             <div className="mb-2 w-[100%] mx-auto">
                 <div className="flex justify-evenly">
                     <DisplayTendency className="w-1/2" tendency={isOrange ? tendencies.attackingHalf : tendencies.defendingHalf} color={"var(--sky-blue)"} />
@@ -274,7 +283,7 @@ function HeatmapAndTendencies({name, tendencies, positions, isOrange}: {
 }
 
 export function Position({data}: Props) {
-    const url = "http://localhost:5004/frames.csv.zip";
+    const url = data.getFramesLink();
     const replayFrames = useReplayFrames(url);
     if (replayFrames.error)
         throw replayFrames.error;
@@ -324,8 +333,8 @@ export function Position({data}: Props) {
                     {
                     replayFrames.loading || !replayFrames.data?.length ? <div>Loading...</div> :
                     playerPositions.map((player) => 
-                        <HeatmapAndTendencies key={`heatmap-${player.name}`} name={player.name} tendencies={player.tendencies} 
-                            positions={player.positions} isOrange={player.isOrange} />
+                        player.positions ? <HeatmapAndTendencies key={`heatmap-${player.name}`} name={player.name} tendencies={player.tendencies} 
+                            positions={player.positions} isOrange={player.isOrange} /> : <></>
                     )
                     }
                 </div>
@@ -335,7 +344,7 @@ export function Position({data}: Props) {
 }
 
 export function Ball({data}: Props) {
-    const url = "http://localhost:5004/frames.csv.zip";
+    const url = data.getFramesLink();
     const replayFrames = useReplayFrames(url);
     
     if (replayFrames.error)
@@ -359,6 +368,7 @@ export function Ball({data}: Props) {
         <div className="space-y-10 pt-10">
             <div className="w-3/4 m-auto">
                 <h2 className="text-center underline">Goals Scored</h2>
+                <p className="text-center italic">The location and speed of the ball for every goal.</p>
                 <GoalChart data={goalData} x_domain={[-goalWidth/2, goalWidth/2]} y_domain={[0, goalHeight]} 
                 svg_width={width} svg_height={goalHeight * uu2px} ball_size={ballSize * uu2px}
                 data_display={["name", "velocity"]} underlayed_image={goalSVG} postfixes={{"velocity": " kph"}}
@@ -366,7 +376,7 @@ export function Ball({data}: Props) {
             </div>
             <div className="w-3/4 m-auto">
                 <h2 className="text-center underline mb-[-30px]">{positionData.name}</h2>
-                <HeatmapAndTendencies tendencies={positionData.tendencies} positions={positionData.positions} isOrange={false} />
+                <HeatmapAndTendencies tendencies={positionData.tendencies} positions={positionData.positions} isOrange={false} width={400} />
             </div>
         </div>
     </>)

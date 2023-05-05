@@ -403,8 +403,8 @@ class ParsingHelper:
         :return: Combined and sorted DataFrame
         """
         regular_data = ParsingHelper.slice_frames(df)
-        extra_data = ParsingHelper.slice_frames(df, level1by=['ball'], level2by=['pos_z'])
-        merged = regular_data.join(extra_data).sort_index(axis=1)
+        extra_data = ParsingHelper.slice_frames(df, level1by=['ball'], level2by=['pos_z', 'vel_z'])
+        merged = regular_data.join(extra_data).sort_index(axis=1)[list(set([level1 for level1, _ in regular_data.columns] + [level1 for level1, _ in extra_data.columns]))]
 
         filename = fp.split('/')[-1]
 

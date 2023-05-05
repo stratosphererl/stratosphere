@@ -1,7 +1,12 @@
-FROM python:3.10.7
-WORKDIR /machine-learning
-RUN pip install flask
-COPY . ./
-EXPOSE 5002
-WORKDIR /machine-learning//machine_learning
-CMD ["python", "-m", "flask", "run", "-h", "0.0.0.0", "-p", "5002"]
+FROM python:3.8-bullseye
+
+WORKDIR /app
+
+COPY ./ml/ml-service/Pipfile ./ml/ml-service/Pipfile.lock ./
+COPY ./ml/ml-service/whl ./whl
+
+RUN pip install pipenv
+RUN pipenv install --system --deploy --ignore-pipfile
+RUN pip install ./whl/boxcars_py-0.1.15-cp38-cp38-manylinux1_x86_64.whl
+
+COPY ./ml/ml-service ./

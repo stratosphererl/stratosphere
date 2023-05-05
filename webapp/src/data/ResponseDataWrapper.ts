@@ -1,12 +1,16 @@
 interface ScorebaordEntry {name: string, score: number, goals: number, assists: number, saves: number, shots: number}
 interface TeamTugEntry {possession: number, goals: number, saves: number, shots: number, assists: number, 
-    aerials: number, clears: number, hits: number, demos: number, boost: number}
+    aerials: number, clears: number, hits: number, boost: number}
 interface BoostDataEntry {name: string, small_pads: number, big_pads: number, time_full: number, time_low: number, 
     time_empty: number, time_decent: number, wasted_small: number, wasted_big: number, boost_used: number}
-interface HitDataEntry {name: string, goals: number, assists: number, saves: number, shots: number, clears: number, demos: number}
+interface HitDataEntry {name: string, goals: number, assists: number, saves: number, shots: number, clears: number} 
 
 export default class ResponseDataWrapper {
-    constructor(private data: any) {}
+    constructor(private data: any, private frames_link: string) {}
+
+    getFramesLink() {
+        return this.frames_link;
+    }
 
     getScoreboardData() {
         const teams: [ScorebaordEntry[], ScorebaordEntry[]] = [[],[]];
@@ -39,7 +43,6 @@ export default class ResponseDataWrapper {
             aerials: team.stats.hitCounts.totalAerials as number,
             clears: team.stats.hitCounts.totalClears as number,
             hits: team.stats.hitCounts.totalHits as number,
-            demos: players.map((player: any) => player.stats.demoStats?.numDemosInflicted ?? 0).reduce((a: number, b: number) => a + b, 0) as number,
             boost: players.map((player: any) => player.stats.boost.boostUsage).reduce((a: number, b: number) => a + b, 0) as number,
         };
 
@@ -56,7 +59,6 @@ export default class ResponseDataWrapper {
             aerials: "Aerial Hits",
             clears: "Clears",
             hits: "Hits",
-            demos: "Demos",
             boost: "Boost Used"
         }
 
@@ -70,7 +72,7 @@ export default class ResponseDataWrapper {
         return [teams, keys, key_names]
     }
 
-    private getTeamsPlayers() {
+    getTeamsPlayers(): [any[], any[]] {
         const team1 = this.data.players.filter((player: any) => player.isOrange == 0) as any[];
         const team2 = this.data.players.filter((player: any) => player.isOrange == 1) as any[];
 
@@ -91,7 +93,6 @@ export default class ResponseDataWrapper {
                     saves: player.saves,
                     shots: player.shots,
                     clears: player.stats.hitCounts.totalClears,
-                    demos: player.stats.demoStats?.numDemosInflicted ?? 0,
                 });
             });
         }
@@ -106,7 +107,6 @@ export default class ResponseDataWrapper {
                 saves: 0,
                 shots: 0,
                 clears: 0,
-                demos: 0,
             });
         }
 
@@ -131,7 +131,7 @@ export default class ResponseDataWrapper {
                     time_full: boostStats.timeFullBoost,
                     time_low: boostStats.timeLowBoost,
                     time_empty: boostStats.timeNoBoost,
-                    time_decent: this.data.gameMetadata.length - boostStats.timeFullBoost - boostStats.timeLowBoost - boostStats.timeNoBoost,
+                    time_decent: this.data.gameHeader.length - boostStats.timeFullBoost - boostStats.timeLowBoost - boostStats.timeNoBoost,
                     wasted_small: boostStats.wastedSmall,
                     wasted_big: boostStats.wastedBig,
                     boost_used: boostStats.boostUsage,
@@ -289,6 +289,9 @@ export default class ResponseDataWrapper {
 
         const [team1, team2] = this.getTeamsPlayers();
 
+        console.log(team1, team2);
+        console.log(frameData);
+
         const nameToIndex = new Map();
         if (frameData?.length)
             frameData[0].forEach((entity: any, index: number) => {
@@ -311,12 +314,13 @@ export default class ResponseDataWrapper {
                 const tendencies = this.getFieldPositioning(positionalTendencies);
                 const positions: { x: number, y: number }[] = [];
                 const isOrange = player.isOrange as boolean;
+                const index = nameToIndex.get(name);
 
                 if (frameData?.length) {
                     let lastPosition: { x: number, y: number } = { x: 10000, y: 10000 };
                     frameData.forEach((frame: any) => {
-                        const index = nameToIndex.get(name);
                         const entity = frame[index];
+                        console.log(name, index, entity);
                         if (typeof entity?.position?.x === "number" && typeof entity?.position?.y === "number" 
                             && (Math.abs(entity.position.x - lastPosition.x) > 0.1 || Math.abs(entity.position.y - lastPosition.y) > 0.1)){
                             positions.push({ x: entity.position.y, y: entity.position.x });
@@ -324,6 +328,7 @@ export default class ResponseDataWrapper {
                         }
                     });
                 }
+
 
                 teamData.push({ name: name, tendencies: tendencies, positions: positions, isOrange: isOrange })
             });
@@ -365,21 +370,21 @@ export default class ResponseDataWrapper {
         return ballData;
     }
 
-    private getPlayerFromId(id: string) {
-        return this.data.players.find((player: any) => player.id.id === id);
+    private getPlayerFromName(name: string) {
+        return this.data.players.find((player: any) => player.name == name);
     }
 
     getGoalData(frames: any[]) {
-        const goals = this.data.gameMetadata.goals as any[];
+        const goals = this.data.gameHeader.goals as any[];
 
         const goalData = goals.map((goal: any) => {
-            let frameNumber = goal.frameNumber;
+            let frameNumber = goal.frame_number;
 
             let x = 0;
             let y = 0;
             let velocity = "";
 
-            if (frames.length) {
+            if (frames?.length) {
                 const ballIndex = frames[0].findIndex((entity: any) => entity.name === "ball");
                 while (!Number.isFinite(frames[frameNumber][ballIndex].velocity.y))
                     frameNumber--;
@@ -392,7 +397,7 @@ export default class ResponseDataWrapper {
                 velocity = (Math.sqrt(ball.velocity.x ** 2 + ball.velocity.y ** 2 + ball.velocity.z ** 2) / 1000 / 1000 * 60 * 60).toFixed(2);
             }
 
-            const player = this.getPlayerFromId(goal.playerId.id);
+            const player = this.getPlayerFromName(goal.player_name);
                 
             // Todo: Check if the player is orange and invert x depending on that (I don't know which way around it is yet)
 

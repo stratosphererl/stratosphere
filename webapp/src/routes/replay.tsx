@@ -16,29 +16,22 @@ import {
 } from "../components/visualizations/contentPanels";
 
 import Replay2DView from "../components/visualizations/Replay2DView/Replay2DView";
+import usePrediction from "../hooks/usePrediction";
 
 export default function Replay() {
   const params = useParams();
+  const [searchParams] = useSearchParams();
+  const { data, loading, error } = useReplay(params.replayid!);
+  // const { 
+  //   data: predictionData, 
+  //   loading: predictionLoading, 
+  //   error: predictionError 
+  // } = usePrediction(params.replayid!);
+  const predictions = usePrediction(params.replayid!);
+  
   const regex = /^[A-Z0-9]{32}$/;
 
-  const [searchParams] = useSearchParams();
-
   const tabParam = searchParams.get("tab");
-
-  const { data, loading, error } = useReplay(params.replayid!);
-
-  if (error || !regex.test(params.replayid!)) {
-    // return <ErrorPage message = "Replay ID parameter must follow regex [A-Z0-9]{32}"/>;
-    throw new Error("Replay ID parameter must follow regex [A-Z0-9]{32}");
-  }
-
-  if (loading)
-    return (
-      <MainPane className="mx-[5%]" title="Replay">
-        <h1 className="text-center">Collecting boost...</h1>
-      </MainPane>
-    );
-
   const GROUPS: {
     groupName: string;
     tabs: { tabName: string; content: JSX.Element }[];
@@ -48,10 +41,10 @@ export default function Replay() {
       tabs: [
         { tabName: "Scoreboard", content: <Scoreboard data={data} /> },
         { tabName: "Team Comparison", content: <TeamComparison data={data} /> },
-        {
-          tabName: "Player Comparison",
-          content: <PlayerComparison data={data} />,
-        },
+        // {
+        //   tabName: "Player Comparison",
+        //   content: <PlayerComparison data={data} />,
+        // },
       ],
     },
     {
@@ -68,12 +61,11 @@ export default function Replay() {
       tabs: [
         {
           tabName: "2D Replay",
-          content: <Replay2DView />,
+          content: <Replay2DView analyzedReplay={data} predictions={predictions} />,
         },
       ],
     },
   ];
-
   const tabIdxMap = new Map<string, number>();
   let tabIdx = 0;
   GROUPS.forEach((group) => {
@@ -83,6 +75,21 @@ export default function Replay() {
   });
 
   const [selectedIndex, setSelectedIndex] = useState(tabIdxMap.get(tabParam!) ?? 0);
+
+  if (!regex.test(params.replayid!)) {
+    // return <ErrorPage message = "Replay ID parameter must follow regex [A-Z0-9]{32}"/>;
+    throw new Error("Replay ID parameter must follow regex [A-Z0-9]{32}");
+  }
+  if (error) {
+    throw error;
+  }
+
+  if (loading)
+    return (
+      <MainPane className="mx-[5%]" title="Replay">
+        <h1 className="text-center">Collecting boost...</h1>
+      </MainPane>
+    );
 
   return (
     <MainPane className="mx-0 xl:mx-[5%]" title="Replay">

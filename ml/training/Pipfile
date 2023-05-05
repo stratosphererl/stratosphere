@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+carball = "*"
+boxcars-py = {path = "./whl/boxcars_py-0.1.15-cp38-none-win_amd64.whl", sys_platform = "== 'win32'"}
+scikit-learn = "*"
+
+[dev-packages]
+ipykernel = "*"
+
+[requires]
+python_version = "3.8"
