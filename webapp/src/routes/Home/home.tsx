@@ -26,7 +26,7 @@ export default function Home() {
   } else {
     return (
       <div className={`mt-24`}>
-        <AnimateOnScroll type={ANIMATION_TYPE.FADE}>
+        <AnimateOnScroll type={ANIMATION_TYPE.FADE} className="mb-[150px]">
           <div
             className={`m-auto flex items-center justify-center mb-[48px] text-logo}`}
           >
@@ -150,17 +150,28 @@ export function HomePresentationBlock(props: {
 }) {
   return (
     <div className="home-main">
-      <div className={`flex flex-nowrap justify-center ${props.className}`}>
-        <img src={props.img} className="ml-8 home-image" />
-        <div className="mx-8 home-text-box my-auto">
-          <h1 className="chill-blue-stroke-2 italic home-subtitle">
-            {props.title}
-          </h1>
-          {props.text}
-          <a href={props.href} className="home-lower-button mt-6">
-            <div className="vertical-text">{props.name}</div>
-          </a>
-        </div>
+      <div className="flex">
+        <AnimateOnScroll type={ANIMATION_TYPE.FADE} className="w-full">
+          <img src={props.img} className="ml-8 home-image" />
+        </AnimateOnScroll>
+
+        <AnimateOnScroll
+          type={ANIMATION_TYPE.SLIDE_LEFT}
+          className="flex flex-col justify-center"
+          threshold={0.8}
+        >
+          <div className="home-text-box">
+            <div>
+              <h1 className="chill-blue-stroke-2 italic home-subtitle">
+                {props.title}
+              </h1>
+              {props.text}
+              <a href={props.href} className="home-lower-button mt-6">
+                <div className="vertical-text">{props.name}</div>
+              </a>
+            </div>
+          </div>
+        </AnimateOnScroll>
       </div>
     </div>
   );

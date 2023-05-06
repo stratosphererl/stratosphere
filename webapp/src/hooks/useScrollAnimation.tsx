@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 
-export const useScrollAnimation = (ref: React.RefObject<HTMLElement>) => {
+export const useScrollAnimation = (
+  ref: React.RefObject<HTMLElement>,
+  threshold: number
+) => {
   const [isInView, setIsInView] = useState(false);
-  const [isFirstRender, setIsFirstRender] = useState(false);
 
   const handleScroll = (entries) => {
-    if (isFirstRender) return;
     const [entry] = entries;
     setIsInView(entry.isIntersecting);
-    setIsFirstRender(true);
   };
 
   const options = {
     root: null,
     rootMargin: "0px",
-    threshold: 0.99,
+    threshold: threshold,
   };
 
   useEffect(() => {
