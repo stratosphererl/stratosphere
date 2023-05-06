@@ -4,6 +4,10 @@ import { UserContext } from "../../context/contexts";
 
 import StratosphereLogo from "../../assets/logo/500.png";
 import BackgroundTransition from "../../assets/images/home-transition.png";
+import {
+  AnimateOnScroll,
+  ANIMATION_TYPE,
+} from "../../components/AnimateOnScroll/animateOnScroll";
 
 import HomeImage1 from "../../assets/images/home1.png";
 import HomeImage2 from "../../assets/images/home2.png";
@@ -21,28 +25,33 @@ export default function Home() {
     return <Navigate to="/browse/1" />;
   } else {
     return (
-      <div className="mt-24">
-        <div className="m-auto flex items-center justify-center mb-[48px] text-logo">
-          <img src={StratosphereLogo} className="logo-dims" />
-          <div className="home-chill-blue-stroke-4 strat-text">
-            Stratosphere
+      <div className={`mt-24`}>
+        <AnimateOnScroll type={ANIMATION_TYPE.FADE}>
+          <div
+            className={`m-auto flex items-center justify-center mb-[48px] text-logo}`}
+          >
+            <img src={StratosphereLogo} className="logo-dims" />
+            <div className="home-chill-blue-stroke-4 strat-text">
+              Stratosphere
+            </div>
           </div>
-        </div>
-        <div className="flex justify-center">
-          <div className="flex flex-wrap items-center">
-            <h2 className="w-full flex justify-center home-black-stroke-4 font-36 bottom-margin-24 flex-wrap text-center md:text-center">
-              <div>Rocket League's</div>
-              <InTextColoring text="coolest" />
-              <div>match analytics platform</div>
-            </h2>
-            <h2 className="w-screen flex justify-center home-black-stroke-4 font-36 flex-wrap text-center md:text-center">
-              <div>Supported by</div>
-              <InTextColoring text="intuitive design" />
-              <div>and</div>
-              <InTextColoring text="machine learning" />
-            </h2>
+
+          <div className="flex justify-center">
+            <div className="flex flex-wrap items-center">
+              <h2 className="w-full flex justify-center home-black-stroke-4 font-36 bottom-margin-24 flex-wrap text-center md:text-center">
+                <div>Rocket League's</div>
+                <InTextColoring text="coolest" />
+                <div>match analytics platform</div>
+              </h2>
+              <h2 className="w-screen flex justify-center home-black-stroke-4 font-36 flex-wrap text-center md:text-center">
+                <div>Supported by</div>
+                <InTextColoring text="intuitive design" />
+                <div>and</div>
+                <InTextColoring text="machine learning" />
+              </h2>
+            </div>
           </div>
-        </div>
+        </AnimateOnScroll>
         {/* <footer className="flex justify-center top-margin-72">
           <a href="/login">
             <button className="home-login-button flex justify-center bottom-margin-48">
