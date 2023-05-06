@@ -158,7 +158,7 @@ export function HomePresentationBlock(props: {
         <AnimateOnScroll
           type={ANIMATION_TYPE.SLIDE_LEFT}
           className="flex flex-col justify-center"
-          threshold={0.8}
+          threshold={0.6}
         >
           <div className="home-text-box">
             <div>
