@@ -1,0 +1,21 @@
+.fade-hidden {
+  opacity: 0;
+  filter: blur(5px);
+  transition: all 2s ease-in-out;
+}
+
+.fade-visible {
+  opacity: 1;
+  filter: blur(0);
+  transition: all 2s ease-in-out;
+}
+
+.slide-left-visible {
+  transform: translateX(0);
+  transition: transform 1s ease-in-out;
+}
+
+.slide-left-hidden {
+  transform: translateX(-100%);
+  transition: transform 1s ease-in-out;
+}
