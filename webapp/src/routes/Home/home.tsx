@@ -74,6 +74,7 @@ export default function Home() {
               <InTextColoring text="machine learning" />
             </p>
           }
+          href="/upload"
         />
 
         <div className="margin-spacing bg-black"></div>
@@ -100,6 +101,7 @@ export default function Home() {
               them
             </p>
           }
+          href="/browse/0"
         />
 
         <div className="margin-spacing bg-black"></div>
@@ -122,6 +124,7 @@ export default function Home() {
               <InTextColoring text="further analysis" />
             </p>
           }
+          href="/overlay"
         />
       </div>
     );
@@ -134,6 +137,7 @@ export function HomePresentationBlock(props: {
   name: string;
   text: JSX.Element;
   className?: string;
+  href: string;
 }) {
   return (
     <div className="home-main">
@@ -144,7 +148,7 @@ export function HomePresentationBlock(props: {
             {props.title}
           </h1>
           {props.text}
-          <a href="/upload" className="home-lower-button mt-6">
+          <a href={props.href} className="home-lower-button mt-6">
             <div className="vertical-text">{props.name}</div>
           </a>
         </div>
