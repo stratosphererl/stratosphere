@@ -42,9 +42,6 @@ export default function Heatmap({
     const height = svg_height;
 
     useEffect(() => {
-
-        console.log(data);
-
         const destroy = () => {
             d3.select(ref.current).selectAll("*").remove();
         };
