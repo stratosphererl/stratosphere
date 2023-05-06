@@ -1,4 +1,4 @@
-import { useECS, useAnimationFrame, useTimer } from "@react-ecs/core";
+import { useECS, Entity } from "@react-ecs/core";
 import { Canvas } from "./components/canvas";
 import { CanvasViewSystem, TransformSystem } from "./systems";
 import { Player } from "./entities/player";
@@ -14,26 +14,31 @@ interface PredictionType {
       keys: string[];
       predictions: number[][];
       model_type: string;
-    }
+    };
   } | null;
   loading: boolean;
   error: Error | null;
 }
 
-function PredictionBar( { predictions, frame } : { predictions: PredictionType, frame: number }) {
+function PredictionBar({
+  predictions,
+  frame,
+}: {
+  predictions: PredictionType;
+  frame: number;
+}) {
   if (predictions.error) {
     console.log(predictions.error);
-    return <div>Predictions Unavailable</div>
+    return <div>Predictions Unavailable</div>;
   }
 
   if (predictions.loading) {
-    return <div>Loading Predictions...</div>
+    return <div>Loading Predictions...</div>;
   }
 
   if (predictions.data === null) {
-    return <div>?</div>
+    return <div>?</div>;
   }
-
   const { keys, predictions: preds } = predictions.data.predict;
 
   const orangeIndex = keys.indexOf("orange");
@@ -42,19 +47,36 @@ function PredictionBar( { predictions, frame } : { predictions: PredictionType, 
   const blue_prediction = 100 - orange_prediction;
 
   return (
-    <div className="h-[500px] flex flex-col justify-evenly mr-2">
-      <div className="px-2" style={{height: `${orange_prediction}%`, backgroundColor: "var(--sky-orange)"}}>
+    <div className="h-[500px] flex flex-col justify-evenly mr-2 ">
+      <div
+        className="px-2 animate-progress"
+        style={{
+          height: `${orange_prediction}%`,
+          backgroundColor: "var(--sky-orange)",
+        }}
+      >
         {orange_prediction.toFixed(0)}
       </div>
-      <div className="px-2" style={{height: `${blue_prediction}%`, backgroundColor: "var(--sky-blue)"}}>
+      <div
+        className="px-2 animate-progress"
+        style={{
+          height: `${blue_prediction}%`,
+          backgroundColor: "var(--sky-blue)",
+        }}
+      >
         {blue_prediction.toFixed(0)}
       </div>
     </div>
-  )
+  );
 }
 
-export default function Replay2DView({ analyzedReplay, predictions }: 
-  { analyzedReplay: ResponseDataWrapper, predictions: any }) {
+export default function Replay2DView({
+  analyzedReplay,
+  predictions,
+}: {
+  analyzedReplay: ResponseDataWrapper;
+  predictions: any;
+}) {
   const ECS = useECS();
   const [frame, setFrame] = useState(0);
   const [frames, setFrames] = useState(0);
@@ -80,18 +102,39 @@ export default function Replay2DView({ analyzedReplay, predictions }:
           <div>Loading...</div>
         ) : error ? (
           <div>Error: {error}</div>
-          ) : (
+        ) : (
           <Canvas>
             <ECS.Provider>
               <CanvasViewSystem />
-              <TransformSystem data={data} onUpdate={(f: number) => setFrame(f)} />
+              <TransformSystem
+                data={data}
+                onUpdate={(f: number) => setFrame(f)}
+              />
               {team1.map((player) => (
-                <Player key={player.name} isOrange={false} name={data[0].findIndex((entity: any) => entity.name === player.name)} />
+                <Player
+                  key={player.name}
+                  username={player.name}
+                  isOrange={false}
+                  name={data[0].findIndex(
+                    (entity: any) => entity.name === player.name
+                  )}
+                />
               ))}
               {team2.map((player) => (
-                <Player key={player.name} isOrange={true} name={data[0].findIndex((entity: any) => entity.name === player.name)} />
+                <Player
+                  key={player.name}
+                  username={player.name}
+                  isOrange={true}
+                  name={data[0].findIndex(
+                    (entity: any) => entity.name === player.name
+                  )}
+                />
               ))}
-              <Ball name={data[0].findIndex((entity: any) => entity.name === "ball")} />
+              <Ball
+                name={data[0].findIndex(
+                  (entity: any) => entity.name === "ball"
+                )}
+              />
               <Map />
             </ECS.Provider>
           </Canvas>

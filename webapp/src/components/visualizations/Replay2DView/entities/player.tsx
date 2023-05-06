@@ -3,10 +3,12 @@ import { Drawable, Transform, Vector3, IsOrange, Name } from "../facets";
 import { Entity } from "@react-ecs/core";
 
 export function Player({
+  username,
   isOrange,
   children,
   name,
 }: {
+  username: string;
   isOrange: boolean;
   children?: React.ReactNode;
   name?: any;
@@ -38,6 +40,12 @@ export function Player({
     ctx.strokeStyle = shadowColor;
     ctx.lineWidth = lineWidth;
     ctx.stroke();
+    ctx.textAlign = "center";
+    ctx.fillText(
+      username,
+      transform.position.x * xScale,
+      (transform.position.y + 500) * yScale
+    );
     ctx.restore();
   };
 
