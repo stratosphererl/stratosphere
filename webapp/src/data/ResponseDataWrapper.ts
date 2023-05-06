@@ -289,9 +289,6 @@ export default class ResponseDataWrapper {
 
         const [team1, team2] = this.getTeamsPlayers();
 
-        console.log(team1, team2);
-        console.log(frameData);
-
         const nameToIndex = new Map();
         if (frameData?.length)
             frameData[0].forEach((entity: any, index: number) => {
@@ -320,7 +317,6 @@ export default class ResponseDataWrapper {
                     let lastPosition: { x: number, y: number } = { x: 10000, y: 10000 };
                     frameData.forEach((frame: any) => {
                         const entity = frame[index];
-                        console.log(name, index, entity);
                         if (typeof entity?.position?.x === "number" && typeof entity?.position?.y === "number" 
                             && (Math.abs(entity.position.x - lastPosition.x) > 0.1 || Math.abs(entity.position.y - lastPosition.y) > 0.1)){
                             positions.push({ x: entity.position.y, y: entity.position.x });

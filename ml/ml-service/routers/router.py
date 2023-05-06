@@ -28,7 +28,7 @@ async def predict(file: UploadFile = File(..., description="Replay file to be an
         _json = boxcars_parse(file)
     except Exception as e:
         log(ERROR, e)
-        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Failed to parse replay file.") from e
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e))
     time_to_parse = time() - start
 
     start = time()

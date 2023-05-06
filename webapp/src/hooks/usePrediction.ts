@@ -17,44 +17,44 @@ const GET_REPLAY_PREDICTION = gql`
     }
 `;
 
-function useReplayFile(url: string, filename = "replay") {
+function useReplayFile(url: string | null, filename = "replay") {
     const [data, setData] = useState<File | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
-        setLoading(true);
-        setError(null);
-        setData(null);
-
-        fetch(url)
-            .then((response) => {
-                response.blob().then((blob) => {
-                    setData(
-                        new File([blob], `${filename}.replay`, {
-                            type: blob.type,
-                            lastModified: Date.now(),
-                        })
-                    );
-                    setLoading(false);
+        if (url && !data) {
+            setLoading(true);
+            setError(null);
+            setData(null);
+            fetch(url)
+                .then((response) => {
+                    response.blob().then((blob) => {
+                        setData(
+                            new File([blob], `${filename}.replay`, {
+                                type: blob.type,
+                                lastModified: Date.now(),
+                            })
+                        );
+                        setLoading(false);
+                    })
+                    .catch((err) => {
+                        setError(err);
+                        setLoading(false);
+                    });
                 })
                 .catch((err) => {
                     setError(err);
                     setLoading(false);
                 });
-            })
-            .catch((err) => {
-                setError(err);
-                setLoading(false);
-            });
+        }
     }, [url]);
-
+    
     return { data, loading, error };
 }
 
 export default function usePrediction(replayid: string) {
-    const [error, setError] = useState<Error | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [isFetching, setFetching] = useState(false);
 
     const { data: link, loading: linkLoading, error: linkError } = useQuery(
         GET_REPLAY_DOWNLOAD_LINK, {
@@ -73,22 +73,24 @@ export default function usePrediction(replayid: string) {
     }] = useMutation(GET_REPLAY_PREDICTION);
 
     useEffect(() => {
-        setLoading(true);
-        setError(null);
-
-        if (file) {
+        if (file && !predictionData && !isFetching) {
+            console.log("Fetching predictions")
+            setFetching(true);
             predict({ variables: { file: file } }).then(() => {
-                setLoading(false);
+                console.log("Predicted");
+                setFetching(false);
             }).catch((err) => {
-                setError(err);
-                setLoading(false);
+                console.log(err);
             });
         }
+
+        console.log(link, file, predictionData)
+        console.log(linkLoading, fileLoading, predictionLoading)
     }, [file, predict]);
 
     return {
         data: predictionData,
-        loading: linkLoading || fileLoading || predictionLoading || loading,
-        error: linkError || fileError || predictionError || error
+        loading: linkLoading || fileLoading || predictionLoading,
+        error: linkError || fileError || predictionError
     };
 }
