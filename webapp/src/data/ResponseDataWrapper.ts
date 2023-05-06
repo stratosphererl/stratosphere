@@ -11,6 +11,10 @@ export default class ResponseDataWrapper {
     getFramesLink() {
         return this.frames_link;
     }
+    
+    getData() {
+        return this.data;
+    }
 
     getScoreboardData() {
         const teams: [ScorebaordEntry[], ScorebaordEntry[]] = [[],[]];

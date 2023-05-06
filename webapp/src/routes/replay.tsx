@@ -17,6 +17,7 @@ import {
 
 import Replay2DView from "../components/visualizations/Replay2DView/Replay2DView";
 import usePrediction from "../hooks/usePrediction";
+import ReplayData from "../components/replays/data";
 
 export default function Replay() {
   const params = useParams();
@@ -91,11 +92,11 @@ export default function Replay() {
       </MainPane>
     );
 
+  console.log(data.getData().gameHeader)
+
   return (
     <MainPane className="mx-0 xl:mx-[5%]" title="Replay">
-      <div className="p-4 pt-6 glass-inner rounded-2xl text-center h-[200px] flex flex-col justify-center">
-        <h1 className="break-words">{params.replayid}</h1>
-      </div>
+      <ReplayData data={data.getData().gameHeader as any} version={1} classname="" />
       <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 mt-4 lg:space-x-4">
           <div className="glass-inner rounded-2xl w-full lg:w-[20%] pt-6 p-8 mx-auto">

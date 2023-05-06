@@ -83,11 +83,53 @@ const GET_REPLAY = gql`
                 }
             }
             gameHeader {
+                gameMode
+                gameType
+                frames
+                id
+                length
+                map {
+                    id
+                    name
+                    variant
+                }
+                matchType
+                name
+                overtime
+                players {
+                    is_bot
+                    is_orange
+                    name
+                    online_id
+                    platform
+                    rank {
+                        mmr
+                        id
+                        title
+                        division
+                    }
+                }
+                ranked
+                region
+                season {
+                    id
+                    name
+                }
+                teamSize
+                teams {
+                    playerIds {
+                        id
+                    }
+                    isOrange
+                    score
+                }
+                time
+                uploadDate
+                version
                 goals {
                     frame_number
                     player_name
                 }
-                length
             }
         }
     }
