@@ -1,5 +1,5 @@
 import { useSystem, useQuery, useTimer } from "@react-ecs/core";
-import { Drawable, Transform, Vector3, Name } from "./facets";
+import { Drawable, Transform, Vector3, Name, GameTime } from "./facets";
 import { useCanvas } from "./hooks/useCanvas";
 import * as constants from "./constants/map";
 import frameData from "../mock_data/frame";
@@ -23,7 +23,13 @@ export const CanvasViewSystem = () => {
   });
 };
 
-export const TransformSystem = ({ data, onUpdate }: { data: any, onUpdate: (frame: number) => void}) => {
+export const TransformSystem = ({
+  data,
+  onUpdate,
+}: {
+  data: any;
+  onUpdate: (frame: number) => void;
+}) => {
   const query = useQuery((e) => e.hasAll(Transform, Name));
 
   return useSystem((dt) => {
@@ -34,8 +40,20 @@ export const TransformSystem = ({ data, onUpdate }: { data: any, onUpdate: (fram
         if (actor.id === name.name) {
           transform.position.x = actor.position.x;
           transform.position.y = actor.position.y;
+          transform.position.z = actor.position.z;
         }
       }
     });
   });
 };
+
+// export const GameTimeSystem = ({ data }) => {
+//   const query = useQuery((e) => e.has(GameTime));
+
+//   return useSystem(() =>
+//     query.loop([GameTime], (e, [gameTime]) => {
+//       const currFrame = data[frame][7];
+//       gameTime.time = currFrame["seconds_remaining"];
+//     })
+//   );
+// };

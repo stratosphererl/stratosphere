@@ -23,13 +23,13 @@ export default function Replay() {
   const params = useParams();
   const [searchParams] = useSearchParams();
   const { data, loading, error } = useReplay(params.replayid!);
-  // const { 
-  //   data: predictionData, 
-  //   loading: predictionLoading, 
-  //   error: predictionError 
+  // const {
+  //   data: predictionData,
+  //   loading: predictionLoading,
+  //   error: predictionError
   // } = usePrediction(params.replayid!);
   const predictions = usePrediction(params.replayid!);
-  
+
   const regex = /^[A-Z0-9]{32}$/;
 
   const tabParam = searchParams.get("tab");
@@ -62,7 +62,9 @@ export default function Replay() {
       tabs: [
         {
           tabName: "2D Replay",
-          content: <Replay2DView analyzedReplay={data} predictions={predictions} />,
+          content: (
+            <Replay2DView analyzedReplay={data} predictions={predictions} />
+          ),
         },
       ],
     },
@@ -75,7 +77,9 @@ export default function Replay() {
     });
   });
 
-  const [selectedIndex, setSelectedIndex] = useState(tabIdxMap.get(tabParam!) ?? 0);
+  const [selectedIndex, setSelectedIndex] = useState(
+    tabIdxMap.get(tabParam!) ?? 0
+  );
 
   if (!regex.test(params.replayid!)) {
     // return <ErrorPage message = "Replay ID parameter must follow regex [A-Z0-9]{32}"/>;
@@ -92,11 +96,15 @@ export default function Replay() {
       </MainPane>
     );
 
-  console.log(data.getData().gameHeader)
+  console.log(data.getData().gameHeader);
 
   return (
     <MainPane className="mx-0 xl:mx-[5%]" title="Replay">
-      <ReplayData data={data.getData().gameHeader as any} version={1} classname="" />
+      <ReplayData
+        data={data.getData().gameHeader as any}
+        version={1}
+        classname=""
+      />
       <Tab.Group selectedIndex={selectedIndex} onChange={setSelectedIndex}>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 mt-4 lg:space-x-4">
           <div className="glass-inner rounded-2xl w-full lg:w-[20%] pt-6 p-8 mx-auto">
@@ -106,7 +114,7 @@ export default function Replay() {
                   <h1 className="text-center text-2xl">{group.groupName}</h1>
                   <div className="flex flex-col space-y-2">
                     {group.tabs.map((tab) => (
-                      <Tab key={`tab-${tab.tabName}`} as={Fragment}> 
+                      <Tab key={`tab-${tab.tabName}`} as={Fragment}>
                         {({ selected }) => (
                           <button
                             className={`${
@@ -146,4 +154,3 @@ export default function Replay() {
     </MainPane>
   );
 }
-

@@ -1,20 +1,28 @@
 import { Drawable, Transform, Vector3, Name } from "../facets";
 import { Entity } from "@react-ecs/core";
+import * as constants from "../constants/map";
+
+function clamp(num: number, min: number, max: number): number {
+  return Math.min(Math.max(num, min), max);
+}
 
 export function Ball(name: { name?: any }) {
   const draw = (ctx: CanvasRenderingContext2D, transform: Transform) => {
     const { xScale, yScale } = ctx.scales;
-    const radius = 5;
+    const zScale = 5;
+    const radius =
+      (constants.FIELD_DIM.z / (constants.FIELD_DIM.z - transform.position.z)) *
+      zScale;
     const color = "rgba(255, 255, 255, 1)";
     const shadowColor = "rgba(255, 255, 255, 0.2)"; // translucent version of the same color
-    const lineWidth = radius * 1.2; // determines the width of the outline
+    const lineWidth = clamp(radius, zScale, 25) * 1.2; // determines the width of the outline
 
     ctx.save();
     ctx.beginPath();
     ctx.arc(
       transform.position.x * xScale,
       transform.position.y * yScale,
-      radius,
+      clamp(radius, zScale, 25),
       0,
       2 * Math.PI
     );

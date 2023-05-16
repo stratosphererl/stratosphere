@@ -564,3 +564,7 @@ select:first-child {
 option {
   background-color: #2e2e2e;
 }
+
+.animate-progress {
+  transition: height 0.5s ease-out;
+}

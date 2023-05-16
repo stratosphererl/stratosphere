@@ -1,0 +1,23 @@
+.fade-hidden {
+  opacity: 0;
+  filter: blur(5px);
+  transition: all 2s ease-in-out;
+}
+
+.fade-visible {
+  opacity: 1;
+  filter: blur(0);
+  transition: all 2s ease-in-out;
+}
+
+.slide-right-hidden {
+  opacity: 0;
+  transform: translateX(30%);
+  transition: all 1.5s ease-out;
+}
+
+.slide-right-visible {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 1.5s ease-out;
+}
