@@ -13,7 +13,7 @@ Rocket League’s <strong>coolest</strong> match analytics platform
 Supported by <strong>intuitive design</strong> and <strong>machine learning</strong>
 </div>
 
-[Demo](/docs/assets/demo.mp4)
+[Demo](/docs/assets/demo.webm)
 
 <hr>
 
