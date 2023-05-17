@@ -13,7 +13,13 @@ Rocket League’s <strong>coolest</strong> match analytics platform
 Supported by <strong>intuitive design</strong> and <strong>machine learning</strong>
 </div>
 
-[Demo](/docs/assets/demo.webm)
+<br>
+
+<div align="center">
+  <img src="docs/assets/demo.gif" alt="Description of the GIF">
+</div>
+
+<br>
 
 <hr>
 
